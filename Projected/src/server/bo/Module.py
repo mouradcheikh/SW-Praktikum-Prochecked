@@ -5,19 +5,15 @@ from NamedBusinessObjects import NamedBusinessObjects
 
 class Module(NamedBusinessObjects):
     def __init__(self):
-        self.edv_nr = None
-        self.Moduleinheit = []
-        self.Anrechnung = []
+        self.__edv_nr = None
 
     def get_edv_nr(self, ):
-        pass
+        return self.__edv_nr
 
-    def set_edv_grading(self, str):
-        pass
+    def set_edv_nr (self, edv_nr):
+        self.__edv_nr = edv_nr
 
-    def set_edv_nr(self, str):
-        pass
-
+  
     def from_dict(self, dict):
         pass
 

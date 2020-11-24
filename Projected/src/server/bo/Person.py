@@ -5,19 +5,16 @@ from NamedBusinessObjects import NamedBusinessObjects
 
 class Person(NamedBusinessObjects):
     def __init__(self):
-        self.first_name = None
-        self.Lehrveranstaltung = []
-        self.Berechtigung = None
-        self.Rolle = None
+        self.__first_name = None
 
-    def from_dict(in dict)(self, ):
-        pass
+    # def from_dict(in dict)(self, ):
+    #     pass
 
-    def set_first_name(self, str):
-        pass
+    def set_first_name(self, name):
+        self.__first_name = name
 
     def get_first_name(self, ):
-        pass
+        return self.__first_name
 
     def __str__(self, ):
         pass
