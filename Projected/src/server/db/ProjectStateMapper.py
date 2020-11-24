@@ -3,7 +3,7 @@
 
 from Mapper import Mapper
 
-class StateMapper(Mapper):
+class ProjectStateMapper(Mapper):
     def __init__(self):
         pass
 

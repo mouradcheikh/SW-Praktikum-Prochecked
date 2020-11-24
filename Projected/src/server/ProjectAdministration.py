@@ -1,3 +1,32 @@
+from .bo.Student import Student
+from .bo.Person import Person
+from .bo.Role import Role
+from .bo.Project import Project
+from .bo.Grading import Grading
+from .bo.Module import Module
+from .bo.Participation import Participation
+from .bo.ProjectType import ProjectType
+from .bo.Semester import Semester
+from .bo.ProjectState import ProjectState
+from .bo.Automat import Automat
+
+from .db.StudentMapper import StudentMapper
+from .db.PersonMapper import PersonMapper
+from .db.RoleMapper import RoleMapper
+from .db.ProjectMapper import ProjectMapper
+from .db.GradingMapper import GradingMapper
+from .db.ModuleMapper import ModuleMapper
+from .db.ParticipationMapper import ParticipationMapper
+from .db.ProjectTypeMapper import ProjectTypeMapper
+from .db.SemesterMapper import SemesterMapper
+from .db.ProjectStateMapper import ProjectStateMapper
+from .db.AutomatMapper import AutomatMapper
+
+
+
+
+
+
 class ProjectAdministration:
     def __init__(self):
         pass
