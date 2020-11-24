@@ -5,21 +5,22 @@ from BusinessObjects import BusinessObjects
 
 class Grading(BusinessObjects):
     def __init__(self):
-        self.passed = None
-        self.grade = None
-        self.Beteiligung = None
+        self.__passed = None
+        self.__grade = None
+        self.__Beteiligung = None
 
-    def set_grade(self, float):
-        pass
+    def set_grade(self, grade):
+        self.__grade = grade
 
     def get_grade(self, ):
-        pass
+        return self.__grade
 
-    def set_passed(self, bool):
-        pass
+    def set_passed(self, passed):
+        self.__passed = passed 
 
     def get_passed(self, ):
-        pass
+        return self.__passed
+
 
     def from_dict(self, dict):
         pass

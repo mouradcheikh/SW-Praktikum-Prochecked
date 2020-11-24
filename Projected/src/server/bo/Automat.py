@@ -8,7 +8,7 @@ from State_ReviewCompleted import State_ReviewCompleted
 class Automat(object):
     def __init__(self, automat_name):
         self.automat_name = automat_name
-        self.state = State_New()
+        self.current_state = State_New()
 
     def change(self, state):
         self.state.switch(state)
@@ -24,3 +24,9 @@ if __name__ == "__main__":
 
     Projekt2 = Automat("SE")
     print(Projekt2)
+
+    def get current_state (self):
+        return self.current_state
+
+    def set current_state (self,state)
+        self.current_state = state
