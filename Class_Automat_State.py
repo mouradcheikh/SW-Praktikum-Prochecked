@@ -46,12 +46,6 @@ class Project(object):
 
 if __name__ == "__main__":
 
-    Zustand_New = New()
-    Zustand_Acceped = Accepted()
-    Zustand_Declined = Declined()
-    Zustand_inReview = InReview()
-    Zustand_ReviewCompleted = ReviewCompleted()
-
     Projekt1 = Project("ADS")
     Projekt1.change(Accepted)
     Projekt1.change(Declined)
