@@ -10,8 +10,8 @@ class Person(NamedBusinessObjects):
         self.Berechtigung = None
         self.Rolle = None
 
-    def from_dict(in dict)(self, ):
-        pass
+    # def from_dict(in dict)(self, ):
+    #     pass
 
     def set_first_name(self, str):
         pass

@@ -6,26 +6,25 @@ from NamedBusinessObjects import NamedBusinessObjects
 
 class ProjectType(NamedBusinessObjects, NamedBusinessObjects):
     def __init__(self):
-        self.number_SWS = None
-        self.number_ECTS = None
-        self.Erstellungszeitpunkt = None
-        self.Charakterannehmer = []
+        self.__number_SWS = None
+        self.__number_ECTS = None
+        self.__Erstellungszeitpunkt = None
+        self.__Charakterannehmer = []
 
-    def get_number_SWS(self, ):
-        pass
 
     def set_number_SWS(self, number_SWS):
-        pass
+        self.__number_SWS = number_SWS
 
-    def get_number_ECTS(self, ):
-        pass
+    def get_number_SWS(self):
+        return self.__number_SWS 
 
     def set_number_ECTS(self, number_ECTS):
-        pass
+        self.__number_ECTS = number_ECTS 
+
+    def get_number_ECTS(self):
+        return self.__number_ECTS
 
     def from_dict(self, dict):
-        pass
 
-    def __str__(self, ):
-        pass
-
+    # def __str__(self, ):
+    #     pass
