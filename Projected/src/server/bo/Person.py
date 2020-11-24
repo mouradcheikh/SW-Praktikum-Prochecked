@@ -2,9 +2,10 @@
 #-*- coding: utf-8 -*-
 
 from NamedBusinessObjects import NamedBusinessObjects
-
+from Role import Role
 class Person(NamedBusinessObjects):
     def __init__(self):
+
         self.__first_name = None
 
     # def from_dict(in dict)(self, ):
