@@ -2,9 +2,9 @@
 #-*- coding: utf-8 -*-
 
 from NamedBusinessObjects import NamedBusinessObjects
-from NamedBusinessObjects import NamedBusinessObjects
 
-class ProjectType(NamedBusinessObjects, NamedBusinessObjects):
+
+class ProjectType(NamedBusinessObjects):
     def __init__(self):
         self.number_SWS = None
         self.number_ECTS = None

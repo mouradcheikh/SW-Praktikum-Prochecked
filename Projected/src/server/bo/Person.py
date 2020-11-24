@@ -2,13 +2,13 @@
 #-*- coding: utf-8 -*-
 
 from NamedBusinessObjects import NamedBusinessObjects
-
+from Role import Role
 class Person(NamedBusinessObjects):
     def __init__(self):
         self.first_name = None
         self.Lehrveranstaltung = []
         self.Berechtigung = None
-        self.Rolle = None
+        self.Rolle = Role()
 
     def from_dict(in dict)(self, ):
         pass
