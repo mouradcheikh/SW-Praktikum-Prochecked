@@ -5,22 +5,22 @@ from Person import Person
 
 class Student(Person):
     def __init__(self):
-        self.studiengang = None
-        self.matr_nr = None
-        self.Registrierung = []
-        self.Beteiligter = None
+        self.__studiengang = None
+        self.__matr_nr = None
+        self.__Registrierung = []
+        self.__Beteiligter = None
 
     def set_matr_nr(self, matr_nr):
-        pass
+        self.__matr_nr = matr_nr
 
-    def get_matr_nr(self, ):
-        pass
+    def get_matr_nr(self):
+        return self.__matr_nr
 
-    def set_studiengang(self, str):
-        pass
+    def set_studiengang(self, studiengang):
+        self.self__studiengang = studiengang
 
-    def get_studiengang(self, ):
-        pass
+    def get_studiengang(self):
+        return self.__studiengang
 
     def from_dict(self, dict):
         pass
