@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
-from Mapper import Mapper
+from server.bo.Automat import Automat
+from server.db.Mapper import Mapper
 
 class AutomatMapper(Mapper):
     def __init__(self):
