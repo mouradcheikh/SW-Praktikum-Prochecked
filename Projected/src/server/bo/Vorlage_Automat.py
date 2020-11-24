@@ -14,39 +14,39 @@ class ProjectState(object):
         return self.name
 
 
-class New(ProjectState):
+class State_New(ProjectState):
     name = "new"
     allowed = ["accepted", "declined"]
 
-class Accepted(ProjectState):
+class State_Accepted(ProjectState):
     name = "accepted"
     allowed = ["inReview"]
 
-class Declined(ProjectState):
+class State_Declined(ProjectState):
     name = "declined"
     allowed = []
 
-class InReview(ProjectState):
+class State_InReview(ProjectState):
     name = "inReview"
     allowed = ["reviewCompleted"]
 
-class ReviewCompleted(ProjectState):
+class State_ReviewCompleted(ProjectState):
     name = "reviewCompleted"
     allowed = []
 
 
 
-class Project(object):
+class Automat(object):
     def __init__(self, name):
         self.name = name
-        self.state = New()
+        self.state = State_New()
 
     def change(self, state):
         self.state.switch(state)
 
 if __name__ == "__main__":
 
-    Projekt1 = Project("ADS")
-    Projekt1.change(Accepted)
-    Projekt1.change(Declined)
-    Projekt1.change(InReview)
+    Projekt1 = Automat("ADS")
+    Projekt1.change(State_Accepted)
+    Projekt1.change(State_Declined)
+    Projekt1.change(State_InReview)
