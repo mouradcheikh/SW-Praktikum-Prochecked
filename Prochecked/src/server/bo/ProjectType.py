@@ -23,12 +23,10 @@ class ProjectType(NamedBusinessObjects):
     def get_number_ECTS(self):
         return self.__number_ECTS
 
-    def from_dict(self, dict):"""
+    def from_dict(self, dict):
 
-    # def __str__(self, ):
-    #     pass
-    def __init__(self, name):
-        self.__name = name
+    def __str__(self, ):
+        pass"""
 
     def set_name(self, name):
         self.__name = name

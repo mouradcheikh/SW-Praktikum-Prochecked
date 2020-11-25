@@ -5,15 +5,14 @@ from ProjectType import ProjectType
 
 class Project(NamedBusinessObjects, Automat):
 
-    transdisziplinaer = ProjectType("Transdiziplinäres Projekt",10,20)
-    interdisziplinaer = ProjectType( "Interdisziplinäres Projekt",5,10)
-    fachspezifisch = ProjectType("Fachspezifisches Projekt",3, 5)
+    transdisziplinaer = ProjectType("Transdiziplinäres Projekt", 10, 20)
+    interdisziplinaer = ProjectType( "Interdisziplinäres Projekt", 5, 10)
+    fachspezifisch = ProjectType("Fachspezifisches Projekt", 3, 5)
 
 
 
     def __init__(self):
         super().__init__()
-        super().__init_()
         
         self.__capacity = None
         self.__room = None
@@ -69,7 +68,7 @@ class Project(NamedBusinessObjects, Automat):
         self.__short_description = short_description
         
     def get_short_description(self):
-        return self._short_description
+        return self.__short_description
 
 
     def set_weekly_flag(self, weekly_flag):
@@ -115,7 +114,7 @@ class Project(NamedBusinessObjects, Automat):
 
 if __name__ == "__main__":
 
-    Project1 = Project("ALGO",Project.s_new)
+    Project1 = Project()
     Project1.set_state(Project.s_new)
     Project1.set_projecttype(Project.transdisziplinaer)
     print(Project1.get_projecttype())

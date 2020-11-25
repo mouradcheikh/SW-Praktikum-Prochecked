@@ -8,8 +8,8 @@ class Automat:
     s_inreview = ProjectState("In Review")
     s_reviewCompleted = ProjectState("Review completed")
 
-    def _init_(self, anfangszustand):
-        self.current_state = anfangszustand
+    def _init_(self):
+        self.current_state = Automat.s_new
 
     def set_state(self, zustand):
         self.current_state = zustand

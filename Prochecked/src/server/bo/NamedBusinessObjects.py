@@ -10,6 +10,6 @@ class NamedBusinessObjects(BusinessObjects):
     def get_name(self, ):
         return self.__name
 
-    def set_name(self,name):
+    def set_name(self, name):
         self.__name = name
 
