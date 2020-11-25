@@ -1,14 +1,17 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 
-class Role:
-    dozent = None
-    student = None
-    admin = None
+class Role():
+    
 
-    def __init__(self):
-        self.Berechtigter = []
+    def __init__(self, name):
+        self.__name = name
 
-    def __str__(self, ):
-        pass
+    def set_name(self, name):
+        self.__name = name
+
+    def get_name(self):
+        return self.__name
+
+    def __str__(self):
+        return self.__name
+
 

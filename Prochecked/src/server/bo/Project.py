@@ -1,15 +1,19 @@
+
 from NamedBusinessObjects import NamedBusinessObjects
 from Automat import Automat
-from State_New  import State_New
-from State_Accepted import State_Accepted
-from State_Declined import State_Declined
-from State_InReview import State_InReview
-from State_ReviewCompleted import State_ReviewCompleted
+from ProjectType import ProjectType
 
 class Project(NamedBusinessObjects, Automat):
 
+    transdisziplinaer = ProjectType("Transdiziplinäres Projekt",10,20)
+    interdisziplinaer = ProjectType( "Interdisziplinäres Projekt",5,10)
+    fachspezifisch = ProjectType("Fachspezifisches Projekt",3, 5)
+
+
+
     def __init__(self):
-        
+        super().__init__()
+        super().__init_()
         
         self.__capacity = None
         self.__room = None
@@ -30,7 +34,7 @@ class Project(NamedBusinessObjects, Automat):
         self.__Zeitraum = None
         self.__Veranstaltung = None
         self.__Zustandsgeber = None
-        self.__projecttype
+        self.__projecttype = None
 
 
     def set_projecttype(self, projecttype):
@@ -96,7 +100,7 @@ class Project(NamedBusinessObjects, Automat):
         return self.__preffered_bd
 
 
-    def set_special_room(self, special_room)
+    def set_special_room(self, special_room):
         self.__special_room = special_room
 
     def get_special_room(self):
@@ -109,5 +113,9 @@ class Project(NamedBusinessObjects, Automat):
     def __str__(self, ):
         pass
 
-Projekt3 = Project("algo")
-Projekt3.change(State_Accepted)
+if __name__ == "__main__":
+
+    Project1 = Project("ALGO",Project.s_new)
+    Project1.set_state(Project.s_new)
+    Project1.set_projecttype(Project.transdisziplinaer)
+    print(Project1.get_projecttype())
