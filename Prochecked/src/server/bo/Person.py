@@ -1,22 +1,32 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
-from NamedBusinessObjects import NamedBusinessObjects
 from Role import Role
-class Person(NamedBusinessObjects):
-    def __init__(self):
 
-        self.__first_name = None
+class Person():
 
-    # def from_dict(in dict)(self, ):
-    #     pass
+    student = Role("Student")
+    dozent = Role("Dozent")
+    admin = Role("Admin")
 
-    def set_first_name(self, name):
-        self.__first_name = name
 
-    def get_first_name(self, ):
-        return self.__first_name
 
-    def __str__(self, ):
-        pass
+    def __init__(self, name):
+        self.__name = name
+        self.__berechtigung = None
 
+    def set_berechtigung(self, rolle):
+        self.__berechtigung = rolle
+
+    def get_berechtigung(self):
+        return self.__berechtigung
+
+
+
+if __name__ == "__main__":
+
+    Mensch1 = Person("Hans")
+    Mensch1.set_berechtigung(Person.student)
+    print(Mensch1.get_berechtigung())
+   
+
+    Mensch2 = Person("Georg")
+    Mensch2.set_berechtigung(Person.dozent)
+    print(Mensch2.get_berechtigung())

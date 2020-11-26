@@ -1,32 +1,30 @@
-from State_New  import State_New
-from State_Accepted import State_Accepted
-from State_Declined import State_Declined
-from State_InReview import State_InReview
-from State_ReviewCompleted import State_ReviewCompleted
+from ProjectState import ProjectState
 
 
-class Automat(object):
-    def __init__(self, automat_name):
-        self.automat_name = automat_name
-        self.current_state = State_New()
+class Automat:
+    s_new = ProjectState("New")
+    s_approved = ProjectState("Approved")
+    s_dismissed = ProjectState("Dismissed")
+    s_inreview = ProjectState("In Review")
+    s_reviewCompleted = ProjectState("Review completed")
 
-    def change(self, state):
-        self.state.switch(state)
+    def _init_(self, anfangszustand):
+        self.current_state = anfangszustand
 
-    def __str__(self):
-        return self.automat_name
+    def set_state(self, zustand):
+        self.current_state = zustand
+
+    def is_in_state(self, zustand):
+        return zustand == self.current_state
+
 if __name__ == "__main__":
 
-    Projekt1 = Automat("ADS")
-    Projekt1.change(State_Accepted)
-    Projekt1.change(State_Declined)
-    Projekt1.change(State_InReview)
+    a = Automat(Automat.s_new)
 
-    Projekt2 = Automat("SE")
-    print(Projekt2)
+    if a.is_in_state(Automat.s_new):
+        print("Bin in New!")
 
-    def get current_state (self):
-        return self.current_state
+    a.set_state(Automat.s_approved)
 
-    def set current_state (self,state)
-        self.current_state = state
+    if a.is_in_state(Automat.s_approved):
+        print("Bin jetzt in Approved!")

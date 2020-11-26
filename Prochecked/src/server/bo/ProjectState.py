@@ -1,17 +1,19 @@
-class ProjectState(object):
-    state_name = "state"
-    allowed = []
+class ProjectState:
 
-    def switch(self, state):
-        """ Switch to new state """
-        if state.state_name in self.allowed:
-            print("Erfolgreich")
-            self.__class__ = state
+    def __init__(self, txt="New"):
+        self.name = txt
+
+    def get_name(self):
+        return self.name
+
+    def set_name(self, txt):
+        self.name = txt
+
+    def __eq__(self, other):
+        if isinstance(other, ProjectState):
+            return self.name == other.name
         else:
-            print("Fehlgeschlagen")
-
-    def __str__(self):
-        return self.state_name
+            return False
 
 
     
