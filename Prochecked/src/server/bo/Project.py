@@ -88,7 +88,7 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def set_number_bd_examtime(self, number_bd_examtime):
-        self.__number_bd_examtim = number_bd_examtime
+        self.__number_bd_examtime = number_bd_examtime
 
     def get_number_bd_examtime(self):
         return self.__number_bd_examtime
@@ -119,5 +119,7 @@ if __name__ == "__main__":
     Project1 = Project()
     Project1.set_state(Project.s_new)
     Project1.set_projecttype(Project.transdisziplinaer)
+    Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
     print(Project1.get_projecttype())
     print(Project1.get_state())
+    print(Project1.get_short_description())
