@@ -12,6 +12,12 @@ class Person():
         self.__name = name
         self.__berechtigung = None
 
+    def set_name(self,vorname):
+        self.__name = vorname
+    
+    def get_name(self):
+        return self.__name
+
     def set_berechtigung(self, rolle):
         self.__berechtigung = rolle
 
@@ -24,7 +30,7 @@ if __name__ == "__main__":
 
     Mensch1 = Person("Hans")
     Mensch1.set_berechtigung(Person.student)
-    print(Mensch1.get_berechtigung())
+    print(Mensch1.get_name(),Mensch1.get_berechtigung())
    
 
     Mensch2 = Person("Georg")
