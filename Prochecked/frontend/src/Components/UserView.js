@@ -16,3 +16,4 @@ class UserView extends Component {
         loadingError: null,
       };
     }
+}
