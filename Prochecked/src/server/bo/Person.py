@@ -1,15 +1,16 @@
 from Role import Role
+from NamedBusinessObjects import NamedBusinessObjects
 
-class Person():
+class Person(NamedBusinessObjects):
 
     student = Role("Student")
     dozent = Role("Dozent")
     admin = Role("Admin")
 
 
+    def __init__(self):
+        super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
 
-    def __init__(self, name):
-        self.__name = name
         self.__berechtigung = None
 
     def set_name(self,vorname):
@@ -28,11 +29,16 @@ class Person():
 
 if __name__ == "__main__":
 
-    Mensch1 = Person("Hans")
+    Mensch1 = Person()
     Mensch1.set_berechtigung(Person.student)
     print(Mensch1.get_name(),Mensch1.get_berechtigung())
    
 
-    Mensch2 = Person("Georg")
+    Mensch2 = Person()
+    Mensch2.set_name("Georg")
     Mensch2.set_berechtigung(Person.dozent)
     print(Mensch2.get_berechtigung())
+
+  
+
+    
