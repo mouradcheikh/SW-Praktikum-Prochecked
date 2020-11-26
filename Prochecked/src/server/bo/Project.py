@@ -5,6 +5,8 @@ from ProjectType import ProjectType
 
 class Project(NamedBusinessObjects, Automat):
 
+    #Statische Variablen der ProjektTypen, die nach dem Anlegen eines Projekts diesem zugeordnet werden können.
+    #Jedes dieser Varablen initiiert ein Objekt der Klasse ProjectType
     transdisziplinaer = ProjectType("Transdiziplinäres Projekt", 10, 20)
     interdisziplinaer = ProjectType( "Interdisziplinäres Projekt", 5, 10)
     fachspezifisch = ProjectType("Fachspezifisches Projekt", 3, 5)
@@ -118,3 +120,4 @@ if __name__ == "__main__":
     Project1.set_state(Project.s_new)
     Project1.set_projecttype(Project.transdisziplinaer)
     print(Project1.get_projecttype())
+    print(Project1.get_state())
