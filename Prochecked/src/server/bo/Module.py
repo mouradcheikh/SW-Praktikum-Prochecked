@@ -20,3 +20,10 @@ class Module(NamedBusinessObjects):
     def __str__(self, ):
         pass
 
+
+if __name__ == "__main__":
+
+    m1 = Module()
+    m1.set_name("herbert")
+    print(m1.get_name())
+

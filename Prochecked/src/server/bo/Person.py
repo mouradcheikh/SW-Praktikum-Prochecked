@@ -9,15 +9,17 @@ class Person(NamedBusinessObjects):
 
 
     def __init__(self):
-        super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
+        #super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
 
         self.__berechtigung = None
+        self.__vorname = None
 
-    def set_name(self,vorname):
-        self.__name = vorname
+    def set_vorname(self,vorname):
+        self.__vorname = vorname
     
-    def get_name(self):
-        return self.__name
+    def get_vollständigerName(self):
+        return self.__vorname + " " + self.name
+        
 
     def set_berechtigung(self, rolle):
         self.__berechtigung = rolle
@@ -25,20 +27,17 @@ class Person(NamedBusinessObjects):
     def get_berechtigung(self):
         return self.__berechtigung
 
-
+    
 
 if __name__ == "__main__":
 
     Mensch1 = Person()
     Mensch1.set_berechtigung(Person.student)
-    print(Mensch1.get_name(),Mensch1.get_berechtigung())
-   
-
-    Mensch2 = Person()
-    Mensch2.set_name("Georg")
-    Mensch2.set_berechtigung(Person.dozent)
-    print(Mensch2.get_berechtigung())
-
+    Mensch1.set_name("Lauch")
+    Mensch1.set_vorname("Günther")
+    print(Mensch1.get_vollständigerName())
+    print(Mensch1.get_berechtigung())
+  
   
 
     

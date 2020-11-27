@@ -14,8 +14,9 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def __init__(self):
-        super().__init__()
+        #super().__init__() #vermute man braucht die super init nicht, da automat und NamedBusinesObject nicht erzeugt werden müssen, deren methoden können trozdem verwendet werden
         
+        #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
         self.__capacity = None
         self.__room = None
         self.__ext_partner_list = None
@@ -32,9 +33,9 @@ class Project(NamedBusinessObjects, Automat):
         self.__Dozent = []
         self.__Beteiligung = []
         self.__Charakter = None
-        self.__Zeitraum = None
+        self.__Zeitraum = None #Kommt hier ein Objekt von Semester rein?
         self.__Veranstaltung = None
-        self.__Zustandsgeber = None
+        self.__Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
         self.__projecttype = None
 
 
@@ -120,6 +121,9 @@ if __name__ == "__main__":
     Project1.set_state(Project.s_new)
     Project1.set_projecttype(Project.transdisziplinaer)
     Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
+    Project1.set_name("REWE")
+    
     print(Project1.get_projecttype())
     print(Project1.get_state())
     print(Project1.get_short_description())
+    print(Project1.get_name())
