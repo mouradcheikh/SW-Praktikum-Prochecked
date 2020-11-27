@@ -2,29 +2,26 @@ from ProjectState import ProjectState
 
 
 class Automat:
+
+    #Statische Variablen der Zustände, die nach dem Anlegen eines Automats(Projekts) diesem zugeordnet werden können.
+    #Jedes dieser Varablen initiiert ein Objekt der Klasse ProjectState
     s_new = ProjectState("New")
-    s_approved = ProjectState("Approved")
-    s_dismissed = ProjectState("Dismissed")
-    s_inreview = ProjectState("In Review")
+    s_accepted = ProjectState("Accepted")
+    s_declined = ProjectState("Declined")
+    s_inReview = ProjectState("In Review")
     s_reviewCompleted = ProjectState("Review completed")
 
-    def _init_(self, anfangszustand):
-        self.current_state = anfangszustand
+    def _init_(self):
+        #Beim erzeugen eines Objeks, wird der Zustand automatisch auf neu gesetzt
+        self.current_state = Automat.s_new
 
     def set_state(self, zustand):
         self.current_state = zustand
 
+    def get_state(self):
+        return self.current_state
+
     def is_in_state(self, zustand):
+        #prüft ob der derzeitige Status mit dem mitgegebenen Atrribut übereinstimmt, falls ja gibt er True zurück, sonst False
         return zustand == self.current_state
-
-if __name__ == "__main__":
-
-    a = Automat(Automat.s_new)
-
-    if a.is_in_state(Automat.s_new):
-        print("Bin in New!")
-
-    a.set_state(Automat.s_approved)
-
-    if a.is_in_state(Automat.s_approved):
-        print("Bin jetzt in Approved!")
+    
