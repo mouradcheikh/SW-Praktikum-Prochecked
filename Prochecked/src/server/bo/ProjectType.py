@@ -2,7 +2,7 @@ from NamedBusinessObjects import NamedBusinessObjects
 
 
 class ProjectType(NamedBusinessObjects):
-    def __init__(self, name, sws, ects):
+    def __init__(self,name, sws, ects):
         super().__init__()
         self.__name = name
         self.__number_SWS = sws
@@ -11,7 +11,7 @@ class ProjectType(NamedBusinessObjects):
         self.__Charakterannehmer = []
 
 
-    """def set_number_SWS(self, number_SWS):
+    def set_number_SWS(self, number_SWS):
         self.__number_SWS = number_SWS
 
     def get_number_SWS(self):
@@ -24,9 +24,7 @@ class ProjectType(NamedBusinessObjects):
         return self.__number_ECTS
 
     def from_dict(self, dict):
-
-    def __str__(self, ):
-        pass"""
+        pass
 
     def set_name(self, name):
         self.__name = name
