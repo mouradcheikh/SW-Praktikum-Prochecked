@@ -9,7 +9,6 @@ function UserChoice() {
         <div classname="choiceButtons">
         <h2>Ich bin ein...</h2>
             <button>Student</button>
-            <button>Dozent</button>
             <button>Admin</button>
         </div>
     </>

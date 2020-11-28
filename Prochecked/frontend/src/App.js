@@ -6,7 +6,8 @@ import './App.css';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-          margin: theme.spacing(1),
+          margin: theme.spacing(2),
+          padding: "10px 35px"
     },
   }),
 );
@@ -16,7 +17,8 @@ function App() {
 
 	return(
         <div>
-                <h1>Ich bin ein...</h1>
+                <h1>Ich bin ein ...</h1>
+                <div>
                 <Button
                     size="large"
                     variant="contained"
@@ -25,14 +27,20 @@ function App() {
                 >
                             Student
                 </Button>
+                </div>
+                <div>
                 <Button
                     size="large"
                     variant="contained"
                     color="primary"
+                    algin="center"
                     className={classes.button}
+                
                 >
                             Dozent
                 </Button>
+                </div>
+                <div>
                 <Button
                      size="large"
                     variant="contained"
@@ -41,6 +49,7 @@ function App() {
                  >
                             Admin
                 </Button>
+                </div>
                 <Button
                     variant="contained"
                     color="secondary"
