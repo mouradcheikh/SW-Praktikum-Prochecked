@@ -2,15 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 
-/** 
- * Renders a landing page for users who are not signed in. Provides a sign in button 
- * for using an existing google account to sign in. The component uses firebase to 
- * do redirect based signin process.
- * 
- * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
- * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
- * 
- */
+//SignIn Seite der ProChecked - App, man kann sich mit einem Google Account anmelden 
+
 class SignIn extends Component {
 
 
