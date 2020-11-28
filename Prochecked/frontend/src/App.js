@@ -1,20 +1,18 @@
 import React from 'react';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
-
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Header from './components/layout/Header' //importiere von Layout den Header 
-import SignIn from './components/pages/SignIn' //importiere von Pages das SignIn
-import UserView from './components/pages/UserView'
-import About from './components/pages/About';
-import firebaseConfig from './components/pages/firebaseconfig';
+import SignIn from './components/pages/SignIn'; //importiere von Pages das SignIn
+import UserView from './components/pages/UserView';
+import LoadingProgress from './components/dialogs/LoadingProgress';
+import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import firebaseConfig from './components/pages/firebaseConfig';
 
 class App extends React.Component {
-    //Constrcutor welcher Firebaze initialisiert 
+    //Constrcutor welcher Firebase initialisiert 
     constructor (props) {
         super(props)
     
