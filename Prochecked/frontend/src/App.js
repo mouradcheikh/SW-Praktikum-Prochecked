@@ -6,7 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import SignIn from './components/pages/SignIn'; //importiere von Pages das SignIn
-import UserView from './components/pages/UserView';
+// import UserView from './components/pages/UserView';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import firebaseConfig from './components/pages/firebaseConfig';
@@ -133,6 +133,5 @@ class App extends React.Component {
 			</ThemeProvider>
 		);
 	}
-}
 
-export default App;
+export default App; 
