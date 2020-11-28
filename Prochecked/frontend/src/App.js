@@ -1,16 +1,21 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    button: {
-          margin: theme.spacing(2),
-          padding: "10px 35px"
-    },
-  }),
-);
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(2),
+    width: 170,
+    fontSize: 25,
+    padding: "15x 0"
+  },
+  submitButton: {
+    marginLeft: theme.spacing(50),
+    margin: theme.spacing(5)
+  },
+}));
+
 
 function App() {
     const classes = useStyles();
@@ -53,7 +58,7 @@ function App() {
                 <Button
                     variant="contained"
                     color="secondary"
-                    className={classes.button}
+                    className={classes.submitButton}
                 >
                         Bestätigen
                 </Button>
