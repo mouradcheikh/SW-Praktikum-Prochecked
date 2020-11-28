@@ -1,13 +1,12 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import /.App.css
+import './App.css';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
           margin: theme.spacing(1),
-        
     },
   }),
 );
