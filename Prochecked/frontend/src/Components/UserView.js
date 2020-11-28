@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles, Typography, Paper } from '@material-ui/core';
-import { BankAPI } from '../api';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import LoadingProgress from './dialogs/LoadingProgress';
+import React from 'react';
+//import Button from '@material-ui/core/Button'
 
-class UserView extends Component {
 
-    constructor(props) {
-      super(props);
 
-      // Init state
-      this.state = {
-        loadingInProgress: false,
-        loadingError: null,
-      };
-    }
+function UserChoice() {
+    return(
+    <>
+        <div classname="choiceButtons">
+        <h2>Ich bin ein...</h2>
+            <button>Student</button>
+            <button>Dozent</button>
+            <button>Admin</button>
+        </div>
+    </>
+
+    )
 }
+
+export default UserChoice

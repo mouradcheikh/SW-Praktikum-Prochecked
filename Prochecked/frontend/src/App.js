@@ -1,76 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
-import firebase from 'firebase/app';
-import firebaseConfig from './firebaseconfig';
-import 'firebase/auth';
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import /.App.css
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    button: {
+          margin: theme.spacing(1),
+        
+    },
+  }),
+);
 
-class App extends React.Component {
+function App() {
+    const classes = useStyles();
 
-  constructor(props) {
-		super(props);
-
-		// Init an empty state
-		this.state = {
-			currentUser: null,
-			appError: null,
-			authError: null,
-			authLoading: false
-		};
-	}
-
-	handleSignIn = () => {
-		this.setState({
-			authLoading: true
-		});
-		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
-	}
-
-
-
-  render() {
-		const { currentUser, appError, authError, authLoading } = this.state;
-
-		return (
-			<ThemeProvider theme={Theme}>
-				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline />
-				<Router basename={process.env.PUBLIC_URL}>
-					<Container maxWidth='md'>
-						<Header user={currentUser} />
-						{
-							// Is a user signed in?
-							currentUser ?
-								<>
-									<Redirect from='/' to='customers' />
-									<Route exact path='/customers'>
-										<CustomerList />
-									</Route>
-									<Route path='/transactions'>
-										<TransactionList />
-									</Route>
-									<Route path='/accounts'>
-										<AllAccountList />
-									</Route>
-									<Route path='/about' component={About} />
-								</>
-								:
-								// else show the sign in page
-								<>
-									<Redirect to='/index.html' />
-									<SignIn onSignIn={this.handleSignIn} />
-								</>
-						}
-						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
-						<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-					</Container>
-				</Router>
-			</ThemeProvider>
-		);
-	}
-
-}
+	return(
+        <div>
+                <h1>Ich bin ein...</h1>
+                <Button
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                >
+                            Student
+                </Button>
+                <Button
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                >
+                            Dozent
+                </Button>
+                <Button
+                     size="large"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                 >
+                            Admin
+                </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                >
+                        Bestätigen
+                </Button>
+      </div>
+    );
+  }
 
 export default App;
