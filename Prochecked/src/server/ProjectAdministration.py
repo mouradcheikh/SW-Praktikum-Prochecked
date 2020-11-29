@@ -24,18 +24,20 @@ from .db.AutomatMapper import AutomatMapper
 
 
 
-
-
-
-class ProjectAdministration:
+class ProjectAdministration (object):
     def __init__(self):
-        pass
+        pass 
+
+    """
+    Student-spezifische Methoden
+    """
 
     def create_student(self, name, email, google_id, matrnr):
-        pass
-
+        student = Student()
+        student
+        
     def get_student_by_matrnr(self, matrnr):
-        pass
+        return self.matrnr 
 
     def get_student_by_id(self, ):
         pass
