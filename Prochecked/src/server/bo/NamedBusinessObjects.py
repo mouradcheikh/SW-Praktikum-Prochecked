@@ -5,7 +5,7 @@ from BusinessObjects import BusinessObjects
 
 class NamedBusinessObjects(BusinessObjects):
     def __init__(self):
-        self.__name = None
+        self.__name = ""
 
     def get_name(self):
         return self.__name

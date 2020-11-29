@@ -22,7 +22,7 @@ from .db.SemesterMapper import SemesterMapper
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
-
+#import datetime
 
 class ProjectAdministration (object):
     def __init__(self):
@@ -32,27 +32,48 @@ class ProjectAdministration (object):
     Student-spezifische Methoden
     """
 
-    def create_student(self, name, email, google_id, matrnr):
+    def create_student(self, name, vorname, google_id, matr_nr):
         student = Student()
-        student = 
+        student.set_name(name)
+        student.set_vorname(vorname)
+        student.set_google_id(google_id)
+        student.set_matr_nr(matr_nr)
+        student.set_id(1)
+        #student.set_creation_date(datetime) -- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime
+
+        # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
+        #     return mapper.insert(student)
+
         
-    def get_student_by_matrnr(self, matrnr):
-        return self.matrnr 
+    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
+    #     return
 
-    def get_student_by_id(self, ):
-        pass
+    # def get_student_by_id(self, number):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_key(number)
+        
 
-    def get_student_by_name(self, ):
-        pass
+    # def get_student_by_name(self, name):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_name(name)
 
-    def get_students_by_project(self, project):
-        pass
+    # def get_students_by_project(self, project):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_student_id(project.get_id())
 
-    def save_student(self, ):
-        pass
+    # def save_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         mapper.update(student)
 
-    def delete_student(self, ):
-        pass
+    # def delete_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         project = self.get_projects_of_student(student)
+
+    #         if not(project is None):
+    #             for a in project:
+    #                 self.delete_project(a)
+
+    #         mapper.delete(student)
 
     def create_person(self, name, email, google_id):
         pass
