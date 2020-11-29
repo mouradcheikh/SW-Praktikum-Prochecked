@@ -30,7 +30,7 @@ class Project(NamedBusinessObjects, Automat):
         self.__special_room = None
         self.__special_room_number = None
         self.__module = None
-        self.__Dozent = []
+        self.__dozent = []
         self.__Beteiligung = []
         self.__Charakter = None
         self.__Zeitraum = None #Kommt hier ein Objekt von Semester rein?
@@ -107,9 +107,16 @@ class Project(NamedBusinessObjects, Automat):
     def get_special_room(self):
         return self.__special_room
 
+    
+    def set_dozent(self, dozent):
+        self.__dozent = dozent
 
-    def __str__(self, ):
-        pass
+    def get_dozent(self):
+        return self.__dozent
+
+
+    def __str__(self):
+        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -117,9 +124,7 @@ class Project(NamedBusinessObjects, Automat):
         obj = Project()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        '''obj.set_vorname(dictionary[""]) #muss "vorname" hier private sein?
-        obj.set_berechtigung(dictionary["berechtigung"])# ""
-        return obj''' #benötigen wir hier alle Attribute ?
+        #benötigen wir hier alle Attribute ?
 
 if __name__ == "__main__":
 
@@ -127,9 +132,7 @@ if __name__ == "__main__":
     Project1.set_state(Project.s_new)
     Project1.set_projecttype(Project.transdisziplinaer)
     Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
-    Project1.set_name("REWE")
+    Project1.set_name("Datenbank")
+    Project1.set_dozent("Lehmann")
     
-    print(Project1.get_projecttype())
-    print(Project1.get_state())
-    print(Project1.get_short_description())
-    print(Project1.get_name())
+    print(Project1)

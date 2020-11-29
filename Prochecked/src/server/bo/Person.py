@@ -9,7 +9,7 @@ class Person(NamedBusinessObjects):
 
 
     def __init__(self):
-        #super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
+        super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
 
         self.__berechtigung = None
         self.__vorname = ""
@@ -35,6 +35,10 @@ class Person(NamedBusinessObjects):
 
     def get_google_id (self):
         return self.__google_id
+
+
+    def __str__(self):
+        return "Person: {}, {}, {}".format(self.get_id(),self.get_berechtigung(), self.get_vollständigerName())
     
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -54,8 +58,9 @@ if __name__ == "__main__":
     Mensch1.set_berechtigung(Person.student)
     Mensch1.set_name("Lauch")
     Mensch1.set_vorname("Günther")
-    print(Mensch1.get_vollständigerName())
-    print(Mensch1.get_berechtigung())
+    Mensch1.set_id(5)
+    print(Mensch1)
+    
   
   
 

@@ -11,7 +11,7 @@ class Automat:
     s_inReview = ProjectState("In Review")
     s_reviewCompleted = ProjectState("Review completed")
 
-    def _init_(self):
+    def __init__(self):
         #Beim erzeugen eines Objeks, wird der Zustand automatisch auf neu gesetzt
         self.current_state = Automat.s_new
 
