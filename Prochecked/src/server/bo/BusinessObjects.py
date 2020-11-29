@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class BusinessObjects():
     def __init__(self):
         self._creation_date = 0.0
