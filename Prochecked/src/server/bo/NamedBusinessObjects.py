@@ -5,14 +5,14 @@ from BusinessObjects import BusinessObjects
 
 class NamedBusinessObjects(BusinessObjects):
     def __init__(self):
-        self.name = None
+        self.__name = None
 
     def get_name(self):
-        return self.name
+        return self.__name
 
     def set_name(self, name):
-        self.name = name
+        self.__name = name
     
     def __str__(self):
-        return self.name
+        return self.__name
 

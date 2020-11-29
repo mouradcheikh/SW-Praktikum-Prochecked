@@ -13,12 +13,18 @@ class Module(NamedBusinessObjects):
     def set_edv_nr (self, edv_nr):
         self.__edv_nr = edv_nr
 
-  
-    def from_dict(self, dict):
-        pass
-
     def __str__(self, ):
         pass
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen Module()."""
+        obj = Module()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_edv_nr(dictionary["edv_nr"]) #muss "edv_nr" hier private sein?
+        return obj
+
 
 
 if __name__ == "__main__":

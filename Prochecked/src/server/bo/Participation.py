@@ -5,11 +5,19 @@ from BusinessObjects import BusinessObjects
 
 class Participation(BusinessObjects):
     def __init__(self):
+        super().__init__()
        
 
-    # def from_dict(self, dict):
-    #     pass
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen Participation()."""
+        obj = Participation()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        
+        return obj
 
     # def __str__(self, ):
     #     pass
 
+if __name__ == "__main__":
+    pass

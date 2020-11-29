@@ -35,8 +35,10 @@ if __name__ == "__main__":
     s1.set_matr_nr(38543)
     s1.set_studiengang("Wirtschaftsinformatik und digitale Medien")
     s1.set_name("Müller")
+    s1.set_id(5)
     s1.set_vorname("Holger")
 
     print(s1.get_vollständigerName())
+    print(s1.get_id())
 
 
