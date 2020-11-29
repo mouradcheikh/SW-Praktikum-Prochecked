@@ -27,6 +27,16 @@ class Person(NamedBusinessObjects):
     def get_berechtigung(self):
         return self.__berechtigung
     
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        obj = Person()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_vorname(dictionary["vorname"]) #muss "vorname" hier private sein?
+        obj.set_berechtigung(dictionary["berechtigung"])# ""
+        return obj
+    
     
 
 if __name__ == "__main__":

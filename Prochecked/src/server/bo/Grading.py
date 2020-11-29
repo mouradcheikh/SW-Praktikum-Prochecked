@@ -5,7 +5,7 @@ from BusinessObjects import BusinessObjects
 
 class Grading(BusinessObjects):
     def __init__(self):
-        self.__passed = None
+        self.__passed = False #angangs immer False? also nicht bestanden?
         self.__grade = None
         self.__Beteiligung = None
 
@@ -21,10 +21,15 @@ class Grading(BusinessObjects):
     def get_passed(self, ):
         return self.__passed
 
-
-    def from_dict(self, dict):
-        pass
-
     def __str__(self, ):
         pass
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        obj = Grading()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_grade(dictionary["grade"])
+        obj.set_passed(dictionary["passed"]) #muss "vorname" hier private sein?
+        return obj
 

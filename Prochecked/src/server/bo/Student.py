@@ -5,6 +5,7 @@ from Person import Person
 
 class Student(Person):
     def __init__(self):
+        super.__init__()
         self.__studiengang = None
         self.__matr_nr = None
         self.__Registrierung = []
@@ -22,11 +23,20 @@ class Student(Person):
     def get_studiengang(self):
         return self.__studiengang
 
-    def from_dict(self, dict):
-        pass
-
     def __str__(self, ):
         pass
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        obj = Student()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_vorname(dictionary["vorname"]) #muss "vorname" hier private sein?
+        obj.set_berechtigung(dictionary["berechtigung"])# ""
+        obj.set_studiengang(dictionary["studiengang"])
+        obj.set_matr_nr(dictionary["matr_nr"])
+        return obj
 
 
 if __name__ == "__main__":
