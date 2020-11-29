@@ -18,7 +18,7 @@ class Person(NamedBusinessObjects):
         self.__vorname = vorname
     
     def get_vollständigerName(self):
-        return self.__vorname + " " + self.name
+        return self.__vorname + " " + self.get_name()
         
 
     def set_berechtigung(self, rolle):
@@ -26,7 +26,7 @@ class Person(NamedBusinessObjects):
 
     def get_berechtigung(self):
         return self.__berechtigung
-
+    
     
 
 if __name__ == "__main__":
