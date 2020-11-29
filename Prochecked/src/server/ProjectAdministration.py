@@ -34,7 +34,7 @@ class ProjectAdministration (object):
 
     def create_student(self, name, email, google_id, matrnr):
         student = Student()
-        student
+        student = 
         
     def get_student_by_matrnr(self, matrnr):
         return self.matrnr 
