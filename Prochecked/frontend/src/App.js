@@ -5,13 +5,26 @@ import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import SignIn from './components/pages/SignIn'; //importiere von Pages das SignIn
-import UserView from './components/pages/UserView';
-import LoadingProgress from './components/dialogs/LoadingProgress';
-import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import firebaseConfig from './components/pages/firebaseConfig';
+import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
+import UserView from './Components/pages/UserView';
+import LoadingProgress from './Components/dialogs/LoadingProgress';
+import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
+import Theme from './Theme';
+// import firebaseconfig from './firebaseconfig';
 
 class App extends React.Component {
+
+    #firebaseConfig = {
+    
+        apiKey: "AIzaSyAXRfVbXnTLoSxa_YJxTTaRckt803yV4I4",
+        authDomain: "prochecked-team09.firebaseapp.com",
+        databaseURL: "https://prochecked-team09.firebaseio.com",
+        projectId: "prochecked-team09",
+        storageBucket: "prochecked-team09.appspot.com",
+        messagingSenderId: "791050707787",
+        appId: "1:791050707787:web:f923c14b57ae697fde3ece"
+    };
+
     //Constrcutor welcher Firebase initialisiert 
     constructor (props) {
         super(props)
@@ -56,7 +69,7 @@ class App extends React.Component {
             });
         
         } else {
-            document.cookie = 'token=;path=/'; //User hat sich ausgeloggt, clear token
+            document.cookie = 'token=;path=/'; //User hat sich ausgeloggt, dann clear token
             //setze den ausgeloggten User auf null
             this.setState ({
                 googleUser: null,
@@ -73,34 +86,34 @@ class App extends React.Component {
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
     
-    checkIfUserInDatabase(name, email, googleId) {
-        var api = AppAPI.getAPI()
-        api.getUserByGoogleId(googleId).then((user) => {
-          if (!user.getGoogleId()) {
-            var suggestion = new UserBO(name, email, googleId)
-            api.createUser(suggestion).then((newUser) => {
-              this.setState({
-                user: newUser
-              })
-            })
-          }
+    // checkIfUserInDatabase(name, email, googleId) {
+    //     var api = AppAPI.getAPI()
+    //     api.getUserByGoogleId(googleId).then((user) => {
+    //       if (!user.getGoogleId()) {
+    //         var suggestion = new UserBO(name, email, googleId)
+    //         api.createUser(suggestion).then((newUser) => {
+    //           this.setState({
+    //             user: newUser
+    //           })
+    //         })
+    //       }
 
-          else {
-              this.setState({
-                  user: user
-              })
-          };
+    //       else {
+    //           this.setState({
+    //               user: user
+    //           })
+    //       });
         
     
-    componentDidMount(); {
-        firebase.initializeApp(firebaseConfig);
+    componentDidMount() {
+        firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
         };
     
 
     	/** Renders the whole app */
-	render(); {
+	render() {
 		const { user, appError, authError, authLoading } = this.state;
 
 		return (
@@ -108,13 +121,13 @@ class App extends React.Component {
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						<Header user={user} />
+						{/* <Header user={user} /> */}
 						{
 							// Ist ein User eingeloggt?
 							user ?
 								<>
-									<Redirect from='/' to='user' />
-									<Route exact path='/user'>
+									<Redirect from='/' to='userView' />
+									<Route exact path='/userView'>
 										<UserView />
 									</Route>
 								</>

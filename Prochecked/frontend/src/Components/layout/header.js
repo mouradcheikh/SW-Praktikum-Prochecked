@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import ProfileDropDown from '../dialogs/ProfileDropDown';
+// import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 /**
  * Shows the header with the main navigation Tabs within a Paper.
@@ -39,7 +39,7 @@ class Header extends Component {
       <Paper variant='outlined' >
         <ProfileDropDown user={user} />
         <Typography variant='h3' component='h1' align='center'>
-          HdM Bank Administration
+          HdM ProChecked Administration
         </Typography>
         <Typography variant='h4' component='h2' align='center'>
           Client Advisor Home
