@@ -7,9 +7,9 @@ class Project(NamedBusinessObjects, Automat):
 
     #Statische Variablen der ProjektTypen, die nach dem Anlegen eines Projekts diesem zugeordnet werden können.
     #Jedes dieser Varablen initiiert ein Objekt der Klasse ProjectType
-    transdisziplinaer = ProjectType("Transdiziplinäres Projekt", 10, 20)
-    interdisziplinaer = ProjectType( "Interdisziplinäres Projekt", 5, 10)
-    fachspezifisch = ProjectType("Fachspezifisches Projekt", 3, 5)
+    transdisziplinaer = ProjectType("Transdiziplinäres Projekt",10, 20)  
+    interdisziplinaer = ProjectType("Interdisziplinäres Projekt",5, 10)
+    fachspezifisch = ProjectType("Fachspezifisches Projekt",3, 5)
 
 
 
@@ -80,7 +80,6 @@ class Project(NamedBusinessObjects, Automat):
     def get_weekly_flag(self):
         return self.__weekly_flag
 
-    
     def set_number_bd_b_lecturetime(self, number_bd_b_lecturetime):
         self.__number_bd_b_lecturetime = number_bd_b_lecturetime
    
@@ -109,11 +108,18 @@ class Project(NamedBusinessObjects, Automat):
         return self.__special_room
 
 
-    def from_dict(self, dict):
-        pass
-
     def __str__(self, ):
         pass
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        obj = Project()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        '''obj.set_vorname(dictionary[""]) #muss "vorname" hier private sein?
+        obj.set_berechtigung(dictionary["berechtigung"])# ""
+        return obj''' #benötigen wir hier alle Attribute ?
 
 if __name__ == "__main__":
 
