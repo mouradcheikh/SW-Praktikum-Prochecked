@@ -26,14 +26,15 @@ class Mapper(AbstractContextManager, ABC):
 
             self._cnx = connector.connect(user='demo', password='demo',
                                   host='127.0.0.1',
-                                  database='bankproject')
+                                  database='prochecked')
                                   
 
         return self
         
-    @abstractmethod
-    def __exit__(self, ):
-            pass
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Was soll geschehen, wenn wir (evtl. vorübergehend) aufhören, mit dem Mapper zu arbeiten?"""
+        self._cnx.close()
 
     @abstractmethod
     def find_all(self, ):

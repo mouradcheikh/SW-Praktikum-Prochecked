@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from Person import Person
-from Mapper import Mapper
+from server.bo.Person import Person
+from server.db.Mapper import Mapper
 
 
 class PersonMapper(Mapper):
@@ -59,11 +59,11 @@ class PersonMapper(Mapper):
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
                 um 1 hoch und weisen diesen Wert als ID dem Person-Objekt zu."""
-                user.set_id(maxid[0] + 1)
+                person.set_id(maxid[0] + 1)
             else:
                 """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
-                user.set_id(1)
+                person.set_id(1)
 
         command = "INSERT INTO person (id,creation_date,berechtiung_id,google_id,email) VALUES (%s,%s,%s,%s,%s)"
         data = (person.get_id(), person.get_name(),
@@ -81,8 +81,15 @@ class PersonMapper(Mapper):
     def find_by_id(self, ):
         pass
 
-    def Operation2(self, ):
-        pass
+    def delete(self, person):
+        """Löschen der Daten eines Person-Objekts aus der Datenbank.
 
-    def Operation3(self, ):
-        pass
+        :param user das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM person WHERE id={}".format(person.get_google_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
