@@ -11,7 +11,7 @@ class Automat:
     s_inReview = ProjectState("In Review")
     s_reviewCompleted = ProjectState("Review completed")
 
-    def _init_(self):
+    def __init__(self):
         #Beim erzeugen eines Objeks, wird der Zustand automatisch auf neu gesetzt
         self.current_state = Automat.s_new
 
@@ -24,4 +24,12 @@ class Automat:
     def is_in_state(self, zustand):
         #prüft ob der derzeitige Status mit dem mitgegebenen Atrribut übereinstimmt, falls ja gibt er True zurück, sonst False
         return zustand == self.current_state
+    
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Automat()-Objekt."""
+        obj = Automat()
+        obj.set_state(dictionary["zustand"])  # eigentlich Teil von BusinessObject !
+      
+        return obj
     

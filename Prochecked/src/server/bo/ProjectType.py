@@ -2,12 +2,11 @@ from NamedBusinessObjects import NamedBusinessObjects
 
 
 class ProjectType(NamedBusinessObjects):
-    def __init__(self,name, sws, ects):
+    def __init__(self, name="", sws = 0, ects = 0):
         super().__init__()
         self.__name = name
         self.__number_SWS = sws
         self.__number_ECTS = ects
-        self.__Erstellungszeitpunkt = None
         self.__Charakterannehmer = []
 
 
@@ -23,14 +22,15 @@ class ProjectType(NamedBusinessObjects):
     def get_number_ECTS(self):
         return self.__number_ECTS
 
-    def from_dict(self, dict):
-        pass
-
-    def set_name(self, name):
-        self.__name = name
-
-    def get_name(self):
-        return self.__name
-
     def __str__(self):
         return self.__name
+    
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        obj = ProjectType()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_number_SWS(dictionary["number_SWS"]) #muss "vorname" hier private sein?
+        obj.set_number_ECTS(dictionary["number_ETCS"])# ""
+        return obj
