@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from Person import Person
+from datetime import datetime
 
 class Student(Person):
     def __init__(self):

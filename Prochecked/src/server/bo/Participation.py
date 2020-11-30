@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from BusinessObjects import BusinessObjects
+from datetime import datetime
 
 class Participation(BusinessObjects):
     def __init__(self):
