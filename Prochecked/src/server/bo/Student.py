@@ -9,8 +9,8 @@ class Student(Person):
         super().__init__()
         self.__studiengang = None
         self.__matr_nr = None
-        self.__Registrierung = []
-        self.__Beteiligter = None
+        # self.__Registrierung = []
+        # self.__Beteiligter = None
 
     def set_matr_nr(self, matr_nr):
         self.__matr_nr = matr_nr
