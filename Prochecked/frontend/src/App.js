@@ -5,11 +5,14 @@ import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import PersonBO from './AppApi/PersonBO'
+import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
+
 // import firebaseconfig from './firebaseconfig';
 
 class App extends React.Component {

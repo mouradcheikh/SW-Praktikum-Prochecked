@@ -14,7 +14,7 @@ export default class AppAPI {
     #AppServerBaseURL = '/prochecked';
   
     // Person related
-    #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${id}`;
+    #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #createPersonURL = () => `${this.#AppServerBaseURL}/persons`;
 
       /** 
