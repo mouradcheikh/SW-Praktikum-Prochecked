@@ -32,15 +32,17 @@ class ProjectAdministration (object):
     Student-spezifische Methoden
     """
 
-    def create_student(self, name, vorname, google_id, matr_nr):
+    def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
         student = Student()
         student.set_name(name)
         student.set_vorname(vorname)
         student.set_google_id(google_id)
+        student.set_email(email)
         student.set_matr_nr(matr_nr)
+        student.set_studiengang(studiengang)
         student.set_id(1)
-        #student.set_creation_date(datetime) -- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime
-
+        student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
+        student.set_last_updated(last_updated)
         # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
         #     return mapper.insert(student)
 

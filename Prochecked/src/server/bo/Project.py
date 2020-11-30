@@ -2,6 +2,7 @@
 from NamedBusinessObjects import NamedBusinessObjects
 from Automat import Automat
 from ProjectType import ProjectType
+from datetime import datetime
 
 class Project(NamedBusinessObjects, Automat):
 
