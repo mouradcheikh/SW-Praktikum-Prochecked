@@ -9,6 +9,7 @@ import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignI
 import UserView from './Components/pages/UserView';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
+import header from './Components/layout/header';
 import Theme from './Theme';
 // import firebaseconfig from './firebaseconfig';
 
