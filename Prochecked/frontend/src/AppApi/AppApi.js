@@ -24,7 +24,7 @@ export default class AppAPI {
    */
   static getAPI() {
     if (this.#api == null) {
-      this.#api = new BankAPI();
+      this.#api = new AppAPI();
     }
     return this.#api;
   }
