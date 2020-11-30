@@ -93,16 +93,18 @@ class App extends React.Component {
     //         var suggestion = new UserBO(name, email, googleId)
     //         api.createUser(suggestion).then((newUser) => {
     //           this.setState({
-    //             user: newUser
+    //             googleUser: newUser
     //           })
     //         })
     //       }
 
     //       else {
     //           this.setState({
-    //               user: user
+    //               googleUser: user
     //           })
     //       });
+
+    setRole()
         
     
     componentDidMount() {
