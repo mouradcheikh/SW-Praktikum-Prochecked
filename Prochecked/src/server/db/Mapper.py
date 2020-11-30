@@ -1,13 +1,11 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 import mysql.connector as connector
-from Mapper import Mapper
 from os import os
+from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 
 
 
-class Mapper(Mapper, ABC):
+class Mapper(AbstractContextManager, ABC):
     def __init__(self):
         self.connection = None
 
@@ -33,25 +31,32 @@ class Mapper(Mapper, ABC):
 
         return self
         
-
+    @abstractmethod
     def __exit__(self, ):
-        pass
+            pass
 
+    @abstractmethod
     def find_all(self, ):
-        pass
+            pass
 
-    def find_by_id(self, ):
-        pass
+    @abstractmethod
+    def find_by_id(self,id ):
+            pass
 
+    @abstractmethod
     def find_by_name(self, ):
-        pass
+            pass
 
-    def insert(self, ):
-        pass
+    @abstractmethod
+    def insert(self,object ):
+            pass
 
-    def update(self, ):
-        pass
+    @abstractmethod
+    def update(self,object ):
+            pass
 
-    def delete(self, ):
-        pass
+    @abstractmethod
+    def delete(self,object ):
+            pass
+        
 
