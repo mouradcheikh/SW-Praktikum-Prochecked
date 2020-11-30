@@ -10,12 +10,12 @@ export default class PersonBO extends BusinessObject {
    * 
    * @param {String} aname - the name of this PersonBO.
    */
-  constructor(aname, aemail, agoogleid, arole) {
+  constructor(aname, aemail, agoogleid, aberechtigung) {
     super();
     this.name = aname;
     this.email = aemail
     this.google_id = agoogleid
-    this.role = arole
+    this.berechtigung = aberechtigung
   }
 
   /**
@@ -34,6 +34,29 @@ export default class PersonBO extends BusinessObject {
     return this.name;
   }
 
+  setEmail(aemail){
+    this.email = aemail
+  }
+
+  getEmail(){
+    return this.email
+  }
+
+  setGoogleId(agoogleid){
+    this.google_id = agoogleid
+  }
+
+  getGoogleId(){
+    return this.google_id
+  }
+
+  setBerechtigung(aberechtigung){
+    this.berechtigung = aberechtigung
+  }
+
+  getBerechtigung(){
+    return this.berechtigung
+  }
 
   /** 
    * Returns an Array of PersonBOs from a given JSON structure.
