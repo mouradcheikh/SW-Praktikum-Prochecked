@@ -46,7 +46,9 @@ export default class AppAPI {
     )
 
 getPersonByGoogleId(googleId) {
+        console.log(googleId)
         return this.#fetchAdvanced(this.#getPersonURL(googleId)).then((responseJSON) => {
+          console.log(responseJSON)
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(responsePersonBO);

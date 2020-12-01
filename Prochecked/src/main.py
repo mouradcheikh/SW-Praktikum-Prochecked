@@ -30,7 +30,7 @@ from server.SecurityDecorator import secured
 app = Flask(__name__)
 
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
-CORS(app, resources=r'/bank/*')
+CORS(app, resources=r'/prochecked/*')
 
 
 api = Api(app, version='1.0', title='Prochecked api',
