@@ -128,19 +128,19 @@ class PersonListOperations(Resource):
             return '', 500
 
 
-@prochecked.route('/persons/<int:id>')
+@prochecked.route('/persons/<str:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Person-Objekts')
+@prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
     @secured
-    def get(self, id):
+    def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        pers = adm.get_person_by_id(id)
+        pers = adm.get_person_by_google_id(google_id)
         return pers
 
     @secured
