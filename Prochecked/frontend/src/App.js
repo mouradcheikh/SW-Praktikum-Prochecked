@@ -147,8 +147,7 @@ class App extends React.Component {
 								<>
 									<Redirect from='/' to='userView' />
 									<Route exact path='/userView'>
-                                        <UserView //person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson}
-                                            />
+										<UserView />
 									</Route>
 								</>
 								:
@@ -169,3 +168,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
