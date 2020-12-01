@@ -19,18 +19,20 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id,creation_date,berechtiung_id,google_id,email FROM person WHERE google_id='{}'".format(
+        command = "SELECT id,creation_date,name,google_id,email FROM person WHERE google_id='{}'".format(
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, email, google_id) = tuples[0]
+            (id,creation_date,name,google_id,email, ) = tuples[0]
             u = Person()
             u.set_id(id)
+            u.set_creation_date(creation_date)
             u.set_name(name)
-            u.set_email(email)
             u.set_google_id(google_id)
+            u.set_email(email)
+            
             result = u
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
@@ -66,7 +68,7 @@ class PersonMapper(Mapper):
                 person.set_id(1)
 
         command = "INSERT INTO person (id,creation_date,berechtiung_id,google_id,email) VALUES (%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_name(),
+        data = (person.get_id(),person.get_berechtigung(), person.get_name(),
                 person.get_email(), person.get_google_id())
         cursor.execute(command, data)
 

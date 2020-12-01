@@ -19,7 +19,7 @@ class Mapper(AbstractContextManager, ABC):
 
             self._cnx = connector.connect(user='demo', password='demo',
                                           unix_socket='',
-                                          database='')
+                                          database='prochecked')
         else:
             """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
             also auf einem Local Development Server. Hierbei stellen wir eine einfache Verbindung zu einer lokal
