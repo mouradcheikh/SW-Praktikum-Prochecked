@@ -5,11 +5,14 @@ import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import PersonBO from './AppApi/PersonBO'
+import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
+
 // import firebaseconfig from './firebaseconfig';
 
 class App extends React.Component {
@@ -32,7 +35,7 @@ class App extends React.Component {
 
     //Dann wird ein leeres state initalisiert 
 	    this.state = {
-            googleUser: null,
+            person: null,
             appError: null,
             authError: null,
             authLoading: false
@@ -43,24 +46,24 @@ class App extends React.Component {
 		return { appError: error };          // dass beim nächsten Rendern die Fallback UI angezeigt wird 
     }
     
-    handleAuthStateChange = user => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
-		if (user) {
+    handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
+		if (person) {
 			this.setState({
 				authLoading: true
             });
             
-            //der User ist eingeloggt
-            user.getIdToken().then(token => {
+            //die Person ist eingeloggt
+            person.getIdToken().then(token => {
                 document.cookie = `token=${token};path=/`;
             
             //setzt den Nutzer auf Not bevor der Token angekommen ist 
                 this.setState({
-					googleUser: user,
+					person: person,
 					authError: null,
 					authLoading: false
                 });
-                //schauen ob der User bereits in der Datenbank ist
-                this.checkUserInDatabase (user.displayName, user.email,user.id);
+                //schauen ob die Person bereits in der Datenbank ist
+                this.checkIfPersonInDatabase (person.displayName, person.email,person.id);
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -69,10 +72,10 @@ class App extends React.Component {
             });
         
         } else {
-            document.cookie = 'token=;path=/'; //User hat sich ausgeloggt, dann clear token
-            //setze den ausgeloggten User auf null
+            document.cookie = 'token=;path=/'; //Person hat sich ausgeloggt, dann clear token
+            //setze die ausgeloggte Person auf null
             this.setState ({
-                googleUser: null,
+                person: null,
                 authLoading: false 
             });
         }
@@ -86,23 +89,39 @@ class App extends React.Component {
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
     
-    // checkIfUserInDatabase(name, email, googleId) {
-    //     var api = AppAPI.getAPI()
-    //     api.getUserByGoogleId(googleId).then((user) => {
-    //       if (!user.getGoogleId()) {
-    //         var suggestion = new UserBO(name, email, googleId)
-    //         api.createUser(suggestion).then((newUser) => {
-    //           this.setState({
-    //             user: newUser
-    //           })
-    //         })
-    //       }
+    checkIfPersonInDatabase(name, email, googleId) {
+        var api = AppAPI.getAPI()
+            api.getPersonByGoogleId(googleId).then((person) => {
+                if (!person.getGoogleId()) {
+                    var suggestion = new PersonBO(name, email, googleId)
+                    api.createPerson(suggestion).then((newPerson) => {
+                    this.setState({
+                        person: newPerson})
+                    }
+                    )
+                }
+            
 
-    //       else {
-    //           this.setState({
-    //               user: user
-    //           })
-    //       });
+                else {
+                    this.setState({
+                        person: person
+                    })
+                }
+            }
+        )
+    }
+
+    setRoleOfPerson(person, role){
+        var api = AppAPI.getAPI()
+            updatedPerson = person.setBerechtigung(role)
+            api.update(updatedPerson).then((newPerson) => {
+                this.setState({
+                    person: newPerson
+                })
+            })
+    }
+
+    
         
     
     componentDidMount() {
@@ -114,21 +133,21 @@ class App extends React.Component {
 
     	/** Renders the whole app */
 	render() {
-		const { user, appError, authError, authLoading } = this.state;
+		const { person, appError, authError, authLoading } = this.state;
 
 		return (
 			<ThemeProvider theme={Theme}>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						{/* <Header user={user} /> */}
+						{/* <Header person={person} /> */}
 						{
-							// Ist ein User eingeloggt?
-							user ?
+							// Ist eine Person eingeloggt?
+							person ?
 								<>
 									<Redirect from='/' to='userView' />
 									<Route exact path='/userView'>
-										<UserView />
+										<UserView person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson}/>
 									</Route>
 								</>
 								:

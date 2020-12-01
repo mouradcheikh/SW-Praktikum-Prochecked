@@ -1,13 +1,12 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 import mysql.connector as connector
-from Mapper import Mapper
-from os import os
+import os
+import os.path
+from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 
 
 
-class Mapper(Mapper, ABC):
+class Mapper(AbstractContextManager, ABC):
     def __init__(self):
         self.connection = None
 
@@ -28,30 +27,38 @@ class Mapper(Mapper, ABC):
 
             self._cnx = connector.connect(user='demo', password='demo',
                                   host='127.0.0.1',
-                                  database='bankproject')
+                                  database='prochecked')
                                   
 
         return self
         
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Was soll geschehen, wenn wir (evtl. vorübergehend) aufhören, mit dem Mapper zu arbeiten?"""
+        self._cnx.close()
 
-    def __exit__(self, ):
-        pass
-
+    @abstractmethod
     def find_all(self, ):
-        pass
+            pass
 
-    def find_by_id(self, ):
-        pass
+    @abstractmethod
+    def find_by_id(self,id ):
+            pass
 
+    @abstractmethod
     def find_by_name(self, ):
-        pass
+            pass
 
-    def insert(self, ):
-        pass
+    @abstractmethod
+    def insert(self,object ):
+            pass
 
-    def update(self, ):
-        pass
+    @abstractmethod
+    def update(self,object ):
+            pass
 
-    def delete(self, ):
-        pass
+    @abstractmethod
+    def delete(self,object ):
+            pass
+        
 

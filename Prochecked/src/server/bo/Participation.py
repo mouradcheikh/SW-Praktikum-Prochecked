@@ -1,10 +1,10 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from BusinessObjects import BusinessObjects
+from server.bo import BusinessObjects as bo
 from datetime import datetime
 
-class Participation(BusinessObjects):
+class Participation(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
        

@@ -55,14 +55,14 @@ def secured(function):
                         person.set_name(name)
                         person.set_vorname(vorname)
                         person.set_email(email)
-                        person.save_user(person)
+                        person.save_person(person)
                       
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
-                        Wir legen daher ein neues User-Objekt an, um dieses ggf. später
+                        Wir legen daher ein neues Person-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        person= adm.create_user(name, vorname, email, google_id)
+                        person = adm.create_person(name, vorname, email, google_id)
 
                     print(request.method, request.path, "angefragt durch:", name, vorname, email)
 

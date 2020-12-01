@@ -1,5 +1,5 @@
 
-class Role():
+class Role:
     
 
     def __init__(self, name = ""):
