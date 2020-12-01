@@ -63,7 +63,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.id);
+                this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -93,6 +93,7 @@ class App extends React.Component {
         var api = AppAPI.getAPI()
             api.getPersonByGoogleId(googleId).then((person) => {
                 if (!person.getGoogleId()) {
+                    //console.log("Creating new person for '" + name + "'")
                     var suggestion = new PersonBO(name, email, googleId)
                     api.createPerson(suggestion).then((newPerson) => {
                     this.setState({
