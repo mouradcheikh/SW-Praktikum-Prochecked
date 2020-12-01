@@ -77,15 +77,15 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_person(self, name, vorname, google_id, email,):
+    def create_person(self, name, email, google_id):
         person = Person()
-        person.set_name(name)
-        person.set_vorname(vorname)
-        person.set_google_id(google_id)
-        person.set_email(email)
         person.set_id(1)
-        # person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
+        person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime  
+        person.set_name(name)
+        person.set_google_id(google_id)
+        person.set_email(email)    
         # person.set_last_updated(last_updated)
+        
         with PersonMapper() as mapper:
             return mapper.insert(person)
 
