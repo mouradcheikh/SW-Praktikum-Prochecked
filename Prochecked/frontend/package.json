@@ -1,3 +1,4 @@
+
 {
   "name": "prochecked-app",
   "version": "0.1.0",
@@ -9,7 +10,12 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "firebase": "^8.1.1",
+    "react-router-dom": "^5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,3 +42,5 @@
     ]
   }
 }
+
+
