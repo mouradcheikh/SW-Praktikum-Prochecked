@@ -16,6 +16,7 @@ export default class AppAPI {
     // Person related
     #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #createPersonURL = () => `${this.#AppServerBaseURL}/persons`;
+    #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
 
       /** 
    * Get the Singelton instance 
@@ -24,7 +25,7 @@ export default class AppAPI {
    */
   static getAPI() {
     if (this.#api == null) {
-      this.#api = new BankAPI();
+      this.#api = new AppAPI();
     }
     return this.#api;
   }
@@ -55,21 +56,42 @@ getPersonByGoogleId(googleId) {
         })
       }
 
-createPerson(PersonBO) {
+createPerson(personBO) {
         return this.#fetchAdvanced(this.#createPersonURL(), {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain',
             'Content-type': 'application/json',
           },
-          body: JSON.stringify(PersonBO)
-        }).then((responseJSON) => {
+          body: JSON.stringify(personBO)
+          }).then((responseJSON) => {
           // We always get an array of PersonBOs.fromJSON, but only need one object
-          let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+            let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(accountBOs);
-          return new Promise(function (resolve) {
+            return new Promise(function (resolve) {
             resolve(responsePersonBO);
           })
         })
       }
-    }
+    
+
+updatePerson(personBO){
+  return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json, text/plain',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(personBO)
+    }).then((responseJSON) => {
+    // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+    // console.info(accountBOs);
+      return new Promise(function (resolve) {
+      resolve(responsePersonBO);
+    })
+  })
+}
+
+
+}

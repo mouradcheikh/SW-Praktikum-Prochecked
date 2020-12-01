@@ -27,7 +27,7 @@ from SecurityDecorator import secured
 app = Flask(__name__)
 
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
-CORS(app, resources=r'/bank/*')
+CORS(app, resources=r'/prochecked/*')
 
 """Namespaces"""
 Prochecked = api.namespace('app', description="Funktionen der App")

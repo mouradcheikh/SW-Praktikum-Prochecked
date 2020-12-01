@@ -16,4 +16,8 @@ class UserView extends Component {
         loadingError: null,
       };
     }
+
+  getAllRoles(){
+    
+  }
 }
