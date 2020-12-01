@@ -111,6 +111,16 @@ class App extends React.Component {
         )
     }
 
+    setRoleOfPerson(person, role){
+        var api = AppAPI.getAPI()
+            updatedPerson = person.setBerechtigung(role)
+            api.update(updatedPerson).then((newPerson) => {
+                this.setState({
+                    person: newPerson
+                })
+            })
+    }
+
     
         
     
@@ -137,7 +147,7 @@ class App extends React.Component {
 								<>
 									<Redirect from='/' to='userView' />
 									<Route exact path='/userView'>
-										<UserView />
+										<UserView person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson}/>
 									</Route>
 								</>
 								:
