@@ -111,15 +111,15 @@ class App extends React.Component {
         )
     }
 
-    setRoleOfPerson(person, role){
-        var api = AppAPI.getAPI()
-            updatedPerson = person.setBerechtigung(role)
-            api.update(updatedPerson).then((newPerson) => {
-                this.setState({
-                    person: newPerson
-                })
-            })
-    }
+    // setRoleOfPerson(person, role){
+    //     var api = AppAPI.getAPI()
+    //         updatedPerson = person.setBerechtigung(role)
+    //         api.update(updatedPerson).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson
+    //             })
+    //         })
+    // }
 
     
         
@@ -147,7 +147,7 @@ class App extends React.Component {
 								<>
 									<Redirect from='/' to='userView' />
 									<Route exact path='/userView'>
-										<UserView person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson}/>
+										<UserView />
 									</Route>
 								</>
 								:
@@ -168,3 +168,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
