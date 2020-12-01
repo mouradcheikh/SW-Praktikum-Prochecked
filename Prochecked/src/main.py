@@ -12,7 +12,9 @@ from server.bo.Automat import Automat
 from server.bo.Grading import Grading
 from server.bo.Module import Module
 from server.bo.Participation import Participation
+
 from server.bo.Person import Person
+
 from server.bo.Project import Project
 from server.bo.ProjectState import ProjectState
 from server.bo.ProjectType import ProjectType
@@ -35,7 +37,7 @@ api = Api(app, version='1.0', title='Prochecked api',
           description='Eine rudimentäre Demo-API für Listenerstellung.')
 
 """Namespaces"""
-Prochecked = api.namespace('app', description="Funktionen der App")
+prochecked = api.namespace('app', description="Funktionen der App")
 
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
@@ -68,9 +70,9 @@ person = api.inherit('Person', nbo,{
     'google_id': fields.String(atttribute='_google_id',
                             description='Google User ID einer Person'),
     'berechtigung': fields.String(attribute='__berechtigung',
-                                description='Berechtigung (bzw. Rolle) einer Person'),
-    'vorname': fields.String(atrribute='__vorname',
-                            description='Vorname einer Person')
+                                description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
+    #'vorname': fields.String(atrribute='__vorname',
+                            #description='Vorname einer Person')
 })
 
 student = api.inherit('Student',nbo,{
@@ -84,10 +86,10 @@ student = api.inherit('Student',nbo,{
 
 
 
-@banking.route('/persons')
-@banking.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.route('/persons')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @banking.marshal_list_with(person)
+    @prochecked.marshal_list_with(person)
     @secured
     def get(self):
         """Auslesen aller Person-Objekte.
@@ -97,11 +99,11 @@ class PersonListOperations(Resource):
         persons = adm.get_all_persons()
         return persons
 
-    @banking.marshal_with(person, code=200)
-    @banking.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @prochecked.marshal_with(person, code=200)
+    @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
     @secured
     def post(self):
-        """Anlegen eines neuen Customer-Objekts.
+        """Anlegen eines neuen Person-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
@@ -126,11 +128,11 @@ class PersonListOperations(Resource):
             return '', 500
 
 
-@banking.route('/customers/<int:id>')
-@banking.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@banking.param('id', 'Die ID des Customer-Objekts')
+@prochecked.route('/persons/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Person-Objekts')
 class PersonOperations(Resource):
-    @banking.marshal_with(person)
+    @prochecked.marshal_with(person)
     @secured
     def get(self, id):
         """Auslesen eines bestimmten Person-Objekts.
@@ -152,8 +154,8 @@ class PersonOperations(Resource):
         adm.delete_person(pers)
         return '', 200
 
-    @banking.marshal_with(person)
-    @banking.expect(person, validate=True)
+    @prochecked.marshal_with(person)
+    @prochecked.expect(person, validate=True)
     @secured
     def put(self, id):
         """Update eines bestimmten Customer-Objekts.
@@ -175,11 +177,11 @@ class PersonOperations(Resource):
         else:
             return '', 500
 
-@banking.route('/persons-by-name/<string:name>') #string:name korrekt?
-@banking.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@banking.param('name', 'Der Nachname des Kunden')#ebenfalls lastname mit name ersetzt
+@prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('name', 'Der Nachname des Kunden')#ebenfalls lastname mit name ersetzt
 class PersonsByNameOperations(Resource):
-    @banking.marshal_with(person)
+    @prochecked.marshal_with(person)
     @secured
     def get(self, name):
         """ Auslesen von Person-Objekten, die durch den Nachnamen bestimmt werden.
@@ -189,3 +191,7 @@ class PersonsByNameOperations(Resource):
         adm = ProjectAdministration()
         pers = adm.get_person_by_name(name)
         return pers
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

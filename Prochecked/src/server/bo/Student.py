@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Person import Person
+from server.bo.Person import Person
 from datetime import datetime
 
 class Student(Person):

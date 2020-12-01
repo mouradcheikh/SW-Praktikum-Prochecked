@@ -1,7 +1,7 @@
 
-from NamedBusinessObjects import NamedBusinessObjects
-from Automat import Automat
-from ProjectType import ProjectType
+from server.bo.NamedBusinessObjects import NamedBusinessObjects 
+from server.bo.Automat import Automat 
+from server.bo.ProjectType import ProjectType
 from datetime import datetime
 
 class Project(NamedBusinessObjects, Automat):
