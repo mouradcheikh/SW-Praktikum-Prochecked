@@ -6,7 +6,7 @@ from server.db.Mapper import Mapper
 
 class PersonMapper(Mapper):
     def __init__(self):
-        pass
+        super().__init__()
 
     def find_by_google_id(self, google_id):
         """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,

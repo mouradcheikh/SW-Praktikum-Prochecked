@@ -121,7 +121,7 @@ class PersonListOperations(Resource):
             eines Person-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_vorname(), proposal.get_name())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
