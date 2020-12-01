@@ -63,7 +63,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.id);
+                this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
             }).catch(error =>{
                 this.setState({
                     authError:error,
