@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 from datetime import datetime
 
-from NamedBusinessObjects import NamedBusinessObjects
+from server.bo.NamedBusinessObjects import NamedBusinessObjects
 
 class Module(NamedBusinessObjects):
     def __init__(self):

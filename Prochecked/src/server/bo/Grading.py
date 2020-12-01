@@ -2,9 +2,9 @@
 #-*- coding: utf-8 -*-
 from datetime import datetime
 
-from BusinessObjects import BusinessObjects
+from server.bo import BusinessObjects as bo
 
-class Grading(BusinessObjects):
+class Grading(bo.BusinessObjects):
     def __init__(self):
         self.__passed = False #angangs immer False? also nicht bestanden?
         self.__grade = None

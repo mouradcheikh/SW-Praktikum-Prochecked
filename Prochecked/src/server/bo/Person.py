@@ -1,5 +1,5 @@
-from Role import Role
-from NamedBusinessObjects import NamedBusinessObjects
+from server.bo.Role import Role
+from server.bo.NamedBusinessObjects import NamedBusinessObjects 
 from datetime import datetime
 
 class Person(NamedBusinessObjects):
