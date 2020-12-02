@@ -63,8 +63,14 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
                 });
-                //Person in Datenbank anlegen
-                this.createPersonInDatabase (person.displayName, person.email, person.uid);
+                //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                var api = AppAPI.getAPI()
+                new_person = api.getPersonByGoogleId(person.uid) //uid ist die google id der person????????
+                this.setState({
+                    person: new_person,
+                }) //authloading usw. wurden nicht behandelt
+                    
+
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -120,21 +126,23 @@ class App extends React.Component {
     //     )
     // }
 
-    createPersonInDatabase(name, email, googleId) {
-        console.log("createPersonInDatabase")
-        var api = AppAPI.getAPI()
-        console.log(api)
+    
 
-        var suggestion = new PersonBO(name, email, googleId)
-                console.log(suggestion)
-                var suggestion = new PersonBO(name, email, googleId)
-                console.log(suggestion)
-                api.createPerson(suggestion).then((newPerson) => {
-                this.setState({
-                    person: newPerson})
-                    }  
-                )
-    }
+    // createPersonInDatabase(name, email, googleId) {
+    //     console.log("createPersonInDatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             api.createPerson(suggestion).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson})
+    //                 }  
+    //             )
+    // }
 
     // setRoleOfPerson(person, role){
     //     var api = AppAPI.getAPI()
