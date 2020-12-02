@@ -99,6 +99,21 @@ class PersonListOperations(Resource):
         persons = adm.get_all_persons()
         return persons
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @prochecked.marshal_with(person, code=200)
     @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
     @secured
@@ -117,15 +132,29 @@ class PersonListOperations(Resource):
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Person-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @prochecked.route('/persons/<str:google_id>')

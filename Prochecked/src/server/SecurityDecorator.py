@@ -43,9 +43,8 @@ def secured(function):
                     google_id = claims.get("google_id") #im Bankprojekt ist hier User-ID
                     email = claims.get("email")
                     name = claims.get("name")
-                    vorname = claims.get("vorname") #vorname wurde hier ergänz, da wir in BOs getrennt haben --> beachten bei folgendem Code
-
                     person = adm.get_person_by_google_id(google_id)
+
                     if person is not None:
                         """Fall: Der Benutzer ist unserem System bereits bekannt.
                         Wir gehen davon aus, dass die google_user_id sich nicht ändert.
@@ -53,7 +52,6 @@ def secured(function):
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
                         person.set_name(name)
-                        person.set_vorname(vorname)
                         person.set_email(email)
                         person.save_person(person)
                       
@@ -64,7 +62,7 @@ def secured(function):
                         """
                         person = adm.create_person(name, email, google_id)
 
-                    print(request.method, request.path, "angefragt durch:", name, vorname, email)
+                    print(request.method, request.path, "angefragt durch:", name, email)
 
                     objects = function(*args, **kwargs)
                     return objects
