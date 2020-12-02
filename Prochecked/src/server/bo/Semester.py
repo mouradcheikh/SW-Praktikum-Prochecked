@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from NamedBusinessObjects import NamedBusinessObjects
+from server.bo.NamedBusinessObjects import NamedBusinessObjects
 from datetime import datetime
 
 class Semester(NamedBusinessObjects):

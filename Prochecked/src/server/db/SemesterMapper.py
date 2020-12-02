@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Mapper import Mapper
+from server.db.Mapper import Mapper
 
 class SemesterMapper(Mapper):
     def __init__(self):

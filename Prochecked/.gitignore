@@ -144,3 +144,4 @@ node_modules
 # production
 /frontend/build
 /src/static/reactclient
+node_modules

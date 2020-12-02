@@ -1,4 +1,4 @@
-from ProjectState import ProjectState
+from server.bo.ProjectState import ProjectState
 
 
 class Automat:

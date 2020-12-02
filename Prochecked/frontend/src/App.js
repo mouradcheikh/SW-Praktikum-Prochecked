@@ -48,6 +48,7 @@ class App extends React.Component {
     
     handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
 		if (person) {
+            console.log("handleauthstate")
 			this.setState({
 				authLoading: true
             });
@@ -63,7 +64,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.id);
+                this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -90,10 +91,18 @@ class App extends React.Component {
     }
     
     checkIfPersonInDatabase(name, email, googleId) {
+        console.log("checkifuserindatabase")
         var api = AppAPI.getAPI()
+        console.log(api)
+
+        var suggestion = new PersonBO(name, email, googleId)
+                    console.log(suggestion)
+                    
             api.getPersonByGoogleId(googleId).then((person) => {
+                console.log(person)
                 if (!person.getGoogleId()) {
                     var suggestion = new PersonBO(name, email, googleId)
+                    console.log(suggestion)
                     api.createPerson(suggestion).then((newPerson) => {
                     this.setState({
                         person: newPerson})
@@ -111,15 +120,15 @@ class App extends React.Component {
         )
     }
 
-    setRoleOfPerson(person, role){
-        var api = AppAPI.getAPI()
-            updatedPerson = person.setBerechtigung(role)
-            api.update(updatedPerson).then((newPerson) => {
-                this.setState({
-                    person: newPerson
-                })
-            })
-    }
+    // setRoleOfPerson(person, role){
+    //     var api = AppAPI.getAPI()
+    //         updatedPerson = person.setBerechtigung(role)
+    //         api.update(updatedPerson).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson
+    //             })
+    //         })
+    // }
 
     
         
@@ -128,6 +137,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+        console.log("App gerendert")
         };
     
 
@@ -147,7 +157,7 @@ class App extends React.Component {
 								<>
 									<Redirect from='/' to='userView' />
 									<Route exact path='/userView'>
-										<UserView person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson}/>
+										<UserView />
 									</Route>
 								</>
 								:
@@ -168,3 +178,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
