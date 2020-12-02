@@ -64,11 +64,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
-                var api = AppAPI.getAPI()
-                new_person = api.getPersonByGoogleId(person.uid) //uid ist die google id der person????????
-                this.setState({
-                    person: new_person,
-                }) //authloading usw. wurden nicht behandelt
+                this.getPersonByGoogleId(person.uid)
                     
 
             }).catch(error =>{
@@ -94,6 +90,17 @@ class App extends React.Component {
 		});
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
+    }
+
+    getPersonByGoogleId(googleId){
+        var api = AppAPI.getAPI()
+        console.log(api)
+        api.getPersonByGoogleId(googleId).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
     }
     
     // checkIfPersonInDatabase(name, email, googleId) {
