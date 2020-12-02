@@ -17,6 +17,7 @@ render () {
 
 	return(
         <div>
+          <center>
                 <h1>Ich bin ein ...</h1>
                 <div>
                 <Button
@@ -50,6 +51,7 @@ render () {
                             Admin
                 </Button>
                 </div>
+        </center>
       </div>
     );
   }
