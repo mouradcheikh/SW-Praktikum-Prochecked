@@ -48,6 +48,7 @@ class App extends React.Component {
     
     handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
 		if (person) {
+            console.log("handleauthstate")
 			this.setState({
 				authLoading: true
             });
@@ -62,8 +63,10 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
                 });
-                //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.id);
+                //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                this.getPersonByGoogleId(person.uid)
+                    
+
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -88,28 +91,65 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
-    
-    checkIfPersonInDatabase(name, email, googleId) {
+
+    getPersonByGoogleId(googleId){
         var api = AppAPI.getAPI()
-            api.getPersonByGoogleId(googleId).then((person) => {
-                if (!person.getGoogleId()) {
-                    var suggestion = new PersonBO(name, email, googleId)
-                    api.createPerson(suggestion).then((newPerson) => {
-                    this.setState({
-                        person: newPerson})
-                    }
-                    )
-                }
+        console.log(api)
+        api.getPersonByGoogleId(googleId).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
+    
+    // checkIfPersonInDatabase(name, email, googleId) {
+    //     console.log("checkifuserindatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
+                    
+    //         api.getPersonByGoogleId(googleId).then((person) => {
+    //             console.log(person)
+    //             if (!person.getGoogleId()) {
+    //                 var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
+    //                 api.createPerson(suggestion).then((newPerson) => {
+    //                 this.setState({
+    //                     person: newPerson})
+    //                 }
+    //                 )
+    //             }
             
 
-                else {
-                    this.setState({
-                        person: person
-                    })
-                }
-            }
-        )
-    }
+    //             else {
+    //                 this.setState({
+    //                     person: person
+    //                 })
+    //             }
+    //         }
+    //     )
+    // }
+
+    
+
+    // createPersonInDatabase(name, email, googleId) {
+    //     console.log("createPersonInDatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             api.createPerson(suggestion).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson})
+    //                 }  
+    //             )
+    // }
 
     // setRoleOfPerson(person, role){
     //     var api = AppAPI.getAPI()
@@ -128,6 +168,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+        console.log("App gerendert")
         };
     
 

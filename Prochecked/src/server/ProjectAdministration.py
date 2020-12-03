@@ -77,17 +77,26 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_person(self, name, vorname, google_id, email,):
+    def create_person(self, name, google_id, email, berechtigung):
         person = Person()
         person.set_name(name)
-        person.set_vorname(vorname)
         person.set_google_id(google_id)
         person.set_email(email)
+        person.set_berechtigung(berechtigung)
         person.set_id(1)
+
+        adm = ProjectAdministration()
+        person_exists = adm.get_person_by_google_id(google_id)
+
+        if person_exists is not None:
+            adm.save_person(person)
+        else:
+            with PersonMapper() as mapper:
+                return mapper.insert(person)
+
         # person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
         # person.set_last_updated(last_updated)
-        with PersonMapper() as mapper:
-            return mapper.insert(person)
+        
 
 
     def get_person_by_name(self, name):
@@ -99,7 +108,6 @@ class ProjectAdministration (object):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
-
 
     def get_person_by_email(self, email):
         """Alle Personen mit gegebener E-Mail-Adresse auslesen."""

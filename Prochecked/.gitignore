@@ -127,4 +127,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+###                                                 ###
+### React Teil auf Basis von create-react-app       ###
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+
+# testing
+/frontend/coverage
+
+# ocumentation
+/frontend/styleguide
+
+# production
+/frontend/build
+/src/static/reactclient
 node_modules
