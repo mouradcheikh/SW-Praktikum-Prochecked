@@ -30,7 +30,7 @@ from server.SecurityDecorator import secured
 app = Flask(__name__)
 
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
-CORS(app, resources=r'/prochecked/*')
+CORS(app, resources=r'/app/*')
 
 
 api = Api(app, version='1.0', title='Prochecked api',
@@ -50,7 +50,7 @@ bo = api.model('BusinessObjects', {
                                     description='Erstellungsdatum des BOs, wird '
                                                 'durch Unix Time Stamp ermittlet',
                                     dt_format='iso8601'),
-     'lastUpdated': fields.DateTime(attribute='_last_updated',
+    'lastUpdated': fields.DateTime(attribute='_last_updated',
                                    description='Änderungsdatum des BOs, wird durch'
                                                'Unix Time Stamp ermittlet',
                                    dt_format="iso8601")
@@ -58,27 +58,27 @@ bo = api.model('BusinessObjects', {
 
 """NamedBusinessObject, Person, Student, Module, Semester, Project & ProjectType sind BusinessObjects"""
 
-nbo = api.inherit('NamedBusinessObjects', bo,{    
-    'name': fields.String(attribute='__name',
+nbo = api.inherit('NamedBusinessObjects', bo, {    
+    'name': fields.String(attribute='_name',
                         description='Nachname bei Personen oder Student'# Name ist manchmal Nachname und manchmal die Bezeichnung
                                     'Name bzw. Bezeichnung von Projekt, Semester, Module, ProjectType,')
 })
 
-person = api.inherit('Person', nbo,{
+person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
     'google_id': fields.String(atttribute='_google_id',
                             description='Google User ID einer Person'),
-    'berechtigung': fields.String(attribute='__berechtigung',
+    'berechtigung': fields.String(attribute='_berechtigung',
                                 description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
     #'vorname': fields.String(atrribute='__vorname',
                             #description='Vorname einer Person')
 })
 
-student = api.inherit('Student',nbo,{
-    'studiengang': fields.String(attribute='__studiengang',
+student = api.inherit('Student',nbo, {
+    'studiengang': fields.String(attribute='_studiengang',
                                 description='Studiengang eines Studenten'),
-    'matr_nr': fields.Integer(attribute='__matr_nr',
+    'matr_nr': fields.Integer(attribute='_matr_nr',
                             description='Matrikelnummer eines Studenten')
 })
 
@@ -89,15 +89,22 @@ student = api.inherit('Student',nbo,{
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @prochecked.marshal_list_with(person)
-    @secured
+    @prochecked.marshal_with(person) 
+    # @secured
     def get(self):
-        """Auslesen aller Person-Objekte.
+        # """Auslesen aller Person-Objekte.
 
-        Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ProjectAdministration()
-        persons = adm.get_all_persons()
-        return persons
+        # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        # adm = ProjectAdministration()
+        # persons = adm.get_all_persons()
+        # return persons
+        pers = Person()
+        pers.set_name("kai")
+        pers.set_email("K.k@gmx.de")
+        pers.set_berechtigung("student")
+        pers.set_google_id("iffni")
+        pers.set_id(1)
+        return pers
 
 
 

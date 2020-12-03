@@ -13,20 +13,20 @@ class Person(NamedBusinessObjects):
         super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
         self._email = ""
         self._google_id = ""
-        self.__berechtigung = None
+        self._berechtigung = None
 
     
     def set_berechtigung(self, rolle):
-        self.__berechtigung = rolle
+        self._berechtigung = rolle
 
     def get_berechtigung(self):
-        return self.__berechtigung
+        return self._berechtigung
 
     def set_google_id(self, google_id):
-        self.__google_id = google_id
+        self._google_id = google_id
 
     def get_google_id (self):
-        return self.__google_id
+        return self._google_id
     
     def set_email(self, email):
         """Setzen der Email"""
