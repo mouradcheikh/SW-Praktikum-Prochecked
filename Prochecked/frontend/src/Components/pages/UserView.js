@@ -1,12 +1,12 @@
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-// import AdminView from './Components/pages/AdminView';
+import AdminView from './AdminView';
 // import StudentView from './Components/pages/StudentView';
 // import DozentView from './Components/pages/DozentView';
 // import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-// import './App.css';
-import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
 
 class UserView extends Component {
 
@@ -16,6 +16,7 @@ class UserView extends Component {
     
     handleAdminButtonClicked = () => {
      // this.props.onAdmin();
+        
     }
 
     handleStudentButtonClicked = () => {
@@ -57,9 +58,8 @@ render () {
                 </Button>
                 </div>
                 <div>
-                
                 <Button  onClick={this.handleAdminButtonClicked}
-                     size="large"
+                    size="large"
                     variant="contained"
                     color="primary"
                     className={classes.button}
