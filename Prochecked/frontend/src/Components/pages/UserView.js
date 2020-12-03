@@ -1,6 +1,10 @@
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-// import { Link as RouterLink } from 'react-router-dom'
+// import AdminView from './Components/pages/AdminView';
+// import StudentView from './Components/pages/StudentView';
+// import DozentView from './Components/pages/DozentView';
+// import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 // import './App.css';
 import React, { Component } from 'react';
 
@@ -9,8 +13,19 @@ class UserView extends Component {
     constructor(props) {
       super(props);
     }
+    
+    handleAdminButtonClicked = () => {
+     // this.props.onAdmin();
+    }
 
+    handleStudentButtonClicked = () => {
+      //this.props.onStudent();
 
+    }
+
+    handleDozentButtonClicked = () => {
+      //this.props.onDozent();
+    }
 
 render () {
   const { classes } = this.props;
@@ -30,7 +45,7 @@ render () {
                 </Button>
                 </div>
                 <div>
-                <Button
+                <Button 
                     size="large"
                     variant="contained"
                     color="primary"
@@ -42,7 +57,8 @@ render () {
                 </Button>
                 </div>
                 <div>
-                <Button
+                
+                <Button  onClick={this.handleAdminButtonClicked}
                      size="large"
                     variant="contained"
                     color="primary"
@@ -51,8 +67,8 @@ render () {
                             Admin
                 </Button>
                 </div>
-        </center>
-      </div>
+            </center>
+        </div>
     );
   }
 }
