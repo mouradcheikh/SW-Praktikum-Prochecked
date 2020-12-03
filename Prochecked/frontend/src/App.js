@@ -63,8 +63,10 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
                 });
-                //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
+                //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                this.getPersonByGoogleId(person.uid)
+                    
+
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -89,36 +91,65 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
-    
-    checkIfPersonInDatabase(name, email, googleId) {
-        console.log("checkifuserindatabase")
+
+    getPersonByGoogleId(googleId){
         var api = AppAPI.getAPI()
         console.log(api)
+        api.getPersonByGoogleId(googleId).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
+    
+    // checkIfPersonInDatabase(name, email, googleId) {
+    //     console.log("checkifuserindatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
 
-        var suggestion = new PersonBO(name, email, googleId)
-                    console.log(suggestion)
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
                     
-            api.getPersonByGoogleId(googleId).then((person) => {
-                console.log(person)
-                if (!person.getGoogleId()) {
-                    var suggestion = new PersonBO(name, email, googleId)
-                    console.log(suggestion)
-                    api.createPerson(suggestion).then((newPerson) => {
-                    this.setState({
-                        person: newPerson})
-                    }
-                    )
-                }
+    //         api.getPersonByGoogleId(googleId).then((person) => {
+    //             console.log(person)
+    //             if (!person.getGoogleId()) {
+    //                 var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
+    //                 api.createPerson(suggestion).then((newPerson) => {
+    //                 this.setState({
+    //                     person: newPerson})
+    //                 }
+    //                 )
+    //             }
             
 
-                else {
-                    this.setState({
-                        person: person
-                    })
-                }
-            }
-        )
-    }
+    //             else {
+    //                 this.setState({
+    //                     person: person
+    //                 })
+    //             }
+    //         }
+    //     )
+    // }
+
+    
+
+    // createPersonInDatabase(name, email, googleId) {
+    //     console.log("createPersonInDatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             api.createPerson(suggestion).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson})
+    //                 }  
+    //             )
+    // }
 
     // setRoleOfPerson(person, role){
     //     var api = AppAPI.getAPI()

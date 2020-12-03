@@ -11,10 +11,10 @@ export default class AppAPI {
   
   
     // Local Python backend
-    #AppServerBaseURL = '/prochecked';
+    #AppServerBaseURL = '/app';
   
     // Person related
-    #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
+    #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons`; ///${google_id} fehlt noch muss wieder eingetragen werden
     #createPersonURL = () => `${this.#AppServerBaseURL}/persons`;
     #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
 
@@ -47,8 +47,9 @@ export default class AppAPI {
 
 getPersonByGoogleId(googleId) {
         console.log(googleId)
-        return this.#fetchAdvanced(this.#getPersonURL(googleId)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getPersonURL()).then((responseJSON) => {
           console.log(responseJSON)
+          //googleId in person url wieder eintragen
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(responsePersonBO);
@@ -58,23 +59,23 @@ getPersonByGoogleId(googleId) {
         })
       }
 
-createPerson(personBO) {
-        return this.#fetchAdvanced(this.#createPersonURL(), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain',
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(personBO)
-          }).then((responseJSON) => {
-          // We always get an array of PersonBOs.fromJSON, but only need one object
-            let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
-          // console.info(accountBOs);
-            return new Promise(function (resolve) {
-            resolve(responsePersonBO);
-          })
-        })
-      }
+// createPerson(personBO) {
+//         return this.#fetchAdvanced(this.#createPersonURL(), {
+//           method: 'POST',
+//           headers: {
+//             'Accept': 'application/json, text/plain',
+//             'Content-type': 'application/json',
+//           },
+//           body: JSON.stringify(personBO)
+//           }).then((responseJSON) => {
+//           // We always get an array of PersonBOs.fromJSON, but only need one object
+//             let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+//           // console.info(accountBOs);
+//             return new Promise(function (resolve) {
+//             resolve(responsePersonBO);
+//           })
+//         })
+//       }
     
 
 updatePerson(personBO){
