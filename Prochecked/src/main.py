@@ -149,21 +149,6 @@ class PersonListOperations(Resource):
             return '', 500
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @prochecked.route('/persons/<google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
