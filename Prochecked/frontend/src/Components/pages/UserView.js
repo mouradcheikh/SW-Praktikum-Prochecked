@@ -43,10 +43,11 @@ render () {
                 </div>
                 <div>
                 <Button
-                     size="large"
+                    size="large"
                     variant="contained"
                     color="primary"
                     className={classes.button}
+                    onClick = {this.setRole(new RoleBO("Admin"))}
                  >
                             Admin
                 </Button>

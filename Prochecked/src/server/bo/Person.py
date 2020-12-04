@@ -16,7 +16,7 @@ class Person(NamedBusinessObjects):
         self._berechtigung = None
 
     
-    def set_berechtigung(self, rolle):
+    def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
         self._berechtigung = rolle
 
     def get_berechtigung(self):
