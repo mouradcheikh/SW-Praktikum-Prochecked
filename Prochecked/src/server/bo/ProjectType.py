@@ -5,7 +5,6 @@ from datetime import datetime
 class ProjectType(NamedBusinessObjects):
     def __init__(self, name="", sws = 0, ects = 0):
         super().__init__()
-        self.__name = name
         self.__number_SWS = sws
         self.__number_ECTS = ects
         self.__Charakterannehmer = []
