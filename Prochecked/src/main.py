@@ -82,20 +82,17 @@ student = api.inherit('Student',nbo, {
                             description='Matrikelnummer eines Studenten')
 })
 
-# module = api.inerhit('Module', nbo, {
-#     'edv_nr': fields.Integer(attribute='__edv_nr',
-#                             description='EDV-Nummer eines Moduls')
-# })
+module = api.inherit('Module', nbo, {
+    'edv_nr': fields.Integer(attribute='__edv_nr',
+                            description='EDV-Nummer eines Moduls')
+})
 
-# semester = api.inherit('Semster', nbo {                           //wird Semester in der Main benötigt??
-#     'teilleistung': fields.String(attribute='teilleistung',
-#                                 descripton='Teilleistung eines Semester')
-# })
+semester = api.inherit('Semster', nbo, {                           #wird Semester in der Main benötigt??
+    'teilleistung': fields.String(attribute='teilleistung',
+                                 descripton='Teilleistung eines Semester')
+})
 
-# project = api.inerhit('Project', nbo, {
-    # transdisziplinaer = ProjectType("Transdiziplinäres Projekt",10, 20)   //müssen die statischen Attribute hier hin?
-    # interdisziplinaer = ProjectType("Interdisziplinäres Projekt",5, 10)
-    # fachspezifisch = ProjectType("Fachspezifisches Projekt",3, 5)
+project = api.inherit('Project', nbo, {
     'capacity': fields.Integer(attribute='__capacity',
                               description='Kapazität eines Projekt'),
     'room': fields.String(attribute='__room',
@@ -103,8 +100,8 @@ student = api.inherit('Student',nbo, {
     'ext_partner_list': fields.Integer(attribute='__ext_partner_list',
                                      description='Welche externe Partner werden für das Projekt benötigt'),
     'short_description': fields.String(attribute='__short_description',
-                                    description='Kurzbeschreibung des Projekts')
-    'dozent': fields.List(attribute='__dozent',
+                                    description='Kurzbeschreibung des Projekts'),
+    'dozent': fields.String(attribute='__dozent',
                         description='Welche Dozenten betreuen ein Projekt'),
     'weekly_flag': fields.Boolean(attribute='__weekly_flag', #ist es mit einem Boolean möglich? oder wird Sgtring benötigt
                          description='Gibt es wöchentliche Plfichttermine? True/False'),
@@ -114,7 +111,7 @@ student = api.inherit('Student',nbo, {
                                     description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
     'preffered_bd': fields.String(attribute='__preffered_bd', #fields.datettime ???
                          description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'), 
-    'special_room': fields.string(attribute='__special_room',
+    'special_room': fields.String(attribute='__special_room',
                                      description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),     
 })
 
