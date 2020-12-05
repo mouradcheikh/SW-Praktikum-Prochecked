@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import PersonBO from './AppApi/PersonBO'
+import RoleBO from './AppApi/RoleBO'
 import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
@@ -65,7 +66,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
-                // this.getPersonByGoogleId(person.uid)
+                this.getPersonByGoogleId(person.uid)
                 
                
                     
@@ -108,16 +109,29 @@ class App extends React.Component {
             )
     }
 
-    // getPersonByGoogleId(google_id){
-    //     var api = AppAPI.getAPI()
-    //     console.log(api)
-    //     api.getPersonByGoogleId(google_id).then((person) =>
-    //         {console.log(person)
-    //         this.setState({
-    //             person: person
-    //         })}
-    //         )
-    // }
+    getPersonByGoogleId(google_id){
+        var api = AppAPI.getAPI()
+        console.log(api)
+        api.getPersonByGoogleId(google_id).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
+
+    setRole = (aRole) => {
+        const person = this.state.person
+        const {name, email, google_id, berechtigung} = person
+        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
+        updatedPerson.setBerechtigung(aRole)
+        var api = AppAPI.getAPI()
+        api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
+                        this.setState({
+                            person: newPerson
+                        })
+                    })
+                }
     
     // checkIfPersonInDatabase(name, email, googleId) {
     //     console.log("checkifuserindatabase")
@@ -207,7 +221,7 @@ class App extends React.Component {
 										<PersonList />
 									</Route> */}
 									<Route exact path='/userView'>
-										<UserView />
+										<UserView setRole={this.setRole}/>
 									</Route>
 								</>
 								:

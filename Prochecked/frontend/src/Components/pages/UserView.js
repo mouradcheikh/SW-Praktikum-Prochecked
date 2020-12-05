@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 // import { Link as RouterLink } from 'react-router-dom'
 // import './App.css';
 import React, { Component } from 'react';
+import RoleBO from '../../AppApi/RoleBO'
 
 class UserView extends Component {
 
@@ -10,6 +11,17 @@ class UserView extends Component {
       super(props);
     }
 
+    handleAdminButtonClicked = () => {
+      this.props.setRole("Admin");
+    }
+
+    handleStudentButtonClicked = () => {
+      this.props.setRole("Student");
+    }
+
+    handleDozentButtonClicked = () => {
+      this.props.setRole("Dozent");
+    }
 
 
 render () {
@@ -25,6 +37,7 @@ render () {
                     variant="contained"
                     color="primary"
                     className={classes.button}
+                    onClick = {this.handleStudentButtonClicked}
                 >
                             Student
                 </Button>
@@ -36,6 +49,7 @@ render () {
                     color="primary"
                     algin="center"
                     className={classes.button}
+                    onClick = {this.handleDozentButtonClicked}
                 
                 >
                             Dozent
@@ -47,7 +61,7 @@ render () {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick = {this.setRole(new RoleBO("Admin"))}
+                    onClick = {this.handleAdminButtonClicked}
                  >
                             Admin
                 </Button>
