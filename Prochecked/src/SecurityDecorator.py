@@ -40,7 +40,7 @@ def secured(function):
                 if claims is not None:
                     adm = ProjectAdministration()
 
-                    google_id = claims.get("google_id") #im Bankprojekt ist hier User-ID
+                    google_id = claims.get("user_id") #im Bankprojekt ist hier User-ID
                     email = claims.get("email")
                     name = claims.get("name")
                     berechtigung = None
@@ -54,7 +54,7 @@ def secured(function):
                         in unserem System geupdated."""
                         person.set_name(name)
                         person.set_email(email)
-                        person.save_person(person)
+                        adm.save_person(person)
                       
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 

@@ -24,7 +24,7 @@ from server.bo.Student import Student
 
 
 # Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt
-from server.SecurityDecorator import secured
+from SecurityDecorator import secured
 
 """Hier wird Flask instanziert"""
 app = Flask(__name__)
@@ -82,42 +82,59 @@ student = api.inherit('Student',nbo, {
                             description='Matrikelnummer eines Studenten')
 })
 
+module = api.inherit('Module', nbo, {
+    'edv_nr': fields.Integer(attribute='__edv_nr',
+                            description='EDV-Nummer eines Moduls')
+})
 
+semester = api.inherit('Semster', nbo, {                           #wird Semester in der Main benötigt??
+    'teilleistung': fields.String(attribute='teilleistung',
+                                 descripton='Teilleistung eines Semester')
+})
 
+project = api.inherit('Project', nbo, {
+    'capacity': fields.Integer(attribute='__capacity',
+                              description='Kapazität eines Projekt'),
+    'room': fields.String(attribute='__room',
+                         description='Raum wo das Projekt durchgeführt wird'),
+    'ext_partner_list': fields.Integer(attribute='__ext_partner_list',
+                                     description='Welche externe Partner werden für das Projekt benötigt'),
+    'short_description': fields.String(attribute='__short_description',
+                                    description='Kurzbeschreibung des Projekts'),
+    'dozent': fields.String(attribute='__dozent',
+                        description='Welche Dozenten betreuen ein Projekt'),
+    'weekly_flag': fields.Boolean(attribute='__weekly_flag', #ist es mit einem Boolean möglich? oder wird Sgtring benötigt
+                         description='Gibt es wöchentliche Plfichttermine? True/False'),
+    'number_bd_b_lecturetime': fields.Integer(attribute='__number_bd_b_lecturetime',
+                                     description='Wie viele Blocktage vor Vorlesungsbeginn'),
+    'number_bd_lecturetime': fields.Integer(attribute='__number_bd_lecturetime',
+                                    description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
+    'preffered_bd': fields.String(attribute='__preffered_bd', #fields.datettime ???
+                         description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'), 
+    'special_room': fields.String(attribute='__special_room',
+                                     description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),     
+})
 
 
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @prochecked.marshal_with(person) 
-    # @secured
+    #@secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
         # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        # adm = ProjectAdministration()
-        # persons = adm.get_all_persons()
-        # return persons
-        pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung("student")
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers
-
-
-
-
-
-
-
-
-
-
-
-
-
+        adm = ProjectAdministration()
+        persons = adm.get_all_persons()
+        return persons
+        # pers = Person()
+        # pers.set_name("kai")
+        # pers.set_email("K.k@gmx.de")
+        # pers.set_berechtigung("student")
+        # pers.set_google_id("iffni")
+        # pers.set_id(1)
+        # return pers
 
 
 
@@ -200,7 +217,7 @@ class PersonOperations(Resource):
 
 @prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('name', 'Der Nachname des Kunden')#ebenfalls lastname mit name ersetzt
+@prochecked.param('name', 'Der Nachname des Kunden')
 class PersonsByNameOperations(Resource):
     @prochecked.marshal_with(person)
     @secured
