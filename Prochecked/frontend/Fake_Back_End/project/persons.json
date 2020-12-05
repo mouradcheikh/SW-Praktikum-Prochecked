@@ -1,0 +1,16 @@
+[
+    {
+      "id": 100,
+      "name": "Person1",
+      "google_id": "sasadsd100",
+      "email": "perry.dettke@gmmail.com",
+      "berechtigung": "student"
+    },
+    {
+     "id": 200,
+     "name": "Person2",
+     "google_id": "asxASs200",
+     "email": "robin.r@gmmail.com",
+     "berechtigung": "dozent"
+        }
+      ]
