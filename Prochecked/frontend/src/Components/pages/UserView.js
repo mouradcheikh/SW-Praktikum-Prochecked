@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import AdminView from './AdminView';
-// import StudentView from './Components/pages/StudentView';
-// import DozentView from './Components/pages/DozentView';
-// import { Link } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
-
+// import { Link as RouterLink } from 'react-router-dom'
+// import './App.css';
+import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class UserView extends Component {
 
     constructor(props) {
       super(props);
     }
-    
-    handleAdminButtonClicked = () => {
-     // this.props.onAdmin();
-        
-    }
 
-    handleStudentButtonClicked = () => {
-      //this.props.onStudent();
-
-    }
-
-    handleDozentButtonClicked = () => {
-      //this.props.onDozent();
-    }
+    viewRole= function() {
+      console.log("clicked")
+    };
 
 render () {
   const { classes } = this.props;
@@ -34,41 +21,40 @@ render () {
 	return(
         <div>
           <center>
-                <h1>Ich bin ein ...</h1>
+                <h1>Bitte wählen Sie Ihre Rolle:</h1>
                 <div>
+                <Link to='/StudentView'>
                 <Button
                     size="large"
                     variant="contained"
                     color="primary"
-                    className={classes.button}
-                >
-                            Student
+                    className={classes.button} onClick = {e => this.viewRole()}>Student
                 </Button>
+                </Link>
                 </div>
                 <div>
-                <Button 
+                <Link to='/DozentView'>
+                <Button
                     size="large"
                     variant="contained"
                     color="primary"
                     algin="center"
-                    className={classes.button}
-                
-                >
-                            Dozent
+                    className={classes.button} onClick = {e => this.viewRole()}>Dozent
                 </Button>
+                </Link>
                 </div>
                 <div>
-                <Button  onClick={this.handleAdminButtonClicked}
-                    size="large"
+                <Link to='/AdminView'>
+                <Button
+                     size="large"
                     variant="contained"
                     color="primary"
-                    className={classes.button}
-                 >
-                            Admin
+                    className={classes.button} onClick = {e => this.viewRole()}>Admin
                 </Button>
+                </Link>
                 </div>
-            </center>
-        </div>
+        </center>
+      </div>
     );
   }
 }

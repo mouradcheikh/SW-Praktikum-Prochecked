@@ -132,8 +132,8 @@ class ProjectAdministration (object):
     def add_role_to_person(self, ):
         pass
 
-    def remove_role_from_person(self, ):
-        pass
+    # def remove_role_from_person(self, ):
+    #     pass
 
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""

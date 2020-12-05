@@ -24,12 +24,11 @@ class Project(NamedBusinessObjects, Automat):
         self.__short_description = None
         self.__weekly_flag = None
         self.__number_bd_per_week = None
-        self.__number_bd_b_lecturetime = None
+        self.__number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
         self.__number_bd_examtime = None
-        self.__number_bd_lecturetime = None
-        self.__preffered_bd = None
+        self.__number_bd_lecturetime = None #blocktage vorlesungszeit
+        self.__preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self.__special_room = None
-        self.__special_room_number = None
         self.__module = None
         self.__dozent = []
         self.__Beteiligung = []
