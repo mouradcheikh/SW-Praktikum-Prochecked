@@ -12,6 +12,7 @@ import UserView from './Components/pages/UserView';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
+import PersonList from './Components/PersonList';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -55,7 +56,7 @@ class App extends React.Component {
             
             //die Person ist eingeloggt
             person.getIdToken().then(token => {
-                document.cookie = `token=${token};path=/`;
+                document.cookie = `token=${token};path=/`; //pfad evtl. erweitern?
             
             //setzt den Nutzer auf Not bevor der Token angekommen ist 
                 this.setState({
@@ -64,7 +65,9 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
-                this.getPersonByGoogleId(person.uid)
+                // this.getPersonByGoogleId(person.uid)
+                
+               
                     
 
             }).catch(error =>{
@@ -92,16 +95,29 @@ class App extends React.Component {
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
 
-    getPersonByGoogleId(googleId){
+
+
+    getPersons(){
         var api = AppAPI.getAPI()
         console.log(api)
-        api.getPersonByGoogleId(googleId).then((person) =>
+        api.getPerson().then((person) =>
             {console.log(person)
             this.setState({
                 person: person
             })}
             )
     }
+
+    // getPersonByGoogleId(google_id){
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+    //     api.getPersonByGoogleId(google_id).then((person) =>
+    //         {console.log(person)
+    //         this.setState({
+    //             person: person
+    //         })}
+    //         )
+    // }
     
     // checkIfPersonInDatabase(name, email, googleId) {
     //     console.log("checkifuserindatabase")
@@ -187,6 +203,9 @@ class App extends React.Component {
 							person ?
 								<>
 									<Redirect from='/' to='userView' />
+                                    {/* <Route exact path='/persons'>
+										<PersonList />
+									</Route> */}
 									<Route exact path='/userView'>
 										<UserView />
 									</Route>

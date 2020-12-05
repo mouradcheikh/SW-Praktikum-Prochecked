@@ -24,7 +24,7 @@ from server.bo.Student import Student
 
 
 # Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt
-from server.SecurityDecorator import secured
+from SecurityDecorator import secured
 
 """Hier wird Flask instanziert"""
 app = Flask(__name__)
@@ -90,34 +90,21 @@ student = api.inherit('Student',nbo, {
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @prochecked.marshal_with(person) 
-    # @secured
+    #@secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
         # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        # adm = ProjectAdministration()
-        # persons = adm.get_all_persons()
-        # return persons
-        pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung("student")
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers
-
-
-
-
-
-
-
-
-
-
-
-
-
+        adm = ProjectAdministration()
+        persons = adm.get_all_persons()
+        return persons
+        # pers = Person()
+        # pers.set_name("kai")
+        # pers.set_email("K.k@gmx.de")
+        # pers.set_berechtigung("student")
+        # pers.set_google_id("iffni")
+        # pers.set_id(1)
+        # return pers
 
 
 
@@ -200,7 +187,7 @@ class PersonOperations(Resource):
 
 @prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('name', 'Der Nachname des Kunden')#ebenfalls lastname mit name ersetzt
+@prochecked.param('name', 'Der Nachname des Kunden')
 class PersonsByNameOperations(Resource):
     @prochecked.marshal_with(person)
     @secured
