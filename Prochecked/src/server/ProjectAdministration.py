@@ -77,13 +77,14 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_person(self, name, google_id, email, berechtigung):
+    def create_person(self, name, google_id, email, berechtigung,roleID):
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
         person.set_berechtigung(berechtigung)
         person.set_id(1)
+        person.set_roleID(role.get_roleID())
 
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
