@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from server.bo.Person import Person
+
 from server.db.Mapper import Mapper
+from server.bo.Person import Person
+
 
 
 class PersonMapper(Mapper):
@@ -94,3 +96,14 @@ class PersonMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+
+if (__name__ == "__main__"):
+    person = Person()
+    person.set_email("j@gmx.de")
+    person.set_google_id("kfwowaf")
+    person.set_id(1)
+    person.set_name("j")
+    with PersonMapper() as mapper:
+        result = mapper.insert(person)
+        

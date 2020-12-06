@@ -20,7 +20,7 @@ export default class AppAPI {
     // Person related
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-    #getPersonURL = (id) => `${this.#AppServerBaseURL}/persons`; //${/id} id muss reingemacht werden, nur zu testzwecken!!!!!!!!!!!!!
+    #getPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchCustomerURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
@@ -85,9 +85,8 @@ export default class AppAPI {
 getPersonByGoogleId(google_id) {
         console.log(google_id)
         
-        return this.#fetchAdvanced(this.#getPersonURL()).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
           console.log(responseJSON)
-          //googleId in person url wieder eintragen!!!!!!!!!!!
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(responsePersonBO);
