@@ -14,14 +14,17 @@ class UserView extends Component {
 
     handleAdminButtonClicked = () => {
       this.props.setRole("Admin");
+      this.viewRole()
     }
 
     handleStudentButtonClicked = () => {
       this.props.setRole("Student");
+      this.viewRole()
     }
 
     handleDozentButtonClicked = () => {
       this.props.setRole("Dozent");
+      this.viewRole()
     }
 
     viewRole= function() {
@@ -43,7 +46,6 @@ render () {
                     color="primary"
                     className={classes.button}
                     onClick = {this.handleStudentButtonClicked}
-                    onClick = {e => this.viewRole()}
                 >
                             Student
                     
@@ -59,7 +61,7 @@ render () {
                     algin="center"
                     className={classes.button}
                     onClick = {this.handleDozentButtonClicked}
-                    onClick = {e => this.viewRole()}
+                    
                 >
                             Dozent
                     
@@ -74,7 +76,7 @@ render () {
                     color="primary"
                     className={classes.button}
                     onClick = {this.handleAdminButtonClicked}
-                    onClick = {e => this.viewRole()}
+                    
                  >
                             Admin
                   
