@@ -216,11 +216,11 @@ class App extends React.Component {
 							// Ist eine Person eingeloggt?
 							person ?
 								<>
-									<Redirect from='/' to='userView' />
+									<Redirect from='/' to='UserView' />
                                     {/* <Route exact path='/persons'>
 										<PersonList />
 									</Route> */}
-									<Route exact path='/userView'>
+									<Route exact path='/UserView'>
 										<UserView setRole={this.setRole}/>
 									</Route>
 								</>
