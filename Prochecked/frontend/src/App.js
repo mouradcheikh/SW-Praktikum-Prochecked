@@ -10,6 +10,7 @@ import RoleBO from './AppApi/RoleBO'
 import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
+import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
@@ -211,7 +212,7 @@ class App extends React.Component {
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						{/* <Header person={person} /> */}
+						<Header/>
 						{
 							// Ist eine Person eingeloggt?
 							person ?
