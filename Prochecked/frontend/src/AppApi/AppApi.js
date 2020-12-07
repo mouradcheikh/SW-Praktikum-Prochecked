@@ -12,6 +12,7 @@ export default class AppAPI {
   
     // Local Python backend
     #AppServerBaseURL ='/app';
+    
 
 
   // Local http-fake-backend 
@@ -20,10 +21,11 @@ export default class AppAPI {
     // Person related
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-    #getPersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
+    #getPersonURL = (uid) => `${this.#AppServerBaseURL}/persons/${uid}`;
     #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
-    #searchCustomerURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
+    #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
+
 
       /** 
    * Get the Singelton instance 
@@ -52,10 +54,12 @@ export default class AppAPI {
     }
     )
 
-    getPersons() {
+
+
+getPersons() {
       return this.#fetchAdvanced(this.#getPersonURL()).then((responseJSON) => {
         let PersonBOs = PersonBO.fromJSON(responseJSON);
-        // console.info(customerBOs);
+        // console.info(personBOs);
         console.info(PersonBOs)
         console.log("AppApi_getPersons")
         return new Promise(function (resolve) {
@@ -66,12 +70,13 @@ export default class AppAPI {
     }
   
     /**
-     * Returns a Promise, which resolves to a CustomerBO
+     * Returns a Promise, which resolves to a PersonBO
      * 
-     * @param {Number} customerID to be retrieved
+     * @param {Number} personID to be retrieved
      * @public
      */
-    getPerson(id) {
+  
+getPerson(id) {
       return this.#fetchAdvanced(this.#getPersonURL(id)).then((responseJSON) => {
         // We always get an array of PersonBOs.fromJSON, but only need one object
         let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -84,7 +89,6 @@ export default class AppAPI {
 
 getPersonByGoogleId(google_id) {
         console.log(google_id)
-        
         return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
           console.log(responseJSON)
           // We always get an array of PersonBOs.fromJSON, but only need one object
@@ -96,27 +100,39 @@ getPersonByGoogleId(google_id) {
         })
       }
 
-// createPerson(personBO) {
-//         return this.#fetchAdvanced(this.#createPersonURL(), {
-//           method: 'POST',
-//           headers: {
-//             'Accept': 'application/json, text/plain',
-//             'Content-type': 'application/json',
-//           },
-//           body: JSON.stringify(personBO)
-//           }).then((responseJSON) => {
-//           // We always get an array of PersonBOs.fromJSON, but only need one object
-//             let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
-//           // console.info(accountBOs);
-//             return new Promise(function (resolve) {
-//             resolve(responsePersonBO);
-//           })
-//         })
-//       }
+      
+
+createPerson(name, email, google_id) {
+
+        debugger;
+        
+        let p = new PersonBO();
+        p.setName(name)
+        p.setEmail(email)
+        p.setGoogleId(google_id)
+        console.log(p)
+        
+
+        return this.#fetchAdvanced(this.#addPersonURL(), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(p)
+          }).then((responseJSON) => {
+          // We always get an array of PersonBOs.fromJSON, but only need one object
+            let responsePersonBO = p.fromJSON(responseJSON)[0];
+          // console.info(accountBOs);
+            return new Promise(function (resolve) {
+            resolve(responsePersonBO);
+          })
+        })
+      }
     
 
 updatePerson(personBO){
-  personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   console.log(personBO)
   return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
     method: 'PUT',

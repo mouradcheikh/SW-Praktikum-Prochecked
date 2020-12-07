@@ -55,6 +55,8 @@ def secured(function):
                         person.set_name(name)
                         person.set_email(email)
                         adm.save_person(person)
+
+                        # person.get_role() --> Rolle aus Datenbank holen und wieder ins Frontend senden
                       
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
