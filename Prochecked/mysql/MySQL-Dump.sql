@@ -106,7 +106,7 @@ CREATE TABLE `person` (
   `name` varchar(128) DEFAULT NULL,
   `google_id` varchar(128) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
-  `roleID` int NOT NULL,
+  `roleID` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
