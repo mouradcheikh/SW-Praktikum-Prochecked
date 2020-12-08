@@ -117,15 +117,15 @@ class PersonMapper(Mapper):
 
 
 if (__name__ == "__main__"):
-    '''person = Person()
+    person = Person()
     person.set_email("j@gmx.de")
     person.set_google_id("kfwowaf")
     person.set_id(1)
     person.set_name("j")
 
     with PersonMapper() as mapper:
-        result = mapper.insert(person)'''
+        result = mapper.insert(person)
 
-    with PersonMapper() as mapper:
+    '''with PersonMapper() as mapper:
         result = mapper.find_by_google_id("kfwowaf")
-        print(result)
+        print(result)'''
