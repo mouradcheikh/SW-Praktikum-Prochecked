@@ -6,6 +6,7 @@ from datetime import datetime
 
 class NamedBusinessObjects(bo.BusinessObjects):
     def __init__(self):
+        super().__init__()
         self._name = ""
 
     def get_name(self):

@@ -16,7 +16,7 @@ class Person(NamedBusinessObjects):
         self._berechtigung = None
 
     
-    def set_berechtigung(self, rolle):
+    def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
         self._berechtigung = rolle
 
     def get_berechtigung(self):
@@ -38,7 +38,7 @@ class Person(NamedBusinessObjects):
 
 
     def __str__(self):
-        return "Person: {}, {}".format(self.get_id(),self.get_berechtigung())
+        return "Person: {}, {}".format(self.get_id(),self.get_name())
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""

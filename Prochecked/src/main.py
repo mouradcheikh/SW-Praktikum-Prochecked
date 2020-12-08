@@ -120,27 +120,27 @@ project = api.inherit('Project', nbo, {
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @prochecked.marshal_with(person) 
-    #@secured
+    @secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
-        # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = ProjectAdministration()
         persons = adm.get_all_persons()
         return persons
-        # pers = Person()
-        # pers.set_name("kai")
-        # pers.set_email("K.k@gmx.de")
-        # pers.set_berechtigung("student")
-        # pers.set_google_id("iffni")
-        # pers.set_id(1)
-        # return pers
+        '''pers = Person()
+        pers.set_name("kai")
+        pers.set_email("K.k@gmx.de")
+        pers.set_berechtigung(Person.student)
+        pers.set_google_id("iffni")
+        pers.set_id(1)
+        return pers'''
 
 
 
     @prochecked.marshal_with(person, code=200)
     @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
 
@@ -153,6 +153,7 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Person.from_dict(api.payload)
+        print (proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -166,12 +167,12 @@ class PersonListOperations(Resource):
             return '', 500
 
 
-@prochecked.route('/persons/<google_id>')
+@prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
-    @secured
+    #@secured
     def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 
@@ -194,26 +195,33 @@ class PersonOperations(Resource):
 
     @prochecked.marshal_with(person)
     @prochecked.expect(person, validate=True)
-    @secured
-    def put(self, id):
+    # @secured
+    def put(self, google_id):
         """Update eines bestimmten Customer-Objekts.
 
         **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
         verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
         Customer-Objekts.
         """
-        adm = ProjectAdministration()
-        p = Person.from_dict(api.payload)
+        # adm = ProjectAdministration()
+        # p = Person.from_dict(api.payload)
 
-        if p is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            p.set_id(id)
-            adm.save_person(p)
-            return '', 200
-        else:
-            return '', 500
+        # if p is not None:
+        #     """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
+        #     Siehe Hinweise oben.
+        #     """
+        #     p.set_id(id)
+        #     adm.save_person(p)
+        #     return '', 200
+        # else:
+        #     return '', 500
+        pers = Person()
+        pers.set_name("kai")
+        pers.set_email("K.k@gmx.de")
+        pers.set_berechtigung(Person.student)
+        pers.set_google_id("iffni")
+        pers.set_id(1)
+        return pers
 
 @prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

@@ -1,9 +1,11 @@
-
-class Role:
+from server.bo import BusinessObjects as bo
+class Role(bo.BusinessObjects):
     
 
     def __init__(self, name = ""):
+        super().__init__()
         self.__name = name
+
 
     def set_name(self, name):
         self.__name = name

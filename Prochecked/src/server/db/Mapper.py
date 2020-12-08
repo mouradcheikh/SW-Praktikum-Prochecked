@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 
 
-class Mapper(AbstractContextManager, ABC):
+class Mapper():#AbstractContextManager, ABC
     def __init__(self):
         self._cnx = None
 
@@ -48,7 +48,7 @@ class Mapper(AbstractContextManager, ABC):
     def find_by_name(self, ):
             pass
 
-    @abstractmethod
+    #@abstractmethod
     def insert(self,object ):
             pass
 
@@ -59,5 +59,5 @@ class Mapper(AbstractContextManager, ABC):
     @abstractmethod
     def delete(self,object ):
             pass
-        
+
 

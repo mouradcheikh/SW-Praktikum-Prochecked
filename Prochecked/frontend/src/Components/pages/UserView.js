@@ -3,12 +3,28 @@ import { withStyles } from '@material-ui/core/styles';
 // import { Link as RouterLink } from 'react-router-dom'
 // import './App.css';
 import React, { Component } from 'react';
+import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
 
 class UserView extends Component {
 
     constructor(props) {
       super(props);
+    }
+
+    handleAdminButtonClicked = () => {
+      this.props.setRole("Admin");
+      this.viewRole()
+    }
+
+    handleStudentButtonClicked = () => {
+      this.props.setRole("Student");
+      this.viewRole()
+    }
+
+    handleDozentButtonClicked = () => {
+      this.props.setRole("Dozent");
+      this.viewRole()
     }
 
     viewRole= function() {
@@ -28,7 +44,11 @@ render () {
                     size="large"
                     variant="contained"
                     color="primary"
-                    className={classes.button} onClick = {e => this.viewRole()}>Student
+                    className={classes.button}
+                    onClick = {this.handleStudentButtonClicked}
+                >
+                            Student
+                    
                 </Button>
                 </Link>
                 </div>
@@ -39,17 +59,27 @@ render () {
                     variant="contained"
                     color="primary"
                     algin="center"
-                    className={classes.button} onClick = {e => this.viewRole()}>Dozent
+                    className={classes.button}
+                    onClick = {this.handleDozentButtonClicked}
+                    
+                >
+                            Dozent
+                    
                 </Button>
                 </Link>
                 </div>
                 <div>
                 <Link to='/AdminView'>
                 <Button
-                     size="large"
+                    size="large"
                     variant="contained"
                     color="primary"
-                    className={classes.button} onClick = {e => this.viewRole()}>Admin
+                    className={classes.button}
+                    onClick = {this.handleAdminButtonClicked}
+                    
+                 >
+                            Admin
+                  
                 </Button>
                 </Link>
                 </div>

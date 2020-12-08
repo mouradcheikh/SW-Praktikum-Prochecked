@@ -6,9 +6,11 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import PersonBO from './AppApi/PersonBO'
+import RoleBO from './AppApi/RoleBO'
 import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
+import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
@@ -65,10 +67,11 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
-                // this.getPersonByGoogleId(person.uid)
+                this.getPersonByGoogleId(person.uid)
+              
+                //this.createPerson(person.displayName, person.email, person.uid)
                 
-               
-                    
+
 
             }).catch(error =>{
                 this.setState({
@@ -108,16 +111,41 @@ class App extends React.Component {
             )
     }
 
-    // getPersonByGoogleId(google_id){
-    //     var api = AppAPI.getAPI()
-    //     console.log(api)
-    //     api.getPersonByGoogleId(google_id).then((person) =>
-    //         {console.log(person)
-    //         this.setState({
-    //             person: person
-    //         })}
-    //         )
-    // }
+    createPerson(name, email, google_id){
+        var api = AppAPI.getAPI()
+        // console.log(api)
+        api.createPerson(name, email, google_id).then((person) =>
+            {console.log(person)
+            console.log("test")
+            this.setState({
+                person: person
+            })}
+            )
+        }
+
+    getPersonByGoogleId(google_id){
+        var api = AppAPI.getAPI()
+        console.log(api)
+        api.getPersonByGoogleId(google_id).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
+
+    setRole = (aRole) => {
+        const person = this.state.person
+        const {name, email, google_id, berechtigung} = person
+        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
+        updatedPerson.setBerechtigung(aRole)
+        var api = AppAPI.getAPI()
+        api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
+                        this.setState({
+                            person: newPerson
+                        })
+                    })
+                }
     
     // checkIfPersonInDatabase(name, email, googleId) {
     //     console.log("checkifuserindatabase")
@@ -197,17 +225,17 @@ class App extends React.Component {
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						{/* <Header person={person} /> */}
+						<Header/>
 						{
 							// Ist eine Person eingeloggt?
 							person ?
 								<>
-									<Redirect from='/' to='userView' />
+									<Redirect from='/' to='UserView' />
                                     {/* <Route exact path='/persons'>
 										<PersonList />
 									</Route> */}
-									<Route exact path='/userView'>
-										<UserView />
+									<Route exact path='/UserView'>
+										<UserView setRole={this.setRole}/>
 									</Route>
 								</>
 								:
