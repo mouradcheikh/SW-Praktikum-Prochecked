@@ -21,11 +21,7 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-<<<<<<< HEAD
-        command = "SELECT id,creation_date,name,google_id,email FROM person WHERE google_id='{}'".format(
-=======
         command = "SELECT id, creation_date, name, google_id,email, roleID FROM person WHERE google_id='{}'".format(
->>>>>>> main
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
