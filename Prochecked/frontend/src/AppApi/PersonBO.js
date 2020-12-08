@@ -1,4 +1,5 @@
 import BusinessObject from './BusinessObject';
+import RoleBO from './RoleBO'
 
 /**
  * Represents a person of the system

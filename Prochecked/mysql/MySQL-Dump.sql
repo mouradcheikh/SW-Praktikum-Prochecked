@@ -77,17 +77,10 @@ DROP TABLE IF EXISTS `participation`;
 CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `GradingID` int NOT NULL DEFAULT '0',
-  `ModuleID` int NOT NULL DEFAULT '0',
-  `ProjectID` int NOT NULL DEFAULT '0',
-  `StudentID` int NOT NULL DEFAULT '0',
-  KEY `GradingID_idx` (`GradingID`),
-  KEY `ModuleID_idx` (`ModuleID`),
-  KEY `StudentID_idx` (`StudentID`),
-  CONSTRAINT `GradingID` FOREIGN KEY (`GradingID`) REFERENCES `grading` (`id`),
-  CONSTRAINT `ModuleID` FOREIGN KEY (`ModuleID`) REFERENCES `module` (`id`),
-  CONSTRAINT `ProjectID` FOREIGN KEY (`ModuleID`) REFERENCES `project` (`id`),
-  CONSTRAINT `StudentID` FOREIGN KEY (`StudentID`) REFERENCES `student` (`id`)
+  `gradingID` int NOT NULL DEFAULT '0',
+  `moduleID` int NOT NULL DEFAULT '0',
+  `projectID` int NOT NULL DEFAULT '0',
+  `studentID` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,12 +104,10 @@ CREATE TABLE `person` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `berechtigung_id` int DEFAULT '0',
-  `google_id` varchar(128) DEFAULT '0',
+  `google_id` varchar(128) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Berechtigung_idx` (`berechtigung_id`),
-  CONSTRAINT `Berechtigung` FOREIGN KEY (`berechtigung_id`) REFERENCES `role` (`id`)
+  `roleID` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -149,19 +140,11 @@ CREATE TABLE `project` (
   `number_bd_lecturetime` int DEFAULT NULL,
   `preffered_bd` int DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
-  `Person_id` int NOT NULL DEFAULT '0',
-  `ProjectStateID` int NOT NULL DEFAULT '0',
-  `ProjectTypeID` int NOT NULL DEFAULT '0',
-  `SemesterID` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `PersonID_idx` (`Person_id`),
-  KEY `ProjectTypeID_idx` (`ProjectTypeID`),
-  KEY `ProjectState_idx` (`ProjectStateID`),
-  KEY `SemesterID_idx` (`SemesterID`),
-  CONSTRAINT `PersonID` FOREIGN KEY (`Person_id`) REFERENCES `person` (`id`),
-  CONSTRAINT `ProjectStateID` FOREIGN KEY (`ProjectStateID`) REFERENCES `projectstate` (`id`),
-  CONSTRAINT `ProjectTypeID` FOREIGN KEY (`ProjectTypeID`) REFERENCES `projecttype` (`id`),
-  CONSTRAINT `SemesterID` FOREIGN KEY (`SemesterID`) REFERENCES `semester` (`id`)
+  `person_ID` int NOT NULL DEFAULT '0',
+  `projectStateID` int NOT NULL DEFAULT '0',
+  `projectTypeID` int NOT NULL DEFAULT '0',
+  `semesterID` int NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -307,4 +290,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-30 18:13:40
+-- Dump completed on 2020-12-06 14:56:47

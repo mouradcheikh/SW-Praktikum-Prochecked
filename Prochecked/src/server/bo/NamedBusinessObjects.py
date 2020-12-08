@@ -6,14 +6,15 @@ from datetime import datetime
 
 class NamedBusinessObjects(bo.BusinessObjects):
     def __init__(self):
-        self.__name = ""
+        super().__init__()
+        self._name = ""
 
     def get_name(self):
-        return self.__name
+        return self._name
 
     def set_name(self, name):
-        self.__name = name
+        self._name = name
     
     def __str__(self):
-        return self.__name
+        return self._name
 

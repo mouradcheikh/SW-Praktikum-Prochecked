@@ -13,33 +13,20 @@ class Person(NamedBusinessObjects):
         super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
         self._email = ""
         self._google_id = ""
-        self.__berechtigung = None
-        self.__vorname = ""
+        self._berechtigung = None
 
     
-    def set_berechtigung(self, rolle):
-        self.__berechtigung = rolle
+    def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
+        self._berechtigung = rolle
 
     def get_berechtigung(self):
-        return self.__berechtigung
-
-
-    def set_vorname(self,vorname):
-        self.__vorname = vorname
-
-    def get_vorname(self):
-        return self.__vorname
-    
-    def get_vollständigerName(self):
-        return self.__vorname + " " + self.get_name()
-
+        return self._berechtigung
 
     def set_google_id(self, google_id):
-        self.__google_id = google_id
+        self._google_id = google_id
 
     def get_google_id (self):
-        return self.__google_id
-
+        return self._google_id
     
     def set_email(self, email):
         """Setzen der Email"""
@@ -51,7 +38,7 @@ class Person(NamedBusinessObjects):
 
 
     def __str__(self):
-        return "Person: {}, {}, {}".format(self.get_id(),self.get_berechtigung(), self.get_vollständigerName())
+        return "Person: {}, {}".format(self.get_id(),self.get_name())
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""
@@ -63,7 +50,6 @@ class Person(NamedBusinessObjects):
             "creationDate": self.get_creation_date(),
             "lastUpdated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
-            "vorname": self.get_vorname(),
         }
         return result
 
@@ -73,7 +59,6 @@ class Person(NamedBusinessObjects):
         obj = Person()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        obj.set_vorname(dictionary["vorname"]) 
         obj.set_berechtigung(dictionary["berechtigung"])
         obj.set_email(dictionary["email"])
         obj.set_google_id(dictionary["googleId"])
@@ -86,12 +71,11 @@ class Person(NamedBusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
-        for (user_id, name,vorname, berechtigung, creation_date, email, google_id,
+        for (user_id, name, berechtigung, creation_date, email, google_id,
              last_updated) in tuples:
             person = Person()
             person.set_id(user_id)
             person.set_name(name)
-            person.set_vorname(vorname)
             person.set_berechtigung(berechtigung)
             person.set_email(email)
             person.set_google_id(google_id)
@@ -107,7 +91,6 @@ if __name__ == "__main__":
     Mensch1 = Person()
     Mensch1.set_berechtigung(Person.student)
     Mensch1.set_name("Lauch")
-    Mensch1.set_vorname("Günther")
     Mensch1.set_id(5)
     print(Mensch1)
     

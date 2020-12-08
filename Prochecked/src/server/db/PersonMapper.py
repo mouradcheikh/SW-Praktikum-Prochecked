@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from server.bo.Person import Person
+
 from server.db.Mapper import Mapper
+from server.bo.Person import Person
+
 
 
 class PersonMapper(Mapper):
     def __init__(self):
-        pass
+        super().__init__()
 
     def find_by_google_id(self, google_id):
         """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
@@ -19,19 +21,34 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
+<<<<<<< HEAD
         command = "SELECT id,creation_date,name,google_id,email FROM person WHERE google_id='{}'".format(
+=======
+        command = "SELECT id, creation_date, name, google_id,email, roleID FROM person WHERE google_id='{}'".format(
+>>>>>>> main
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
+<<<<<<< HEAD
             (id,creation_date,name,google_id,email, ) = tuples[0]
+=======
+            (id, creation_date, name,  google_id, email, roleID) = tuples[0]
+>>>>>>> main
             u = Person()
             u.set_id(id)
             u.set_creation_date(creation_date)
             u.set_name(name)
             u.set_google_id(google_id)
+<<<<<<< HEAD
             u.set_email(email)
+=======
+            u.set_creation_date(creation_date)
+            u.set_email(email)
+
+            u.set_berechtigung(roleID)
+>>>>>>> main
             
             result = u
         except IndexError:
@@ -67,9 +84,15 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
+<<<<<<< HEAD
         command = "INSERT INTO person (id,creation_date,berechtiung_id,google_id,email) VALUES (%s,%s,%s,%s,%s)"
         data = (person.get_id(),person.get_berechtigung(), person.get_name(),
                 person.get_email(), person.get_google_id())
+=======
+        command = "INSERT INTO person (id, name ,creation_date ,google_id,email) VALUES (%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_name(), person.get_creation_date(),
+                person.get_google_id(), person.get_email())
+>>>>>>> main
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -95,3 +118,18 @@ class PersonMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+
+if (__name__ == "__main__"):
+    '''person = Person()
+    person.set_email("j@gmx.de")
+    person.set_google_id("kfwowaf")
+    person.set_id(1)
+    person.set_name("j")
+
+    with PersonMapper() as mapper:
+        result = mapper.insert(person)'''
+
+    with PersonMapper() as mapper:
+        result = mapper.find_by_google_id("kfwowaf")
+        print(result)

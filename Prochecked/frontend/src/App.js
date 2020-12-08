@@ -6,12 +6,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import PersonBO from './AppApi/PersonBO'
+import RoleBO from './AppApi/RoleBO'
 import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
+import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
+import PersonList from './Components/PersonList';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -48,13 +51,14 @@ class App extends React.Component {
     
     handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
 		if (person) {
+            console.log("handleauthstate")
 			this.setState({
 				authLoading: true
             });
             
             //die Person ist eingeloggt
             person.getIdToken().then(token => {
-                document.cookie = `token=${token};path=/`;
+                document.cookie = `token=${token};path=/`; //pfad evtl. erweitern?
             
             //setzt den Nutzer auf Not bevor der Token angekommen ist 
                 this.setState({
@@ -62,8 +66,18 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
                 });
+<<<<<<< HEAD
                 //schauen ob die Person bereits in der Datenbank ist
                 this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
+=======
+                //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                this.getPersonByGoogleId(person.uid)
+              
+                //this.createPerson(person.displayName, person.email, person.uid)
+                
+
+
+>>>>>>> main
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -88,9 +102,12 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
-    
-    checkIfPersonInDatabase(name, email, googleId) {
+
+
+
+    getPersons(){
         var api = AppAPI.getAPI()
+<<<<<<< HEAD
             api.getPersonByGoogleId(googleId).then((person) => {
                 if (!person.getGoogleId()) {
                     //console.log("Creating new person for '" + name + "'")
@@ -102,15 +119,100 @@ class App extends React.Component {
                     )
                 }
             
+=======
+        console.log(api)
+        api.getPerson().then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
 
-                else {
-                    this.setState({
-                        person: person
+    createPerson(name, email, google_id){
+        var api = AppAPI.getAPI()
+        // console.log(api)
+        api.createPerson(name, email, google_id).then((person) =>
+            {console.log(person)
+            console.log("test")
+            this.setState({
+                person: person
+            })}
+            )
+        }
+
+    getPersonByGoogleId(google_id){
+        var api = AppAPI.getAPI()
+        console.log(api)
+        api.getPersonByGoogleId(google_id).then((person) =>
+            {console.log(person)
+            this.setState({
+                person: person
+            })}
+            )
+    }
+>>>>>>> main
+
+    setRole = (aRole) => {
+        const person = this.state.person
+        const {name, email, google_id, berechtigung} = person
+        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
+        updatedPerson.setBerechtigung(aRole)
+        var api = AppAPI.getAPI()
+        api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
+                        this.setState({
+                            person: newPerson
+                        })
                     })
                 }
-            }
-        )
-    }
+    
+    // checkIfPersonInDatabase(name, email, googleId) {
+    //     console.log("checkifuserindatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
+                    
+    //         api.getPersonByGoogleId(googleId).then((person) => {
+    //             console.log(person)
+    //             if (!person.getGoogleId()) {
+    //                 var suggestion = new PersonBO(name, email, googleId)
+    //                 console.log(suggestion)
+    //                 api.createPerson(suggestion).then((newPerson) => {
+    //                 this.setState({
+    //                     person: newPerson})
+    //                 }
+    //                 )
+    //             }
+            
+
+    //             else {
+    //                 this.setState({
+    //                     person: person
+    //                 })
+    //             }
+    //         }
+    //     )
+    // }
+
+    
+
+    // createPersonInDatabase(name, email, googleId) {
+    //     console.log("createPersonInDatabase")
+    //     var api = AppAPI.getAPI()
+    //     console.log(api)
+
+    //     var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             var suggestion = new PersonBO(name, email, googleId)
+    //             console.log(suggestion)
+    //             api.createPerson(suggestion).then((newPerson) => {
+    //             this.setState({
+    //                 person: newPerson})
+    //                 }  
+    //             )
+    // }
 
     // setRoleOfPerson(person, role){
     //     var api = AppAPI.getAPI()
@@ -129,6 +231,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+        console.log("App gerendert")
         };
     
 
@@ -141,14 +244,17 @@ class App extends React.Component {
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						{/* <Header person={person} /> */}
+						<Header/>
 						{
 							// Ist eine Person eingeloggt?
 							person ?
 								<>
-									<Redirect from='/' to='userView' />
-									<Route exact path='/userView'>
-										<UserView />
+									<Redirect from='/' to='UserView' />
+                                    {/* <Route exact path='/persons'>
+										<PersonList />
+									</Route> */}
+									<Route exact path='/UserView'>
+										<UserView setRole={this.setRole}/>
 									</Route>
 								</>
 								:

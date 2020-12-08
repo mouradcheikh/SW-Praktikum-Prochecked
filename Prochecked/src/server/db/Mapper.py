@@ -1,14 +1,13 @@
 import mysql.connector as connector
 import os
-import os.path
 from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 
 
 
-class Mapper(AbstractContextManager, ABC):
+class Mapper():#AbstractContextManager, ABC
     def __init__(self):
-        self.connection = None
+        self._cnx = None
 
     def __enter__(self, ):
         
@@ -49,7 +48,7 @@ class Mapper(AbstractContextManager, ABC):
     def find_by_name(self, ):
             pass
 
-    @abstractmethod
+    #@abstractmethod
     def insert(self,object ):
             pass
 
@@ -60,5 +59,5 @@ class Mapper(AbstractContextManager, ABC):
     @abstractmethod
     def delete(self,object ):
             pass
-        
+
 

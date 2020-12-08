@@ -24,13 +24,13 @@ from server.bo.Student import Student
 
 
 # Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt
-from server.SecurityDecorator import secured
+from SecurityDecorator import secured
 
 """Hier wird Flask instanziert"""
 app = Flask(__name__)
 
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
-CORS(app, resources=r'/bank/*')
+CORS(app, resources=r'/app/*')
 
 
 api = Api(app, version='1.0', title='Prochecked api',
@@ -50,7 +50,7 @@ bo = api.model('BusinessObjects', {
                                     description='Erstellungsdatum des BOs, wird '
                                                 'durch Unix Time Stamp ermittlet',
                                     dt_format='iso8601'),
-     'lastUpdated': fields.DateTime(attribute='_last_updated',
+    'lastUpdated': fields.DateTime(attribute='_last_updated',
                                    description='Änderungsdatum des BOs, wird durch'
                                                'Unix Time Stamp ermittlet',
                                    dt_format="iso8601")
@@ -58,50 +58,89 @@ bo = api.model('BusinessObjects', {
 
 """NamedBusinessObject, Person, Student, Module, Semester, Project & ProjectType sind BusinessObjects"""
 
-nbo = api.inherit('NamedBusinessObjects', bo,{    
-    'name': fields.String(attribute='__name',
+nbo = api.inherit('NamedBusinessObjects', bo, {    
+    'name': fields.String(attribute='_name',
                         description='Nachname bei Personen oder Student'# Name ist manchmal Nachname und manchmal die Bezeichnung
                                     'Name bzw. Bezeichnung von Projekt, Semester, Module, ProjectType,')
 })
 
-person = api.inherit('Person', nbo,{
+person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
     'google_id': fields.String(atttribute='_google_id',
                             description='Google User ID einer Person'),
-    'berechtigung': fields.String(attribute='__berechtigung',
+    'berechtigung': fields.String(attribute='_berechtigung',
                                 description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
     #'vorname': fields.String(atrribute='__vorname',
                             #description='Vorname einer Person')
 })
 
-student = api.inherit('Student',nbo,{
-    'studiengang': fields.String(attribute='__studiengang',
+student = api.inherit('Student',nbo, {
+    'studiengang': fields.String(attribute='_studiengang',
                                 description='Studiengang eines Studenten'),
-    'matr_nr': fields.Integer(attribute='__matr_nr',
+    'matr_nr': fields.Integer(attribute='_matr_nr',
                             description='Matrikelnummer eines Studenten')
 })
 
+module = api.inherit('Module', nbo, {
+    'edv_nr': fields.Integer(attribute='__edv_nr',
+                            description='EDV-Nummer eines Moduls')
+})
 
+semester = api.inherit('Semster', nbo, {                           #wird Semester in der Main benötigt??
+    'teilleistung': fields.String(attribute='teilleistung',
+                                 descripton='Teilleistung eines Semester')
+})
 
+project = api.inherit('Project', nbo, {
+    'capacity': fields.Integer(attribute='__capacity',
+                              description='Kapazität eines Projekt'),
+    'room': fields.String(attribute='__room',
+                         description='Raum wo das Projekt durchgeführt wird'),
+    'ext_partner_list': fields.Integer(attribute='__ext_partner_list',
+                                     description='Welche externe Partner werden für das Projekt benötigt'),
+    'short_description': fields.String(attribute='__short_description',
+                                    description='Kurzbeschreibung des Projekts'),
+    'dozent': fields.String(attribute='__dozent',
+                        description='Welche Dozenten betreuen ein Projekt'),
+    'weekly_flag': fields.Boolean(attribute='__weekly_flag', #ist es mit einem Boolean möglich? oder wird Sgtring benötigt
+                         description='Gibt es wöchentliche Plfichttermine? True/False'),
+    'number_bd_b_lecturetime': fields.Integer(attribute='__number_bd_b_lecturetime',
+                                     description='Wie viele Blocktage vor Vorlesungsbeginn'),
+    'number_bd_lecturetime': fields.Integer(attribute='__number_bd_lecturetime',
+                                    description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
+    'preffered_bd': fields.String(attribute='__preffered_bd', #fields.datettime ???
+                         description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'), 
+    'special_room': fields.String(attribute='__special_room',
+                                     description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),     
+})
 
 
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @prochecked.marshal_list_with(person)
+    @prochecked.marshal_with(person) 
     @secured
     def get(self):
-        """Auslesen aller Person-Objekte.
+        # """Auslesen aller Person-Objekte.
 
-        Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = ProjectAdministration()
         persons = adm.get_all_persons()
         return persons
+        '''pers = Person()
+        pers.set_name("kai")
+        pers.set_email("K.k@gmx.de")
+        pers.set_berechtigung(Person.student)
+        pers.set_google_id("iffni")
+        pers.set_id(1)
+        return pers'''
+
+
 
     @prochecked.marshal_with(person, code=200)
     @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
 
@@ -114,33 +153,33 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Person.from_dict(api.payload)
+        print (proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Person-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_vorname(), proposal.get_name())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
 
-@prochecked.route('/persons/<int:id>')
+@prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Person-Objekts')
+@prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
-    @secured
-    def get(self, id):
+    #@secured
+    def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        pers = adm.get_person_by_id(id)
+        pers = adm.get_person_by_google_id(google_id)
         return pers
 
     @secured
@@ -156,30 +195,37 @@ class PersonOperations(Resource):
 
     @prochecked.marshal_with(person)
     @prochecked.expect(person, validate=True)
-    @secured
-    def put(self, id):
+    # @secured
+    def put(self, google_id):
         """Update eines bestimmten Customer-Objekts.
 
         **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
         verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
         Customer-Objekts.
         """
-        adm = ProjectAdministration()
-        p = Person.from_dict(api.payload)
+        # adm = ProjectAdministration()
+        # p = Person.from_dict(api.payload)
 
-        if p is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            p.set_id(id)
-            adm.save_person(p)
-            return '', 200
-        else:
-            return '', 500
+        # if p is not None:
+        #     """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
+        #     Siehe Hinweise oben.
+        #     """
+        #     p.set_id(id)
+        #     adm.save_person(p)
+        #     return '', 200
+        # else:
+        #     return '', 500
+        pers = Person()
+        pers.set_name("kai")
+        pers.set_email("K.k@gmx.de")
+        pers.set_berechtigung(Person.student)
+        pers.set_google_id("iffni")
+        pers.set_id(1)
+        return pers
 
 @prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('name', 'Der Nachname des Kunden')#ebenfalls lastname mit name ersetzt
+@prochecked.param('name', 'Der Nachname des Kunden')
 class PersonsByNameOperations(Resource):
     @prochecked.marshal_with(person)
     @secured

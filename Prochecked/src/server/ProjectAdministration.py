@@ -77,17 +77,41 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
+<<<<<<< HEAD
     def create_person(self, name, email, google_id):
+=======
+    def create_person(self, name, google_id, email, berechtigung, roleID):
+>>>>>>> main
         person = Person()
         person.set_id(1)
         person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime  
         person.set_name(name)
         person.set_google_id(google_id)
+<<<<<<< HEAD
         person.set_email(email)    
         # person.set_last_updated(last_updated)
         
         with PersonMapper() as mapper:
             return mapper.insert(person)
+=======
+        person.set_email(email)
+        person.set_berechtigung(berechtigung)
+        person.set_id(1)
+        person.set_roleID(role.get_roleID())
+
+        adm = ProjectAdministration()
+        person_exists = adm.get_person_by_google_id(google_id)
+
+        if person_exists is not None:
+            adm.save_person(person)
+        else:
+            with PersonMapper() as mapper:
+                return mapper.insert(person)
+
+        # person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
+        # person.set_last_updated(last_updated)
+        
+>>>>>>> main
 
 
     def get_person_by_name(self, name):
@@ -99,7 +123,6 @@ class ProjectAdministration (object):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
-
 
     def get_person_by_email(self, email):
         """Alle Personen mit gegebener E-Mail-Adresse auslesen."""
@@ -124,8 +147,8 @@ class ProjectAdministration (object):
     def add_role_to_person(self, ):
         pass
 
-    def remove_role_from_person(self, ):
-        pass
+    # def remove_role_from_person(self, ):
+    #     pass
 
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""
