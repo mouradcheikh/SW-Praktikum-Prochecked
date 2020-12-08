@@ -50,7 +50,7 @@ bo = api.model('BusinessObjects', {
                                     description='Erstellungsdatum des BOs, wird '
                                                 'durch Unix Time Stamp ermittlet',
                                     dt_format='iso8601'),
-    'lastUpdated': fields.DateTime(attribute='_last_updated',
+    'last_updated': fields.DateTime(attribute='_last_updated',
                                    description='Änderungsdatum des BOs, wird durch'
                                                'Unix Time Stamp ermittlet',
                                    dt_format="iso8601")
@@ -180,6 +180,7 @@ class PersonOperations(Resource):
         """
         adm = ProjectAdministration()
         pers = adm.get_person_by_google_id(google_id)
+        pers.set_google_id("uhdwa")
         return pers
 
     @secured
