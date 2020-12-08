@@ -20,7 +20,7 @@ render () {
         <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="gray" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton}  aria-label="menu">
             <SubjectIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -39,7 +39,7 @@ const styles = (theme) => ({
       width: "100%"
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(28),
     },
     title: {
       flexGrow: 1,
