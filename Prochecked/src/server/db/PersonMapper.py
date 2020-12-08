@@ -84,6 +84,21 @@ class PersonMapper(Mapper):
     def find_by_id(self, ):
         pass
 
+    def update(self, person):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param person das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE person " + "SET name=%s, email=%s, roleID=%s WHERE id=%s"
+        data = (person.get_name(), person.get_email, person.get_berechtigung().get_id(), person.get_google_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
+
     def delete(self, person):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
 
