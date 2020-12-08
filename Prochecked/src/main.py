@@ -120,27 +120,27 @@ project = api.inherit('Project', nbo, {
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @prochecked.marshal_with(person) 
-    #@secured
+    @secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
-        # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        # adm = ProjectAdministration()
-        # persons = adm.get_all_persons()
-        # return persons
-        pers = Person()
+        #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        persons = adm.get_all_persons()
+        return persons
+        '''pers = Person()
         pers.set_name("kai")
         pers.set_email("K.k@gmx.de")
         pers.set_berechtigung(Person.student)
         pers.set_google_id("iffni")
         pers.set_id(1)
-        return pers
+        return pers'''
 
 
 
     @prochecked.marshal_with(person, code=200)
     @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
 
@@ -153,6 +153,7 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Person.from_dict(api.payload)
+        print (proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -171,7 +172,7 @@ class PersonListOperations(Resource):
 @prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
-    @secured
+    #@secured
     def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 

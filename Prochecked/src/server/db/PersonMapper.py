@@ -21,18 +21,21 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id,creation_date,name,google_id,email,roleID FROM person WHERE google_id='{}'".format(
+        command = "SELECT id, creation_date, name, google_id,email, roleID FROM person WHERE google_id='{}'".format(
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, email, google_id) = tuples[0]
+            (id, creation_date, name,  google_id, email, roleID) = tuples[0]
             u = Person()
             u.set_id(id)
             u.set_name(name)
-            u.set_email(email)
             u.set_google_id(google_id)
+            u.set_creation_date(creation_date)
+            u.set_email(email)
+
+            u.set_berechtigung(roleID)
             
             result = u
         except IndexError:
@@ -45,7 +48,7 @@ class PersonMapper(Mapper):
 
         return result
 
-    def insert(self, person,role):
+    def insert(self, person):
         """Einfügen eines Person-Objekts in die Datenbank.
 
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
@@ -68,9 +71,9 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id,creation_date,google_id,email,roleID) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_name(),
-                person.get_email(), person.get_google_id())
+        command = "INSERT INTO person (id, name ,creation_date ,google_id,email) VALUES (%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_name(), person.get_creation_date(),
+                person.get_google_id(), person.get_email())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -114,11 +117,15 @@ class PersonMapper(Mapper):
 
 
 if (__name__ == "__main__"):
-    person = Person()
+    '''person = Person()
     person.set_email("j@gmx.de")
     person.set_google_id("kfwowaf")
     person.set_id(1)
     person.set_name("j")
+
     with PersonMapper() as mapper:
-        result = mapper.insert(person)
-        
+        result = mapper.insert(person)'''
+
+    with PersonMapper() as mapper:
+        result = mapper.find_by_google_id("kfwowaf")
+        print(result)
