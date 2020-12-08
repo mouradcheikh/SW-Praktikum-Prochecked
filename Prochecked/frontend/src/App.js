@@ -67,12 +67,11 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
-                // this.getPersonByGoogleId(person.uid)
+                this.getPersonByGoogleId(person.uid)
               
-                this.createPerson(person.displayName, person.email, person.uid)
+                //this.createPerson(person.displayName, person.email, person.uid)
                 
-               
-                    
+
 
             }).catch(error =>{
                 this.setState({
