@@ -27,24 +27,16 @@ class PersonMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-<<<<<<< HEAD
-            (id,creation_date,name,google_id,email, ) = tuples[0]
-=======
             (id, creation_date, name,  google_id, email, roleID) = tuples[0]
->>>>>>> main
             u = Person()
             u.set_id(id)
             u.set_creation_date(creation_date)
             u.set_name(name)
             u.set_google_id(google_id)
-<<<<<<< HEAD
-            u.set_email(email)
-=======
             u.set_creation_date(creation_date)
             u.set_email(email)
 
             u.set_berechtigung(roleID)
->>>>>>> main
             
             result = u
         except IndexError:
@@ -80,15 +72,9 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-<<<<<<< HEAD
-        command = "INSERT INTO person (id,creation_date,berechtiung_id,google_id,email) VALUES (%s,%s,%s,%s,%s)"
-        data = (person.get_id(),person.get_berechtigung(), person.get_name(),
-                person.get_email(), person.get_google_id())
-=======
         command = "INSERT INTO person (id, name ,creation_date ,google_id,email) VALUES (%s,%s,%s,%s,%s)"
         data = (person.get_id(), person.get_name(), person.get_creation_date(),
                 person.get_google_id(), person.get_email())
->>>>>>> main
         cursor.execute(command, data)
 
         self._cnx.commit()
