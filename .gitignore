@@ -65,6 +65,7 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+Prochecked/frontend/.eslintcache
 # Scrapy stuff:
 .scrapy
 
@@ -170,4 +171,5 @@ yarn-error.log*
 Prochecked/.gitignore
 .vscode/settings.json
 .gitignore
+
 .idea

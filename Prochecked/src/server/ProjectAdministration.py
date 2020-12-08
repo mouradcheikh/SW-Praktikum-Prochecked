@@ -77,14 +77,14 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_person(self, name, google_id, email, berechtigung, roleID):
+    def create_person(self, name, google_id, email, berechtigung):
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
         person.set_berechtigung(berechtigung)
         person.set_id(1)
-        person.set_roleID(role.get_roleID())
+        
 
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
@@ -127,6 +127,15 @@ class ProjectAdministration (object):
 
     def save_person(self, person):
         """Die gegebene Person speichern."""
+        """Methode mir Rollentabelle"""
+        # adm = ProjectAdministration()
+        # saved_person = adm.get_person_by_google_id(person.get_google_id)
+        # saved_role = saved_person.get_berechtigung()
+        # if saved_role is None:
+        #     role = person.get_berechtigung()
+        #     updated_role = adm.create_role(role)
+        #     person.set_berechtigung(updated_role)   
+        
         with PersonMapper() as mapper:
             mapper.update(person)
 
@@ -279,7 +288,7 @@ class ProjectAdministration (object):
     def remove_project_from_semester(self, ):
         pass
 
-    def create_role(self, ):
+    def create_role(self, role):
         pass
 
     def save_role(self, ):
