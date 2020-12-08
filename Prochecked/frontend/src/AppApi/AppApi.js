@@ -91,6 +91,7 @@ getPersonByGoogleId(google_id) {
         console.log(google_id)
         return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
           console.log(responseJSON)
+          
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(responsePersonBO);

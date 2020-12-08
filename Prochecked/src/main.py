@@ -125,16 +125,16 @@ class PersonListOperations(Resource):
         # """Auslesen aller Person-Objekte.
 
         #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ProjectAdministration()
-        persons = adm.get_all_persons()
-        return persons
-        '''pers = Person()
+        # adm = ProjectAdministration()
+        # persons = adm.get_all_persons()
+        # return persons
+        pers = Person()
         pers.set_name("kai")
         pers.set_email("K.k@gmx.de")
         pers.set_berechtigung(Person.student)
         pers.set_google_id("iffni")
         pers.set_id(1)
-        return pers'''
+        return pers
 
 
 
@@ -172,7 +172,7 @@ class PersonListOperations(Resource):
 @prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
-    #@secured
+    @secured
     def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 
@@ -195,7 +195,7 @@ class PersonOperations(Resource):
 
     @prochecked.marshal_with(person)
     @prochecked.expect(person, validate=True)
-    # @secured
+    @secured
     def put(self, google_id):
         """Update eines bestimmten Customer-Objekts.
 

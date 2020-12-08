@@ -71,9 +71,9 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, name ,creation_date ,google_id,email) VALUES (%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_name(), person.get_creation_date(),
-                person.get_google_id(), person.get_email())
+        command = "INSERT INTO person (id, creation_date, name, google_id, email, roleID) VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_date(), person.get_name(),
+                person.get_google_id(), person.get_email(), person.get_berechtigung())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -94,8 +94,8 @@ class PersonMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person " + "SET name=%s, email=%s, roleID=%s WHERE id=%s"
-        data = (person.get_name(), person.get_email, person.get_berechtigung().get_id(), person.get_google_id())
+        command = "UPDATE person " + "SET name=%s, email=%s, roleID=%s WHERE google_id=%s"
+        data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_google_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -117,15 +117,15 @@ class PersonMapper(Mapper):
 
 
 if (__name__ == "__main__"):
-    person = Person()
-    person.set_email("j@gmx.de")
-    person.set_google_id("kfwowaf")
-    person.set_id(1)
-    person.set_name("j")
+    # person = Person()
+    # person.set_email("j@gmx.de")
+    # person.set_google_id("kfwowaf")
+    # person.set_id(1)
+    # person.set_name("j")
+
+    # with PersonMapper() as mapper:
+    #     result = mapper.insert(person)
 
     with PersonMapper() as mapper:
-        result = mapper.insert(person)
-
-    '''with PersonMapper() as mapper:
-        result = mapper.find_by_google_id("kfwowaf")
-        print(result)'''
+        result = mapper.find_by_google_id("kai.kuster@gmx.de")
+        print(result)
