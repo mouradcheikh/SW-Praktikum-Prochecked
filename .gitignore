@@ -170,3 +170,4 @@ yarn-error.log*
 Prochecked/.gitignore
 .vscode/settings.json
 .gitignore
+.idea
