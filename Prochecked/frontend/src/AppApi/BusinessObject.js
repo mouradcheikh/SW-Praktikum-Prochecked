@@ -8,6 +8,8 @@ export default class BusinessObject {
      */
     constructor() {
       this.id = 0;
+      this.creation_date = null
+      this.last_updated = null
     }
   
     /**
@@ -26,6 +28,22 @@ export default class BusinessObject {
       return this.id;
     }
   
+
+    setCreationDate(aCreationDate){
+      this.creation_date = aCreationDate
+    }
+
+    getCreationDate(){
+      return this.creation_date
+    }
+
+    setLastUpdated(aLastUpdated){
+      this.last_updated = aLastUpdated
+    }
+
+    getLastUpdated(){
+      return this.last_updated
+    }
     /**
      * Returns a string representation of this Object. This is useful for debugging purposes.
      */

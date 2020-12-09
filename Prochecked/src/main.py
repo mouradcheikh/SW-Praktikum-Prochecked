@@ -67,7 +67,7 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
-    'google_id': fields.String(atttribute='_google_id',
+    'google_id': fields.String(attribute='_google_id',
                             description='Google User ID einer Person'),
     'berechtigung': fields.String(attribute='_berechtigung',
                                 description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
@@ -169,7 +169,7 @@ class PersonListOperations(Resource):
 
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
+@prochecked.param('google_id', 'Die google_id des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
     @secured
@@ -180,7 +180,6 @@ class PersonOperations(Resource):
         """
         adm = ProjectAdministration()
         pers = adm.get_person_by_google_id(google_id)
-        pers.set_google_id("uhdwa")
         return pers
 
     @secured
@@ -198,7 +197,7 @@ class PersonOperations(Resource):
     @prochecked.expect(person, validate=True)
     @secured
     def put(self, google_id):
-        """Update eines bestimmten Customer-Objekts.
+        """Update eines bestimmten Person-Objekts.
 
         **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
         verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
@@ -211,6 +210,7 @@ class PersonOperations(Resource):
             """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
             Siehe Hinweise oben.
             """
+            p.set_google_id(google_id)
             adm.save_person(p)
             return '', 200
         else:

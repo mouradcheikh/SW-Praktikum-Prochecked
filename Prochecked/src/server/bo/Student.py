@@ -37,11 +37,11 @@ class Student(Person):
         obj.set_vorname(dictionary["vorname"]) 
         obj.set_berechtigung(dictionary["berechtigung"])
         obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["googleId"])
+        obj.set_google_id(dictionary["google_id"])
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
-        obj.set_creation_date(Person.date_format(dictionary["creationDate"]))
-        obj.set_last_updated(Person.date_format(dictionary["lastUpdated"]))
+        obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
+        obj.set_last_updated(Person.date_format(dictionary["last_updated"]))
         
         return obj
     

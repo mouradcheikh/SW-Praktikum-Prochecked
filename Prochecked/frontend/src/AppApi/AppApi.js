@@ -22,7 +22,7 @@ export default class AppAPI {
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
     #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
-    #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
+    #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
 
