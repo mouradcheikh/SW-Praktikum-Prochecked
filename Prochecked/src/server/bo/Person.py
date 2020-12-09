@@ -46,9 +46,9 @@ class Person(NamedBusinessObjects):
             "id": self.get_id(),
             "name": self.get_name(),
             "email": self.get_email(),
-            "googleId": self.get_google_id(),
-            "creationDate": self.get_creation_date(),
-            "lastUpdated": self.get_last_updated(),
+            "google_id": self.get_google_id(),
+            "creation_date": self.get_creation_date(),
+            "last_updated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
         }
         return result
@@ -61,9 +61,9 @@ class Person(NamedBusinessObjects):
         obj.set_name(dictionary["name"])
         obj.set_berechtigung(dictionary["berechtigung"])
         obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["googleId"])
-        obj.set_creation_date(Person.date_format(dictionary["creationDate"]))
-        obj.set_last_updated(Person.date_format(dictionary["lastUpdated"]))
+        obj.set_google_id(dictionary["google_id"])
+        obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
+        obj.set_last_updated(Person.date_format(dictionary["last_updated"]))
         return obj
 
     

@@ -67,6 +67,7 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                
                 this.getPersonByGoogleId(person.uid)
               
                 //this.createPerson(person.displayName, person.email, person.uid)
@@ -103,7 +104,7 @@ class App extends React.Component {
     getPersons(){
         var api = AppAPI.getAPI()
         console.log(api)
-        api.getPerson().then((person) =>
+        api.getPersons().then((person) =>
             {console.log(person)
             this.setState({
                 person: person
