@@ -69,6 +69,7 @@ class App extends React.Component {
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
                 
                 this.getPersonByGoogleId(person.uid)
+                
               
                 //this.createPerson(person.displayName, person.email, person.uid)
                 
@@ -124,22 +125,26 @@ class App extends React.Component {
             )
         }
 
-    getPersonByGoogleId(google_id){
+    getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
         console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {console.log(person)
             this.setState({
                 person: person
-            })}
+            })
+            console.log(this.state.person)
+            }
             )
     }
 
     setRole = (aRole) => {
         const person = this.state.person
-        const {name, email, google_id, berechtigung} = person
-        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
-        updatedPerson.setBerechtigung(aRole)
+        const {name, email, google_id, id, creation_date, last_updated} = person
+        var updatedPerson = new PersonBO(name, email, google_id, aRole)
+        updatedPerson.setID(id)
+        updatedPerson.setCreationDate(creation_date)
+        updatedPerson.setLastUpdated(last_updated)
         var api = AppAPI.getAPI()
         api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
                         this.setState({

@@ -1,6 +1,7 @@
-from .bo.Student import Student
-from .bo.Person import Person
-from .bo.Role import Role
+"""from .bo.Student import Student"""
+
+from server.bo.Person import Person
+"""from .bo.Role import Role
 from .bo.Project import Project
 from .bo.Grading import Grading
 from .bo.Module import Module
@@ -10,9 +11,9 @@ from .bo.Semester import Semester
 from .bo.ProjectState import ProjectState
 from .bo.Automat import Automat
 
-from .db.StudentMapper import StudentMapper
-from .db.PersonMapper import PersonMapper
-from .db.RoleMapper import RoleMapper
+from .db.StudentMapper import StudentMapper"""
+from server.db.PersonMapper import PersonMapper
+"""from .db.RoleMapper import RoleMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
@@ -20,7 +21,7 @@ from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.SemesterMapper import SemesterMapper
 from .db.ProjectStateMapper import ProjectStateMapper
-from .db.AutomatMapper import AutomatMapper
+from .db.AutomatMapper import AutomatMapper"""
 
 #import datetime
 
@@ -315,3 +316,8 @@ class ProjectAdministration (object):
     def get_all_automats(self, ):
         pass
 
+if __name__ == '__main__':
+    dictionary = {"email": "kai.kuster@gmx.de", "google_id": "i6YrxATieAexaC86OWQuf57VjpN2", "berechtigung": "student", "name": "Kai", "id": 3, "creation_date": None, "last_updated": None}
+    p = Person.from_dict(dictionary)
+    adm = ProjectAdministration()
+    adm.save_person(p)
