@@ -236,39 +236,15 @@ class App extends React.Component {
 						{
 							// Ist eine Person eingeloggt?
                             person ?
+                                        <>
                                 
-                                student?
-                                        <>
-                                        <Redirect from='/' to='StudentView' />
-                                        <Route exact path='/StudentView'>
-                                            <StudentView />
-                                        </Route>
-                                        </>
-                                
-                                dozent?
-                                        <>
-                                        <Redirect from='/' to='DozentenView' />
-                                        <Route exact path='/DozentenView'>
-                                            <DozentenView />
-                                        </Route>
-                                        </>
-
-                                admin?
-                                        <>
-                                        <Redirect from='/' to='AdminView' />
-                                        <Route exact path='/AdminView'>
-                                            <AdminView />
-                                        </Route>
-                                        </>
-                                        :
-                                        <>
                                             <Redirect from='/' to='persons' />
                                             <Route exact path='/persons'>
                                                 <PersonList />
                                             </Route>
-                                            {/* <Route exact path='/UserView'>
+                                            /*<Route exact path='/UserView'>
                                                 <UserView setRole={this.setRole}/>
-                                            </Route> */}
+                                            </Route>*/
                                         </>
                                         :
                                         // sonst zeige die SignIn Seite 
