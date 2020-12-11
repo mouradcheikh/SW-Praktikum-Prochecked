@@ -1,22 +1,21 @@
 import BusinessObject from './BusinessObject';
 
-
 /**
  * Represents a participation of the system
  */
 export default class ParticipationBO extends BusinessObject {
 
   /**
-   * Constructs a ParticipationBO object with a given name, email, google id and role
+   * Constructs a ParticipationBO object with a given student, grading, project and module
    * 
    * @param {String} aname - the name of this ParticipationBO.
    */
-  constructor(aname, aemail, agoogleid, aberechtigung) {
+  constructor(astudent, agrading, aproject, amodule) {
     super();
-    this.name = aname;
-    this.email = aemail
-    this.google_id = agoogleid
-    this.berechtigung = aberechtigung
+    this.student = astudent;
+    this.grading = agrading
+    this.project = aproject
+    this.module = amodule
   }
 
   /**
@@ -24,39 +23,39 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} aname - the new name of this ParticipationBO.
    */
-  setName(aname) {
-    this.name = aname;
+  setStudent(astudent) {
+    this.student = astudent;
   }
 
   /**
    * Gets the name.
    */
-  getName() {
-    return this.name;
+  getStudent() {
+    return this.student;
   }
 
-  setEmail(aemail){
-    this.email = aemail
+  setGrading(agrading){
+    this.grading = agrading
   }
 
-  getEmail(){
-    return this.email
+  getGrading(){
+    return this.grading
   }
 
-  setGoogleId(agoogleid){
-    this.google_id = agoogleid
+  setProject(aproject){
+    this.project = aproject
   }
 
-  getGoogleId(){
-    return this.google_id
+  getProject(){
+    return this.project
   }
 
-  setBerechtigung(aberechtigung){
-    this.berechtigung = aberechtigung
+  setModule(amodule){
+    this.module = amodule
   }
 
-  getBerechtigung(){
-    return this.berechtigung
+  getModule(){
+    return this.module
   }
 
   /** 
