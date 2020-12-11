@@ -7,17 +7,16 @@ import { withRouter } from 'react-router-dom';
 import { AppApi } from '../AppApi';
 import ContextErrorMessage from './dialogs/ContextErrorMessage';
 import LoadingProgress from './dialogs/LoadingProgress';
-import PersonForm from './dialogs/PersonForm';
-import PersonListEntry from './PersonListEntry';
+import ProjectForm from './dialogs/ProjectForm';
+import ProjectListEntry from './ProjectListEntry';
 
 /**
- * Controlls a list of PersonListEntrys to create a accordion for each person.
+ * Controlls a list of ProjectListEntrys to create a accordion for each project.
  *
- * @see See [PersonListEntry](#personlistentry)
+ * @see See [ProjectListEntry](#projectlistentry)
  *
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class PersonList extends Component {
+class ProjectList extends Component {
 
   constructor(props) {
     super(props);
@@ -25,37 +24,37 @@ class PersonList extends Component {
     // console.log(props);
     let expandedID = null;
 
-    if (this.props.location.expandPerson) {
-      expandedID = this.props.location.expandPerson.getID();
+    if (this.props.location.expandProject) {
+      expandedID = this.props.location.expandProject.getID();
     }
 
     // Init an empty state
     this.state = {
-      persons: [],
-      filteredPersons: [],
-      personFilter: '',
+      projects: [],
+      filteredProjects: [],
+      projectFilter: '',
       error: null,
       loadingInProgress: false,
-      expandedPersonID: expandedID,
-      showPersonForm: false
+      expandedProjectID: expandedID,
+      showProjectForm: false
     };
   }
 
-  /** Fetches all PersonBOs from the backend */
-  getPersons = () => {
+  /** Fetches all ProjectBOs from the backend */
+  getProjects = () => {
   console.log("vor fetch")
-    AppApi.getAPI().getPersons()
+    AppApi.getAPI().getProjects()
 
 
-      .then(personBOs =>
-        this.setState({               // Set new state when PersonBOs have been fetched
-          persons: personBOs,
-          filteredPersons: [...personBOs], // store a copy
+      .then(projectBOs =>
+        this.setState({               // Set new state when ProjectBOs have been fetched
+          projects: projectBOs,
+          filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
           this.setState({             // Reset state with error from catch
-            persons: [],
+            projects: [],
             loadingInProgress: false, // disable loading indicator
             error: e
           })
@@ -70,82 +69,82 @@ class PersonList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getPersons();
+    this.getProjects();
   }
 
   /**
-   * Handles onExpandedStateChange events from the PersonListEntry component. Toggels the expanded state of
-   * the PersonListEntry of the given PersonBO.
+   * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
+   * the ProjectListEntry of the given ProjectBO.
    *
-   * @param {person} PersonBO of the PersonListEntry to be toggeled
+   * @param {project} ProjectBO of the ProjectListEntry to be toggeled
    */
-  onExpandedStateChange = person => {
-    // console.log(personID);
-    // Set expandend person entry to null by default
+  onExpandedStateChange = project => {
+    // console.log(projectID);
+    // Set expandend project entry to null by default
     let newID = null;
 
-    // If same person entry is clicked, collapse it else expand a new one
-    if (person.getID() !== this.state.expandedPersonID) {
-      // Expand the person entry with personID
-      newID = person.getID();
+    // If same project entry is clicked, collapse it else expand a new one
+    if (project.getID() !== this.state.expandedProjectID) {
+      // Expand the project entry with projectID
+      newID = project.getID();
     }
     // console.log(newID);
     this.setState({
-      expandedPersonID: newID,
+      expandedProjectID: newID,
     });
   }
 
   /**
-   * Handles onPersonDeleted events from the PersonListEntry component
+   * Handles onProjectDeleted events from the ProjectListEntry component
    *
-   * @param {person} PersonBO of the PersonListEntry to be deleted
+   * @param {project} ProjectBO of the ProjectListEntry to be deleted
    */
-  personDeleted = person => {
-    const newPersonList = this.state.persons.filter(personFromState => personFromState.getID() !== person.getID());
+  projectDeleted = project => {
+    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
     this.setState({
-      persons: newPersonList,
-      filteredPersons: [...newPersonList],
-      showPersonForm: false
+      projects: newProjectList,
+      filteredProjects: [...newProjectList],
+      showProjectForm: false
     });
   }
 
-  /** Handles the onClick event of the add person button */
-  addPersonButtonClicked = event => {
+  /** Handles the onClick event of the add project button */
+  addProjectButtonClicked = event => {
     // Do not toggle the expanded state
     event.stopPropagation();
     //Show the CustmerForm
     this.setState({
-      showPersonForm: true
+      showProjectForm: true
     });
   }
 
-  /** Handles the onClose event of the PersonForm */
-  personFormClosed = person => {
-    // person is not null and therefore created
-    if (person) {
-      const newPersonList = [...this.state.persons, person];
+  /** Handles the onClose event of the ProjectForm */
+  projectFormClosed = project => {
+    // project is not null and therefore created
+    if (project) {
+      const newProjectList = [...this.state.projects, project];
       this.setState({
-        persons: newPersonList,
-        filteredPersons: [...newPersonList],
-        showPersonForm: false
+        projects: newProjectList,
+        filteredProjects: [...newProjectList],
+        showProjectForm: false
       });
     } else {
       this.setState({
-        showPersonForm: false
+        showProjectForm: false
       });
     }
   }
 
-  /** Handels onChange events of the person filter text field */
+  /** Handels onChange events of the project filter text field */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredPersons: this.state.persons.filter(person => {
-        let nameContainsValue = person.getName().toLowerCase().includes(value);
+      filteredProjects: this.state.projects.filter(project => {
+        let nameContainsValue = project.getName().toLowerCase().includes(value);
 
         return nameContainsValue
       }),
-      personFilter: value
+      projectFilter: value
     });
   }
 
@@ -153,19 +152,19 @@ class PersonList extends Component {
   clearFilterFieldButtonClicked = () => {
     // Reset the filter
     this.setState({
-      filteredPersons: [...this.state.persons],
-      personFilter: ''
+      filteredProjects: [...this.state.projects],
+      projectFilter: ''
     });
   }
 
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredPersons, personFilter, expandedPersonID, loadingInProgress, error, showPersonForm } = this.state;
+    const { filteredProjects, projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.personFilter} container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
               Projektfilter:
@@ -175,9 +174,9 @@ class PersonList extends Component {
             <TextField
               autoFocus
               fullWidth
-              id='personFilter'
+              id='projectFilter'
               type='text'
-              value={personFilter}
+              value={projectFilter}
               onChange={this.filterFieldValueChange}
               InputProps={{
                 endAdornment: <InputAdornment position='end'>
@@ -190,23 +189,23 @@ class PersonList extends Component {
           </Grid>
           /*<Grid item xs />
           <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addPersonButtonClicked}>
-              Add Person
+            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
+              Add Project
           </Button>
           </Grid>
         </Grid>*/
         {
-          // Show the list of PersonListEntry components
-          // Do not use strict comparison, since expandedPersonID maybe a string if given from the URL parameters
-          filteredPersons.map(person =>
-            <PersonListEntry key={person.getID()} person={person} expandedState={expandedPersonID === person.getID()}
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          filteredProjects.map(project =>
+            <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onPersonDeleted={this.personDeleted}
+              onProjectDeleted={this.projectDeleted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of persons could not be loaded.`} onReload={this.getPersons} />
-        <PersonForm show={showPersonForm} onClose={this.personFormClosed} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+        <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
       </div>
     );
   }
@@ -217,18 +216,18 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
-  personFilter: {
+  projectFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   }
 });
 
 /** PropTypes */
-PersonList.propTypes = {
+ProjectList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(PersonList));
+export default withRouter(withStyles(styles)(ProjectList));

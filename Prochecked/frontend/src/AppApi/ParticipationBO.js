@@ -1,19 +1,19 @@
 import BusinessObject from './BusinessObject';
-import RoleBO from './RoleBO'
+
 
 /**
- * Represents a person of the system
+ * Represents a participation of the system
  */
-export default class PersonBO extends BusinessObject {
+export default class ParticipationBO extends BusinessObject {
 
   /**
-   * Constructs a PersonBO object with a given name, email, google id and role
+   * Constructs a ParticipationBO object with a given name, email, google id and role
    * 
-   * @param {String} aname - the name of this PersonBO.
+   * @param {String} aname - the name of this ParticipationBO.
    */
   constructor(aname, aemail, agoogleid, aberechtigung) {
     super();
-    this.name = aname
+    this.name = aname;
     this.email = aemail
     this.google_id = agoogleid
     this.berechtigung = aberechtigung
@@ -22,17 +22,17 @@ export default class PersonBO extends BusinessObject {
   /**
    * Sets a new name
    * 
-   * @param {String} aname - the new name of this PersonBO.
+   * @param {String} aname - the new name of this ParticipationBO.
    */
   setName(aname) {
-    this.name = aname
+    this.name = aname;
   }
 
   /**
    * Gets the name.
    */
   getName() {
-    return this.name
+    return this.name;
   }
 
   setEmail(aemail){
@@ -60,20 +60,20 @@ export default class PersonBO extends BusinessObject {
   }
 
   /** 
-   * Returns an Array of PersonBOs from a given JSON structure.
+   * Returns an Array of ParticipationBOs from a given JSON structure.
    */
-  static fromJSON(persons) {
+  static fromJSON(participations) {
     let result = [];
 
-    if (Array.isArray(persons)) {
-      persons.forEach((p) => {
-        Object.setPrototypeOf(p, PersonBO.prototype);
+    if (Array.isArray(participations)) {
+      participations.forEach((p) => {
+        Object.setPrototypeOf(p, ParticipationBO.prototype);
         result.push(p);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let p = persons;
-      Object.setPrototypeOf(p, PersonBO.prototype);
+      let p = participations;
+      Object.setPrototypeOf(p, ParticipationBO.prototype);
       result.push(p);
     }
 
