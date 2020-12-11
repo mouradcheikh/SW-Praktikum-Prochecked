@@ -13,7 +13,7 @@ class UserView extends Component {
     }
 
     handleAdminButtonClicked = () => {
-      this.props.setRole(2);
+      this.props.setRole(3);
       this.viewRole()
     }
 
@@ -23,7 +23,7 @@ class UserView extends Component {
     }
 
     handleDozentButtonClicked = () => {
-      this.props.setRole(3);
+      this.props.setRole(2);
       this.viewRole()
     }
 

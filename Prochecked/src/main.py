@@ -119,22 +119,32 @@ project = api.inherit('Project', nbo, {
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @prochecked.marshal_with(person) 
+    @prochecked.marshal_list_with(person)
     @secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
         #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        # adm = ProjectAdministration()
-        # persons = adm.get_all_persons()
-        # return persons
-        pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung(Person.student)
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers
+        adm = ProjectAdministration()
+        persons = adm.get_all_persons()
+        return persons
+
+        '''l = []
+        pers1 = Person()
+        pers1.set_name("Perry Dettke")
+        pers1.set_email("Perry@gmx.de")
+        pers1.set_berechtigung(1)
+        pers1.set_google_id('google1')
+        pers1.set_id(1)
+        pers2 = Person()
+        pers2.set_name("Marius Fechter")
+        pers2.set_email("Marius@gmx.de")
+        pers2.set_berechtigung(2)
+        pers2.set_google_id("google2")
+        pers2.set_id(2)
+        l.append(pers1)
+        l.append(pers2)
+        return l'''
 
 
 
@@ -166,7 +176,7 @@ class PersonListOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
-
+#Person related
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('google_id', 'Die google_id des Person-Objekts')
@@ -239,5 +249,35 @@ class PersonsByNameOperations(Resource):
         return pers
 
 
+
+
+
+
+
+
+# #Project related
+
+
+# ProjectByDozentOperation
+#     GET
+
+
+# #Participation related
+
+
+# ParticipationByProjectOperation
+#     GET
+
+
+
+
+# #Student related
+
+# StudentByParticipationOperation
+#     GET
+
 if __name__ == '__main__':
     app.run(debug=True)
+    '''adm = ProjectAdministration()
+    persons = adm.get_all_persons()
+    print(persons[0].get_name())'''

@@ -12,4 +12,3 @@ class ProjectMapper(Mapper):
 
     def find_by_id(self, ):
         pass
-
