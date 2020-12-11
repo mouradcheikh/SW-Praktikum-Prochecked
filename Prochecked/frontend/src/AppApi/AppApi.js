@@ -55,7 +55,7 @@ export default class AppAPI {
     )
 
 
-
+//Person related
 getPersons() {
 console.log("vorFetch in getPersons")
       return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
@@ -155,6 +155,13 @@ updatePerson(personBO){
     })
   })
 }
+
+
+//Participation related
+getParticipationByProject()
+  pass
+
+
 
 
 }

@@ -33,51 +33,8 @@ class ProjectAdministration (object):
     Student-spezifische Methoden
     """
 
-    # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
-        # student = Student()
-        # student.set_name(name)
-        # student.set_vorname(vorname)
-        # student.set_google_id(google_id)
-        # student.set_email(email)
-        # student.set_matr_nr(matr_nr)
-        # student.set_studiengang(studiengang)
-        # student.set_id(1)
-        # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
-        # student.set_last_updated(last_updated)
-        # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
-        #     return mapper.insert(student)
 
-        
-    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
-    #     return
-
-    # def get_student_by_id(self, number):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_key(number)
-        
-
-    # def get_student_by_name(self, name):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_name(name)
-
-    # def get_students_by_project(self, project):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_student_id(project.get_id())
-
-    # def save_student(self, student):
-    #     with StudentMapper() as mapper:
-    #         mapper.update(student)
-
-    # def delete_student(self, student):
-    #     with StudentMapper() as mapper:
-    #         project = self.get_projects_of_student(student)
-
-    #         if not(project is None):
-    #             for a in project:
-    #                 self.delete_project(a)
-
-    #         mapper.delete(student)
-
+    #Person related
     def create_person(self, name, google_id, email, berechtigung):
         person = Person()
         person.set_name(name)
@@ -171,6 +128,52 @@ class ProjectAdministration (object):
 
     def save_project(self, project):
         pass
+
+
+        # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
+        # student = Student()
+        # student.set_name(name)
+        # student.set_vorname(vorname)
+        # student.set_google_id(google_id)
+        # student.set_email(email)
+        # student.set_matr_nr(matr_nr)
+        # student.set_studiengang(studiengang)
+        # student.set_id(1)
+        # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
+        # student.set_last_updated(last_updated)
+        # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
+        #     return mapper.insert(student)
+
+        
+    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
+    #     return
+
+    # def get_student_by_id(self, number):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_key(number)
+        
+
+    # def get_student_by_name(self, name):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_name(name)
+
+    # def get_students_by_project(self, project):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_student_id(project.get_id())
+
+    # def save_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         mapper.update(student)
+
+    # def delete_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         project = self.get_projects_of_student(student)
+
+    #         if not(project is None):
+    #             for a in project:
+    #                 self.delete_project(a)
+
+    #         mapper.delete(student)
 
     def create_grading(self, passed, grade):
         pass
