@@ -213,8 +213,54 @@ class App extends React.Component {
     //             })
     //         })
     // }
-
     
+
+            
+     UserAbfrage(person) {
+        const userType = person.getBerechtigung;
+
+        return (
+            <div>
+            {(() => {
+                if (userType === 1) {
+                return (
+                    <>	<Redirect from='/' to='StudentenView' />
+                        <Route exact path='/StudentenView'>
+                        <StudentenView/>
+                        </Route>
+                    </>
+                )
+                } else if (userType === 2) {
+                return (
+                    <>	<Redirect from='/' to='DozentView' />
+                        <Route exact path='/DozentView'>
+                        <DozentView/>
+                        </Route>
+                    </>
+                )
+                } else if (userType === 3) {
+                    return (
+                    <>	<Redirect from='/' to='AdminView' />
+                        <Route exact path='/AdminView'>
+                        <AdminView/>
+                        </Route>
+                    </>
+                    )
+                } else {
+                    return (
+                    <>
+                        <Redirect from='/' to='UserView' />
+                        <Route exact path='/UserView'>
+                            <UserView setRole={this.setRole}/>
+                        </Route>
+                    </>
+                )
+                }
+            })()}
+
+        </div>
+    );
+    }
         
     
     componentDidMount() {
@@ -239,7 +285,7 @@ class App extends React.Component {
 							// Ist eine Person eingeloggt?
                             person ?
                                 
-                                this.UserAbfrage()
+                                this.UserAbfrage(person)
 								
 								:
 								// sonst zeige die SignIn Seite 
@@ -265,50 +311,5 @@ class App extends React.Component {
 
 
 
-function UserAbfrage() {
-    const userType = Person.getBerechtigung;
-
-    return (
-        <div>
-        {(() => {
-            if (userType == 1) {
-              return (
-                <>	<Redirect from='/' to='StudentView' />
-					<Route exact path='/StudentView'>
-					<StudentView/>
-					</Route>
-				</>
-              )
-            } else if (userType == 2) {
-              return (
-                <>	<Redirect from='/' to='DozentView' />
-					<Route exact path='/DozentView'>
-					<DozentView/>
-					</Route>
-				</>
-              )
-            } else if (userType == 3) {
-                return (
-                <>	<Redirect from='/' to='AdminView' />
-					<Route exact path='/AdminView'>
-					<AdminView/>
-					</Route>
-				</>
-                )
-            } else {
-                return (
-                <>
-                    <Redirect from='/' to='UserView' />
-                    <Route exact path='/UserView'>
-                        <UserView setRole={this.setRole}/>
-                    </Route>
-                </>
-              )
-            }
-        })()}
-
-    </div>
-  );
-}
 
 export default App;
