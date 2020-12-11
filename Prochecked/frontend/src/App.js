@@ -14,7 +14,10 @@ import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
-import PersonList from './Components/PersonList';
+// import PersonList from './Components/PersonList';
+import StudentenView from './Components/pages/StudentenView';
+import DozentView from './Components/pages/DozentView';
+import AdminView from './Components/pages/AdminView';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -234,16 +237,10 @@ class App extends React.Component {
 						<Header/>
 						{
 							// Ist eine Person eingeloggt?
-							person ?
-								<>
-									<Redirect from='/' to='UserView' />
-                                    {/* <Route exact path='/persons'>
-										<PersonList />
-									</Route> */}
-									<Route exact path='/UserView'>
-										<UserView setRole={this.setRole}/>
-									</Route>
-								</>
+                            person ?
+                                
+                                this.UserAbfrage()
+								
 								:
 								// sonst zeige die SignIn Seite 
 								<>
@@ -261,7 +258,57 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+
 
 
 // person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
+
+
+
+function UserAbfrage() {
+    const userType = Person.getBerechtigung;
+
+    return (
+        <div>
+        {(() => {
+            if (userType == 1) {
+              return (
+                <>	<Redirect from='/' to='StudentView' />
+					<Route exact path='/StudentView'>
+					<StudentView/>
+					</Route>
+				</>
+              )
+            } else if (userType == 2) {
+              return (
+                <>	<Redirect from='/' to='DozentView' />
+					<Route exact path='/DozentView'>
+					<DozentView/>
+					</Route>
+				</>
+              )
+            } else if (userType == 3) {
+                return (
+                <>	<Redirect from='/' to='AdminView' />
+					<Route exact path='/AdminView'>
+					<AdminView/>
+					</Route>
+				</>
+                )
+            } else {
+                return (
+                <>
+                    <Redirect from='/' to='UserView' />
+                    <Route exact path='/UserView'>
+                        <UserView setRole={this.setRole}/>
+                    </Route>
+                </>
+              )
+            }
+        })()}
+
+    </div>
+  );
+}
+
+export default App;

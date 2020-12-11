@@ -1,4 +1,4 @@
-'use strict';
+Legolas_22'use strict';
 
 /**
 * Config file for a https://github.com/micromata/http-fake-backend to
