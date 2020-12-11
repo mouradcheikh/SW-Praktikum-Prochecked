@@ -13,17 +13,17 @@ class UserView extends Component {
     }
 
     handleAdminButtonClicked = () => {
-      this.props.setRole("Admin");
+      this.props.setRole(2);
       this.viewRole()
     }
 
     handleStudentButtonClicked = () => {
-      this.props.setRole("Student");
+      this.props.setRole(1);
       this.viewRole()
     }
 
     handleDozentButtonClicked = () => {
-      this.props.setRole("Dozent");
+      this.props.setRole(3);
       this.viewRole()
     }
 

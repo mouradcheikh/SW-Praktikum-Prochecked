@@ -15,6 +15,7 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 import PersonList from './Components/PersonList';
+import PersonLoggedIn from '../src/Components/pages/PersonLoggedIn'
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -236,13 +237,7 @@ class App extends React.Component {
 							// Ist eine Person eingeloggt?
 							person ?
 								<>
-									<Redirect from='/' to='UserView' />
-                                    {/* <Route exact path='/persons'>
-										<PersonList />
-									</Route> */}
-									<Route exact path='/UserView'>
-										<UserView setRole={this.setRole}/>
-									</Route>
+									<PersonLoggedIn berechtigung = {this.state.person.berechtigung}></PersonLoggedIn>
 								</>
 								:
 								// sonst zeige die SignIn Seite 
