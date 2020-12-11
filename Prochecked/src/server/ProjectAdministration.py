@@ -33,6 +33,7 @@ class ProjectAdministration (object):
     Student-spezifische Methoden
     """
 
+    '''#DOZENTENVIEW
     # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
         # student = Student()
         # student.set_name(name)
@@ -45,15 +46,16 @@ class ProjectAdministration (object):
         # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
         # student.set_last_updated(last_updated)
         # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
-        #     return mapper.insert(student)
+        #     return mapper.insert(student)'''
 
         
     # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
     #     return
 
+    '''#DOZENTENVIEW
     # def get_student_by_id(self, number):
     #     with StudentMapper() as mapper:
-    #         return mapper.find_by_key(number)
+    #         return mapper.find_by_key(number)'''
         
 
     # def get_student_by_name(self, name):
@@ -226,8 +228,16 @@ class ProjectAdministration (object):
     def get_all_participations(self, ):
         pass
 
+
+#DOZENTENVIEW
     def get_participation_by_project(self, project):
         pass
+
+#DOZENTENVIEW
+    def get_project_by_Dozent(self, dozent)
+        pass
+
+
 
     def save_participation(self, participation):
         pass
