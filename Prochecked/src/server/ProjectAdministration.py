@@ -277,12 +277,25 @@ class ProjectAdministration (object):
 
 
 #DOZENTENVIEW
-    def get_participation_by_project(self, project):
-        pass
+
+
+    def get_dozent_by_id(self, id): #Person_by_id???
+        """Die Person mit der gegebenen ID auslesen."""
+        with PersonMapper() as mapper:
+            return mapper.find_by_id(id) 
+
 
 #DOZENTENVIEW
-    def get_project_by_Dozent(self, dozent):
-        pass
+    def get_participations_by_project(self, project):
+        """Alle Teilnahmen des gegebenen Projekts auslesen."""
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_owner_id(project.get_id()) 
+
+#DOZENTENVIEW
+    def get_projects_by_dozent(self, dozent):
+        """Alle Projects des gegebenen Dozenten auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_owner_id(dozent.get_id()) 
 
 
 

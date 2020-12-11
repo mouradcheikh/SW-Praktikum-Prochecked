@@ -115,7 +115,7 @@ project = api.inherit('Project', nbo, {
                                      description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),     
 })
 
-
+#Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
@@ -176,7 +176,7 @@ class PersonListOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
-#Person related
+
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('google_id', 'Die google_id des Person-Objekts')
@@ -211,7 +211,7 @@ class PersonOperations(Resource):
 
         **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
         verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
+        Project-Objekts.
         """
         adm = ProjectAdministration()
         p = Person.from_dict(api.payload)
@@ -255,26 +255,72 @@ class PersonsByNameOperations(Resource):
 
 
 
-# #Project related
-
-
-# ProjectByDozentOperation
-#     GET
-
-
-# #Participation related
-
-
-# ParticipationByProjectOperation
-#     GET
+#Project related
 
 
 
+    @prochecked.route('/dozents/<int:id>/projects')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Dozent-Objekts')
+    class ProjectsByDozentOperation(Resource):
+        @prochecked.marshal_with(project)
+        @secured
+        def get(self, id):
+            """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
 
-# #Student related
+            Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = ProjectAdministration()
+            # Zunächst benötigen wir den durch id gegebenen Dozent.
+            doz = adm.get_dozent_by_id(id)
+
+            # Haben wir eine brauchbare Referenz auf ein Dozent-Objekt bekommen?
+            if cust is not None:
+                # Jetzt erst lesen wir die Konten des Dozent aus.
+                project_list = adm.get_projects_by_dozent(doz)
+                return project_list
+            else:
+                return "Dozent not found", 500
+
+
+#Participation related
+
+
+
+    @prochecked.route('/projects/<int:id>/participations')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Project-Objekts')
+    class ParticipationsByProjectOperation(Resource):
+        @prochecked.marshal_with(participation)
+        @secured
+        def get(self, id):
+            """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
+
+            Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = BankAdministration()
+            # Zunächst benötigen wir das durch id gegebene Project.
+            pro = adm.get_project_by_id(id)
+
+            # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+            if pro is not None:
+                # Jetzt erst lesen wir die Teinahmen des Projects aus.
+                participation_list = adm.get_participations_of_project(pro)
+                return participation_list
+            else:
+                return "Project not found", 500
+
+
+
+
+#Student related
 
 # StudentByParticipationOperation
 #     GET
+#brauchen wir glaube erstmal nicht
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
