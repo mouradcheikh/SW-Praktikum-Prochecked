@@ -18,101 +18,101 @@ class Project(NamedBusinessObjects, Automat):
         #super().__init__() #vermute man braucht die super init nicht, da automat und NamedBusinesObject nicht erzeugt werden müssen, deren methoden können trozdem verwendet werden
         
         #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
-        self.__capacity = None
-        self.__room = None
-        self.__ext_partner_list = None
-        self.__short_description = None
-        self.__weekly_flag = None
-        self.__number_bd_per_week = None
-        self.__number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
-        self.__number_bd_examtime = None
-        self.__number_bd_lecturetime = None #blocktage vorlesungszeit
-        self.__preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
-        self.__special_room = None
-        self.__module = None
-        self.__dozent = []
-        self.__Beteiligung = []
-        self.__Charakter = None
-        self.__Zeitraum = None #Kommt hier ein Objekt von Semester rein?
-        self.__Veranstaltung = None
-        self.__Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
-        self.__projecttype = None
+        self._capacity = None
+        self._room = None
+        self._ext_partner_list = None
+        self._short_description = None
+        self._weekly_flag = None
+        self._number_bd_per_week = None
+        self._number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
+        self._number_bd_examtime = None
+        self._number_bd_lecturetime = None #blocktage vorlesungszeit
+        self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
+        self._special_room = None
+        self._module = None
+        self._dozent = []
+        self._Beteiligung = []
+        self._Charakter = None
+        self._Zeitraum = None #Kommt hier ein Objekt von Semester rein?
+        self._Veranstaltung = None
+        self._Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
+        self._projecttype = None
 
 
     def set_projecttype(self, projecttype):
-        self.__projecttype = projecttype
+        self._projecttype = projecttype
 
     def get_projecttype(self):
-        return self.__projecttype
+        return self._projecttype
 
 
     def set_capacity(self, capacity):
-        self.__capacity = capacity
+        self._capacity = capacity
 
     def get_capacity(self):
-        return self.__capacity
+        return self._capacity
 
 
     def set_room(self, room):
-        self.__room = room
+        self._room = room
 
     def get_room(self):
-        return self.__room
+        return self._room
 
 
     def set_ext_partner_list(self, ext_partner_list):
-        self.__ext_partner_list = ext_partner_list
+        self._ext_partner_list = ext_partner_list
 
     def get_ext_partner_list(self):
-        return self.__ext_partner_list
+        return self._ext_partner_list
 
 
     def set_short_description(self, short_description):
-        self.__short_description = short_description
+        self._short_description = short_description
         
     def get_short_description(self):
-        return self.__short_description
+        return self._short_description
 
 
     def set_weekly_flag(self, weekly_flag):
-        self.__weekly_flag = weekly_flag
+        self._weekly_flag = weekly_flag
 
     def get_weekly_flag(self):
-        return self.__weekly_flag
+        return self._weekly_flag
 
     def set_number_bd_b_lecturetime(self, number_bd_b_lecturetime):
-        self.__number_bd_b_lecturetime = number_bd_b_lecturetime
+        self._number_bd_b_lecturetime = number_bd_b_lecturetime
    
     def get_number_bd_b_lecturetime(self):
-        return self.__number_bd_b_lecturetime
+        return self._number_bd_b_lecturetime
 
 
     def set_number_bd_examtime(self, number_bd_examtime):
-        self.__number_bd_examtime = number_bd_examtime
+        self._number_bd_examtime = number_bd_examtime
 
     def get_number_bd_examtime(self):
-        return self.__number_bd_examtime
+        return self._number_bd_examtime
 
 
     def set_preffered_bd(self, preffered_bd):
-        self.__preffered_bd = preffered_bd
+        self._preffered_bd = preffered_bd
 
     def get_preffered_bd(self):
-        return self.__preffered_bd
+        return self._preffered_bd
 
 
     def set_special_room(self, special_room):
-        self.__special_room = special_room
+        self._special_room = special_room
 
     def get_special_room(self):
-        return self.__special_room
+        return self._special_room
 
     
     def set_dozent(self, dozent):
-        self.__dozent = dozent
+        self._dozent = dozent
 
     def get_dozent(self):
-        return self.__dozent
+        return self._dozent
 
 
     def __str__(self):

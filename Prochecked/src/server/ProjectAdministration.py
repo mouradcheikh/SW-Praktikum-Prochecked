@@ -317,7 +317,12 @@ class ProjectAdministration (object):
         pass
 
 if __name__ == '__main__':
-    dictionary = {"email": "kai.kuster@gmx.de", "google_id": "i6YrxATieAexaC86OWQuf57VjpN2", "berechtigung": "student", "name": "Kai", "id": 3, "creation_date": None, "last_updated": None}
+
+    '''dictionary = {"email": "kai.kuster@gmx.de", "google_id": "i6YrxATieAexaC86OWQuf57VjpN2", "berechtigung": "student", "name": "Kai", "id": 3, "creation_date": None, "last_updated": None}
     p = Person.from_dict(dictionary)
     adm = ProjectAdministration()
-    adm.save_person(p)
+    adm.save_person(p)'''
+
+    adm = ProjectAdministration()
+    persons = adm.get_all_persons()
+    print(persons)

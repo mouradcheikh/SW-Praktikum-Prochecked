@@ -3,35 +3,35 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PersonForm from './dialogs/PersonForm';
-import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
+import ProjectForm from './dialogs/ProjectForm';
+import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
 //import AccountList from './AccountList';
 
 
 /**
- * Renders a PersonBO object within a expandable/collapsible PersonListEntry with the person manipulation
+ * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
  * functions. If expanded, it renders a AccountList.
  * 
  * @see See [AccountList](#accountlist)
  * 
  * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class PersonListEntry extends Component {
+class ProjectListEntry extends Component {
 
   constructor(props) {
     super(props);
 
     // Init the state
     this.state = {
-      person: props.person,
-      showPersonForm: false,
-      showPersonDeleteDialog: false,
+      project: props.project,
+      showProjectForm: false,
+      showProjectDeleteDialog: false,
     };
   }
 
   /** Handles onChange events of the underlying ExpansionPanel */
   expansionPanelStateChanged = () => {
-    this.props.onExpandedStateChange(this.props.person);
+    this.props.onExpandedStateChange(this.props.project);
   }
 
   /** Handles onAccountDelete events from an AccountListEntry  */
@@ -42,68 +42,68 @@ class PersonListEntry extends Component {
 //     })
 //   }
 
-  /** Handles the onClick event of the edit person button */
-  editPersonButtonClicked = (event) => {
+  /** Handles the onClick event of the edit project button */
+  editProjectButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showPersonForm: true
+      showProjectForm: true
     });
   }
 
-  /** Handles the onClose event of the PersonForm */
-  personFormClosed = (person) => {
-    // person is not null and therefor changed
-    if (person) {
+  /** Handles the onClose event of the ProjectForm */
+  projectFormClosed = (project) => {
+    // project is not null and therefor changed
+    if (project) {
       this.setState({
-        person: person,
-        showPersonForm: false
+        project: project,
+        showProjectForm: false
       });
     } else {
       this.setState({
-        showPersonForm: false
+        showProjectForm: false
       });
     }
   }
 
-  /** Handles the onClick event of the delete person button */
-  deletePersonButtonClicked = (event) => {
+  /** Handles the onClick event of the delete project button */
+  deleteProjectButtonClicked = (event) => {
     event.stopPropagation();
     this.setState({
-      showPersonDeleteDialog: true
+      showProjectDeleteDialog: true
     });
   }
 
-  /** Handles the onClose event of the PersonDeleteDialog */
-  deletePersonDialogClosed = (person) => {
-    // if person is not null, delete it
-    if (person) {
-      this.props.onPersonDeleted(person);
+  /** Handles the onClose event of the ProjectDeleteDialog */
+  deleteProjectDialogClosed = (project) => {
+    // if project is not null, delete it
+    if (project) {
+      this.props.onProjectDeleted(project);
     };
 
     // Don´t show the dialog
     this.setState({
-      showPersonDeleteDialog: false
+      showProjectDeleteDialog: false
     });
   }
 
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
-    // Use the states person
-    const { person, showPersonForm, showPersonDeleteDialog } = this.state;
+    // Use the states project
+    const { project, showProjectForm, showProjectDeleteDialog } = this.state;
 
     // console.log(this.state);
     return (
         <div>
         <Grid item>
-                <Typography variant='body1' className={classes.heading}>{person.getName()}
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
               <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editPersonButtonClicked}>
+                  <Button color='primary' onClick={this.editProjectButtonClicked}>
                     edit
                   </Button>
-                  <Button color='secondary' onClick={this.deletePersonButtonClicked}>
+                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
                     delete
                   </Button>
                 </ButtonGroup>
@@ -114,19 +114,19 @@ class PersonListEntry extends Component {
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            id={`person${person.getID()}accountpanel-header`}
+            id={`project${project.getID()}accountpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{person.getName()}
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
               <Grid item>
                 <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editPersonButtonClicked}>
+                  <Button color='primary' onClick={this.editProjectButtonClicked}>
                     edit
                   </Button>
-                  <Button color='secondary' onClick={this.deletePersonButtonClicked}>
+                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
                     delete
                   </Button>
                 </ButtonGroup>
@@ -138,11 +138,11 @@ class PersonListEntry extends Component {
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <AccountList show={expandedState} person={person} />
+            <AccountList show={expandedState} project={project} />
           </AccordionDetails>
         </Accordion>
-        <PersonForm show={showPersonForm} person={person} onClose={this.personFormClosed} />
-        <PersonDeleteDialog show={showPersonDeleteDialog} person={person} onClose={this.deletePersonDialogClosed} />
+        <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
+        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
       </div>
     );*/
   }
@@ -156,24 +156,24 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-PersonListEntry.propTypes = {
+ProjectListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The PersonBO to be rendered */
-  person: PropTypes.object.isRequired,
-  /** The state of this PersonListEntry. If true the person is shown with its accounts */
+  /** The ProjectBO to be rendered */
+  project: PropTypes.object.isRequired,
+  /** The state of this ProjectListEntry. If true the project is shown with its accounts */
   expandedState: PropTypes.bool.isRequired,
-  /** The handler responsible for handle expanded state changes (exanding/collapsing) of this PersonListEntry 
+  /** The handler responsible for handle expanded state changes (exanding/collapsing) of this ProjectListEntry 
    * 
-   * Signature: onExpandedStateChange(PersonBO person)
+   * Signature: onExpandedStateChange(ProjectBO project)
    */
   onExpandedStateChange: PropTypes.func.isRequired,
   /** 
-   *  Event Handler function which is called after a sucessfull delete of this person.
+   *  Event Handler function which is called after a sucessfull delete of this project.
    * 
-   * Signature: onPersonDelete(PersonBO person)
+   * Signature: onProjectDelete(ProjectBO project)
    */
-  onPersonDeleted: PropTypes.func.isRequired
+  onProjectDeleted: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(PersonListEntry);
+export default withStyles(styles)(ProjectListEntry);

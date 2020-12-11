@@ -127,13 +127,14 @@ class App extends React.Component {
 
     getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        console.log(api)
+        //console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {console.log(person)
+                console.log(person.get)
             this.setState({
                 person: person
             })
-            console.log(this.state.person)
+            //console.log(this.state.person)
             }
             )
     }
@@ -234,22 +235,23 @@ class App extends React.Component {
 						<Header/>
 						{
 							// Ist eine Person eingeloggt?
-							person ?
-								<>
-									<Redirect from='/' to='UserView' />
-                                    {/* <Route exact path='/persons'>
-										<PersonList />
-									</Route> */}
-									<Route exact path='/UserView'>
-										<UserView setRole={this.setRole}/>
-									</Route>
-								</>
-								:
-								// sonst zeige die SignIn Seite 
-								<>
-									<Redirect to='/SignIn' />
-									<SignIn onSignIn={this.handleSignIn} />
-								</>
+                            person ?
+                                        <>
+                                
+                                            <Redirect from='/' to='persons' />
+                                            <Route exact path='/persons'>
+                                                <PersonList />
+                                            </Route>
+                                            /*<Route exact path='/UserView'>
+                                                <UserView setRole={this.setRole}/>
+                                            </Route>*/
+                                        </>
+                                        :
+                                        // sonst zeige die SignIn Seite 
+                                        <>
+                                            <Redirect to='/SignIn' />
+                                            <SignIn onSignIn={this.handleSignIn} />
+                                        </>
 						}
 						<LoadingProgress show={authLoading} />
 						<ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
