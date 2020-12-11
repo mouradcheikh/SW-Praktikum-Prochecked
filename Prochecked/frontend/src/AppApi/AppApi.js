@@ -158,8 +158,9 @@ updatePerson(personBO){
 
 
 //Participation related
-getParticipationByProject()
-  pass
+getParticipationByProject(){
+  
+}
 
 
 

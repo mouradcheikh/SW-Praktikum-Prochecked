@@ -281,7 +281,7 @@ class ProjectAdministration (object):
         pass
 
 #DOZENTENVIEW
-    def get_project_by_Dozent(self, dozent)
+    def get_project_by_Dozent(self, dozent):
         pass
 
 
