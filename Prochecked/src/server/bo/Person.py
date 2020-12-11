@@ -72,7 +72,7 @@ class Person(NamedBusinessObjects):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
         for (user_id, name, berechtigung, creation_date, email, google_id,
-             last_updated) in tuples:
+        ) in tuples:
             person = Person()
             person.set_id(user_id)
             person.set_name(name)
@@ -80,7 +80,6 @@ class Person(NamedBusinessObjects):
             person.set_email(email)
             person.set_google_id(google_id)
             person.set_creation_date(creation_date)
-            person.set_last_updated(last_updated)
             result.append(person)
         return result
        

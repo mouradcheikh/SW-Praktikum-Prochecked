@@ -119,22 +119,32 @@ project = api.inherit('Project', nbo, {
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @prochecked.marshal_with(person) 
+    @prochecked.marshal_with(person)
     @secured
     def get(self):
         # """Auslesen aller Person-Objekte.
 
         #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        # adm = ProjectAdministration()
-        # persons = adm.get_all_persons()
-        # return persons
-        pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung(Person.student)
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers
+        '''adm = ProjectAdministration()
+        persons = adm.get_all_persons()
+        return persons'''
+
+        l = []
+        pers1 = Person()
+        pers1.set_name("Perry Dettke")
+        pers1.set_email("Perry@gmx.de")
+        pers1.set_berechtigung(Person.student)
+        pers1.set_google_id('PlxHEijpqWeVXdeeah3yfI4YfKc2')
+        pers1.set_id(1)
+        pers2 = Person()
+        pers2.set_name("Marius Fechter")
+        pers2.set_email("Marius@gmx.de")
+        pers2.set_berechtigung(Person.student)
+        pers2.set_google_id("google2")
+        pers2.set_id(2)
+        l.append(pers1)
+        l.append(pers2)
+        return l
 
 
 
@@ -241,3 +251,6 @@ class PersonsByNameOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    '''adm = ProjectAdministration()
+    persons = adm.get_all_persons()
+    print(persons)'''
