@@ -176,7 +176,7 @@ class PersonListOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
-
+#Person related
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('google_id', 'Die google_id des Person-Objekts')
@@ -248,6 +248,33 @@ class PersonsByNameOperations(Resource):
         pers = adm.get_person_by_name(name)
         return pers
 
+
+
+
+
+
+
+
+# #Project related
+
+
+# ProjectByDozentOperation
+#     GET
+
+
+# #Participation related
+
+
+# ParticipationByProjectOperation
+#     GET
+
+
+
+
+# #Student related
+
+# StudentByParticipationOperation
+#     GET
 
 if __name__ == '__main__':
     app.run(debug=True)
