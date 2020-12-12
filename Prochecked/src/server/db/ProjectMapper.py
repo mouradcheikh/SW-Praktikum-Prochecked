@@ -18,7 +18,8 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_ID, projectStateID, projectTypeID, semesterID FROM project WHERE id={} ORDER BY id
+        command = "SELECT id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, module, person2_id FROM project WHERE id={} ORDER BY id
+            project = Project()
             project.set_external_partners(external_partners)
             project.set_short_descripton(short_description)
             project.set_weekly_flag(weekly_flag)
