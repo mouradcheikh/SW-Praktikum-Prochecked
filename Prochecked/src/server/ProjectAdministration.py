@@ -13,6 +13,8 @@ from .bo.Automat import Automat
 
 from .db.StudentMapper import StudentMapper"""
 from server.db.PersonMapper import PersonMapper
+from server.db.ProjectMapper import ProjectMapper
+from server.db.ParticipationMapper import ParticipationMapper
 """from .db.RoleMapper import RoleMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.GradingMapper import GradingMapper
@@ -157,9 +159,6 @@ class ProjectAdministration (object):
     def get_all_projects(self, ):
         pass
 
-    def get_project_by_id(self, id):
-        pass
-
     def get_projects_by_person(self, person):
         pass
 
@@ -297,7 +296,7 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_dozent_id(person.get_id()) 
 
-    def get_project_by_id(self, id)
+    def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
         with ProjectMapper() as mapper:
             return mapper.find_by_id(id) 

@@ -1,4 +1,6 @@
 import PersonBO from './PersonBO';
+import ParticipationBO from './ParticipationBO'
+import ProjectBO from './ProjectBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.

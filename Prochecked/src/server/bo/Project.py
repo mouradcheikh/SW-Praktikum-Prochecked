@@ -117,6 +117,12 @@ class Project(NamedBusinessObjects, Automat):
     def get_dozent(self):
         return self._dozent
 
+    def set_semester(self, semester):
+        self._semester = semester
+
+    def get_semester(self):
+        return self._semester
+
 
     def __str__(self):
         return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent())

@@ -14,7 +14,7 @@ class ParticipationMapper(Mapper):
     def find_by_id(self, ):
         pass
 
-    def find_by_project_id(self, projectID):
+    def find_by_project_id(self, project_id):
         """Auslesen aller Teilnahmen eines durch Fremdschlüssel (project_id) gegebenen Projekts.
 
         :param project_id Schlüssel des zugehörigen Studenten.
@@ -23,7 +23,7 @@ class ParticipationMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, project_id FROM participation WHERE project_id={} ORDER BY id".format(projectID)
+        command = "SELECT id, project_id FROM participation WHERE project_id={} ORDER BY id".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

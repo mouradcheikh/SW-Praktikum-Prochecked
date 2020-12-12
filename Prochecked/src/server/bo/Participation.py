@@ -43,10 +43,10 @@ class Participation(bo.BusinessObjects):
         result = {
             "id": self.get_id(),
             "creation_date": self.get_creation_date(),
-            "gradingID": self.get_grading(),
-            "moduleID": self.get_module(),
-            "projectID": self.get_project(),
-            "studentID": self.get_student(),        
+            "grading_id": self.get_grading(),
+            "module_id": self.get_module(),
+            "project_id": self.get_project(),
+            "student_id": self.get_student(),        
         }
         return result
        
@@ -57,10 +57,10 @@ class Participation(bo.BusinessObjects):
         obj = Participation()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_creation_date(Participation.date_format(dictionary["creation_date"]))
-        obj.set_grading(dictionary["gradingID"])  
-        obj.set_module(dictionary["moduleID"])
-        obj.set_project(dictionary["projectID"])  
-        obj.set_student(dictionary["studentID"])
+        obj.set_grading(dictionary["grading_id"])  
+        obj.set_module(dictionary["module_id"])
+        obj.set_project(dictionary["project_id"])  
+        obj.set_student(dictionary["student_id"])
         
         return obj
     
@@ -68,15 +68,15 @@ class Participation(bo.BusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
         result = []
-        for (participation_id, creation_date, gradingID, moduleID, projectID , studentID) in tuples:#participation_id richtig???
-            person = Person()
-            person.set_id(participation_id)
-            person.set_creation_date(creation_date)
-            person.set_gradingID(gradingID)
-            person.set_moduleID(moduleID)
-            person.set_projectID(projectID)
-            person.set_studentID(studentID)
-            result.append(person)
+        for (participation_id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
+            part = Participation()
+            part.set_id(participation_id)
+            part.set_creation_date(creation_date)
+            part.set_grading(grading_id)
+            part.set_module(module_id)
+            part.set_project(project_id)
+            part.set_student(student_id)
+            result.append(part)
         return result
 
     # def __str__(self, ):

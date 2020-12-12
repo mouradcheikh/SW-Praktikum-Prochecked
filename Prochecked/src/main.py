@@ -293,28 +293,28 @@ class PersonsByNameOperations(Resource):
 
 
 
-    @prochecked.route('/projects/<int:id>/participations')
-    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @prochecked.param('id', 'Die ID des Project-Objekts')
-    class ParticipationsByProjectOperation(Resource):
-        @prochecked.marshal_with(participation)
-        @secured
-        def get(self, id):
-            """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
+    # @prochecked.route('/projects/<int:id>/participations')
+    # @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    # @prochecked.param('id', 'Die ID des Project-Objekts')
+    # class ParticipationsByProjectOperation(Resource):
+    #     @prochecked.marshal_with(participation)
+    #     @secured
+    #     def get(self, id):
+    #         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
 
-            Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ProjectAdministration()
-            # Zunächst benötigen wir das durch id gegebene Project.
-            pro = adm.get_project_by_id(id)
+    #         Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+    #         """
+    #         adm = ProjectAdministration()
+    #         # Zunächst benötigen wir das durch id gegebene Project.
+    #         pro = adm.get_project_by_id(id)
 
-            # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
-            if pro is not None:
-                # Jetzt erst lesen wir die Teinahmen des Projects aus.
-                participation_list = adm.get_participations_by_project(pro)
-                return participation_list
-            else:
-                return "Project not found", 500
+    #         # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+    #         if pro is not None:
+    #             # Jetzt erst lesen wir die Teinahmen des Projects aus.
+    #             participation_list = adm.get_participations_by_project(pro)
+    #             return participation_list
+    #         else:
+    #             return "Project not found", 500
 
 
 

@@ -33,10 +33,10 @@ class ProjectMapper(Mapper):
             project.set_number_bd_examtime(number_bd_examtime)
             project.set_preferred_bd(preferred_bd)
             project.set_special_room(special_room)
-            project.set_person_ID(person_ID)
-            project.set_projectStateID(projectStateID)
-            project.set_projectTypeID(projectTypeID)
-            project.set_semesterID(semesterID)
+            project.set_person_id(person_id)
+            project.set_project_state(project_state_id)
+            project.set_project_type(project_type_id)
+            project.set_semester(semester_id)
             result.append(project)
 
         self._cnx.commit()
@@ -45,7 +45,7 @@ class ProjectMapper(Mapper):
         return result'''
 
     
-    def find_by_dozent_id(self, person_ID):
+    def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
         :param person_id Schlüssel des zugehörigen Dozenten.
@@ -54,14 +54,14 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, person_ID FROM project WHERE person_ID={} ORDER BY id".format(person_ID)
+        command = "SELECT id, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, person_ID) in tuples:
+        for (id, person_id) in tuples:
             p = Project()
             p.set_id(id)
-            p.set_dozent_id(person_ID)
+            p.set_dozent_id(person_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()
