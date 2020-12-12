@@ -305,7 +305,7 @@ class PersonsByNameOperations(Resource):
             # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
             if pro is not None:
                 # Jetzt erst lesen wir die Teinahmen des Projects aus.
-                participation_list = adm.get_participations_of_project(pro)
+                participation_list = adm.get_participations_by_project(pro)
                 return participation_list
             else:
                 return "Project not found", 500

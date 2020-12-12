@@ -159,8 +159,15 @@ updatePerson(personBO){
 
 //Participation related
 getParticipationByProject(){
+  pass
   
 }
+
+//Project related
+getProjectsByDozent(){
+  pass
+}
+
 
 
 

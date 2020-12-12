@@ -297,6 +297,10 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_owner_id(dozent.get_id()) 
 
+    def get_project_by_id(self, id)
+        """Das Project mit der gegebenen ID auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_id(id) 
 
 
     def save_participation(self, participation):
