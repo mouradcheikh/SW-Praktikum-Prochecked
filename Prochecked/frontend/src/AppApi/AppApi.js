@@ -27,6 +27,14 @@ export default class AppAPI {
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
 
 
+    // Participation related
+    #getParticipationByProjectURL = (projectID) => `${this.#AppServerBaseURL}/participations/${projectID}`;
+    
+
+    // Project related
+    #getProjectsByDozentURL = (personID) => `${this.#AppServerBaseURL}/projects/${personID}`;
+
+
       /** 
    * Get the Singelton instance 
    * 
@@ -157,18 +165,51 @@ updatePerson(personBO){
 }
 
 
+
+
 //Participation related
-getParticipationByProject(){
-  pass
+
+ /**
+   * Returns a Promise, which resolves to an Array of ParticipationBOs
+   * 
+   * @param {Number} projectID for which the the Participations should be retrieved
+   * @public
+   */
+  getParticipationByProject(projectID){
+    return this.#fetchAdvanced(this.#getParticipationByProjectURL(projectID))
+      .then((responseJSON) => {
+        let participationBOs = ParticipationBO.fromJSON(responseJSON);
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
+        })
+      })
+  }
+
+
+
+//Project related
+  /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} personID for which the the accounts should be retrieved
+   * @public
+   */
+  getProjectsByDozent(personID) {
+    return this.#fetchAdvanced(this.#getProjectsByDozentURL(personID))
+      .then((responseJSON) => {
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
+
+
   
 }
 
-//Project related
-getProjectsByDozent(){
-  pass
-}
 
 
-
-
-}

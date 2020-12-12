@@ -289,13 +289,13 @@ class ProjectAdministration (object):
     def get_participations_by_project(self, project):
         """Alle Teilnahmen des gegebenen Projekts auslesen."""
         with ParticipationMapper() as mapper:
-            return mapper.find_by_owner_id(project.get_id()) 
+            return mapper.find_by_project_id(project.get_id()) 
 
 #DOZENTENVIEW
-    def get_projects_by_dozent(self, dozent):
+    def get_projects_by_dozent(self, person): #dozent eig. !!!
         """Alle Projects des gegebenen Dozenten auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_owner_id(dozent.get_id()) 
+            return mapper.find_by_dozent_id(person.get_id()) 
 
     def get_project_by_id(self, id)
         """Das Project mit der gegebenen ID auslesen."""

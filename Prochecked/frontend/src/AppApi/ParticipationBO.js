@@ -8,14 +8,14 @@ export default class ParticipationBO extends BusinessObject {
   /**
    * Constructs a ParticipationBO object with a given student, grading, project and module
    * 
-   * @param {String} aname - the name of this ParticipationBO.
+   * @param {String} aname - the name of this ParticipationBO. //STIMMT DAS HIER ???
    */
-  constructor(astudent, agrading, aproject, amodule) {
+  constructor(astudentID, agradingID, aprojectID, amoduleID) {
     super();
-    this.student = astudent;
-    this.grading = agrading
-    this.project = aproject
-    this.module = amodule
+    this.student = astudentID
+    this.grading = agradingID
+    this.project = aprojectID
+    this.module = amoduleID
   }
 
   /**
@@ -23,8 +23,8 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} aname - the new name of this ParticipationBO.
    */
-  setStudent(astudent) {
-    this.student = astudent;
+  setStudent(astudentID) {
+    this.student = astudentID;
   }
 
   /**
@@ -34,24 +34,24 @@ export default class ParticipationBO extends BusinessObject {
     return this.student;
   }
 
-  setGrading(agrading){
-    this.grading = agrading
+  setGrading(agradingID){
+    this.grading = agradingID
   }
 
   getGrading(){
     return this.grading
   }
 
-  setProject(aproject){
-    this.project = aproject
+  setProject(aprojectID){
+    this.project = aprojectID
   }
 
   getProject(){
     return this.project
   }
 
-  setModule(amodule){
-    this.module = amodule
+  setModule(amoduleID){
+    this.module = amoduleID
   }
 
   getModule(){
