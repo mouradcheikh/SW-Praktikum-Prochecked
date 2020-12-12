@@ -22,9 +22,17 @@ export default class AppAPI {
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
     #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
-    #updatePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
+    #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
+
+
+    // Participation related
+    #getParticipationByProjectURL = (projectID) => `${this.#AppServerBaseURL}/participations/${projectID}`;
+    
+
+    // Project related
+    #getProjectsByDozentURL = (personID) => `${this.#AppServerBaseURL}/projects/${personID}`;
 
 
       /** 
@@ -55,20 +63,22 @@ export default class AppAPI {
     )
 
 
-
+//Person related
 getPersons() {
-      return this.#fetchAdvanced(this.#getPersonURL()).then((responseJSON) => {
+console.log("vorFetch in getPersons")
+      return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
+        console.log(responseJSON)
+        console.log("gefetched")
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(personBOs);
-        console.info(PersonBOs)
-        console.log("AppApi_getPersons")
+        console.log(PersonBOs)
         return new Promise(function (resolve) {
           
           resolve(PersonBOs);
         })
       })
     }
-  
+
     /**
      * Returns a Promise, which resolves to a PersonBO
      * 
@@ -88,9 +98,10 @@ getPerson(id) {
     }
 
 getPersonByGoogleId(google_id) {
-        console.log(google_id)
+        //console.log(google_id)
         return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
           console.log(responseJSON)
+          
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
           // console.info(responsePersonBO);
@@ -154,4 +165,51 @@ updatePerson(personBO){
 }
 
 
+
+
+//Participation related
+
+ /**
+   * Returns a Promise, which resolves to an Array of ParticipationBOs
+   * 
+   * @param {Number} projectID for which the the Participations should be retrieved
+   * @public
+   */
+  getParticipationByProject(projectID){
+    return this.#fetchAdvanced(this.#getParticipationByProjectURL(projectID))
+      .then((responseJSON) => {
+        let participationBOs = ParticipationBO.fromJSON(responseJSON);
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
+        })
+      })
+  }
+
+
+
+//Project related
+  /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} personID for which the the accounts should be retrieved
+   * @public
+   */
+  getProjectsByDozent(personID) {
+    return this.#fetchAdvanced(this.#getProjectsByDozentURL(personID))
+      .then((responseJSON) => {
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.info(accountBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
+
+
+  
 }
+
+
+

@@ -21,13 +21,13 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name, google_id,email, roleID FROM person WHERE google_id='{}'".format(
+        command = "SELECT id, creation_date, name, google_id, email, roleID FROM person WHERE google_id='{}'".format(
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, name,  google_id, email, roleID) = tuples[0]
+            (id, creation_date, name, google_id, email, roleID) = tuples[0]
             u = Person()
             u.set_id(id)
             u.set_name(name)
@@ -71,9 +71,9 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, name ,creation_date ,google_id,email) VALUES (%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_name(), person.get_creation_date(),
-                person.get_google_id(), person.get_email())
+        command = "INSERT INTO person (id, creation_date, name, google_id, email, roleID) VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_date(), person.get_name(),
+                person.get_google_id(), person.get_email(), person.get_berechtigung())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -81,11 +81,43 @@ class PersonMapper(Mapper):
 
         return person
 
-    def find_all(self, ):
-        pass
+    def find_all(self):
+        """Auslesen aller Kunde.
+
+        :return Eine Sammlung mit Person-Objekten, die sämtliche Kunden
+                repräsentieren.
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * from prochecked.person"
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        result = Person.from_tuples(tuples)
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
+
 
     def find_by_id(self, ):
         pass
+
+    def update(self, person):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param person das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE person " + "SET name=%s, email=%s, roleID=%s WHERE google_id=%s"
+        data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_google_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
 
     def delete(self, person):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
@@ -102,15 +134,14 @@ class PersonMapper(Mapper):
 
 
 if (__name__ == "__main__"):
-    '''person = Person()
-    person.set_email("j@gmx.de")
-    person.set_google_id("kfwowaf")
-    person.set_id(1)
-    person.set_name("j")
+#     '''person = Person()
+#     person.set_email("j@gmx.de")
+#     person.set_google_id("kfwowaf")
+#     person.set_id(1)
+#     person.set_name("j")
+#     person.set_berechtigung("Student")'''
 
-    with PersonMapper() as mapper:
-        result = mapper.insert(person)'''
-
-    with PersonMapper() as mapper:
-        result = mapper.find_by_google_id("kfwowaf")
-        print(result)
+  with PersonMapper() as mapper:
+        result = mapper.find_all()
+        for p in result:
+            print(p)

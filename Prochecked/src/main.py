@@ -50,7 +50,7 @@ bo = api.model('BusinessObjects', {
                                     description='Erstellungsdatum des BOs, wird '
                                                 'durch Unix Time Stamp ermittlet',
                                     dt_format='iso8601'),
-    'lastUpdated': fields.DateTime(attribute='_last_updated',
+    'last_updated': fields.DateTime(attribute='_last_updated',
                                    description='Änderungsdatum des BOs, wird durch'
                                                'Unix Time Stamp ermittlet',
                                    dt_format="iso8601")
@@ -67,9 +67,9 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
-    'google_id': fields.String(atttribute='_google_id',
+    'google_id': fields.String(attribute='_google_id',
                             description='Google User ID einer Person'),
-    'berechtigung': fields.String(attribute='_berechtigung',
+    'berechtigung': fields.Integer(attribute='_berechtigung',
                                 description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
     #'vorname': fields.String(atrribute='__vorname',
                             #description='Vorname einer Person')
@@ -116,10 +116,16 @@ project = api.inherit('Project', nbo, {
 })
 
 
+# Participation = api.inherit(
+#     pass
+# )
+
+
+#Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
-    @prochecked.marshal_with(person) 
+    @prochecked.marshal_list_with(person)
     @secured
     def get(self):
         # """Auslesen aller Person-Objekte.
@@ -128,13 +134,23 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
         persons = adm.get_all_persons()
         return persons
-        '''pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung(Person.student)
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers'''
+
+        '''l = []
+        pers1 = Person()
+        pers1.set_name("Perry Dettke")
+        pers1.set_email("Perry@gmx.de")
+        pers1.set_berechtigung(1)
+        pers1.set_google_id('google1')
+        pers1.set_id(1)
+        pers2 = Person()
+        pers2.set_name("Marius Fechter")
+        pers2.set_email("Marius@gmx.de")
+        pers2.set_berechtigung(2)
+        pers2.set_google_id("google2")
+        pers2.set_id(2)
+        l.append(pers1)
+        l.append(pers2)
+        return l'''
 
 
 
@@ -169,10 +185,10 @@ class PersonListOperations(Resource):
 
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('google_id', 'Die GoogleID des Person-Objekts')
+@prochecked.param('google_id', 'Die google_id des Person-Objekts')
 class PersonOperations(Resource):
     @prochecked.marshal_with(person)
-    #@secured
+    @secured
     def get(self, google_id):
         """Auslesen eines bestimmten Person-Objekts.
 
@@ -195,33 +211,33 @@ class PersonOperations(Resource):
 
     @prochecked.marshal_with(person)
     @prochecked.expect(person, validate=True)
-    # @secured
+    @secured
     def put(self, google_id):
-        """Update eines bestimmten Customer-Objekts.
+        """Update eines bestimmten Person-Objekts.
 
         **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
         verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
+        Project-Objekts.
         """
-        # adm = ProjectAdministration()
-        # p = Person.from_dict(api.payload)
+        adm = ProjectAdministration()
+        p = Person.from_dict(api.payload)
 
-        # if p is not None:
-        #     """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
-        #     Siehe Hinweise oben.
-        #     """
-        #     p.set_id(id)
-        #     adm.save_person(p)
-        #     return '', 200
-        # else:
-        #     return '', 500
-        pers = Person()
-        pers.set_name("kai")
-        pers.set_email("K.k@gmx.de")
-        pers.set_berechtigung(Person.student)
-        pers.set_google_id("iffni")
-        pers.set_id(1)
-        return pers
+        if p is not None:
+            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
+            Siehe Hinweise oben.
+            """
+            p.set_google_id(google_id)
+            adm.save_person(p)
+            return '', 200
+        else:
+            return '', 500
+        # pers = Person()
+        # pers.set_name("kai")
+        # pers.set_email("K.k@gmx.de")
+        # pers.set_berechtigung(Person.student)
+        # pers.set_google_id("iffni")
+        # pers.set_id(1)
+        # return pers
 
 @prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -239,5 +255,81 @@ class PersonsByNameOperations(Resource):
         return pers
 
 
+
+
+
+
+
+
+#Project related
+
+
+
+    @prochecked.route('/dozents/<int:id>/projects')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Dozent-Objekts')
+    class ProjectsByDozentOperation(Resource):
+        @prochecked.marshal_with(project)
+        @secured
+        def get(self, id):
+            """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+            Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = ProjectAdministration()
+            # Zunächst benötigen wir den durch id gegebenen Dozent.
+            doz = adm.get_dozent_by_id(id)
+
+            # Haben wir eine brauchbare Referenz auf ein Dozent-Objekt bekommen?
+            if doz is not None:
+                # Jetzt erst lesen wir die Konten des Dozent aus.
+                project_list = adm.get_projects_by_dozent(doz)
+                return project_list
+            else:
+                return "Dozent not found", 500
+
+
+#Participation related
+
+
+
+    @prochecked.route('/projects/<int:id>/participations')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Project-Objekts')
+    class ParticipationsByProjectOperation(Resource):
+        @prochecked.marshal_with(participation)
+        @secured
+        def get(self, id):
+            """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
+
+            Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = ProjectAdministration()
+            # Zunächst benötigen wir das durch id gegebene Project.
+            pro = adm.get_project_by_id(id)
+
+            # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+            if pro is not None:
+                # Jetzt erst lesen wir die Teinahmen des Projects aus.
+                participation_list = adm.get_participations_by_project(pro)
+                return participation_list
+            else:
+                return "Project not found", 500
+
+
+
+
+#Student related
+
+# StudentByParticipationOperation
+#     GET
+#brauchen wir glaube erstmal nicht
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+    '''adm = ProjectAdministration()
+    persons = adm.get_all_persons()
+    print(persons[0].get_name())'''

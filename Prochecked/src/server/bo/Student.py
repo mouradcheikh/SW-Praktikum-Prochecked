@@ -37,11 +37,11 @@ class Student(Person):
         obj.set_vorname(dictionary["vorname"]) 
         obj.set_berechtigung(dictionary["berechtigung"])
         obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["googleId"])
+        obj.set_google_id(dictionary["google_id"])
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
-        obj.set_creation_date(Person.date_format(dictionary["creationDate"]))
-        obj.set_last_updated(Person.date_format(dictionary["lastUpdated"]))
+        obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
+        obj.set_last_updated(Person.date_format(dictionary["last_updated"]))
         
         return obj
     
@@ -49,9 +49,9 @@ class Student(Person):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
-        for (user_id, name,vorname, berechtigung, creation_date, email, google_id, matr_nr, studiengang, last_updated) in tuples:
+        for (student_id, creation_date, name, vorname, berechtigung, email, google_id, matr_nr, studiengang, last_updated) in tuples:
             student = Student()
-            student.set_id(user_id)
+            student.set_id(student_id)
             student.set_name(name)
             student.set_vorname(vorname)
             student.set_berechtigung(berechtigung)
@@ -60,9 +60,9 @@ class Student(Person):
             student.set_matr_nr(matr_nr)
             student.set_studiengang(studiengang)
             student.set_creation_date(creation_date)
-            student.set_last_updated(last_updated)
             result.append(student)
         return result
+        # PROBLEM: Datenbank
 
 
 if __name__ == "__main__":

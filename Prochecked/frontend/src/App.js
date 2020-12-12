@@ -15,6 +15,7 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 import PersonList from './Components/PersonList';
+import PersonLoggedIn from '../src/Components/pages/PersonLoggedIn'
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -67,7 +68,9 @@ class App extends React.Component {
 					authLoading: false
                 });
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                
                 this.getPersonByGoogleId(person.uid)
+                
               
                 //this.createPerson(person.displayName, person.email, person.uid)
                 
@@ -103,7 +106,7 @@ class App extends React.Component {
     getPersons(){
         var api = AppAPI.getAPI()
         console.log(api)
-        api.getPerson().then((person) =>
+        api.getPersons().then((person) =>
             {console.log(person)
             this.setState({
                 person: person
@@ -123,22 +126,27 @@ class App extends React.Component {
             )
         }
 
-    getPersonByGoogleId(google_id){
+    getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        console.log(api)
+        //console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {console.log(person)
+                console.log(person.get)
             this.setState({
                 person: person
-            })}
+            })
+            //console.log(this.state.person)
+            }
             )
     }
 
     setRole = (aRole) => {
         const person = this.state.person
-        const {name, email, google_id, berechtigung} = person
-        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
-        updatedPerson.setBerechtigung(aRole)
+        const {name, email, google_id, id, creation_date, last_updated} = person
+        var updatedPerson = new PersonBO(name, email, google_id, aRole)
+        updatedPerson.setID(id)
+        updatedPerson.setCreationDate(creation_date)
+        updatedPerson.setLastUpdated(last_updated)
         var api = AppAPI.getAPI()
         api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
                         this.setState({
@@ -230,13 +238,7 @@ class App extends React.Component {
 							// Ist eine Person eingeloggt?
 							person ?
 								<>
-									<Redirect from='/' to='UserView' />
-                                    {/* <Route exact path='/persons'>
-										<PersonList />
-									</Route> */}
-									<Route exact path='/UserView'>
-										<UserView setRole={this.setRole}/>
-									</Route>
+									<PersonLoggedIn person={this.state.person} berechtigung = {this.state.person.berechtigung}></PersonLoggedIn>
 								</>
 								:
 								// sonst zeige die SignIn Seite 

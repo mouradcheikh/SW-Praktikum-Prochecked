@@ -13,7 +13,7 @@ class Person(NamedBusinessObjects):
         super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
         self._email = ""
         self._google_id = ""
-        self._berechtigung = None
+        self._berechtigung = ""
 
     
     def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
@@ -46,9 +46,9 @@ class Person(NamedBusinessObjects):
             "id": self.get_id(),
             "name": self.get_name(),
             "email": self.get_email(),
-            "googleId": self.get_google_id(),
-            "creationDate": self.get_creation_date(),
-            "lastUpdated": self.get_last_updated(),
+            "google_id": self.get_google_id(),
+            "creation_date": self.get_creation_date(),
+            "last_updated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
         }
         return result
@@ -61,9 +61,9 @@ class Person(NamedBusinessObjects):
         obj.set_name(dictionary["name"])
         obj.set_berechtigung(dictionary["berechtigung"])
         obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["googleId"])
-        obj.set_creation_date(Person.date_format(dictionary["creationDate"]))
-        obj.set_last_updated(Person.date_format(dictionary["lastUpdated"]))
+        obj.set_google_id(dictionary["google_id"])
+        obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
+        obj.set_last_updated(Person.date_format(dictionary["last_updated"]))
         return obj
 
     
@@ -71,16 +71,14 @@ class Person(NamedBusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
-        for (user_id, name, berechtigung, creation_date, email, google_id,
-             last_updated) in tuples:
+        for (user_id, creation_date, name, google_id, email , roleID) in tuples:
             person = Person()
             person.set_id(user_id)
             person.set_name(name)
-            person.set_berechtigung(berechtigung)
+            person.set_berechtigung(roleID)
             person.set_email(email)
             person.set_google_id(google_id)
             person.set_creation_date(creation_date)
-            person.set_last_updated(last_updated)
             result.append(person)
         return result
        
