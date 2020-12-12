@@ -7,32 +7,32 @@ from datetime import datetime
 class Participation(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._student = None
-        self._grading = None
-        self._project = None
-        self._module = None
+        self._student = 0
+        self._grading = 0
+        self._project = 0
+        self._module = 0
     
 
-    def set_student(self, student):
-        self._student = student
+    def set_student(self, studentID):
+        self._student = studentID
 
     def get_student (self):
         return self._student
     
-    def set_grading(self, grading):
-        self._grading = grading
+    def set_grading(self, gradingID):
+        self._grading = gradingID
 
     def get_grading (self):
         return self._grading
 
-    def set_project(self, project):
-        self._project = project
+    def set_project(self, projectID):
+        self._project = projectID
 
     def get_project (self):
         return self._project
 
-    def set_module(self, module):
-        self._module = module
+    def set_module(self, moduleID):
+        self._module = moduleID
 
     def get_module (self):
         return self._module
@@ -68,7 +68,7 @@ class Participation(bo.BusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
         result = []
-        for (participation_id, creation_date, gradingID, moduleID, projectID , studentID) in tuples:
+        for (participation_id, creation_date, gradingID, moduleID, projectID , studentID) in tuples:#participation_id richtig???
             person = Person()
             person.set_id(participation_id)
             person.set_creation_date(creation_date)

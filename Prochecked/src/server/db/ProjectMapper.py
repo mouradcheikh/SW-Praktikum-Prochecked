@@ -10,5 +10,54 @@ class ProjectMapper(Mapper):
     def find_all(self, ):
         pass
 
-    def find_by_id(self, ):
-        pass
+    def find_by_id(self, id):
+        """Auslesen aller Konten eines durch Fremdschlüssel gegebenen Projekts.
+        :param project_id Schlüssel des zugehörigen Projekts.
+        :return Eine Sammlung mit Project-Objekten, die sämtliche Konten der
+                betreffenden Projects repräsentieren.
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_ID, projectStateID, projectTypeID, semesterID FROM project WHERE id={} ORDER BY id
+            project.set_external_partners(external_partners)
+            project.set_short_descripton(short_description)
+            project.set_weekly_flag(weekly_flag)
+            project.set_number_bd_b_lecturetime(number_bd_b_lecturetime)
+            project.set_number_bd_examtime(number_bd_examtime)
+            project.set_preferred_bd(preferred_bd)
+            project.set_special_room(special_room)
+            project.set_person_ID(person_ID)
+            project.set_projectStateID(projectStateID)
+            project.set_projectTypeID(projectTypeID)
+            project.set_semesterID(semesterID)
+            result.append(project)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    
+     def find_by_dozent_id(self, person_ID):
+        """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
+
+        :param person_id Schlüssel des zugehörigen Dozenten.
+        :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
+                betreffenden Dozenten repräsentieren.
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, person_ID FROM project WHERE person_ID={} ORDER BY id".format(person_ID)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, person_ID) in tuples:
+            p = Project()
+            p.set_id(id)
+            p.set_Person_ID(person_ID)
+            result.append(p)
+        #hier fehlen warscheinlich noch die anderen attribute
+        self._cnx.commit()
+        cursor.close()
+
+        return result
