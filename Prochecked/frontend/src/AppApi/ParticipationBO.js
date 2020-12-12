@@ -8,7 +8,7 @@ export default class ParticipationBO extends BusinessObject {
   /**
    * Constructs a ParticipationBO object with a given student, grading, project and module
    * 
-   * @param {String} aname - the name of this ParticipationBO. //STIMMT DAS HIER ???
+   * @param {String} astudentID - the name of this ParticipationBO. 
    */
   constructor(astudentID, agradingID, aprojectID, amoduleID) {
     super();

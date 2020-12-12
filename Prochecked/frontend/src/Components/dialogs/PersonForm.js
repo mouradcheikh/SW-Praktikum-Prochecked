@@ -19,7 +19,6 @@ import LoadingProgress from './LoadingProgress';
  * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
  * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
  * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
 class PersonForm extends Component {
 

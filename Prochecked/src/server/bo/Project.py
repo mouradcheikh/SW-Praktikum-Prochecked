@@ -15,7 +15,7 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def __init__(self):
-        #super().__init__() #vermute man braucht die super init nicht, da automat und NamedBusinesObject nicht erzeugt werden müssen, deren methoden können trozdem verwendet werden
+        super().__init__()
         
         #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
         self._capacity = None
@@ -35,6 +35,8 @@ class Project(NamedBusinessObjects, Automat):
         self._project_state = None
         self._projecttype = None
 
+    def set_dozent_id(self,person_ID):
+        self._dozent = person_ID
 
     def set_projecttype(self, projecttype):
         self._projecttype = projecttype

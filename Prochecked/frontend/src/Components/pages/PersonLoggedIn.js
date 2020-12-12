@@ -27,7 +27,7 @@ class PersonLoggedIn extends Component {
             page = <>	
                     <Redirect from='/' to='DozentView' />
                     <Route exact path='/DozentView'>
-                    <DozentView/>
+                    <DozentView person={this.props.person}></DozentView>
                     </Route> 
                     </>
         }

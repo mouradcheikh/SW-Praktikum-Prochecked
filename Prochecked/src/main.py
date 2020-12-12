@@ -115,6 +115,12 @@ project = api.inherit('Project', nbo, {
                                      description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),     
 })
 
+
+# Participation = api.inherit(
+#     pass
+# )
+
+
 #Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -275,7 +281,7 @@ class PersonsByNameOperations(Resource):
             doz = adm.get_dozent_by_id(id)
 
             # Haben wir eine brauchbare Referenz auf ein Dozent-Objekt bekommen?
-            if cust is not None:
+            if doz is not None:
                 # Jetzt erst lesen wir die Konten des Dozent aus.
                 project_list = adm.get_projects_by_dozent(doz)
                 return project_list
@@ -298,7 +304,7 @@ class PersonsByNameOperations(Resource):
 
             Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
             """
-            adm = BankAdministration()
+            adm = ProjectAdministration()
             # Zunächst benötigen wir das durch id gegebene Project.
             pro = adm.get_project_by_id(id)
 
