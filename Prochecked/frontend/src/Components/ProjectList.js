@@ -36,14 +36,14 @@ class ProjectList extends Component {
       error: null,
       loadingInProgress: false,
       expandedProjectID: expandedID,
-      showProjectForm: false
+      showProjectForm: false //evtl.nicht 
     };
   }
 
   /** Fetches all ProjectBOs from the backend */
-  getProjects = () => {
+  getProjectsByDozent = () => {
   console.log("vor fetch")
-    AppApi.getAPI().getProjects()
+    AppApi.getAPI().getProjectsByDozent()
 
 
       .then(projectBOs =>
@@ -69,7 +69,7 @@ class ProjectList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getProjects();
+    this.getProjectsByDozent();
   }
 
   /**
@@ -204,7 +204,7 @@ class ProjectList extends Component {
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjects} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozent} />
         <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
       </div>
     );

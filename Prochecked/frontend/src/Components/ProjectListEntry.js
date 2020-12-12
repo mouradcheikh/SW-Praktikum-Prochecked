@@ -12,9 +12,8 @@ import ProjectDeleteDialog from './dialogs/ProjectDeleteDialog';
  * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
  * functions. If expanded, it renders a AccountList.
  * 
- * @see See [AccountList](#accountlist)
+ * @see See [ProjectList](#projectlist)
  * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
 class ProjectListEntry extends Component {
 
