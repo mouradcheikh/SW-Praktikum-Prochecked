@@ -21,13 +21,13 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name, google_id, email, roleID FROM person WHERE google_id='{}'".format(
+        command = "SELECT id, creation_date, name, google_id, email, role_id FROM person WHERE google_id='{}'".format(
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, name, google_id, email, roleID) = tuples[0]
+            (id, creation_date, name, google_id, email, role_id) = tuples[0]
             u = Person()
             u.set_id(id)
             u.set_name(name)
@@ -35,7 +35,7 @@ class PersonMapper(Mapper):
             u.set_creation_date(creation_date)
             u.set_email(email)
 
-            u.set_berechtigung(roleID)
+            u.set_berechtigung(role_id)
             
             result = u
         except IndexError:
@@ -71,7 +71,7 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, creation_date, name, google_id, email, roleID) VALUES (%s,%s,%s,%s,%s,%s)"
+        command = "INSERT INTO person (id, creation_date, name, google_id, email, role_id) VALUES (%s,%s,%s,%s,%s,%s)"
         data = (person.get_id(), person.get_creation_date(), person.get_name(),
                 person.get_google_id(), person.get_email(), person.get_berechtigung())
         cursor.execute(command, data)
@@ -111,7 +111,7 @@ class PersonMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person " + "SET name=%s, email=%s, roleID=%s WHERE google_id=%s"
+        command = "UPDATE person " + "SET name=%s, email=%s, role_id=%s WHERE google_id=%s"
         data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_google_id())
         cursor.execute(command, data)
 

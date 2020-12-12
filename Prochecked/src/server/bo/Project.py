@@ -31,11 +31,8 @@ class Project(NamedBusinessObjects, Automat):
         self._special_room = None
         self._module = None
         self._dozent = []
-        self._Beteiligung = []
-        self._Charakter = None
-        self._Zeitraum = None #Kommt hier ein Objekt von Semester rein?
-        self._Veranstaltung = None
-        self._Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
+        self._semester = None #Kommt hier ein Objekt von Semester rein?
+        self._project_state = None
         self._projecttype = None
 
 
@@ -45,13 +42,17 @@ class Project(NamedBusinessObjects, Automat):
     def get_projecttype(self):
         return self._projecttype
 
+    def set_project_state(self, projectstate):
+        self._project_state = projectstate
+
+    def get_project_state(self):
+        return self._project_state
 
     def set_capacity(self, capacity):
         self._capacity = capacity
 
     def get_capacity(self):
         return self._capacity
-
 
     def set_room(self, room):
         self._room = room
