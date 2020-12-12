@@ -1,22 +1,21 @@
 import BusinessObject from './BusinessObject';
 
-
 /**
  * Represents a participation of the system
  */
 export default class ParticipationBO extends BusinessObject {
 
   /**
-   * Constructs a ParticipationBO object with a given name, email, google id and role
+   * Constructs a ParticipationBO object with a given student, grading, project and module
    * 
-   * @param {String} aname - the name of this ParticipationBO.
+   * @param {String} aname - the name of this ParticipationBO. //STIMMT DAS HIER ???
    */
-  constructor(aname, aemail, agoogleid, aberechtigung) {
+  constructor(astudentID, agradingID, aprojectID, amoduleID) {
     super();
-    this.name = aname;
-    this.email = aemail
-    this.google_id = agoogleid
-    this.berechtigung = aberechtigung
+    this.student = astudentID
+    this.grading = agradingID
+    this.project = aprojectID
+    this.module = amoduleID
   }
 
   /**
@@ -24,39 +23,39 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} aname - the new name of this ParticipationBO.
    */
-  setName(aname) {
-    this.name = aname;
+  setStudent(astudentID) {
+    this.student = astudentID;
   }
 
   /**
    * Gets the name.
    */
-  getName() {
-    return this.name;
+  getStudent() {
+    return this.student;
   }
 
-  setEmail(aemail){
-    this.email = aemail
+  setGrading(agradingID){
+    this.grading = agradingID
   }
 
-  getEmail(){
-    return this.email
+  getGrading(){
+    return this.grading
   }
 
-  setGoogleId(agoogleid){
-    this.google_id = agoogleid
+  setProject(aprojectID){
+    this.project = aprojectID
   }
 
-  getGoogleId(){
-    return this.google_id
+  getProject(){
+    return this.project
   }
 
-  setBerechtigung(aberechtigung){
-    this.berechtigung = aberechtigung
+  setModule(amoduleID){
+    this.module = amoduleID
   }
 
-  getBerechtigung(){
-    return this.berechtigung
+  getModule(){
+    return this.module
   }
 
   /** 
