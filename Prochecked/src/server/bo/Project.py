@@ -15,7 +15,7 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def __init__(self):
-        #super().__init__() #vermute man braucht die super init nicht, da automat und NamedBusinesObject nicht erzeugt werden müssen, deren methoden können trozdem verwendet werden
+        super().__init__()
         
         #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
         self._capacity = None
@@ -30,14 +30,16 @@ class Project(NamedBusinessObjects, Automat):
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
         self._module = None
-        self._dozent = []
+        self._dozent = None
         self._Beteiligung = []
         self._Charakter = None
         self._Zeitraum = None #Kommt hier ein Objekt von Semester rein?
         self._Veranstaltung = None
         self._Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
-        self._projecttype = None
+        self._projecttype = 0
 
+    def set_dozent_id(self,person_ID):
+        self._dozent = person_ID
 
     def set_projecttype(self, projecttype):
         self._projecttype = projecttype
