@@ -35,8 +35,11 @@ class Project(NamedBusinessObjects, Automat):
         self._project_type = None
 
 
-    def set_project_type(self, project_type):
-        self._project_type = project_type
+    def get_dozent_id(self):
+        return self._dozent
+
+    def set_projecttype(self, projecttype):
+        self._projecttype = projecttype
 
     def get_project_type(self):
         return self._project_type
@@ -102,11 +105,11 @@ class Project(NamedBusinessObjects, Automat):
         return self._special_room
 
     
-    def set_dozent(self, dozent):
-        self._dozent.append(dozent)
+    # def set_dozent(self, dozent): //obere ist richtig ?!
+    #     self._dozent = dozent
 
-    def get_dozent(self):
-        return self._dozent
+    # def get_dozent(self):
+    #     return self._dozent
 
     def set_semester(self, semester):
         self._semester = semester
@@ -115,7 +118,7 @@ class Project(NamedBusinessObjects, Automat):
         return self._semester
 
     def __str__(self):
-        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
+        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent_id())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -132,6 +135,5 @@ if __name__ == "__main__":
     Project1.set_project_type(Project.transdisziplinaer)
     Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
     Project1.set_name("Datenbank")
-    Project1.set_dozent("Lehmann")
     
     print(Project1)

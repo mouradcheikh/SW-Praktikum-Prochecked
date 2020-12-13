@@ -123,6 +123,7 @@ class ProjectMapper(Mapper):
 
     #     return result
 
+        
     def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -132,15 +133,15 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
+        command = "SELECT id,name, person_id FROM project WHERE person_id={} ORDER BY ".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id) in tuples:
+        for (id,name, person_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
-            p.set_dozent(person_id)
+            p.set_dozent_id(person_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()
@@ -149,24 +150,11 @@ class ProjectMapper(Mapper):
         return result
 
 
-    def delete(self, project):
-        """Löschen der Daten eines User-Objekts aus der Datenbank.
-
-        :param user das aus der DB zu löschende "Objekt"
-        """
-        cursor = self._cnx.cursor()
-
-        command = "DELETE FROM project WHERE id={}".format(project.get_id())
-        cursor.execute(command)
-
-        self._cnx.commit()
-        cursor.close()
-
 
 if __name__ == "__main__":
 
       with ProjectMapper() as mapper:
         result = mapper.find_by_dozent_id(2)
         for p in result:
-            print(p.get_id(), p.get_dozent())
+            print(p.get_id(), p.get_name(), p.get_dozent_id())
 
