@@ -129,7 +129,20 @@ class Project(NamedBusinessObjects, Automat):
         obj = Project()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        #benötigen wir hier alle Attribute ?
+        obj.set_project_type(dictionary["project_type"])
+        obj.set_capacity(dictionary["capacity"])
+        obj.set_room(dictionary["room"])
+        obj.set_ext_partner_list(dictionary["ext_partner_list"])
+        obj.set_short_description(dictionary["short_description"])
+        obj.set_weekly_flag(dictionary["weekly_flag"])
+        obj.set_number_bd_b_lecturetime(dictionary["number_bd_b_lecturetime"])
+        obj.set_number_bd_examtime(dictionary["number_bd_examtime"])
+        obj.set_preffered_bd(dictionary["preffered_bd"])
+        obj.set_special_room(dictionary["special_room"])
+        obj.set_dozent(dictionary["dozent"])
+        obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
+        obj.set_state(dictionary["current_state"])
+        #benötigen wir hier alle Attribute ? JA
 
 if __name__ == "__main__":
 
