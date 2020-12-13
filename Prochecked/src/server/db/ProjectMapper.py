@@ -134,6 +134,7 @@ class ProjectMapper(Mapper):
 
     #     return result
 
+        
     def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -190,6 +191,13 @@ if (__name__ == "__main__"):
     project.set_state(13)
     project.set_project_type(1)
     project.set_semester(2)
+
+if __name__ == "__main__":
+
+      with ProjectMapper() as mapper:
+        result = mapper.find_by_dozent_id(1)
+        for p in result:
+            print(p.get_id(), p.get_name(), p.get_dozent_id())
 
     with ProjectMapper() as mapper:
         result = mapper.insert(project)

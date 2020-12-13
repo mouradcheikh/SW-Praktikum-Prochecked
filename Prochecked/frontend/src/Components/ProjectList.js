@@ -41,11 +41,10 @@ class ProjectList extends Component {
   }
 
   /** Fetches all ProjectBOs from the backend */
-  getProjectsByDozent = () => {
+  getProjectsByDozent = (person_id) => {
   console.log("vor fetch")
-    AppApi.getAPI().getProjectsByDozent()
 
-
+    AppApi.getAPI().getProjectsByDozent(person_id)
       .then(projectBOs =>
         this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
@@ -69,7 +68,7 @@ class ProjectList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getProjectsByDozent();
+    this.getProjectsByDozent(this.props.person.getID);
   }
 
   /**
