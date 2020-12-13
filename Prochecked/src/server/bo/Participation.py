@@ -16,7 +16,7 @@ class Participation(bo.BusinessObjects):
     def set_student(self, student_id):
         self._student = student_id
 
-    def get_student (self):
+    def get_student(self):
         return self._student
     
     def set_grading(self, grading_id):

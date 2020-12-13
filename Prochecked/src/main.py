@@ -121,10 +121,17 @@ project = api.inherit('Project', nbo, {
                                      description='Art des Projekts'),     
 })
 
+participation = api.inherit ('Participation', bo, {
+    'grading_id': fields.Integer (attribute= '_grading',
+                                 description='Note der Teilnahme'),
+    'module_id': fields.Integer (attribute= '_module',
+                                description='Module der Teilnahme'),
+    'project_id': fields.Integer (atrribute= '_project',
+                                description='Project der Teilnahme'),
+    'student_id': fields.Integer (attribute='_student',
+                                description='Student der Teilnahme'),    
+}) 
 
-# Participation = api.inherit(
-#     pass
-# )
 
 
 #Person related
@@ -299,7 +306,34 @@ class ProjectOperations(Resource):
 
 
 
-@prochecked.route('/dozents/<int:id>/projects')
+    @prochecked.route('/dozents/<int:id>/projects')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Dozent-Objekts')
+    class ProjectsByDozentOperation(Resource):
+        @prochecked.marshal_with(project)
+        @secured
+        def get(self, person_id):
+            """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+            Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = ProjectAdministration()
+            project_list = adm.get_projects_by_dozent(person_id)
+
+            return project_list
+
+            # Zunächst benötigen wir den durch id gegebenen Dozent.
+            # doz = adm.get_dozent_by_id(id)
+
+            # # Haben wir eine brauchbare Referenz auf ein Dozent-Objekt bekommen?
+            # if doz is not None:
+            #     # Jetzt erst lesen wir die Konten des Dozent aus.
+            #     project_list = adm.get_projects_by_dozent(doz)
+            #     return project_list
+            # else:
+            #     return "Dozent not found", 500
+
+'''@prochecked.route('/dozents/<int:id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die ID des Dozent-Objekts')
 class ProjectsByDozentOperation(Resource):
@@ -320,7 +354,7 @@ class ProjectsByDozentOperation(Resource):
             project_list = adm.get_projects_by_dozent(doz)
             return project_list
         else:
-            return "Dozent not found", 500    
+            return "Dozent not found", 500    '''
 
 
 #Participation related
@@ -333,25 +367,47 @@ class ProjectsByDozentOperation(Resource):
     # class ParticipationsByProjectOperation(Resource):
     #     @prochecked.marshal_with(participation)
     #     @secured
-    #     def get(self, id):
+    #     def get(self, project_id):
     #         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
 
     #         Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
     #         """
     #         adm = ProjectAdministration()
     #         # Zunächst benötigen wir das durch id gegebene Project.
-    #         pro = adm.get_project_by_id(id)
+    #         participation_list = adm.get_participations_by_project(project_id)
+    #         return participation_list
 
-    #         # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
-    #         if pro is not None:
-    #             # Jetzt erst lesen wir die Teinahmen des Projects aus.
-    #             participation_list = adm.get_participations_by_project(pro)
-    #             return participation_list
-    #         else:
-    #             return "Project not found", 500
+    #         # # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+    #         # if pro is not None:
+    #         #     # Jetzt erst lesen wir die Teinahmen des Projects aus.
+    #         #     participation_list = adm.get_participations_by_project(pro)
+    #         #     return participation_list
+    #         # else:
+    #         #     return "Project not found", 500
 
 
+    @prochecked.route('/projects/<int:id>/participations')
+    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+    @prochecked.param('id', 'Die ID des Project-Objekts')
+    class ParticipationsByProjectOperation(Resource):
+        @prochecked.marshal_with(participation)
+        @secured
+        def get(self, project_id):
+            """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
 
+            Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+            """
+            adm = ProjectAdministration()
+            # Zunächst benötigen wir das durch id gegebene Project.
+            par = adm.get_participations_by_project(project_id) 
+
+            # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+            if par is not None:
+                # Jetzt erst lesen wir die Teinahmen des Projects aus.
+                student_list = adm.get_students_by_id(par.get_student_id) #par.get_student_id vermutlich richtig ?!?!?
+                return student_list
+            else: 
+                return "project_not_found", 500
 
 #Student related
 
@@ -363,6 +419,30 @@ class ProjectsByDozentOperation(Resource):
 
 
 if __name__ == '__main__':
+    #app.run(debug=True)
+    '''adm = ProjectAdministration()
+    persons = adm.get_all_persons()
+    print(persons[0].get_name())'''
+
+    adm = ProjectAdministration()
+    projects = adm.get_projects_by_dozent(2)
+    print(projects)
+    participations = adm.get_participations_by_project(1)
+    print(participations)
+    for p in participations:
+        print(p.get_id(), p.get_project(), p.get_student())
+
+    student = adm.get_students_by_id(1)
+    print(student.get_name(), student.get_matr_nr())
+
+    print(type(student))
+
+    for i in participations:
+        print(type(i))
+
+
+    for e in projects:
+        print(type(e))
     app.run(debug=True)
 
 

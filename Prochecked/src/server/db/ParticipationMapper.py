@@ -23,17 +23,27 @@ class ParticipationMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, project_id FROM participation WHERE project_id={} ORDER BY id".format(project_id)
+        command = "SELECT id, project_id, student_id FROM participation WHERE project_id={} ORDER BY id".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, project_id) in tuples:
+        for (id, project_id, student_id) in tuples:
             p = Participation()
             p.set_id(id)
             p.set_project(project_id)
+            p.set_student(student_id)
             result.append(p)
         
         self._cnx.commit()
         cursor.close()
 
         return result
+
+
+
+if __name__ == "__main__":
+
+      with ParticipationMapper() as mapper:
+        result = mapper.find_by_project_id(1)
+        for p in result:
+            print(p.get_id(), p.get_project(), p.get_student())

@@ -174,11 +174,11 @@ updatePerson(personBO){
  /**
    * Returns a Promise, which resolves to an Array of ParticipationBOs
    * 
-   * @param {Number} projectID for which the the Participations should be retrieved
+   * @param {Number} project_id for which the the Participations should be retrieved
    * @public
    */
-  getParticipationByProject(projectID){
-    return this.#fetchAdvanced(this.#getParticipationByProjectURL(projectID))
+  getParticipationByProject(project_id){
+    return this.#fetchAdvanced(this.#getParticipationByProjectURL(project_id))
       .then((responseJSON) => {
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.info(accountBOs);
@@ -194,11 +194,11 @@ updatePerson(personBO){
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
    * 
-   * @param {Number} personID for which the the accounts should be retrieved
+   * @param {Number} person_id for which the the accounts should be retrieved
    * @public
    */
-  getProjectsByDozent(personID) {
-    return this.#fetchAdvanced(this.#getProjectsByDozentURL(personID))
+  getProjectsByDozent(person_id) {
+    return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
       .then((responseJSON) => {
         let projectBOs = ProjectBO.fromJSON(responseJSON);
         // console.info(accountBOs);
