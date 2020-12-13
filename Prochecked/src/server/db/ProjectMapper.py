@@ -58,25 +58,36 @@ class ProjectMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            project.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO project (id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,)"
+            if maxid[0] is not None:
+                    """Wenn wir eine maximale ID festellen konnten, zählen wir diese
+                    um 1 hoch und weisen diesen Wert als ID dem Person-Objekt zu."""
+                    project.set_id(maxid[0] + 1)
+            else:
+                    """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
+                    davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
+                    project.set_id(1)
+
+
+        command = "INSERT INTO project (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         data = (
-                project.get_id(id),
+                project.get_id(),
                 project.get_name(),
                 project.get_creation_date(),
                 project.get_capacity(),
-                project.get_external_partners(),
-                project.get_short_descripton(),
+                project.get_ext_partner_list(),
+                project.get_short_description(),
                 project.get_weekly_flag(),
                 project.get_number_bd_b_lecturetime(),
                 project.get_number_bd_examtime(),
-                project.get_preferred_bd(),
+                project.get_number_bd_lecturetime(),
+                project.get_preffered_bd(),
                 project.get_special_room(),
-                project.get_dozent_id(),
+                project.get_dozent()[0],
                 project.get_state(),
                 project.get_project_type(),
                 project.get_semester(),
+                project.get_dozent()[1]
                 )
         cursor.execute(command, data)
 
@@ -163,10 +174,22 @@ class ProjectMapper(Mapper):
         cursor.close()
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-      with ProjectMapper() as mapper:
-        result = mapper.find_by_dozent_id(2)
-        for p in result:
-            print(p.get_id(), p.get_dozent())
+#       with ProjectMapper() as mapper:
+#         result = mapper.find_by_dozent_id(2)
+#         for p in result:
+#             print(p.get_id(), p.get_dozent())
 
+if (__name__ == "__main__"):
+    project = Project()
+    project.set_name("SE")
+    project.set_capacity(123)
+    project.set_id(1)
+    project.set_dozent(12)
+    project.set_state(13)
+    project.set_project_type(1)
+    project.set_semester(2)
+
+    with ProjectMapper() as mapper:
+        result = mapper.insert(project)
