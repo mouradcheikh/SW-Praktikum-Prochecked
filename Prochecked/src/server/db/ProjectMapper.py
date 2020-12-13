@@ -153,6 +153,7 @@ class ProjectMapper(Mapper):
             p.set_id(id)
             p.set_name(name)
             p.set_dozent_id(person_id)
+            #p.set_dozent(person_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()
@@ -160,6 +161,19 @@ class ProjectMapper(Mapper):
 
         return result
 
+
+    def delete(self, project):
+        """Löschen der Daten eines User-Objekts aus der Datenbank.
+
+        :param user das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM project WHERE id={}".format(project.get_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
 
 
 # if __name__ == "__main__":
@@ -183,6 +197,13 @@ if (__name__ == "__main__"):
     project.set_state(13)
     project.set_project_type(1)
     project.set_semester(2)
+
+if __name__ == "__main__":
+
+      with ProjectMapper() as mapper:
+        result = mapper.find_by_dozent_id(1)
+        for p in result:
+            print(p.get_id(), p.get_name(), p.get_dozent_id())
 
     with ProjectMapper() as mapper:
         result = mapper.insert(project)

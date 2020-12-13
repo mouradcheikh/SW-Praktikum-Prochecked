@@ -35,6 +35,9 @@ class Project(NamedBusinessObjects, Automat):
         self._project_type = None
 
 
+    def set_project_type(self, project_type):
+        self._project_type = project_type
+        
     def get_dozent_id(self):
         return self._dozent_id
 
@@ -114,10 +117,14 @@ class Project(NamedBusinessObjects, Automat):
     
     # def set_dozent(self, dozent): //obere ist richtig ?!
     #     self._dozent = dozent
+    
     def set_dozent(self, dozent):
         if self._dozent[0] == None:
             self._dozent[0]= dozent
         else: self._dozent[1] = dozent
+
+    # def set_dozent(self, dozent): //obere ist richtig ?!
+    #     self._dozent = dozent
 
     # def get_dozent(self):
     #     return self._dozent
