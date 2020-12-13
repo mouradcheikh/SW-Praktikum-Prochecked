@@ -5,7 +5,6 @@ from flask_restx import Api, Resource, fields
 # Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
 from flask_cors import CORS
 
-
 # Wir greifen natürlich auf unsere Applikationslogik inkl. BusinessObject-Klassen zurück
 from server.ProjectAdministration import ProjectAdministration
 from server.bo.Automat import Automat
@@ -22,7 +21,6 @@ from server.bo.Role import Role
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 
-
 # Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt
 from SecurityDecorator import secured
 
@@ -31,7 +29,6 @@ app = Flask(__name__)
 
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
 CORS(app, resources=r'/app/*')
-
 
 api = Api(app, version='1.0', title='Prochecked api',
           description='Eine rudimentäre Demo-API für Listenerstellung.')
@@ -44,97 +41,97 @@ prochecked = api.namespace('app', description="Funktionen der App")
 BusinessObject dient als Basisklasse."""
 
 bo = api.model('BusinessObjects', {
-    'id': fields.Integer(attribute='_id', 
-                        description='Der Unique Identifier eines Business Object'),
-    'creation_date': fields.DateTime(attribute='_creation_date', 
-                                    description='Erstellungsdatum des BOs, wird '
-                                                'durch Unix Time Stamp ermittlet',
-                                    dt_format='iso8601'),
+    'id': fields.Integer(attribute='_id',
+                         description='Der Unique Identifier eines Business Object'),
+    'creation_date': fields.DateTime(attribute='_creation_date',
+                                     description='Erstellungsdatum des BOs, wird '
+                                                 'durch Unix Time Stamp ermittlet',
+                                     dt_format='iso8601'),
     'last_updated': fields.DateTime(attribute='_last_updated',
-                                   description='Änderungsdatum des BOs, wird durch'
-                                               'Unix Time Stamp ermittlet',
-                                   dt_format="iso8601")
+                                    description='Änderungsdatum des BOs, wird durch'
+                                                'Unix Time Stamp ermittlet',
+                                    dt_format="iso8601")
 })
 
 """NamedBusinessObject, Person, Student, Module, Semester, Project & ProjectType sind BusinessObjects"""
 
-nbo = api.inherit('NamedBusinessObjects', bo, {    
+nbo = api.inherit('NamedBusinessObjects', bo, {
     'name': fields.String(attribute='_name',
-                        description='Nachname bei Personen oder Student'# Name ist manchmal Nachname und manchmal die Bezeichnung
-                                    'Name bzw. Bezeichnung von Projekt, Semester, Module, ProjectType,')
+                          description='Nachname bei Personen oder Student'  # Name ist manchmal Nachname und manchmal die Bezeichnung
+                                      'Name bzw. Bezeichnung von Projekt, Semester, Module, ProjectType,')
 })
 
 person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
     'google_id': fields.String(attribute='_google_id',
-                            description='Google User ID einer Person'),
+                               description='Google User ID einer Person'),
     'berechtigung': fields.Integer(attribute='_berechtigung',
-                                description='Berechtigung (bzw. Rolle) einer Person')#kommt komma wieder hin
-    #'vorname': fields.String(atrribute='__vorname',
-                            #description='Vorname einer Person')
+                                   description='Berechtigung (bzw. Rolle) einer Person')  # kommt komma wieder hin
+    # 'vorname': fields.String(atrribute='__vorname',
+    # description='Vorname einer Person')
 })
 
-student = api.inherit('Student',nbo, {
+student = api.inherit('Student', nbo, {
     'studiengang': fields.String(attribute='_studiengang',
-                                description='Studiengang eines Studenten'),
+                                 description='Studiengang eines Studenten'),
     'matr_nr': fields.Integer(attribute='_matr_nr',
-                            description='Matrikelnummer eines Studenten')
+                              description='Matrikelnummer eines Studenten')
 })
 
 module = api.inherit('Module', nbo, {
     'edv_nr': fields.Integer(attribute='__edv_nr',
-                            description='EDV-Nummer eines Moduls')
+                             description='EDV-Nummer eines Moduls')
 })
 
-semester = api.inherit('Semster', nbo, {                           #wird Semester in der Main benötigt??
+semester = api.inherit('Semster', nbo, {  # wird Semester in der Main benötigt??
     'teilleistung': fields.String(attribute='teilleistung',
-                                 descripton='Teilleistung eines Semester')
+                                  descripton='Teilleistung eines Semester')
 })
 
 project = api.inherit('Project', nbo, {
     'capacity': fields.Integer(attribute='_capacity',
-                              description='Kapazität eines Projekt'),
+                               description='Kapazität eines Projekt'),
     'room': fields.String(attribute='_room',
-                         description='Raum wo das Projekt durchgeführt wird'),
+                          description='Raum wo das Projekt durchgeführt wird'),
     'ext_partner_list': fields.Integer(attribute='_ext_partner_list',
-                                     description='Welche externe Partner werden für das Projekt benötigt'),
+                                       description='Welche externe Partner werden für das Projekt benötigt'),
     'short_description': fields.String(attribute='_short_description',
-                                    description='Kurzbeschreibung des Projekts'),
+                                       description='Kurzbeschreibung des Projekts'),
     'dozent': fields.String(attribute='_dozent',
-                        description='Welche Dozenten betreuen ein Projekt'),
-    'weekly_flag': fields.Boolean(attribute='_weekly_flag', #ist es mit einem Boolean möglich? oder wird Sgtring benötigt
-                         description='Gibt es wöchentliche Plfichttermine? True/False'),
+                            description='Welche Dozenten betreuen ein Projekt'),
+    'weekly_flag': fields.Boolean(attribute='_weekly_flag',
+                                  # ist es mit einem Boolean möglich? oder wird Sgtring benötigt
+                                  description='Gibt es wöchentliche Plfichttermine? True/False'),
     'number_bd_b_lecturetime': fields.Integer(attribute='_number_bd_b_lecturetime',
-                                     description='Wie viele Blocktage vor Vorlesungsbeginn'),
+                                              description='Wie viele Blocktage vor Vorlesungsbeginn'),
     'number_bd_lecturetime': fields.Integer(attribute='_number_bd_lecturetime',
-                                    description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
+                                            description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
     'number_bd_examtime': fields.Integer(attribute='_number_bd_examtime',
-                                    description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
-    'preffered_bd': fields.String(attribute='_preffered_bd', #fields.datettime ???
-                         description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'), 
+                                         description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
+    'preffered_bd': fields.String(attribute='_preffered_bd',  # fields.datettime ???
+                                  description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
     'special_room': fields.String(attribute='_special_room',
-                                     description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
+                                  description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
     'current_state': fields.Integer(attribute='_current_state',
-                                     description='Jetziger Status des Projekts'),
+                                    description='Jetziger Status des Projekts'),
     'project_type': fields.String(attribute='_project_type',
-                                     description='Art des Projekts'),     
+                                  description='Art des Projekts'),
 })
 
-participation = api.inherit ('Participation', bo, {
-    'grading_id': fields.Integer (attribute= '_grading',
+participation = api.inherit('Participation', bo, {
+    'grading_id': fields.Integer(attribute='_grading',
                                  description='Note der Teilnahme'),
-    'module_id': fields.Integer (attribute= '_module',
+    'module_id': fields.Integer(attribute='_module',
                                 description='Module der Teilnahme'),
-    'project_id': fields.Integer (atrribute= '_project',
-                                description='Project der Teilnahme'),
-    'student_id': fields.Integer (attribute='_student',
-                                description='Student der Teilnahme'),    
-}) 
+    'project_id': fields.Integer(atrribute='_project',
+                                 description='Project der Teilnahme'),
+    'student_id': fields.Integer(attribute='_student',
+                                 description='Student der Teilnahme'),
+})
 
 
-
-#Person related
+# Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
@@ -143,7 +140,7 @@ class PersonListOperations(Resource):
     def get(self):
         # """Auslesen aller Person-Objekte.
 
-        #Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = ProjectAdministration()
         persons = adm.get_all_persons()
         return persons
@@ -165,8 +162,6 @@ class PersonListOperations(Resource):
         l.append(pers2)
         return l'''
 
-
-
     @prochecked.marshal_with(person, code=200)
     @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
     @secured
@@ -182,14 +177,15 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Person.from_dict(api.payload)
-        print (proposal)
+        print(proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(),
+                                  proposal.get_berechtigung())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -252,7 +248,8 @@ class PersonOperations(Resource):
         # pers.set_id(1)
         # return pers
 
-@prochecked.route('/persons-by-name/<string:name>') #string:name korrekt?
+
+@prochecked.route('/persons-by-name/<string:name>')  # string:name korrekt?
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('name', 'Der Nachname des Kunden')
 class PersonsByNameOperations(Resource):
@@ -268,8 +265,7 @@ class PersonsByNameOperations(Resource):
         return pers
 
 
-
-#Projekt Operationen (ein Projekt anlegen (post) oder alle bekommmen (get))
+# Projekt Operationen (ein Projekt anlegen (post) oder alle bekommmen (get))
 @prochecked.route('/project')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperations(Resource):
@@ -288,7 +284,7 @@ class ProjectOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
-        print (proposal)
+        print(proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -301,26 +297,23 @@ class ProjectOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+    # Project related
 
-#Project related
+@prochecked.route('/dozents/<int:id>/projects')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Dozent-Objekts')
+class ProjectsByDozentOperation(Resource):
+    @prochecked.marshal_with(project)
+    @secured
+    def get(self, person_id):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
 
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_dozent(person_id)
 
-
-    @prochecked.route('/dozents/<int:id>/projects')
-    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @prochecked.param('id', 'Die ID des Dozent-Objekts')
-    class ProjectsByDozentOperation(Resource):
-        @prochecked.marshal_with(project)
-        @secured
-        def get(self, person_id):
-            """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
-
-            Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ProjectAdministration()
-            project_list = adm.get_projects_by_dozent(person_id)
-
-            return project_list
+        return project_list
 
             # Zunächst benötigen wir den durch id gegebenen Dozent.
             # doz = adm.get_dozent_by_id(id)
@@ -332,6 +325,7 @@ class ProjectOperations(Resource):
             #     return project_list
             # else:
             #     return "Dozent not found", 500
+
 
 '''@prochecked.route('/dozents/<int:id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -357,94 +351,90 @@ class ProjectsByDozentOperation(Resource):
             return "Dozent not found", 500    '''
 
 
-#Participation related
+# Participation related
 
 
+# @prochecked.route('/projects/<int:id>/participations')
+# @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+# @prochecked.param('id', 'Die ID des Project-Objekts')
+# class ParticipationsByProjectOperation(Resource):
+#     @prochecked.marshal_with(participation)
+#     @secured
+#     def get(self, project_id):
+#         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
 
-    # @prochecked.route('/projects/<int:id>/participations')
-    # @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    # @prochecked.param('id', 'Die ID des Project-Objekts')
-    # class ParticipationsByProjectOperation(Resource):
-    #     @prochecked.marshal_with(participation)
-    #     @secured
-    #     def get(self, project_id):
-    #         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
+#         Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+#         """
+#         adm = ProjectAdministration()
+#         # Zunächst benötigen wir das durch id gegebene Project.
+#         participation_list = adm.get_participations_by_project(project_id)
+#         return participation_list
 
-    #         Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-    #         """
-    #         adm = ProjectAdministration()
-    #         # Zunächst benötigen wir das durch id gegebene Project.
-    #         participation_list = adm.get_participations_by_project(project_id)
-    #         return participation_list
-
-    #         # # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
-    #         # if pro is not None:
-    #         #     # Jetzt erst lesen wir die Teinahmen des Projects aus.
-    #         #     participation_list = adm.get_participations_by_project(pro)
-    #         #     return participation_list
-    #         # else:
-    #         #     return "Project not found", 500
+#         # # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+#         # if pro is not None:
+#         #     # Jetzt erst lesen wir die Teinahmen des Projects aus.
+#         #     participation_list = adm.get_participations_by_project(pro)
+#         #     return participation_list
+#         # else:
+#         #     return "Project not found", 500
 
 
-    @prochecked.route('/projects/<int:id>/participations')
-    @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @prochecked.param('id', 'Die ID des Project-Objekts')
-    class ParticipationsByProjectOperation(Resource):
-        @prochecked.marshal_with(participation)
-        @secured
-        def get(self, project_id):
-            """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
+@prochecked.route('/projects/<int:id>/participations')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Project-Objekts')
+class ParticipationsByProjectOperation(Resource):
+    @prochecked.marshal_with(participation)
+    @secured
+    def get(self, project_id):
+        """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
 
-            Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ProjectAdministration()
-            # Zunächst benötigen wir das durch id gegebene Project.
-            par = adm.get_participations_by_project(project_id) 
+        Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir das durch id gegebene Project.
+        par = adm.get_participations_by_project(project_id)
 
-            # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
-            if par is not None:
-                # Jetzt erst lesen wir die Teinahmen des Projects aus.
-                student_list = adm.get_students_by_id(par.get_student_id) #par.get_student_id vermutlich richtig ?!?!?
-                return student_list
-            else: 
-                return "project_not_found", 500
+        # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
+        if par is not None:
+            # Jetzt erst lesen wir die Teinahmen des Projects aus.
+            student_list = adm.get_students_by_id(par.get_student_id)  # par.get_student_id vermutlich richtig ?!?!?
+            return student_list
+        else:
+            return "project_not_found", 500
 
-#Student related
+
+# Student related
 
 # StudentByParticipationOperation
 #     GET
-#brauchen wir glaube erstmal nicht
-
-
+# brauchen wir glaube erstmal nicht
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
+    app.run(debug=True)
+
     '''adm = ProjectAdministration()
     persons = adm.get_all_persons()
     print(persons[0].get_name())'''
 
-    adm = ProjectAdministration()
-    projects = adm.get_projects_by_dozent(2)
-    print(projects)
-    participations = adm.get_participations_by_project(1)
-    print(participations)
-    for p in participations:
-        print(p.get_id(), p.get_project(), p.get_student())
+    # adm = ProjectAdministration()
+    # projects = adm.get_projects_by_dozent(2)
+    # print(projects)
+    # participations = adm.get_participations_by_project(1)
+    # print(participations)
+    # for p in participations:
+    #     print(p.get_id(), p.get_project(), p.get_student())
 
-    student = adm.get_students_by_id(1)
-    print(student.get_name(), student.get_matr_nr())
+    # student = adm.get_students_by_id(1)
+    # print(student.get_name(), student.get_matr_nr())
 
-    print(type(student))
+    # print(type(student))
 
-    for i in participations:
-        print(type(i))
+    # for i in participations:
+    #     print(type(i))
 
-
-    for e in projects:
-        print(type(e))
-    app.run(debug=True)
-
+    # for e in projects:
+    #     print(type(e))
 
     """adm = ProjectAdministration()
     project = Project()

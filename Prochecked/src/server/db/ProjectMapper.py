@@ -188,7 +188,7 @@ class ProjectMapper(Mapper):
     #     for p in result:
     #         print(p.get_id(), p.get_name(), p.get_dozent_id())
 
-if (__name__ == "__main__"):
+'''if (__name__ == "__main__"):
     project = Project()
     project.set_name("SE")
     project.set_capacity(123)
@@ -196,14 +196,14 @@ if (__name__ == "__main__"):
     project.set_dozent(12)
     project.set_state(13)
     project.set_project_type(1)
-    project.set_semester(2)
+    project.set_semester(2)'''
 
 if __name__ == "__main__":
 
-      with ProjectMapper() as mapper:
+    with ProjectMapper() as mapper:
         result = mapper.find_by_dozent_id(1)
         for p in result:
             print(p.get_id(), p.get_name(), p.get_dozent_id())
 
-    with ProjectMapper() as mapper:
-        result = mapper.insert(project)
+    '''with ProjectMapper() as mapper:
+        result = mapper.insert(project)'''

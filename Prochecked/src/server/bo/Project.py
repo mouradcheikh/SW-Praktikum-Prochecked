@@ -30,7 +30,8 @@ class Project(NamedBusinessObjects, Automat):
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
         self._module = None
-        self._dozent = [None,None]
+        #self._dozent = [None,None]
+        self._dozent_id = []
         self._semester = None #Kommt hier ein Objekt von Semester rein?
         self._project_type = None
 
