@@ -13,26 +13,26 @@ class Participation(bo.BusinessObjects):
         self._module = 0
     
 
-    def set_student(self, studentID):
-        self._student = studentID
+    def set_student(self, student_id):
+        self._student = student_id
 
     def get_student (self):
         return self._student
     
-    def set_grading(self, gradingID):
-        self._grading = gradingID
+    def set_grading(self, grading_id):
+        self._grading = grading_id
 
     def get_grading (self):
         return self._grading
 
-    def set_project(self, projectID):
-        self._project = projectID
+    def set_project(self, project_id):
+        self._project = project_id
 
     def get_project (self):
         return self._project
 
-    def set_module(self, moduleID):
-        self._module = moduleID
+    def set_module(self, module_id):
+        self._module = module_id
 
     def get_module (self):
         return self._module
