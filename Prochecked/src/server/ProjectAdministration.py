@@ -9,9 +9,9 @@ from .bo.Participation import Participation
 from .bo.ProjectType import ProjectType
 from .bo.Semester import Semester
 from .bo.ProjectState import ProjectState
-from .bo.Automat import Automat
+from .bo.Automat import Automat"""
 
-from .db.StudentMapper import StudentMapper"""
+from server.db.StudentMapper import StudentMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
@@ -193,9 +193,9 @@ class ProjectAdministration (object):
     # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
     #     return
 
-    # def get_student_by_id(self, number):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_key(number)
+    def get_students_by_id(self, id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_id(id)
         
 
     # def get_student_by_name(self, name):
@@ -285,16 +285,21 @@ class ProjectAdministration (object):
 
 
 #DOZENTENVIEW
-    def get_participations_by_project(self, project):
+    def get_participations_by_project(self, project_id):
         """Alle Teilnahmen des gegebenen Projekts auslesen."""
         with ParticipationMapper() as mapper:
-            return mapper.find_by_project_id(project.get_id()) 
+            return mapper.find_by_project_id(project_id) 
 
 #DOZENTENVIEW
-    def get_projects_by_dozent(self, person): #dozent eig. !!!
+    # def get_projects_by_dozent(self, person): #dozent eig. !!! falls Funktion darunter nicht funktioniert diese versuchen(main.py entsprechend ändern)
+    #     """Alle Projects des gegebenen Dozenten auslesen."""
+    #     with ProjectMapper() as mapper:
+    #         return mapper.find_by_dozent_id(person.get_id()) 
+
+    def get_projects_by_dozent(self, person_id): #dozent eig. !!
         """Alle Projects des gegebenen Dozenten auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_dozent_id(person.get_id()) 
+            return mapper.find_by_dozent_id(person_id) 
 
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""

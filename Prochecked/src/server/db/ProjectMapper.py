@@ -45,6 +45,31 @@ class ProjectMapper(Mapper):
         return result'''
 
     
+    # def find_by_dozent_id(self, person_id):
+    #     """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
+
+    #     :param person_id Schlüssel des zugehörigen Dozenten.
+    #     :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
+    #             betreffenden Dozenten repräsentieren.
+    #     """
+    #     result = []
+    #     cursor = self._cnx.cursor()
+    #     command = "SELECT id, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
+    #     cursor.execute(command)
+    #     tuples = cursor.fetchall()
+
+    #     for (id, person_id) in tuples:
+    #         p = Project()
+    #         p.set_id(id)
+    #         p.set_dozent_id(person_id)
+    #         result.append(p)
+    #     #hier fehlen warscheinlich noch die anderen attribute
+    #     self._cnx.commit()
+    #     cursor.close()
+
+    #     return result
+
+        
     def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -54,13 +79,14 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
+        command = "SELECT id,name, person_id FROM project WHERE person_id={} ORDER BY ".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, person_id) in tuples:
+        for (id,name, person_id) in tuples:
             p = Project()
             p.set_id(id)
+            p.set_name(name)
             p.set_dozent_id(person_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
@@ -70,10 +96,11 @@ class ProjectMapper(Mapper):
         return result
 
 
+
 if __name__ == "__main__":
 
       with ProjectMapper() as mapper:
         result = mapper.find_by_dozent_id(2)
         for p in result:
-            print(p.get_id(), p.get_dozent())
+            print(p.get_id(), p.get_name(), p.get_dozent_id())
 
