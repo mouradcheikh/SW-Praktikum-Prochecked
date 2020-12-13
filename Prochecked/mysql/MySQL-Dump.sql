@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `grading`;
 CREATE TABLE `grading` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `grade` float DEFAULT '0',
+  `grade` float DEFAULT '0.0',
   `passed` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -77,8 +77,8 @@ DROP TABLE IF EXISTS `participation`;
 CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `grading_id` int NOT NULL DEFAULT '0',
-  `module_id` int NOT NULL DEFAULT '0',
+  `grading_id` int DEFAULT NULL,
+  `module_id` int DEFAULT NULL,
   `project_id` int NOT NULL DEFAULT '0',
   `student_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -141,9 +141,10 @@ CREATE TABLE `project` (
   `preffered_bd` int DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
   `person_id` int NOT NULL DEFAULT '0',
-  `projectState_id` int NOT NULL DEFAULT '0',
-  `projectType_id` int NOT NULL DEFAULT '0',
-  `semester_id` int NOT NULL,
+  `project_state_id` int NOT NULL DEFAULT '0',
+  `project_type_id` int NOT NULL DEFAULT '0',
+  `semester_id` int NOT NULL DEFAULT '0',
+  `person2_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
