@@ -14,10 +14,8 @@ import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
-// import PersonList from './Components/PersonList';
-import StudentenView from './Components/pages/StudentenView';
-import DozentView from './Components/pages/DozentView';
-import AdminView from './Components/pages/AdminView';
+import PersonList from './Components/PersonList';
+import PersonLoggedIn from '../src/Components/pages/PersonLoggedIn'
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -130,13 +128,14 @@ class App extends React.Component {
 
     getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        console.log(api)
+        //console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {console.log(person)
+                console.log(person.get)
             this.setState({
                 person: person
             })
-            console.log(this.state.person)
+            //console.log(this.state.person)
             }
             )
     }
@@ -239,40 +238,10 @@ class App extends React.Component {
 						<Header/>
 						{
 							// Ist eine Person eingeloggt?
-                            person ? 
-                            <div> 
-                            if (person.getBerechtigung() === 1) {
-                                return (
-                                    <>	<Redirect from='/' to='StudentenView' />
-                                        <Route exact path='/StudentenView'>
-                                        <StudentenView/>
-                                        </Route>
-                            </>  )
-                            } else if (person.getBerechtigung() === 2) {
-                                    return (
-                                     <>	<Redirect from='/' to='DozentView' />
-                                        <Route exact path='/DozentView'>
-                                        <DozentView/>
-                                        </Route> 
-                            </> )
-                            } else if  (userType === 3) {
-                                    return (
-                                    <>	<Redirect from='/' to='AdminView' />
-                                        <Route exact path='/AdminView'>
-                                        <AdminView/>
-                                        </Route>
-                            </> )
-                            } else {
-                                    return (
-                                    <>
-                                    <Redirect from='/' to='UserView' />
-                                    <Route exact path='/UserView'>
-                                    <UserView setRole={this.setRole}/>
-                                    </Route>
-                                </> )
-                            }
-                            }
-                            </div>
+							person ?
+								<>
+									<PersonLoggedIn person={this.state.person} berechtigung = {this.state.person.berechtigung}></PersonLoggedIn>
+								</>
 								:
 								// sonst zeige die SignIn Seite 
 								<>

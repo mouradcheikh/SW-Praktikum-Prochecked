@@ -5,25 +5,25 @@ from datetime import datetime
 class ProjectType(NamedBusinessObjects):
     def __init__(self, name="", sws = 0, ects = 0):
         super().__init__()
-        self.__number_SWS = sws
-        self.__number_ECTS = ects
-        self.__Charakterannehmer = []
+        self._number_sws = sws
+        self._number_ects = ects
+        self._Charakterannehmer = []
 
 
-    def set_number_SWS(self, number_SWS):
-        self.__number_SWS = number_SWS
+    def set_number_sws(self, number_sws):
+        self._number_sws = number_sws
 
-    def get_number_SWS(self):
-        return self.__number_SWS 
+    def get_number_sws(self):
+        return self._number_sws 
 
-    def set_number_ECTS(self, number_ECTS):
-        self.__number_ECTS = number_ECTS 
+    def set_number_ects(self, number_ects):
+        self._number_ects = number_ects 
 
-    def get_number_ECTS(self):
-        return self.__number_ECTS
+    def get_number_ects(self):
+        return self._number_ects
 
     def __str__(self):
-        return self.__name
+        return self._name
     
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -31,6 +31,6 @@ class ProjectType(NamedBusinessObjects):
         obj = ProjectType()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        obj.set_number_SWS(dictionary["number_SWS"]) #muss "vorname" hier private sein?
-        obj.set_number_ECTS(dictionary["number_ETCS"])# ""
+        obj.set_number_sws(dictionary["number_sws"]) #muss "vorname" hier private sein?
+        obj.set_number_ects(dictionary["number_ETCS"])# ""
         return obj

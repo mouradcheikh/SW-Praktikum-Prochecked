@@ -15,108 +15,113 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def __init__(self):
-        #super().__init__() #vermute man braucht die super init nicht, da automat und NamedBusinesObject nicht erzeugt werden müssen, deren methoden können trozdem verwendet werden
+        super().__init__()
         
         #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
-        self.__capacity = None
-        self.__room = None
-        self.__ext_partner_list = None
-        self.__short_description = None
-        self.__weekly_flag = None
-        self.__number_bd_per_week = None
-        self.__number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
-        self.__number_bd_examtime = None
-        self.__number_bd_lecturetime = None #blocktage vorlesungszeit
-        self.__preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
-        self.__special_room = None
-        self.__module = None
-        self.__dozent = []
-        self.__Beteiligung = []
-        self.__Charakter = None
-        self.__Zeitraum = None #Kommt hier ein Objekt von Semester rein?
-        self.__Veranstaltung = None
-        self.__Zustandsgeber = None #brauchen wir glaube nicht, macht projettype oder?
-        self.__projecttype = None
+        self._capacity = None
+        self._room = None
+        self._ext_partner_list = None
+        self._short_description = None
+        self._weekly_flag = None
+        self._number_bd_per_week = None
+        self._number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
+        self._number_bd_examtime = None
+        self._number_bd_lecturetime = None #blocktage vorlesungszeit
+        self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
+        self._special_room = None
+        self._module = None
+        self._dozent = [None,None]
+        self._semester = None #Kommt hier ein Objekt von Semester rein?
+        self._project_type = None
 
 
-    def set_projecttype(self, projecttype):
-        self.__projecttype = projecttype
+    def set_project_type(self, project_type):
+        self._project_type = project_type
 
-    def get_projecttype(self):
-        return self.__projecttype
-
+    def get_project_type(self):
+        return self._project_type
 
     def set_capacity(self, capacity):
-        self.__capacity = capacity
+        self._capacity = capacity
 
     def get_capacity(self):
-        return self.__capacity
-
+        return self._capacity
 
     def set_room(self, room):
-        self.__room = room
+        self._room = room
 
     def get_room(self):
-        return self.__room
+        return self._room
 
 
     def set_ext_partner_list(self, ext_partner_list):
-        self.__ext_partner_list = ext_partner_list
+        self._ext_partner_list = ext_partner_list
 
     def get_ext_partner_list(self):
-        return self.__ext_partner_list
+        return self._ext_partner_list
 
 
     def set_short_description(self, short_description):
-        self.__short_description = short_description
+        self._short_description = short_description
         
     def get_short_description(self):
-        return self.__short_description
+        return self._short_description
 
 
     def set_weekly_flag(self, weekly_flag):
-        self.__weekly_flag = weekly_flag
+        self._weekly_flag = weekly_flag
 
     def get_weekly_flag(self):
-        return self.__weekly_flag
+        return self._weekly_flag
 
     def set_number_bd_b_lecturetime(self, number_bd_b_lecturetime):
-        self.__number_bd_b_lecturetime = number_bd_b_lecturetime
+        self._number_bd_b_lecturetime = number_bd_b_lecturetime
    
     def get_number_bd_b_lecturetime(self):
-        return self.__number_bd_b_lecturetime
+        return self._number_bd_b_lecturetime
 
 
     def set_number_bd_examtime(self, number_bd_examtime):
-        self.__number_bd_examtime = number_bd_examtime
+        self._number_bd_examtime = number_bd_examtime
 
     def get_number_bd_examtime(self):
-        return self.__number_bd_examtime
+        return self._number_bd_examtime
+    def set_number_bd_lecturetime(self,number_bd_lecturetime):
+        self._number_bd_lecturetime = number_bd_lecturetime
 
+    def get_number_bd_lecturetime(self):
+        return self._number_bd_lecturetime
 
     def set_preffered_bd(self, preffered_bd):
-        self.__preffered_bd = preffered_bd
+        self._preffered_bd = preffered_bd
 
     def get_preffered_bd(self):
-        return self.__preffered_bd
+        return self._preffered_bd
 
 
     def set_special_room(self, special_room):
-        self.__special_room = special_room
+        self._special_room = special_room
 
     def get_special_room(self):
-        return self.__special_room
+        return self._special_room
 
     
     def set_dozent(self, dozent):
-        self.__dozent = dozent
+        if self._dozent[0] == None:
+            self._dozent[0]= dozent
+        else: self._dozent[1] = dozent
 
     def get_dozent(self):
-        return self.__dozent
+        return self._dozent
 
+    def set_semester(self, semester):
+        self._semester = semester
+
+    def get_semester(self):
+        return self._semester
 
     def __str__(self):
-        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent())
+        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -124,13 +129,26 @@ class Project(NamedBusinessObjects, Automat):
         obj = Project()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        #benötigen wir hier alle Attribute ?
+        obj.set_project_type(dictionary["project_type"])
+        obj.set_capacity(dictionary["capacity"])
+        obj.set_room(dictionary["room"])
+        obj.set_ext_partner_list(dictionary["ext_partner_list"])
+        obj.set_short_description(dictionary["short_description"])
+        obj.set_weekly_flag(dictionary["weekly_flag"])
+        obj.set_number_bd_b_lecturetime(dictionary["number_bd_b_lecturetime"])
+        obj.set_number_bd_examtime(dictionary["number_bd_examtime"])
+        obj.set_preffered_bd(dictionary["preffered_bd"])
+        obj.set_special_room(dictionary["special_room"])
+        obj.set_dozent(dictionary["dozent"])
+        obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
+        obj.set_state(dictionary["current_state"])
+        #benötigen wir hier alle Attribute ? JA
 
 if __name__ == "__main__":
 
     Project1 = Project()
     Project1.set_state(Project.s_new)
-    Project1.set_projecttype(Project.transdisziplinaer)
+    Project1.set_project_type(Project.transdisziplinaer)
     Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
     Project1.set_name("Datenbank")
     Project1.set_dozent("Lehmann")

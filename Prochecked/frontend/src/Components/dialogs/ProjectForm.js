@@ -2,32 +2,32 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import AppAPI  from '../../AppApi/AppApi';
-import PersonBO from '../../AppApi/PersonBO'
+import { AppApi, ProjectBO } from '../../AppApi';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
 
 /**
- * Shows a modal form dialog for a PersonBO in prop person. If the person is set, the dialog is configured 
- * as an edit dialog and the text fields of the form are filled from the given PersonBO object. 
- * If the person is null, the dialog is configured as a new person dialog and the textfields are empty.
- * In dependency of the edit/new state, the respective backend calls are made to update or create a person. 
- * After that, the function of the onClose prop is called with the created/update PersonBO object as parameter.  
+ * Shows a modal form dialog for a ProjectBO in prop project. If the project is set, the dialog is configured 
+ * as an edit dialog and the text fields of the form are filled from the given ProjectBO object. 
+ * If the project is null, the dialog is configured as a new project dialog and the textfields are empty.
+ * In dependency of the edit/new state, the respective backend calls are made to update or create a project. 
+ * After that, the function of the onClose prop is called with the created/update ProjectBO object as parameter.  
  * When the dialog is canceled, onClose is called with null.
  * 
  * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
  * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
  * 
+ * @author [Christoph Kunz](https://github.com/christophkunz)
  */
-class PersonForm extends Component {
+class ProjectForm extends Component {
 
   constructor(props) {
     super(props);
 
     let n = '';
-    if (props.person) {
-      n = props.person.getName();
+    if (props.project) {
+      n = props.project.getName();
       
     }
 
@@ -46,14 +46,14 @@ class PersonForm extends Component {
     this.baseState = this.state;
   }
 
-  /** Adds the person */
-  addPerson = () => {
-    let newPerson = new PersonBO(this.state.name);
-    AppAPI.getAPI().addPerson(newPerson).then(person => {
+  /** Adds the project */
+  addProject = () => {
+    let newProject = new ProjectBO(this.state.name);
+    AppAPI.getAPI().addProject(newProject).then(project => {
       // Backend call sucessfull
-      // reinit the dialogs state for a new empty person
+      // reinit the dialogs state for a new empty project
       this.setState(this.baseState);
-      this.props.onClose(person); // call the parent with the person object from backend
+      this.props.onClose(project); // call the parent with the project object from backend
     }).catch(e =>
       this.setState({
         updatingInProgress: false,    // disable loading indicator 
@@ -68,21 +68,21 @@ class PersonForm extends Component {
     });
   }
 
-  /** Updates the person */
-  updatePerson = () => {
-    // clone the original person, in case the backend call fails
-    let updatedPerson = Object.assign(new PersonBO(), this.props.person);
+  /** Updates the project */
+  updateProject = () => {
+    // clone the original project, in case the backend call fails
+    let updatedProject = Object.assign(new ProjectBO(), this.props.project);
     // set the new attributes from our dialog
-    updatedPerson.setName(this.state.name);
+    updatedProject.setName(this.state.name);
     
-    AppAPI.getAPI().updatePerson(updatedPerson).then(person => {
+    AppAPI.getAPI().updateProject(updatedProject).then(project => {
       this.setState({
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
       });
       // keep the new state as base state
       this.baseState.name = this.state.name;
-      this.props.onClose(updatedPerson);      // call the parent with the new person
+      this.props.onClose(updatedProject);      // call the parent with the new project
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // disable loading indicator 
@@ -122,20 +122,20 @@ class PersonForm extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, person, show } = this.props;
+    const { classes, project, show } = this.props;
     const { name, nameValidationFailed, nameEdited, addingInProgress,
       addingError, updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
 
-    if (person) {
-      // person defindet, so ist an edit dialog
-      title = 'Update a person';
-      header = `Person ID: ${person.getID()}`;
+    if (project) {
+      // project defindet, so ist an edit dialog
+      title = 'Update a project';
+      header = `Project ID: ${project.getID()}`;
     } else {
-      title = 'Create a new person';
-      header = 'Enter person data';
+      title = 'Create a new project';
+      header = 'Enter project data';
     }
 
     return (
@@ -158,11 +158,11 @@ class PersonForm extends Component {
             </form>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Show error message in dependency of person prop
-              person ?
-                <ContextErrorMessage error={updatingError} contextErrorMsg={`The person ${person.getID()} could not be updated.`} onReload={this.updatePerson} />
+              // Show error message in dependency of project prop
+              project ?
+                <ContextErrorMessage error={updatingError} contextErrorMsg={`The project ${project.getID()} could not be updated.`} onReload={this.updateProject} />
                 :
-                <ContextErrorMessage error={addingError} contextErrorMsg={`The person could not be added.`} onReload={this.addPerson} />
+                <ContextErrorMessage error={addingError} contextErrorMsg={`The project could not be added.`} onReload={this.addProject} />
             }
           </DialogContent>
           <DialogActions>
@@ -170,12 +170,12 @@ class PersonForm extends Component {
               Cancel
             </Button>
             {
-              // If a person is given, show an update button, else an add button
-              person ?
-                <Button disabled={nameValidationFailed} variant='contained' onClick={this.updatePerson} color='primary'>
+              // If a project is given, show an update button, else an add button
+              project ?
+                <Button disabled={nameValidationFailed} variant='contained' onClick={this.updateProject} color='primary'>
                   Update
               </Button>
-                : <Button disabled={nameValidationFailed || !nameEdited} variant='contained' onClick={this.addPerson} color='primary'>
+                : <Button disabled={nameValidationFailed || !nameEdited} variant='contained' onClick={this.addProject} color='primary'>
                   Add
              </Button>
             }
@@ -200,20 +200,20 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-PersonForm.propTypes = {
+ProjectForm.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The PersonBO to be edited */
-  person: PropTypes.object,
+  /** The ProjectBO to be edited */
+  project: PropTypes.object,
   /** If true, the form is rendered */
   show: PropTypes.bool.isRequired,
   /**  
    * Handler function which is called, when the dialog is closed.
-   * Sends the edited or created PersonBO as parameter or null, if cancel was pressed.
+   * Sends the edited or created ProjectBO as parameter or null, if cancel was pressed.
    *  
-   * Signature: onClose(PersonBO person);
+   * Signature: onClose(ProjectBO project);
    */
   onClose: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(PersonForm);
+export default withStyles(styles)(ProjectForm);

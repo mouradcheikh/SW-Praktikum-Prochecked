@@ -1,0 +1,72 @@
+import BusinessObject from './BusinessObject';
+
+export default class ProjectBO extends BusinessObject {
+
+    /**
+     * Constructs a RoleBO object with a given name
+     * 
+     * @param {String} aname - the name of this RoleBO.
+     */
+    constructor(aname) {
+      super();
+       this.name = aname;
+       this.capacity = null
+       this.room = null
+       this.ext_partner_list = null
+       this.short_description = null
+       this.weekly_flag = null
+       this.number_bd_per_week = null
+       this.number_bd_b_lecturetime = null //blocktage vor beginn der vorlesungszeit
+       this.number_bd_examtime = null
+       this.number_bd_lecturetime = null //blocktage vorlesungszeit
+       this.preffered_bd = null //Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
+       this.special_room = null
+       this.module = null
+       this.dozent = []
+       this.semester = null 
+       this.project_state = null
+       this.projecttype = null
+    }
+  
+    setName(aname){
+        this.name = aname
+    }
+  
+    getName(){
+        return this.name
+    }
+
+    setCapacity(aCapacity){
+        this.capacity = aCapacity
+    }
+
+    getCapacity(){
+        return this.capacity
+    }
+
+    setRoom(aRoom){
+        this.room = aRoom
+    }
+
+    getRoom(){
+        return this.room
+    }
+
+    setExtPartnerList(aExtPartnerList){
+        this.ext_partner_list = aExtPartnerList
+    }
+
+    getExtPartnerList(){
+        return this.ext_partner_list
+    }
+
+    setShortDescription(aShortDespription){
+        this.short_description = aShortDespription
+    }
+
+    getShortDescription(){
+        return this.short_description
+    }
+
+    
+  }
