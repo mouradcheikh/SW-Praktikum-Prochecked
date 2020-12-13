@@ -20,7 +20,7 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, module, person2_id FROM project WHERE id={} ORDER BY id
+        command = "SELECT id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id FROM project WHERE id={} ORDER BY id
             project = Project()
             project.set_id(id),
             project.set_name(name),
@@ -60,7 +60,7 @@ class ProjectMapper(Mapper):
         for (maxid) in tuples:
             project.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO project (id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, module, person2_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,)"
+        command = "INSERT INTO project (id, name, creation_date, capacity, external_partners, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime, preferred_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,)"
         data = (
                 project.get_id(id),
                 project.get_name(),
@@ -73,10 +73,11 @@ class ProjectMapper(Mapper):
                 project.get_number_bd_examtime(),
                 project.get_preferred_bd(),
                 project.get_special_room(),
-                project.get_person_id(),
-                project.get_project_state(),
+                project.get_dozent_id(),
+                project.get_state(),
                 project.get_project_type(),
-                project.get_semester(),)
+                project.get_semester(),
+                )
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -92,7 +93,7 @@ class ProjectMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE project " + "SET name=%s, project_state=%s WHERE id=%s"
-        data = (project.get_name(), project.get_project_state())
+        data = (project.get_project_state())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -139,7 +140,7 @@ class ProjectMapper(Mapper):
             p = Project()
             p.set_id(id)
             p.set_name(name)
-            p.set_dozent_id(person_id)
+            p.set_dozent(person_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()

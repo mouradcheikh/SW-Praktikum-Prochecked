@@ -32,23 +32,14 @@ class Project(NamedBusinessObjects, Automat):
         self._module = None
         self._dozent = []
         self._semester = None #Kommt hier ein Objekt von Semester rein?
-        self._project_state = None
-        self._projecttype = None
+        self._project_type = None
 
-    def set_dozent_id(self,person_ID):
-        self._dozent = person_ID
 
-    def set_projecttype(self, projecttype):
-        self._projecttype = projecttype
+    def set_project_type(self, project_type):
+        self._project_type = project_type
 
-    def get_projecttype(self):
-        return self._projecttype
-
-    def set_project_state(self, projectstate):
-        self._project_state = projectstate
-
-    def get_project_state(self):
-        return self._project_state
+    def get_project_type(self):
+        return self._project_type
 
     def set_capacity(self, capacity):
         self._capacity = capacity
@@ -112,7 +103,7 @@ class Project(NamedBusinessObjects, Automat):
 
     
     def set_dozent(self, dozent):
-        self._dozent = dozent
+        self._dozent.append(dozent)
 
     def get_dozent(self):
         return self._dozent
@@ -123,9 +114,8 @@ class Project(NamedBusinessObjects, Automat):
     def get_semester(self):
         return self._semester
 
-
     def __str__(self):
-        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent())
+        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -139,7 +129,7 @@ if __name__ == "__main__":
 
     Project1 = Project()
     Project1.set_state(Project.s_new)
-    Project1.set_projecttype(Project.transdisziplinaer)
+    Project1.set_project_type(Project.transdisziplinaer)
     Project1.set_short_description("Das hier ist eine Kurzbeschreibung")
     Project1.set_name("Datenbank")
     Project1.set_dozent("Lehmann")
