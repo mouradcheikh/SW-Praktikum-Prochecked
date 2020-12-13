@@ -32,7 +32,7 @@ class StudentMapper(Mapper):
             student.set_id(id)
             student.set_creation_date(creation_date)
             student.set_name(name)
-            student.set_matr_nr
+            student.set_matr_nr(matr_nr)
             result = student
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
@@ -43,3 +43,11 @@ class StudentMapper(Mapper):
         cursor.close()
 
         return result
+
+
+if __name__ == '__main__':
+
+      with StudentMapper() as mapper:
+        result = mapper.find_by_dozent_id(2)
+        for p in result:
+            print(p.get_id(), p.get_name(), p.get_dozent_id())

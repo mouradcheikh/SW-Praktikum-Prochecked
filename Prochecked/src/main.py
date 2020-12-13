@@ -362,7 +362,27 @@ class PersonsByNameOperations(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
     '''adm = ProjectAdministration()
     persons = adm.get_all_persons()
     print(persons[0].get_name())'''
+
+    adm = ProjectAdministration()
+    projects = adm.get_projects_by_dozent(2)
+    print(projects)
+    participations = adm.get_participations_by_project(1)
+    print(participations)
+    for p in participations:
+        print(p.get_id(), p.get_project(), p.get_student())
+
+    student = adm.get_students_by_id(1)
+    print(student.get_name(), student.get_matr_nr())
+
+    print(type(student))
+
+    for i in participations:
+        print(type(i))
+
+
+    for e in projects:
+        print(type(e))

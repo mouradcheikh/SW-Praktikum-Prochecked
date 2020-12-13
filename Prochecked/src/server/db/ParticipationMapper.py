@@ -38,3 +38,12 @@ class ParticipationMapper(Mapper):
         cursor.close()
 
         return result
+
+
+
+if __name__ == "__main__":
+
+      with ParticipationMapper() as mapper:
+        result = mapper.find_by_project_id(1)
+        for p in result:
+            print(p.get_id(), p.get_project(), p.get_student())

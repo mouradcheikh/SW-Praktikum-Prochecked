@@ -7,8 +7,8 @@ from datetime import datetime
 class Student(Person):
     def __init__(self):
         super().__init__()
-        self._studiengang = None
-        self._matr_nr = None
+        self._studiengang = ""
+        self._matr_nr = 0
         # self.__Registrierung = []
         # self.__Beteiligter = None
 
@@ -53,7 +53,7 @@ class Student(Person):
             student.set_id(id)
             student.set_creation_date(creation_date)
             student.set_name(name)
-            student.set_matr_nr
+            student.set_matr_nr(matr_nr)
             result.append(student)
         return result
         # PROBLEM: Datenbank

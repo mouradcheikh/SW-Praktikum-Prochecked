@@ -36,7 +36,10 @@ class Project(NamedBusinessObjects, Automat):
 
 
     def get_dozent_id(self):
-        return self._dozent
+        return self._dozent_id
+
+    def set_dozent_id(self, person_id):
+        self._dozent_id = person_id
 
     def set_projecttype(self, projecttype):
         self._projecttype = projecttype

@@ -133,11 +133,11 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id,name, person_id FROM project WHERE person_id={} ORDER BY ".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht 
+        command = "SELECT id, name, person_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,name, person_id) in tuples:
+        for (id, name, person_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
