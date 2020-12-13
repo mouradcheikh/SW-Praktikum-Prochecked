@@ -14,8 +14,11 @@ import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
-import PersonList from './Components/PersonList';
-import PersonLoggedIn from '../src/Components/pages/PersonLoggedIn'
+// import PersonList from './Components/PersonList';
+import StudentenView from './Components/pages/StudentenView';
+import DozentView from './Components/pages/DozentView';
+import AdminView from './Components/pages/AdminView';
+import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -154,6 +157,12 @@ class App extends React.Component {
                         })
                     })
                 }
+
+    getBerechtigung = () => {
+        const person = this.state.person
+        const {name, berechtigung} = person
+        return (berechtigung)
+    }
     
     // checkIfPersonInDatabase(name, email, googleId) {
     //     console.log("checkifuserindatabase")
@@ -229,6 +238,41 @@ class App extends React.Component {
     	/** Renders the whole app */
 	render() {
         const { person, appError, authError, authLoading } = this.state;
+        
+        // let page
+        // let berechtigung = person.getBerechtigung()
+        // if (berechtigung === 1){
+        //     page = <> 
+        //             <Redirect from='/' to='StudentenView' />
+        //             <Route exact path='/StudentenView'>
+        //             <StudentenView/>
+        //             </Route>
+        //             </>
+        // }
+        // else if (berechtigung === 2){
+        //     page = <>	
+        //             <Redirect from='/' to='DozentView' />
+        //             <Route exact path='/DozentView'>
+        //             <DozentView/>
+        //             </Route> 
+        //             </>
+        // }
+        // else if (berechtigung === 3){
+        //     page = <>	
+        //             <Redirect from='/' to='AdminView' />
+        //             <Route exact path='/AdminView'>
+        //             <AdminView/>
+        //             </Route>
+        //            </>
+        // }
+        // else {
+        //     page = <>
+        //             <Redirect from='/' to='UserView' />
+        //             <Route exact path='/UserView'>
+        //             <UserView setRole={this.setRole}/>
+        //             </Route>
+        //             </>;
+        // }
 
 		return (
 			<ThemeProvider theme={Theme}>
@@ -238,10 +282,8 @@ class App extends React.Component {
 						<Header/>
 						{
 							// Ist eine Person eingeloggt?
-							person ?
-								<>
-									<PersonLoggedIn person={this.state.person} berechtigung = {this.state.person.berechtigung}></PersonLoggedIn>
-								</>
+                           person ?
+                                <PersonLoggedIn person = {this.state.person}></PersonLoggedIn>
 								:
 								// sonst zeige die SignIn Seite 
 								<>
@@ -255,7 +297,7 @@ class App extends React.Component {
 					</Container>
 				</Router>
 			</ThemeProvider>
-		);
+        );
     }
 }
 
