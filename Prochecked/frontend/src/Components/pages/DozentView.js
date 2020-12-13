@@ -1,10 +1,10 @@
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import { Link as RouterLink } from 'react-router-dom'
+// import { Link as RouterLink } from 'react-router-dom'
 //import './App.css';
 import React, { Component } from 'react';
 // import RoleBO from '../../AppApi/RoleBO'
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class DozentenView extends Component {
 
@@ -12,17 +12,18 @@ class DozentenView extends Component {
       super(props);
     }
 
-    handleProjektErstellen = () => {
-      this.props.setRole(1);
-      this.viewRole()
+    // handleProjektErstellen = () => {
+    //   this.props.setRole(1);
+    //   this.viewRole()
+    // }
+
+
+    teilnehmerPfelge = () => {
+      this.props.person();
+      this.viewDozentAction()
     }
 
-    handleBewertungPflege = () => {
-      this.props.setRole(2);
-      this.viewRole()
-    }
-
-    viewRole= function() {
+    viewDozenttAction= function() {
       console.log("clicked")
     };
 
@@ -46,17 +47,20 @@ render () {
                 </Button>
                 </div>
                 <div>
+                <Link to = '/ProjectList'>
+                
                 <Button
                     size="large"
                     variant="contained"
                     color="primary"
                     algin="center"
                     className={classes.button}
-                    onClick = {this.handleBewertungPflege}
+                    onClick = {this.teilnehmerPfelge}
                     
                 >
                             Bewertung und Teilnehmerpflege
                 </Button>
+                </Link>
                 </div>
         </center>
       </div>
