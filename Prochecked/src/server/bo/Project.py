@@ -30,7 +30,7 @@ class Project(NamedBusinessObjects, Automat):
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
         self._module = None
-        self._dozent = []
+        self._dozent = [None,None]
         self._semester = None #Kommt hier ein Objekt von Semester rein?
         self._project_type = None
 
@@ -92,7 +92,11 @@ class Project(NamedBusinessObjects, Automat):
 
     def get_number_bd_examtime(self):
         return self._number_bd_examtime
+    def set_number_bd_lecturetime(self,number_bd_lecturetime):
+        self._number_bd_lecturetime = number_bd_lecturetime
 
+    def get_number_bd_lecturetime(self):
+        return self._number_bd_lecturetime
 
     def set_preffered_bd(self, preffered_bd):
         self._preffered_bd = preffered_bd
@@ -110,6 +114,10 @@ class Project(NamedBusinessObjects, Automat):
     
     # def set_dozent(self, dozent): //obere ist richtig ?!
     #     self._dozent = dozent
+    def set_dozent(self, dozent):
+        if self._dozent[0] == None:
+            self._dozent[0]= dozent
+        else: self._dozent[1] = dozent
 
     # def get_dozent(self):
     #     return self._dozent
@@ -129,7 +137,20 @@ class Project(NamedBusinessObjects, Automat):
         obj = Project()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
-        #benötigen wir hier alle Attribute ?
+        obj.set_project_type(dictionary["project_type"])
+        obj.set_capacity(dictionary["capacity"])
+        obj.set_room(dictionary["room"])
+        obj.set_ext_partner_list(dictionary["ext_partner_list"])
+        obj.set_short_description(dictionary["short_description"])
+        obj.set_weekly_flag(dictionary["weekly_flag"])
+        obj.set_number_bd_b_lecturetime(dictionary["number_bd_b_lecturetime"])
+        obj.set_number_bd_examtime(dictionary["number_bd_examtime"])
+        obj.set_preffered_bd(dictionary["preffered_bd"])
+        obj.set_special_room(dictionary["special_room"])
+        obj.set_dozent(dictionary["dozent"])
+        obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
+        obj.set_state(dictionary["current_state"])
+        #benötigen wir hier alle Attribute ? JA
 
 if __name__ == "__main__":
 

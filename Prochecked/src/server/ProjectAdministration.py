@@ -168,8 +168,10 @@ class ProjectAdministration (object):
     def delete_project(self, project):
         pass
 
-    def create_project(self, Person, module, capacity, room, ):
-        pass
+    def create_project(self, project):
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)
+
 
     def save_project(self, project):
         pass
