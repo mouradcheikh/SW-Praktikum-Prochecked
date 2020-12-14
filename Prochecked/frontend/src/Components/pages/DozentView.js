@@ -18,7 +18,7 @@ class DozentenView extends Component {
     // }
 
 
-    teilnehmerPfelge = () => {
+    teilnehmerPflege = () => {
       this.props.person();
       this.viewDozentAction()
     }
@@ -55,7 +55,7 @@ render () {
                     color="primary"
                     algin="center"
                     className={classes.button}
-                    onClick = {this.teilnehmerPfelge}
+                    onClick = {this.teilnehmerPflege}
                     
                 >
                             Bewertung und Teilnehmerpflege
