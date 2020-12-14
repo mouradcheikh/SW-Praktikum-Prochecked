@@ -5,6 +5,12 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 // import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import ProjectList from './ProjectList';
+
+
+
+
 
 class DozentenView extends Component {
 
@@ -19,8 +25,14 @@ class DozentenView extends Component {
 
 
     teilnehmerPflege = () => {
-      this.props.person();
-      this.viewDozentAction()
+      // this.props.person;
+      // this.viewDozentAction()
+                    <> 
+                    <Redirect from='/' to='ProjectList'/>
+                    <Route exact path='/ProjectList'>
+                    <ProjectList person = {this.props.person}/>
+                    </Route>
+                    </>
     }
 
     viewDozenttAction= function() {

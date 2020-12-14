@@ -30,8 +30,7 @@ class Project(NamedBusinessObjects, Automat):
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
         self._module = None
-        #self._dozent = [None,None]
-        self._dozent_id = []
+        self._dozent = [None,None]
         self._semester = None #Kommt hier ein Objekt von Semester rein?
         self._project_type = None
 
@@ -39,11 +38,11 @@ class Project(NamedBusinessObjects, Automat):
     def set_project_type(self, project_type):
         self._project_type = project_type
         
-    def get_dozent_id(self):
-        return self._dozent_id
+    # def get_dozent_id(self):
+    #     return self._dozent
 
-    def set_dozent_id(self, person_id):
-        self._dozent_id = person_id
+    # def set_dozent_id(self, person_id):
+    #     self._dozent = person_id
 
     def set_projecttype(self, projecttype):
         self._projecttype = projecttype
@@ -124,11 +123,13 @@ class Project(NamedBusinessObjects, Automat):
             self._dozent[0]= dozent
         else: self._dozent[1] = dozent
 
+    def get_dozent(self):
+        return self._dozent
+
     # def set_dozent(self, dozent): //obere ist richtig ?!
     #     self._dozent = dozent
 
-    # def get_dozent(self):
-    #     return self._dozent
+
 
     def set_semester(self, semester):
         self._semester = semester

@@ -283,7 +283,7 @@ class App extends React.Component {
 						{
 							// Ist eine Person eingeloggt?
                            person ?
-                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} setRole = {this.setRole}></PersonLoggedIn>
+                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
 								:
 								// sonst zeige die SignIn Seite 
 								<>

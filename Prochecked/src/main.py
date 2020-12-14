@@ -303,7 +303,7 @@ class ProjectOperations(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die ID des Dozent-Objekts')
 class ProjectsByDozentOperation(Resource):
-    @prochecked.marshal_with(project)
+    @prochecked.marshal_list_with(project)  #evtl. list rausnehemn ?!?!
     @secured
     def get(self, person_id):
         """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
@@ -383,7 +383,7 @@ class ProjectsByDozentOperation(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die ID des Project-Objekts')
 class ParticipationsByProjectOperation(Resource):
-    @prochecked.marshal_with(participation)
+    @prochecked.marshal_list_with(participation) #evtl. list rausnehemn ?!?!
     @secured
     def get(self, project_id):
         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
@@ -395,12 +395,12 @@ class ParticipationsByProjectOperation(Resource):
         par = adm.get_participations_by_project(project_id)
 
         # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
-        if par is not None:
-            # Jetzt erst lesen wir die Teinahmen des Projects aus.
-            student_list = adm.get_students_by_id(par.get_student_id)  # par.get_student_id vermutlich richtig ?!?!?
-            return student_list
-        else:
-            return "project_not_found", 500
+        # if par is not None: ---> WIRD IM FRONTEND EINZELN ABGEFRAGT
+        #     # Jetzt erst lesen wir die Teinahmen des Projects aus.
+        #     student_list = adm.get_students_by_id(par.get_student_id)  # par.get_student_id vermutlich richtig ?!?!?
+        #     return student_list
+        # else:
+        #     return "project_not_found", 500 
 
 
 # Student related

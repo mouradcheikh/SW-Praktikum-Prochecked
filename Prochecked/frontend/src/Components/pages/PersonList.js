@@ -8,7 +8,7 @@ import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import PersonForm from '../dialogs/PersonForm';
-import PersonListEntry from '../PersonListEntry';
+import PersonListEntry from './PersonListEntry';
 
 /**
  * Controlls a list of PersonListEntrys to create a accordion for each person.  

@@ -144,16 +144,17 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht
+        command = "SELECT id, name, person_id, project_state_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projekttypeID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id) in tuples:
+        for (id, name, person_id, project_state) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
-            p.set_dozent_id(person_id)
-            #p.set_dozent(person_id)
+            #p.set_dozent_id(person_id)
+            p.set_dozent(person_id)
+            p.set_project_state(project_state)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()

@@ -8,7 +8,7 @@ import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ProjectForm from '../dialogs/ProjectForm';
-import ProjectListEntry from '../ProjectListEntry';
+import ProjectListEntry from './ProjectListEntry';
 
 /**
  * Controlls a list of ProjectListEntrys to create a accordion for each project.
@@ -44,7 +44,7 @@ class ProjectList extends Component {
   getProjectsByDozent = (person_id) => {
   console.log("vor fetch")
 
-    AppApi.getAPI().getProjectsByDozent(person_id)
+    AppApi.getAPI().getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
         this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
@@ -68,6 +68,7 @@ class ProjectList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    console.log("gerendert")
     this.getProjectsByDozent(this.props.person.getID);
   }
 
