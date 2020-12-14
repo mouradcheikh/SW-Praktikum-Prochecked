@@ -7,67 +7,96 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import ProjectList from './ProjectList';
+import ProjektFormular from './ProjektErstellen'
+import UserView from './UserView'
 
 
 
 
 
-class DozentenView extends Component {
+function DozentenView(props) {
 
-    constructor(props) {
-      super(props);
-    }
+
 
     // handleProjektErstellen = () => {
     //   this.props.setRole(1);
     //   this.viewRole()
     // }
+    // handleProjektErstellen = () => {
+    //   this.setState({redirect : "projekterstellen"})
+    // }
+
+    // handleBewertung = () => {
+    //   this.setState({redirect : "bewertung"})
+    // }
+
+    // teilnehmerPflege = () => {
+    //   // this.props.person;
+    //   // this.viewDozentAction()
+    //                 <> 
+    //                 <Redirect from='/' to='ProjectList'/>
+    //                 <Route exact path='/ProjectList'>
+    //                 <ProjectList person = {this.props.person}/>
+    //                 </Route>
+    //                 </>
+    // }
+
+    // viewDozenttAction= function() {
+    //   console.log("clicked")
+    // };
 
 
-    teilnehmerPflege = () => {
-      // this.props.person;
-      // this.viewDozentAction()
-                    <> 
-                    <Redirect from='/' to='ProjectList'/>
-                    <Route exact path='/ProjectList'>
-                    <ProjectList person = {this.props.person}/>
-                    </Route>
-                    </>
-    }
+  const { classes } = props;
 
-    viewDozenttAction= function() {
-      console.log("clicked")
-    };
-
-render () {
-  const { classes } = this.props;
+  // if (this.state.redirect === "projekterstellen"){
+  //     return(
+  //           <> 
+  //           <Route path='/CreateProject' render={ProjektFormular}>
+  //           </Route>
+  //           </> 
+  //     )
+  // }
+  // else if (this.state.redirect === "bewertung"){
+  //     return(
+  //       <> 
+  //           <Redirect from='/' to='ProjectList'/>
+  //           <Route exact path='/ProjectList'>
+  //           <ProjectList person = {this.props.person}/>
+  //           </Route>
+  //           </>
+  //     )
+  // }
 
 	return(
         <div>
           <center>
+            <div>
                 <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
-                <div>
+                <Link to = '/CreateProject'>
                 <Button
                     size="large"
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick = {this.handleProjektErstellen}
+                    // onClick = {this.handleProjektErstellen}
                 >
                             Projekt erstellen
                     
                 </Button>
-                </div>
-                <div>
-                <Link to = '/ProjectList'>
+                </Link>
+            </div>
                 
+                <div>
+
+
+                <Link to = '/ProjectList'>
                 <Button
                     size="large"
                     variant="contained"
                     color="primary"
                     algin="center"
                     className={classes.button}
-                    onClick = {this.teilnehmerPflege}
+                    // onClick = {this.handleBewertung}
                     
                 >
                             Bewertung und Teilnehmerpflege
@@ -78,7 +107,7 @@ render () {
       </div>
     );
   }
-}
+
 
 const styles = (theme) => ({
   button: {

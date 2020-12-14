@@ -19,6 +19,8 @@ import StudentenView from './Components/pages/StudentenView';
 import DozentView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
+import ProjektFormular from './Components/pages/ProjektErstellen'
+import ProjectList from './Components/pages/ProjectList';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -280,10 +282,14 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
+                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/ProjectList' component = {ProjectList}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?
                                 <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
+
+                                
 								:
 								// sonst zeige die SignIn Seite 
 								<>
