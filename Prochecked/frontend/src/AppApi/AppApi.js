@@ -30,11 +30,11 @@ export default class AppAPI {
 
 
     // Participation related
-    #getParticipationByProjectURL = (projectID) => `${this.#AppServerBaseURL}/participations/${projectID}`;
+    #getParticipationByProjectURL = (project_id) => `${this.#AppServerBaseURL}/participations/${project_id}`;
     
 
     // Project related
-    #getProjectsByDozentURL = (personID) => `${this.#AppServerBaseURL}/projects/${personID}`;
+    #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/projects/${person_id}`;
 
 
       /** 
@@ -198,6 +198,8 @@ updatePerson(personBO){
    * @public
    */
   getProjectsByDozent(person_id) {
+    console.log(person_id)
+    console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
       .then((responseJSON) => {
         let projectBOs = ProjectBO.fromJSON(responseJSON);

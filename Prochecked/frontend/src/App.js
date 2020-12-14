@@ -136,13 +136,10 @@ class App extends React.Component {
         //console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {console.log(person)
-                console.log(person.get)
             this.setState({
                 person: person
             })
-            //console.log(this.state.person)
-            }
-            )
+            })
     }
 
     setRole = (aRole) => {
