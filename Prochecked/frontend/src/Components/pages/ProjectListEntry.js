@@ -5,6 +5,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProjectForm from '../../Components/dialogs/ProjectForm';
 import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
+import ParticipationList from './ParticipationList';
+
+
 //import AccountList from './AccountList';
 
 
@@ -34,12 +37,12 @@ class ProjectListEntry extends Component {
   }
 
   /** Handles onAccountDelete events from an AccountListEntry  */
-//   deleteAccountHandler = (deletedAccount) => {
-//     // console.log(deletedAccount.getID());
-//     this.setState({
-//       accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
-//     })
-//   }
+  deleteAccountHandler = (deletedAccount) => {
+    // console.log(deletedAccount.getID());
+    this.setState({
+      accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
+    })
+  }
 
   /** Handles the onClick event of the edit project button */
   editProjectButtonClicked = (event) => {
@@ -93,6 +96,7 @@ class ProjectListEntry extends Component {
 
     // console.log(this.state);
     return (
+      <div>
         <div>
         <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
@@ -107,9 +111,9 @@ class ProjectListEntry extends Component {
                   </Button>
                 </ButtonGroup>
 
-        </div>)
+        </div>          
 
-      /*<div>
+      <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -132,18 +136,19 @@ class ProjectListEntry extends Component {
               </Grid>
               <Grid item xs />
               <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>List of accounts</Typography>
+                <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <AccountList show={expandedState} project={project} />
+            <ParticipationList show={expandedState} project={project} /> 
           </AccordionDetails>
         </Accordion>
         <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
         <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
       </div>
-    );*/
+      </div>
+    );
   }
 }
 

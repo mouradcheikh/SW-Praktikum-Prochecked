@@ -8,15 +8,15 @@ import { withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography
 import DeleteIcon from '@material-ui/icons/Delete';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
 import { Link as RouterLink } from 'react-router-dom';
-import { AppApi } from '../AppApi';
-import ContextErrorMessage from './dialogs/ContextErrorMessage';
-import LoadingProgress from './dialogs/LoadingProgress';
+import { AppApi } from '../../AppApi';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import LoadingProgress from '../dialogs/LoadingProgress';
 // import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
 
 
 /**
- * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links accounts 
- * to a list of transactions. This is done by routing the link to /transactions and passing the CustomerBO and
+ * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links participations 
+ * to a list of transactions. This is done by routing the link to /transactions and passing the ProjectBO and
  * the ParticipationBO as props to the ParticipationList component. It also shows a MoneyTransferDialog to transfer money.
  * 
  * @see See Material-UIs [Lists](https://material-ui.com/components/lists/)
@@ -39,38 +39,40 @@ class ParticipationListEntry extends Component {
 
     // Init an empty state
     this.state = {
-      balance: '',
+      student: '',
       loadingInProgress: false,
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
-      showMoneyTransferDialog: false,
+      // showMoneyTransferDialog: false,
     };
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // load initial balance
-    this.getBalance();
+    this.getStudent();
   }
 
   /** Lifecycle method, which is called when the component was updated */
   componentDidUpdate(prevProps) {
     if ((this.props.show) && (this.props.show !== prevProps.show)) {
-      this.getBalance();
+      this.getStudent();
     }
   }
 
-  /** gets the balance for this account */
-  getBalance = () => {
-    BankAPI.getAPI().getBalanceOfAccount(this.props.account.getID()).then(balance =>
+  /** gets the students for this participation */
+
+  
+  getStudent = () => {
+    AppAPI.getAPI().getStudent(this.props.participation.getID()).then(student =>
       this.setState({
-        balance: balance,
+        student: student,
         loadingInProgress: false, // loading indicator 
         loadingError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          balance: null,
+          student: null,
           loadingInProgress: false,
           loadingError: e
         })
@@ -84,16 +86,16 @@ class ParticipationListEntry extends Component {
     });
   }
 
-  /** Deletes this account */
-  deleteAccount = () => {
-    const { account } = this.props;
-    BankAPI.getAPI().deleteAccount(account.getID()).then(() => {
-      this.setState({  // Set new state when AccountBOs have been fetched
+  /** Deletes this participation */
+  deleteParticipation = () => {
+    const { participation } = this.props;
+    AppAPI.getAPI().deleteParticipation(participation.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
       })
-      // console.log(account);
-      this.props.onAccountDeleted(account);
+      // console.log(participation);
+      this.props.onParticipationDeleted(participation);
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
@@ -108,62 +110,62 @@ class ParticipationListEntry extends Component {
     });
   }
 
-  /** Handles click events from the transfer money button */
-  transferMoney = () => {
-    this.setState({
-      showMoneyTransferDialog: true
-    });
-  }
+  // /** Handles click events from the transfer money button */
+  // transferMoney = () => {
+  //   this.setState({
+  //     showMoneyTransferDialog: true
+  //   });
+  // }
 
-  /** Handles the onClose event from the transfer money dialog */
-  moneyTransferDialogClosed = (transaction) => {
-    this.setState({
-      showMoneyTransferDialog: false
-    });
-    if (transaction) {
-      // Transaction is not null and therefore was performed
-      this.getBalance();
-    }
-  }
+  // /** Handles the onClose event from the transfer money dialog */
+  // moneyTransferDialogClosed = (transaction) => {
+  //   this.setState({
+  //     showMoneyTransferDialog: false
+  //   });
+  //   if (transaction) {
+  //     // Transaction is not null and therefore was performed
+  //     this.getBalance();
+  //   }
+  // }
 
   /** Renders the component */
   render() {
-    const { classes, customer, account } = this.props;
+    const { classes, project, participation } = this.props;
     const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog } = this.state;
 
     return (
       <div>
         <ListItem>
-          <Typography className={classes.accountEntry}>
+          <Typography className={classes.participationEntry}>
             <Link component={RouterLink} to={{
               pathname: '/transactions',
               owner: {
-                customer: customer,
-                account: account
+                project: project,
+                participation: participation
               }
             }} >
-              Participation ID: {account.getID()}
+              Participation ID: {participation.getID()}
             </Link>
 
           </Typography>
           <Typography color='textSecondary'>
-            Balance: {!isNaN(balance) ? BankAPI.getAPI().getCurrencyFormatter().format(balance) : balance}
+            Balance: {!isNaN(balance) ? AppAPI.getAPI().getCurrencyFormatter().format(balance) : balance}
           </Typography>
           <ListItemSecondaryAction>
             <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SwapHoriz />} onClick={this.transferMoney}>
               Transfer
             </Button>
-            <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteAccount}>
+            <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteParticipation}>
               Delete
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The balance of account ${account.getID()} could not be loaded.`} onReload={this.getBalance} />
-          <ContextErrorMessage error={deletingError} contextErrorMsg={`The account ${account.getID()} could not be deleted.`} onReload={this.deleteAccount} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The balance of participation ${participation.getID()} could not be loaded.`} onReload={this.getBalance} />
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
-        <MoneyTransferDialog show={showMoneyTransferDialog} customer={customer} account={account} onClose={this.moneyTransferDialogClosed} />
+        {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}
       </div>
     );
   }
@@ -177,7 +179,7 @@ const styles = theme => ({
   buttonMargin: {
     marginRight: theme.spacing(2),
   },
-  accountEntry: {
+  participationEntry: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '33.33%',
     flexShrink: 0,
@@ -188,14 +190,14 @@ const styles = theme => ({
 ParticipationListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The CustomerBO of this ParticipationListEntry */
-  customer: PropTypes.object.isRequired,
+  /** The ProjectBO of this ParticipationListEntry */
+  project: PropTypes.object.isRequired,
   /** The ParticipationBO to be rendered */
-  account: PropTypes.object.isRequired,
+  participation: PropTypes.object.isRequired,
   /**  
-   * Event Handler function which is called after a sucessfull delete of this account. 
+   * Event Handler function which is called after a sucessfull delete of this participation. 
    * 
-   * Signature: onParticipationDeleted(ParticipationBO account); 
+   * Signature: onParticipationDeleted(ParticipationBO participation); 
    */
   onParticipationDeleted: PropTypes.func.isRequired,
   /** If true, balance is (re)loaded */

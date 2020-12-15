@@ -116,6 +116,9 @@ class ProjectAdministration (object):
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
 
+
+
+
     def get_person_by_email(self, email):
         """Alle Personen mit gegebener E-Mail-Adresse auslesen."""
         with PersonMapper() as mapper:
@@ -195,7 +198,7 @@ class ProjectAdministration (object):
     # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
     #     return
 
-    def get_students_by_id(self, id):
+    def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             return mapper.find_by_id(id)
         
@@ -417,5 +420,5 @@ if __name__ == '__main__':
     adm.save_person(p)'''
 
     adm = ProjectAdministration()
-    persons = adm.get_all_persons()
-    print(persons)
+    person = adm.get_student_by_id(1)
+    print(person)

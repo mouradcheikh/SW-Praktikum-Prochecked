@@ -42,7 +42,7 @@ class ProjectList extends Component {
 
   /** Fetches all ProjectBOs from the backend */
   getProjectsByDozent = (person_id) => {
-  console.log("vor fetch")
+  // console.log("vor fetch")
 
     AppApi.getAPI().getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
@@ -68,10 +68,10 @@ class ProjectList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    console.log("gerendert")
+    // console.log("gerendert")
     let person = this.props.location.state.linkState
     this.getProjectsByDozent(person.getID());
-    console.log(person.getID())
+    // console.log(person.getID())
    
   }
 

@@ -29,12 +29,17 @@ export default class AppAPI {
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
 
 
+
+    // Student related
+
+    #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
+
     // Participation related
-    #getParticipationByProjectURL = (project_id) => `${this.#AppServerBaseURL}/participations/${project_id}`;
+    #getParticipationByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     
 
     // Project related
-    #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/projects/${person_id}`;
+    #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
 
 
       /** 
@@ -69,8 +74,8 @@ export default class AppAPI {
 getPersons() {
 console.log("vorFetch in getPersons")
       return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
-        console.log(responseJSON)
-        console.log("gefetched")
+        // console.log(responseJSON)
+        // console.log("gefetched")
         let PersonBOs = PersonBO.fromJSON(responseJSON);
         // console.info(personBOs);
         console.log(PersonBOs)
@@ -102,7 +107,7 @@ getPerson(id) {
 getPersonByGoogleId(google_id) {
         //console.log(google_id)
         return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
-          console.log(responseJSON)
+          // console.log(responseJSON)
           
           // We always get an array of PersonBOs.fromJSON, but only need one object
           let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -146,7 +151,7 @@ createPerson(name, email, google_id) {
 
 updatePerson(personBO){
   // personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  console.log(personBO)
+  // console.log(personBO)
   return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
     method: 'PUT',
     headers: {
@@ -155,7 +160,7 @@ updatePerson(personBO){
     },
     body: JSON.stringify(personBO)
     }).then((responseJSON) => {
-      console.log(responseJSON)
+      // console.log(responseJSON)
     // We always get an array of PersonBOs.fromJSON, but only need one object 
     // kommt bei put überhaupt ein PersonenBO zurück??????????????
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
@@ -198,10 +203,12 @@ updatePerson(personBO){
    * @public
    */
   getProjectsByDozent(person_id) {
-    console.log(person_id)
-    console.log("vor fetch in appapi")
+    // console.log(person_id)
+    // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
       .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
         // console.info(accountBOs);
         return new Promise(function (resolve) {
@@ -211,7 +218,17 @@ updatePerson(personBO){
   }
 
 
-
+  //Student Relation
+  getStudent(id) {
+    return this.#fetchAdvanced(this.#getStudentURL(id)).then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+      console.info(responseStudentBO);
+      return new Promise(function (resolve) {
+        resolve(responseStudentBO);
+      })
+    })
+  }
   
 }
 

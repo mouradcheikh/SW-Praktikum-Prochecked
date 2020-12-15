@@ -67,6 +67,27 @@ export default class ProjectBO extends BusinessObject {
     getShortDescription(){
         return this.short_description
     }
+/** 
+   * Returns an Array of PersonBOs from a given JSON structure.
+   */
+    static fromJSON(projects) {
+    let result = [];
 
-    
+    if (Array.isArray(projects)) {
+      projects.forEach((p) => {
+        Object.setPrototypeOf(p, ProjectBO.prototype);
+        result.push(p);
+        // console.log(p)
+      })
+      
+    } else {
+      // Es handelt sich offenbar um ein singuläres Objekt
+      let p = projects;
+      Object.setPrototypeOf(p, ProjectBO.prototype);
+      result.push(p);
+    }
+
+    return result;
   }
+}
+    

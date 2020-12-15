@@ -299,11 +299,11 @@ class ProjectOperations(Resource):
 
     # Project related
 
-@prochecked.route('/dozents/<int:id>/projects')
+@prochecked.route('/dozents/<int:person_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Dozent-Objekts')
+@prochecked.param('person_id', 'Die ID des Dozent-Objekts')
 class ProjectsByDozentOperation(Resource):
-    @prochecked.marshal_list_with(project)  #evtl. list rausnehemn ?!?!
+    @prochecked.marshal_with(project)  #evtl. list rausnehemn ?!?!
     @secured
     def get(self, person_id):
         """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
@@ -394,6 +394,9 @@ class ParticipationsByProjectOperation(Resource):
         # Zunächst benötigen wir das durch id gegebene Project.
         par = adm.get_participations_by_project(project_id)
 
+
+        #FOR SCLEIFE NOCH DEFINIEREN
+
         # Haben wir eine brauchbare Referenz auf ein Project-Objekt bekommen?
         # if par is not None: ---> WIRD IM FRONTEND EINZELN ABGEFRAGT
         #     # Jetzt erst lesen wir die Teinahmen des Projects aus.
@@ -410,8 +413,29 @@ class ParticipationsByProjectOperation(Resource):
 # brauchen wir glaube erstmal nicht
 
 
+@prochecked.route('/students/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die id des Student-Objekts')
+class StudentOperations(Resource):
+    @prochecked.marshal_with(student)
+    @secured
+    def get(self, id):
+        """Auslesen eines bestimmten Person-Objekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        stud = adm.get_student_by_id(id)
+        return stud
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+    '''adm = ProjectAdministration()
+    person = adm.get_student_by_id(1)
+    print(person)'''
+    
 
     '''adm = ProjectAdministration()
     persons = adm.get_all_persons()
@@ -419,6 +443,8 @@ if __name__ == '__main__':
 
     '''adm = ProjectAdministration()
     projects = adm.get_projects_by_dozent(4)
+    for p in projects:
+        print(p.get_name())
     print(projects)'''
     # participations = adm.get_participations_by_project(1)
     # print(participations)
