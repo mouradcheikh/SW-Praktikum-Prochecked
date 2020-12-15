@@ -65,6 +65,7 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+Prochecked/frontend/.eslintcache
 # Scrapy stuff:
 .scrapy
 
@@ -181,3 +182,6 @@ Prochecked/.gitignore
 >>>>>>> main
 .vscode/settings.json
 .gitignore
+
+.idea
+Prochecked/frontend/.eslintcache

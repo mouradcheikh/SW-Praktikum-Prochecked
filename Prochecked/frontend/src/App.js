@@ -14,7 +14,13 @@ import Header from './Components/layout/Header';
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
-import PersonList from './Components/PersonList';
+// import PersonList from './Components/PersonList';
+import StudentenView from './Components/pages/StudentenView';
+import DozentView from './Components/pages/DozentView';
+import AdminView from './Components/pages/AdminView';
+import PersonLoggedIn from './Components/pages/PersonLoggedIn';
+import ProjektFormular from './Components/pages/ProjektErstellen'
+import ProjectList from './Components/pages/ProjectList';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -51,7 +57,7 @@ class App extends React.Component {
     
     handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
 		if (person) {
-            console.log("handleauthstate")
+            // console.log("handleauthstate")
 			this.setState({
 				authLoading: true
             });
@@ -71,7 +77,9 @@ class App extends React.Component {
                 this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
 =======
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
+                
                 this.getPersonByGoogleId(person.uid)
+                
               
                 //this.createPerson(person.displayName, person.email, person.uid)
                 
@@ -121,7 +129,7 @@ class App extends React.Component {
             
 =======
         console.log(api)
-        api.getPerson().then((person) =>
+        api.getPersons().then((person) =>
             {console.log(person)
             this.setState({
                 person: person
@@ -141,23 +149,25 @@ class App extends React.Component {
             )
         }
 
-    getPersonByGoogleId(google_id){
+    getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        console.log(api)
+        // console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
-            {console.log(person)
+            {
             this.setState({
                 person: person
-            })}
-            )
+            })
+            })
     }
 >>>>>>> main
 
     setRole = (aRole) => {
         const person = this.state.person
-        const {name, email, google_id, berechtigung} = person
-        var updatedPerson = new PersonBO(name, email, google_id, berechtigung)
-        updatedPerson.setBerechtigung(aRole)
+        const {name, email, google_id, id, creation_date, last_updated} = person
+        var updatedPerson = new PersonBO(name, email, google_id, aRole)
+        updatedPerson.setID(id)
+        updatedPerson.setCreationDate(creation_date)
+        updatedPerson.setLastUpdated(last_updated)
         var api = AppAPI.getAPI()
         api.updatePerson(updatedPerson).then((newPerson) => { //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
                         this.setState({
@@ -165,6 +175,12 @@ class App extends React.Component {
                         })
                     })
                 }
+
+    getBerechtigung = () => {
+        const person = this.state.person
+        const {name, berechtigung} = person
+        return (berechtigung)
+    }
     
     // checkIfPersonInDatabase(name, email, googleId) {
     //     console.log("checkifuserindatabase")
@@ -223,21 +239,59 @@ class App extends React.Component {
     //             })
     //         })
     // }
-
     
+
+            
+
         
     
     componentDidMount() {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-        console.log("App gerendert")
+        console.log("rendered")
+        
         };
     
 
     	/** Renders the whole app */
 	render() {
-		const { person, appError, authError, authLoading } = this.state;
+        const { person, appError, authError, authLoading } = this.state;
+        
+        // let page
+        // let berechtigung = person.getBerechtigung()
+        // if (berechtigung === 1){
+        //     page = <> 
+        //             <Redirect from='/' to='StudentenView' />
+        //             <Route exact path='/StudentenView'>
+        //             <StudentenView/>
+        //             </Route>
+        //             </>
+        // }
+        // else if (berechtigung === 2){
+        //     page = <>	
+        //             <Redirect from='/' to='DozentView' />
+        //             <Route exact path='/DozentView'>
+        //             <DozentView/>
+        //             </Route> 
+        //             </>
+        // }
+        // else if (berechtigung === 3){
+        //     page = <>	
+        //             <Redirect from='/' to='AdminView' />
+        //             <Route exact path='/AdminView'>
+        //             <AdminView/>
+        //             </Route>
+        //            </>
+        // }
+        // else {
+        //     page = <>
+        //             <Redirect from='/' to='UserView' />
+        //             <Route exact path='/UserView'>
+        //             <UserView setRole={this.setRole}/>
+        //             </Route>
+        //             </>;
+        // }
 
 		return (
 			<ThemeProvider theme={Theme}>
@@ -245,18 +299,14 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
+                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/ProjectList' component = {ProjectList}/>
 						{
 							// Ist eine Person eingeloggt?
-							person ?
-								<>
-									<Redirect from='/' to='UserView' />
-                                    {/* <Route exact path='/persons'>
-										<PersonList />
-									</Route> */}
-									<Route exact path='/UserView'>
-										<UserView setRole={this.setRole}/>
-									</Route>
-								</>
+                           person ?
+                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
+
+                                
 								:
 								// sonst zeige die SignIn Seite 
 								<>
@@ -270,11 +320,61 @@ class App extends React.Component {
 					</Container>
 				</Router>
 			</ThemeProvider>
-		);
-	}
+        );
+    }
 }
+
 
 export default App;
 
-
 // person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
+
+
+
+// UserAbfrage(person) {
+//     const userType = person.getBerechtigung();
+//     console.log("UseerAbfrage")
+//     return (
+
+//     <div>
+//             {(() => {
+
+//             if (userType === 1) {
+//                 console.log("StudentenAbfrage")
+//             return (
+//                 <>	<Redirect from='/' to='StudentenView' />
+//                     <Route exact path='/StudentenView'>
+//                     <StudentenView/>
+//                     </Route>
+//                 </>
+//             )
+//             } else if (userType === 2) {
+//             return (
+//                 <>	<Redirect from='/' to='DozentView' />
+//                     <Route exact path='/DozentView'>
+//                     <DozentView/>
+//                     </Route>
+//                 </>
+//             )
+//             } else if (userType === 3) {
+//                 return (
+//                 <>	<Redirect from='/' to='AdminView' />
+//                     <Route exact path='/AdminView'>
+//                     <AdminView/>
+//                     </Route>
+//                 </>
+//                 )
+//             } else {
+//                 return (
+//                 <>
+//                     <Redirect from='/' to='UserView' />
+//                     <Route exact path='/UserView'>
+//                         <UserView setRole={this.setRole}/>
+//                     </Route>
+//                 </>
+//             )
+//             }
+//         })()}
+//     <div/>
+// );
+// }

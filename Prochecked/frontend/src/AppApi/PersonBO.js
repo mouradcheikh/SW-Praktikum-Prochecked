@@ -13,7 +13,7 @@ export default class PersonBO extends BusinessObject {
    */
   constructor(aname, aemail, agoogleid, aberechtigung) {
     super();
-    this.name = aname;
+    this.name = aname
     this.email = aemail
     this.google_id = agoogleid
     this.berechtigung = aberechtigung
@@ -25,14 +25,14 @@ export default class PersonBO extends BusinessObject {
    * @param {String} aname - the new name of this PersonBO.
    */
   setName(aname) {
-    this.name = aname;
+    this.name = aname
   }
 
   /**
    * Gets the name.
    */
   getName() {
-    return this.name;
+    return this.name
   }
 
   setEmail(aemail){

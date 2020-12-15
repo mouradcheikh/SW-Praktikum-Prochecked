@@ -56,14 +56,12 @@ def secured(function):
                         person.set_email(email)
                         adm.save_person(person)
 
-                        # person.get_role() --> Rolle aus Datenbank holen und wieder ins Frontend senden
-                      
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
                         Wir legen daher ein neues Person-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        person = adm.create_person(name, email, google_id, berechtigung)
+                        person = adm.create_person(name, google_id, email, berechtigung)
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 

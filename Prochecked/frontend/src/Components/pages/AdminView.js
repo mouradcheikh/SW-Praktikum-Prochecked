@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 import React, { Component } from 'react';
 // function AdminView(){
 //     return( 
@@ -11,7 +8,7 @@ import React, { Component } from 'react';
 // }
 // export default AdminView;
 
-class AdminView extends Component {
+class AdminView extends React.Component {
     constructor(props) {
         super(props);
     }

@@ -5,7 +5,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PersonForm from './dialogs/PersonForm';
 import PersonDeleteDialog from './dialogs/PersonDeleteDialog';
-import AccountList from './AccountList';
+//import AccountList from './AccountList';
 
 
 /**
@@ -94,7 +94,23 @@ class PersonListEntry extends Component {
 
     // console.log(this.state);
     return (
-      <div>
+        <div>
+        <Grid item>
+                <Typography variant='body1' className={classes.heading}>{person.getName()}
+                </Typography>
+              </Grid>
+              <ButtonGroup variant='text' size='small'>
+                  <Button color='primary' onClick={this.editPersonButtonClicked}>
+                    edit
+                  </Button>
+                  <Button color='secondary' onClick={this.deletePersonButtonClicked}>
+                    delete
+                  </Button>
+                </ButtonGroup>
+
+        </div>)
+
+      /*<div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -128,7 +144,7 @@ class PersonListEntry extends Component {
         <PersonForm show={showPersonForm} person={person} onClose={this.personFormClosed} />
         <PersonDeleteDialog show={showPersonDeleteDialog} person={person} onClose={this.deletePersonDialogClosed} />
       </div>
-    );
+    );*/
   }
 }
 

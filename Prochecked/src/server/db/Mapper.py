@@ -48,7 +48,7 @@ class Mapper():#AbstractContextManager, ABC
     def find_by_name(self, ):
             pass
 
-    #@abstractmethod
+    @abstractmethod
     def insert(self,object ):
             pass
 

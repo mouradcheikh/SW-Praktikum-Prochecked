@@ -1,6 +1,7 @@
-from .bo.Student import Student
-from .bo.Person import Person
-from .bo.Role import Role
+"""from .bo.Student import Student"""
+
+from server.bo.Person import Person
+"""from .bo.Role import Role
 from .bo.Project import Project
 from .bo.Grading import Grading
 from .bo.Module import Module
@@ -8,11 +9,13 @@ from .bo.Participation import Participation
 from .bo.ProjectType import ProjectType
 from .bo.Semester import Semester
 from .bo.ProjectState import ProjectState
-from .bo.Automat import Automat
+from .bo.Automat import Automat"""
 
-from .db.StudentMapper import StudentMapper
-from .db.PersonMapper import PersonMapper
-from .db.RoleMapper import RoleMapper
+from server.db.StudentMapper import StudentMapper
+from server.db.PersonMapper import PersonMapper
+from server.db.ProjectMapper import ProjectMapper
+from server.db.ParticipationMapper import ParticipationMapper
+"""from .db.RoleMapper import RoleMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
@@ -20,7 +23,7 @@ from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.SemesterMapper import SemesterMapper
 from .db.ProjectStateMapper import ProjectStateMapper
-from .db.AutomatMapper import AutomatMapper
+from .db.AutomatMapper import AutomatMapper"""
 
 #import datetime
 
@@ -32,6 +35,7 @@ class ProjectAdministration (object):
     Student-spezifische Methoden
     """
 
+    '''#DOZENTENVIEW
     # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
         # student = Student()
         # student.set_name(name)
@@ -44,15 +48,16 @@ class ProjectAdministration (object):
         # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
         # student.set_last_updated(last_updated)
         # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
-        #     return mapper.insert(student)
+        #     return mapper.insert(student)'''
 
         
     # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
     #     return
 
+    '''#DOZENTENVIEW
     # def get_student_by_id(self, number):
     #     with StudentMapper() as mapper:
-    #         return mapper.find_by_key(number)
+    #         return mapper.find_by_key(number)'''
         
 
     # def get_student_by_name(self, name):
@@ -77,27 +82,15 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-<<<<<<< HEAD
-    def create_person(self, name, email, google_id):
-=======
-    def create_person(self, name, google_id, email, berechtigung, roleID):
->>>>>>> main
+    #Person related
+    def create_person(self, name, google_id, email, berechtigung):
         person = Person()
-        person.set_id(1)
-        person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime  
         person.set_name(name)
         person.set_google_id(google_id)
-<<<<<<< HEAD
-        person.set_email(email)    
-        # person.set_last_updated(last_updated)
-        
-        with PersonMapper() as mapper:
-            return mapper.insert(person)
-=======
         person.set_email(email)
         person.set_berechtigung(berechtigung)
         person.set_id(1)
-        person.set_roleID(role.get_roleID())
+        
 
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
@@ -111,7 +104,6 @@ class ProjectAdministration (object):
         # person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
         # person.set_last_updated(last_updated)
         
->>>>>>> main
 
 
     def get_person_by_name(self, name):
@@ -123,6 +115,9 @@ class ProjectAdministration (object):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
+
+
+
 
     def get_person_by_email(self, email):
         """Alle Personen mit gegebener E-Mail-Adresse auslesen."""
@@ -141,6 +136,15 @@ class ProjectAdministration (object):
 
     def save_person(self, person):
         """Die gegebene Person speichern."""
+        """Methode mir Rollentabelle"""
+        # adm = ProjectAdministration()
+        # saved_person = adm.get_person_by_google_id(person.get_google_id)
+        # saved_role = saved_person.get_berechtigung()
+        # if saved_role is None:
+        #     role = person.get_berechtigung()
+        #     updated_role = adm.create_role(role)
+        #     person.set_berechtigung(updated_role)   
+        
         with PersonMapper() as mapper:
             mapper.update(person)
 
@@ -158,9 +162,6 @@ class ProjectAdministration (object):
     def get_all_projects(self, ):
         pass
 
-    def get_project_by_id(self, id):
-        pass
-
     def get_projects_by_person(self, person):
         pass
 
@@ -170,11 +171,59 @@ class ProjectAdministration (object):
     def delete_project(self, project):
         pass
 
-    def create_project(self, Person, module, capacity, room, ):
-        pass
+    def create_project(self, project):
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)
+
 
     def save_project(self, project):
         pass
+
+
+        # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
+        # student = Student()
+        # student.set_name(name)
+        # student.set_vorname(vorname)
+        # student.set_google_id(google_id)
+        # student.set_email(email)
+        # student.set_matr_nr(matr_nr)
+        # student.set_studiengang(studiengang)
+        # student.set_id(1)
+        # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
+        # student.set_last_updated(last_updated)
+        # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
+        #     return mapper.insert(student)
+
+        
+    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
+    #     return
+
+    def get_student_by_id(self, id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_id(id)
+        
+
+    # def get_student_by_name(self, name):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_name(name)
+
+    # def get_students_by_project(self, project):
+    #     with StudentMapper() as mapper:
+    #         return mapper.find_by_student_id(project.get_id())
+
+    # def save_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         mapper.update(student)
+
+    # def delete_student(self, student):
+    #     with StudentMapper() as mapper:
+    #         project = self.get_projects_of_student(student)
+
+    #         if not(project is None):
+    #             for a in project:
+    #                 self.delete_project(a)
+
+    #         mapper.delete(student)
 
     def create_grading(self, passed, grade):
         pass
@@ -230,8 +279,51 @@ class ProjectAdministration (object):
     def get_all_participations(self, ):
         pass
 
-    def get_participation_by_project(self, project):
-        pass
+
+#DOZENTENVIEW
+
+
+    def get_dozent_by_id(self, id): #Person_by_id???
+        """Die Person mit der gegebenen ID auslesen."""
+        with PersonMapper() as mapper:
+            return mapper.find_by_id(id) 
+
+
+#DOZENTENVIEW
+    def get_participations_by_project(self, project_id):
+        """Alle Teilnahmen des gegebenen Projekts auslesen."""
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_project_id(project_id) 
+
+#DOZENTENVIEW
+    # def get_projects_by_dozent(self, person): #dozent eig. !!! falls Funktion darunter nicht funktioniert diese versuchen(main.py entsprechend ändern)
+    #     """Alle Projects des gegebenen Dozenten auslesen."""
+    #     with ProjectMapper() as mapper:
+    #         return mapper.find_by_dozent_id(person.get_id()) 
+
+    def get_projects_by_dozent(self, person_id): #dozent eig. !!
+        """Alle Projects des gegebenen Dozenten auslesen."""
+        # with ProjectMapper() as mapper:
+        #     return mapper.find_by_dozent_id(person_id) 
+
+        with ProjectMapper() as mapper:
+            pro = mapper.find_by_dozent_id(person_id)
+
+            p_list = []
+
+            for p in pro:
+                if p.get_project_state() == 2:
+                    p_list.append(p)
+            return p_list
+                
+
+
+
+    def get_project_by_id(self, id):
+        """Das Project mit der gegebenen ID auslesen."""
+        with ProjectMapper() as mapper:
+            return mapper.find_by_id(id) 
+
 
     def save_participation(self, participation):
         pass
@@ -293,7 +385,7 @@ class ProjectAdministration (object):
     def remove_project_from_semester(self, ):
         pass
 
-    def create_role(self, ):
+    def create_role(self, role):
         pass
 
     def save_role(self, ):
@@ -320,3 +412,13 @@ class ProjectAdministration (object):
     def get_all_automats(self, ):
         pass
 
+if __name__ == '__main__':
+
+    '''dictionary = {"email": "kai.kuster@gmx.de", "google_id": "i6YrxATieAexaC86OWQuf57VjpN2", "berechtigung": "student", "name": "Kai", "id": 3, "creation_date": None, "last_updated": None}
+    p = Person.from_dict(dictionary)
+    adm = ProjectAdministration()
+    adm.save_person(p)'''
+
+    adm = ProjectAdministration()
+    person = adm.get_student_by_id(1)
+    print(person)

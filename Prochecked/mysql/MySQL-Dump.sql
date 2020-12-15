@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `grading`;
 CREATE TABLE `grading` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `grade` float DEFAULT '0',
+  `grade` float DEFAULT '0.0',
   `passed` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -77,10 +77,10 @@ DROP TABLE IF EXISTS `participation`;
 CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `gradingID` int NOT NULL DEFAULT '0',
-  `moduleID` int NOT NULL DEFAULT '0',
-  `projectID` int NOT NULL DEFAULT '0',
-  `studentID` int NOT NULL DEFAULT '0'
+  `grading_id` int DEFAULT NULL,
+  `module_id` int DEFAULT NULL,
+  `project_id` int NOT NULL DEFAULT '0',
+  `student_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,7 +106,7 @@ CREATE TABLE `person` (
   `name` varchar(128) DEFAULT NULL,
   `google_id` varchar(128) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
-  `roleID` int DEFAULT NULL,
+  `role_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,10 +140,11 @@ CREATE TABLE `project` (
   `number_bd_lecturetime` int DEFAULT NULL,
   `preffered_bd` int DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
-  `person_ID` int NOT NULL DEFAULT '0',
-  `projectStateID` int NOT NULL DEFAULT '0',
-  `projectTypeID` int NOT NULL DEFAULT '0',
-  `semesterID` int NOT NULL,
+  `person_id` int NOT NULL DEFAULT '0',
+  `project_state_id` int NOT NULL DEFAULT '0',
+  `project_type_id` int NOT NULL DEFAULT '0',
+  `semester_id` int NOT NULL DEFAULT '0',
+  `person2_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,8 +179,10 @@ CREATE TABLE `projectstate` (
 
 LOCK TABLES `projectstate` WRITE;
 /*!40000 ALTER TABLE `projectstate` DISABLE KEYS */;
+INSERT INTO `projectstate` VALUES (1,'2020-12-09 20:00:00','neu'),(2,'2020-12-09 20:00:00','abgelehnt'),(3,'2020-12-09 20:00:00','genehmigt'),(4,'2020-12-09 20:00:00','in Bewertung'),(5,'2020-12-09 20:00:00','Bewerung abgeschlossen');
 /*!40000 ALTER TABLE `projectstate` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
 -- Table structure for table `projecttype`
@@ -204,9 +207,10 @@ CREATE TABLE `projecttype` (
 
 LOCK TABLES `projecttype` WRITE;
 /*!40000 ALTER TABLE `projecttype` DISABLE KEYS */;
+INSERT INTO `projecttype` VALUES (1, '2020-12-09 20:00:00', 'Fachspezifisches Projekt', 5, 3),(2, '2020-12-09 20:00:00', 'Interdisziplinäres Projekt', 10, 5),(3, '2020-12-09 20:00:00', 'Transdisziplinäres Projekt', 20, 10);
 /*!40000 ALTER TABLE `projecttype` ENABLE KEYS */;
 UNLOCK TABLES;
-
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 --
 -- Table structure for table `role`
 --
@@ -228,8 +232,10 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'2020-12-09 20:00:00','Student'),(2,'2020-12-09 20:00:00','Dozent'),(3,'2020-12-09 20:00:00','Admin');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
 -- Table structure for table `semester`
