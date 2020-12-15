@@ -96,23 +96,7 @@ class ProjectListEntry extends Component {
 
     // console.log(this.state);
     return (
-      <div>
-        <div>
-        <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()}
-                </Typography>
-              </Grid>
-              <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editProjectButtonClicked}>
-                    edit
-                  </Button>
-                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
-                    delete
-                  </Button>
-                </ButtonGroup>
-
-        </div>          
-
+    
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -147,7 +131,7 @@ class ProjectListEntry extends Component {
         <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
         <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
       </div>
-      </div>
+     
     );
   }
 }

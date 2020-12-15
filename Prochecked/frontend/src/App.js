@@ -57,7 +57,7 @@ class App extends React.Component {
     
     handleAuthStateChange = person => { // Firebase Benutzer logt sich ein, der state wechselt den Zustand 
 		if (person) {
-            console.log("handleauthstate")
+            // console.log("handleauthstate")
 			this.setState({
 				authLoading: true
             });
@@ -135,7 +135,7 @@ class App extends React.Component {
         var api = AppAPI.getAPI()
         //console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
-            {console.log(person)
+            {
             this.setState({
                 person: person
             })
@@ -230,7 +230,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-        console.log("App gerendert")
+        
         };
     
 

@@ -36,7 +36,7 @@ export default class AppAPI {
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
 
     // Participation related
-    #getParticipationByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
+    #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     
 
     // Project related
@@ -183,13 +183,18 @@ updatePerson(personBO){
    * @param {Number} project_id for which the the Participations should be retrieved
    * @public
    */
-  getParticipationByProject(project_id){
-    return this.#fetchAdvanced(this.#getParticipationByProjectURL(project_id))
+  getParticipationsByProject(project_id){
+    console.log("vor fetch der participations")
+    console.log("pojektID:", project_id)
+    return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
-        // console.info(accountBOs);
+        console.log(responseJSON);
+        // console.info(participationBOs);
+        // console.log(participationBOs);
         return new Promise(function (resolve) {
           resolve(participationBOs);
+          console.log(participationBOs);
         })
       })
   }
@@ -207,11 +212,13 @@ updatePerson(personBO){
     // console.log(person_id)
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
-      .then((responseJSON) => {
-        // console.log(responseJSON)
+      .then((responseJSON) => { 
+        console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.info(accountBOs);
+        console.info(projectBOs);
+        console.info(projectBOs);
+
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
