@@ -133,7 +133,7 @@ class App extends React.Component {
 
     getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        //console.log(api)
+        // console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {
             this.setState({
@@ -230,6 +230,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+        console.log("rendered")
         
         };
     
