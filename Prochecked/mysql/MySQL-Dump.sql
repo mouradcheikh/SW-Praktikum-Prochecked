@@ -179,8 +179,10 @@ CREATE TABLE `projectstate` (
 
 LOCK TABLES `projectstate` WRITE;
 /*!40000 ALTER TABLE `projectstate` DISABLE KEYS */;
+INSERT INTO `projectstate` VALUES (1,'2020-12-09 20:00:00','neu'),(2,'2020-12-09 20:00:00','abgelehnt'),(3,'2020-12-09 20:00:00','genehmigt'),(4,'2020-12-09 20:00:00','in Bewertung'),(5,'2020-12-09 20:00:00','Bewerung abgeschlossen');
 /*!40000 ALTER TABLE `projectstate` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 --
 -- Table structure for table `projecttype`
