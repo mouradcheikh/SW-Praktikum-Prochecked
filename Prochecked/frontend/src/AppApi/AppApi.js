@@ -36,7 +36,7 @@ export default class AppAPI {
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
 
     // Participation related
-    #getParticipationByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
+    #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     
 
     // Project related
@@ -183,8 +183,8 @@ updatePerson(personBO){
    * @param {Number} project_id for which the the Participations should be retrieved
    * @public
    */
-  getParticipationByProject(project_id){
-    return this.#fetchAdvanced(this.#getParticipationByProjectURL(project_id))
+  getParticipationsByProject(project_id){
+    return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.info(accountBOs);

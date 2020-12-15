@@ -379,11 +379,11 @@ class ProjectsByDozentOperation(Resource):
 #         #     return "Project not found", 500
 
 
-@prochecked.route('/projects/<int:id>/participations')
+@prochecked.route('/projects/<int:project_id>/participations')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Project-Objekts')
+@prochecked.param('project_id', 'Die ID des Project-Objekts')
 class ParticipationsByProjectOperation(Resource):
-    @prochecked.marshal_list_with(participation) #evtl. list rausnehemn ?!?!
+    @prochecked.marshal_with(participation) #evtl. list rausnehemn ?!?!
     @secured
     def get(self, project_id):
         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
@@ -393,6 +393,7 @@ class ParticipationsByProjectOperation(Resource):
         adm = ProjectAdministration()
         # Zunächst benötigen wir das durch id gegebene Project.
         par = adm.get_participations_by_project(project_id)
+        return par
 
 
         #FOR SCLEIFE NOCH DEFINIEREN

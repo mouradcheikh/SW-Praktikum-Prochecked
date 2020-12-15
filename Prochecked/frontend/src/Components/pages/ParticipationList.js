@@ -33,7 +33,7 @@ class ParticipationList extends Component {
     console.log("vor fetch")
 
       var api = AppApi.getAPI()
-      api.getParticipationsByProject(this.props.project.getID)
+      api.getParticipationsByProject(this.props.project.getID())
         .then(participationBOs =>
           this.setState({               // Set new state when ParticipationBOs have been fetched
             participations: participationBOs,
