@@ -205,9 +205,10 @@ CREATE TABLE `projecttype` (
 
 LOCK TABLES `projecttype` WRITE;
 /*!40000 ALTER TABLE `projecttype` DISABLE KEYS */;
+INSERT INTO `projecttype` VALUES (1, '2020-12-09 20:00:00', 'Fachspezifisches Projekt', 5, 3),(2, '2020-12-09 20:00:00', 'Interdisziplinäres Projekt', 10, 5),(3, '2020-12-09 20:00:00', 'Transdisziplinäres Projekt', 20, 10);
 /*!40000 ALTER TABLE `projecttype` ENABLE KEYS */;
 UNLOCK TABLES;
-
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 --
 -- Table structure for table `role`
 --
