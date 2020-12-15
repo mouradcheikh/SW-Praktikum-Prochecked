@@ -184,17 +184,12 @@ updatePerson(personBO){
    * @public
    */
   getParticipationsByProject(project_id){
-    console.log("vor fetch der participations")
-    console.log("pojektID:", project_id)
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
-        console.log(responseJSON);
-        // console.info(participationBOs);
-        // console.log(participationBOs);
+        // console.info(accountBOs);
         return new Promise(function (resolve) {
           resolve(participationBOs);
-          console.log(participationBOs);
         })
       })
   }
@@ -212,13 +207,11 @@ updatePerson(personBO){
     // console.log(person_id)
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
-      .then((responseJSON) => { 
-        console.log(responseJSON)
+      .then((responseJSON) => {
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.info(projectBOs);
-        console.info(projectBOs);
-
+        // console.info(accountBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
