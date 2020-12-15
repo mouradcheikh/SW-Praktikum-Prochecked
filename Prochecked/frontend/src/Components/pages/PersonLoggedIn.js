@@ -12,7 +12,7 @@ class PersonLoggedIn extends Component {
         super(props);
     }
     render() 
-    { 
+    { console.log(this.props.person)
         let page
         let berechtigung = this.props.berechtigung
         if (berechtigung === 1){

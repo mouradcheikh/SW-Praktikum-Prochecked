@@ -417,9 +417,9 @@ if __name__ == '__main__':
     persons = adm.get_all_persons()
     print(persons[0].get_name())'''
 
-    # adm = ProjectAdministration()
-    # projects = adm.get_projects_by_dozent(2)
-    # print(projects)
+    '''adm = ProjectAdministration()
+    projects = adm.get_projects_by_dozent(4)
+    print(projects)'''
     # participations = adm.get_participations_by_project(1)
     # print(participations)
     # for p in participations:

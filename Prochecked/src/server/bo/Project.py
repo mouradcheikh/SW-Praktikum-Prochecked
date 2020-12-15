@@ -33,10 +33,10 @@ class Project(NamedBusinessObjects, Automat):
         self._dozent = [None,None]
         self._semester = None #Kommt hier ein Objekt von Semester rein?
         self._project_type = None
+        self._project_state = None
 
 
-    def set_project_type(self, project_type):
-        self._project_type = project_type
+
         
     # def get_dozent_id(self):
     #     return self._dozent
@@ -44,11 +44,22 @@ class Project(NamedBusinessObjects, Automat):
     # def set_dozent_id(self, person_id):
     #     self._dozent = person_id
 
-    def set_projecttype(self, projecttype):
-        self._projecttype = projecttype
+    #def set_projecttype(self, projecttype):
+        #self._projecttype = projecttype
+
+    def set_project_type(self, project_type):
+        self._project_type = project_type
 
     def get_project_type(self):
         return self._project_type
+
+    def set_project_state(self, project_state):
+        self._project_state = project_state
+
+    def get_project_state(self):
+        return self._project_state
+
+
 
     def set_capacity(self, capacity):
         self._capacity = capacity
@@ -138,7 +149,7 @@ class Project(NamedBusinessObjects, Automat):
         return self._semester
 
     def __str__(self):
-        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_projecttype(), self.get_dozent_id())
+        return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -147,6 +158,7 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_project_type(dictionary["project_type"])
+        obj.set_project_state(dictionary["project_state"])
         obj.set_capacity(dictionary["capacity"])
         obj.set_room(dictionary["room"])
         obj.set_ext_partner_list(dictionary["ext_partner_list"])

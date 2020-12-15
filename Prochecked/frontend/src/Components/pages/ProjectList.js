@@ -69,7 +69,10 @@ class ProjectList extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     console.log("gerendert")
-    this.getProjectsByDozent(this.props.person.getID);
+    let person = this.props.location.state.linkState
+    this.getProjectsByDozent(person.getID());
+    console.log(person.getID())
+   
   }
 
   /**
@@ -187,13 +190,13 @@ class ProjectList extends Component {
               }}
             />
           </Grid>
-          /*<Grid item xs />
+          <Grid item xs />
           <Grid item>
             <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
               Add Project
           </Button>
           </Grid>
-        </Grid>*/
+        </Grid>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
