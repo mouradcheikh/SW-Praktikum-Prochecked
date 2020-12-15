@@ -65,7 +65,8 @@ class ParticipationListEntry extends Component {
 
   
   getStudent = () => {
-    AppAPI.getAPI().getStudent(this.props.participation.getID()).then(student =>
+    var api = AppApi.getAPI()
+    api.getStudent(this.props.participation.getStudent_id()).then(student =>
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -89,7 +90,8 @@ class ParticipationListEntry extends Component {
   /** Deletes this participation */
   deleteParticipation = () => {
     const { participation } = this.props;
-    AppAPI.getAPI().deleteParticipation(participation.getID()).then(() => {
+    var api = AppApi.getAPI()
+    api.deleteParticipation(participation.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
@@ -149,7 +151,7 @@ class ParticipationListEntry extends Component {
 
           </Typography>
           <Typography color='textSecondary'>
-            Balance: {!isNaN(balance) ? AppAPI.getAPI().getCurrencyFormatter().format(balance) : balance}
+            Balance: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
           </Typography>
           <ListItemSecondaryAction>
             <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SwapHoriz />} onClick={this.transferMoney}>

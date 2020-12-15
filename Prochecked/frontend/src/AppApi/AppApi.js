@@ -1,4 +1,5 @@
 import PersonBO from './PersonBO';
+import StudentBO from './StudentBO';
 import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 

@@ -4,7 +4,7 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import { AppApi } from '../../AppApi';
+import  {AppApi}  from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ProjectForm from '../dialogs/ProjectForm';
@@ -43,8 +43,8 @@ class ProjectList extends Component {
   /** Fetches all ProjectBOs from the backend */
   getProjectsByDozent = (person_id) => {
   // console.log("vor fetch")
-
-    AppApi.getAPI().getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
+    var api = AppApi.getAPI()
+    api.getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
         this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
@@ -68,10 +68,10 @@ class ProjectList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log("gerendert")
+    console.log("gerendert")
     let person = this.props.location.state.linkState
     this.getProjectsByDozent(person.getID());
-    // console.log(person.getID())
+    console.log(person.getID())
    
   }
 

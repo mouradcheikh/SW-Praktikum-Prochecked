@@ -29,10 +29,11 @@ class ParticipationList extends Component {
   }
 
   /** Fetches ParticipationBOs for the current customer */
-  getParticipationsByProject = (project_id) => {
+  getParticipationsByProject = () => {
     console.log("vor fetch")
-  
-      AppApi.getAPI().getParticipationsByProject(project_id)
+
+      var api = AppApi.getAPI()
+      api.getParticipationsByProject(this.props.project.getID)
         .then(participationBOs =>
           this.setState({               // Set new state when ParticipationBOs have been fetched
             participations: participationBOs,
@@ -56,7 +57,7 @@ class ParticipationList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    this.getParticipationsByProject(this.props.project.getID); //props richtig ??
+    this.getParticipationsByProject(); //props richtig ??
   }
 
   /** Lifecycle method, which is called when the component was updated */

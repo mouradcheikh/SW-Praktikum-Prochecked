@@ -11,11 +11,11 @@ export default class StudentBO extends BusinessObject {
    * 
    * @param {String} aname - the name of this RoleBO.
    */
-  constructor(aname, astudiengang, amatrikelnummer) {
+  constructor(aname, astudiengang, amatr_nr) {
     super();
     this.name = aname
     this.studiengang = astudiengang;
-    this.matr_nr = amatr_nr
+    this.matr_nr = amatr_nr;
   }
 
   setName(aname) {

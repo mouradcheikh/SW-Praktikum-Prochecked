@@ -23,14 +23,14 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} aname - the new name of this ParticipationBO.
    */
-  setStudent(astudentID) {
+  setStudent_id(astudentID) {
     this.student = astudentID;
   }
 
   /**
    * Gets the name.
    */
-  getStudent() {
+  getStudent_id() {
     return this.student;
   }
 
