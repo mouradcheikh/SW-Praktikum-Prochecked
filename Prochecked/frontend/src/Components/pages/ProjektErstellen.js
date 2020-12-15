@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ProjektFormular() {
+function ProjektFormular(props) {
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState('');
   const [Professor, setProfesor] = React.useState('');
@@ -41,13 +41,6 @@ function ProjektFormular() {
     setProfesor(event.target.value);
   }
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -59,6 +52,11 @@ function ProjektFormular() {
       'Raum:', Raum);
   }
 
+  // ProfList = () => {
+  //   const profs = props.ProfList
+
+  // }
+
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>
@@ -69,18 +67,14 @@ function ProjektFormular() {
             <Select
               labelId="artProjekt"
               id="ProjektArt"
-              open={open}
-              onClose={handleClose}
-              onOpen={handleOpen}
               value={ProjektArt}
               onChange={handleProjektArt}
+              native
             >
-              <MenuItem value="">
-                <em>-</em>
-              </MenuItem>
-                <MenuItem value={5}>Fachspezifisches Projekt</MenuItem>
-                <MenuItem value={10}>Interdisziplinäres Projekt</MenuItem>
-                <MenuItem value={20}>Transdisziplinäres Projekt </MenuItem>
+              <option value={1}>Fachspezifisches Projekt</option>
+              <option value={2}>Interdisziplinäres Projekt</option>
+              <option value={3}>Transdisziplinäres Projekt</option>
+
               </Select>
         </FormControl>
       </div>
@@ -107,16 +101,11 @@ function ProjektFormular() {
               <Select
                 labelId="artProjekt"
                 id="ProjektArt"
-                open={open}
-                onClose={handleClose}
-                onOpen={handleOpen}
                 value={Professor}
                 onChange={handleProfessor}
+                native
               >
-            <MenuItem value="">
-                <em>-</em>
-            </MenuItem>
-            <MenuItem value={0}>Prof</MenuItem>
+              <option value={1}>prof</option>
               </Select>
             </FormControl>
                 <div><TextField className={classes.formControl}
