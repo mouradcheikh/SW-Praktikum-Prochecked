@@ -48,7 +48,6 @@ export default class AppAPI {
 
     #addgradingStudentURL = () => `${this.#AppServerBaseURL}/persons`;
 
-
       /** 
    * Get the Singelton instance 
    * 
@@ -255,7 +254,13 @@ updatePerson(personBO){
 //Grading Related 
 
 
-  gradingStudent(grade,passed) {
+  gradingStudent(creation_date, grade, passed) {
+
+    let g = new GradingBO();
+    g.setCreationDate(creation_date)
+    g.setGrade(grade)
+    g.setPassed(passed)
+    console.log(g)
 
     return this.#fetchAdvanced(this.#addgradingStudentURL(), {
       method: 'POST',
@@ -263,7 +268,7 @@ updatePerson(personBO){
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(p)
+      body: JSON.stringify(g)
       }).then((responseJSON) => {
       // We always get an array of GradingBO.fromJSON, but only need one object
         let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
