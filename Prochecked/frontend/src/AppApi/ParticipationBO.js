@@ -30,8 +30,8 @@ export default class ParticipationBO extends BusinessObject {
   /**
    * Gets the name.
    */
-  getStudent_id() {
-    return this.student;
+  getStudent_id(){
+    return this.student
   }
 
   setGrading(agradingID){

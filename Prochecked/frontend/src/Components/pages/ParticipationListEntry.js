@@ -4,14 +4,21 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
+import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SwapHoriz from '@material-ui/icons/SwapHoriz';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Icon from '@material-ui/core/Icon';
+import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
+// import {ic_compare_arrows} from 'react-icons-kit/md/ic_compare_arrows'
 // import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
+import Input from '@material-ui/core/Input';
+
+
 
 
 /**
@@ -51,6 +58,7 @@ class ParticipationListEntry extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // load initial balance
+    // debugger;
     this.getStudent();
   }
 
@@ -66,7 +74,7 @@ class ParticipationListEntry extends Component {
   
   getStudent = () => {
     var api = AppApi.getAPI()
-    api.getStudent(this.props.participation.getStudent_id()).then(student =>
+    api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -133,7 +141,8 @@ class ParticipationListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, project, participation } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog } = this.state;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog, student } = this.state;
+    
 
     return (
       <div>
@@ -146,19 +155,27 @@ class ParticipationListEntry extends Component {
                 participation: participation
               }
             }} >
-              Participation ID: {participation.getID()}
+              Student: {student.matr_nr + " " + student.name}
             </Link>
 
           </Typography>
-          <Typography color='textSecondary'>
-            Balance: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
-          </Typography>
+          
+          <form className={classes.root} noValidate autoComplete="off">
+           
+            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} />
+            
+          </form>
+          {/* <Typography color='textSecondary'>
+            Abgabe erfolgt?: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
+          </Typography> */}
           <ListItemSecondaryAction>
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' startIcon={<SwapHoriz />} onClick={this.transferMoney}>
-              Transfer
+          
+           
+            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.transferMoney}>
+             Bewerten
             </Button>
-            <Button color='secondary' size='small' startIcon={<DeleteIcon />} onClick={this.deleteParticipation}>
-              Delete
+            <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
+             Löschen
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
@@ -188,6 +205,15 @@ const styles = theme => ({
   }
 });
 
+//TEXTFIELD PLACEHOLDER STYLES --> noch bearbeiten
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+    }));
+
 /** PropTypes */
 ParticipationListEntry.propTypes = {
   /** @ignore */
@@ -206,4 +232,7 @@ ParticipationListEntry.propTypes = {
   show: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(ParticipationListEntry);
+
+//TEXTFIELD
+
+export default withStyles(styles, useStyles)(ParticipationListEntry);
