@@ -90,11 +90,11 @@ function ProjektFormular(props) {
               id="ProjektArt"
               value={ProjektArt}
               onChange={handleProjektArt}
-              native
+              
             >
-              <option value={1}>Fachspezifisches Projekt</option>
-              <option value={2}>Interdisziplinäres Projekt</option>
-              <option value={3}>Transdisziplinäres Projekt</option>
+              <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
+              <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
+              <MenuItem value={3}>Transdisziplinäres Projekt</MenuItem>
 
               </Select>
         </FormControl>
@@ -125,7 +125,7 @@ function ProjektFormular(props) {
                 id="ProjektArt"
                 value={Professor}
                 onChange={handleProfessor}
-                native
+                
               >
               <option value={1}>prof</option>
               </Select>
