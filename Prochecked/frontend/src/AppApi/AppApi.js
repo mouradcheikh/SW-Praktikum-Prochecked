@@ -2,6 +2,7 @@ import PersonBO from './PersonBO';
 import StudentBO from './StudentBO';
 import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
+import GradingBO from './GradingBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -42,6 +43,10 @@ export default class AppAPI {
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
+
+    //Grading related 
+
+    #addgradingStudentURL = () => `${this.#AppServerBaseURL}/persons`;
 
 
       /** 
@@ -245,7 +250,41 @@ updatePerson(personBO){
   }
 
 
+
+
+//Grading Related 
+
+
+  gradingStudent(grade,passed) {
+
+    return this.#fetchAdvanced(this.#addgradingStudentURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(p)
+      }).then((responseJSON) => {
+      // We always get an array of GradingBO.fromJSON, but only need one object
+        let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+      // console.info(accountBOs);
+        return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
+
+
+
+
+
+
+
+
+
 }
+
 
 
 
