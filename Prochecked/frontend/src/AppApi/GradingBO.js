@@ -59,7 +59,7 @@ export default class GradingBO extends BusinessObject {
     let result = [];
 
     if (Array.isArray(grading)) {
-      persons.forEach((p) => {
+      grading.forEach((p) => {
         Object.setPrototypeOf(p, GradingBO.prototype);
         result.push(p);
       })

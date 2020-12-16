@@ -103,6 +103,7 @@ useEffect(() => {
               id="ProjektArt"
               value={ProjektArt}
               onChange={handleProjektArt}
+              
             >
               <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
               <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
