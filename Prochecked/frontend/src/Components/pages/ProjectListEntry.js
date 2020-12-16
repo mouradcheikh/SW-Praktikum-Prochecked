@@ -44,49 +44,49 @@ class ProjectListEntry extends Component {
     })
   }
 
-  /** Handles the onClick event of the edit project button */
-  editProjectButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProjectForm: true
-    });
-  }
+  // /** Handles the onClick event of the edit project button */
+  // editProjectButtonClicked = (event) => {
+  //   event.stopPropagation();
+  //   this.setState({
+  //     showProjectForm: true
+  //   });
+  // }
 
-  /** Handles the onClose event of the ProjectForm */
-  projectFormClosed = (project) => {
-    // project is not null and therefor changed
-    if (project) {
-      this.setState({
-        project: project,
-        showProjectForm: false
-      });
-    } else {
-      this.setState({
-        showProjectForm: false
-      });
-    }
-  }
+  // /** Handles the onClose event of the ProjectForm */
+  // projectFormClosed = (project) => {
+  //   // project is not null and therefor changed
+  //   if (project) {
+  //     this.setState({
+  //       project: project,
+  //       showProjectForm: false
+  //     });
+  //   } else {
+  //     this.setState({
+  //       showProjectForm: false
+  //     });
+  //   }
+  // }
 
-  /** Handles the onClick event of the delete project button */
-  deleteProjectButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProjectDeleteDialog: true
-    });
-  }
+  // /** Handles the onClick event of the delete project button */
+  // deleteProjectButtonClicked = (event) => {
+  //   event.stopPropagation();
+  //   this.setState({
+  //     showProjectDeleteDialog: true
+  //   });
+  // }
 
-  /** Handles the onClose event of the ProjectDeleteDialog */
-  deleteProjectDialogClosed = (project) => {
-    // if project is not null, delete it
-    if (project) {
-      this.props.onProjectDeleted(project);
-    };
+  // /** Handles the onClose event of the ProjectDeleteDialog */
+  // deleteProjectDialogClosed = (project) => {
+  //   // if project is not null, delete it
+  //   if (project) {
+  //     this.props.onProjectDeleted(project);
+  //   };
 
-    // Don´t show the dialog
-    this.setState({
-      showProjectDeleteDialog: false
-    });
-  }
+  //   // Don´t show the dialog
+  //   this.setState({
+  //     showProjectDeleteDialog: false
+  //   });
+  // }
 
   /** Renders the component */
   render() {
@@ -108,7 +108,7 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <ButtonGroup variant='text' size='small'>
                   <Button color='primary' onClick={this.editProjectButtonClicked}>
                     edit
@@ -117,7 +117,7 @@ class ProjectListEntry extends Component {
                     delete
                   </Button>
                 </ButtonGroup>
-              </Grid>
+              </Grid> */}
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
@@ -128,8 +128,8 @@ class ProjectListEntry extends Component {
             <ParticipationList show={expandedState} project={project} /> 
           </AccordionDetails>
         </Accordion>
-        <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
-        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
+        {/* <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
+        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} /> */}
       </div>
       
     );

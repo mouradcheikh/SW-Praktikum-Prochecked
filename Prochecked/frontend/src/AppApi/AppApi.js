@@ -188,7 +188,7 @@ updatePerson(personBO){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
-        // console.info(accountBOs);
+        console.log(participationBOs);
         return new Promise(function (resolve) {
           resolve(participationBOs);
         })
@@ -212,7 +212,7 @@ updatePerson(personBO){
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.info(accountBOs);
+        console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -222,10 +222,11 @@ updatePerson(personBO){
 
   //Student Relation
   getStudent(id) {
-    return this.#fetchAdvanced(this.#getStudentURL(id)).then((responseJSON) => {
+    return this.#fetchAdvanced(this.#getStudentURL(id))
+    .then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      console.info(responseStudentBO);
+      console.log(responseStudentBO);
       return new Promise(function (resolve) {
         resolve(responseStudentBO);
       })

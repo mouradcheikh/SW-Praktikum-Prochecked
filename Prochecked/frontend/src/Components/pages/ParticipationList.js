@@ -57,16 +57,17 @@ class ParticipationList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    // console.log(this.props.participation.getStudent_id)
     this.getParticipationsByProject(); //props richtig ??
   }
 
   /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
-    // if ((this.props.show !== prevProps.show)) {
-    //   this.getAccounts();
-    // }
-  }
+  // componentDidUpdate(prevProps) {
+  //   reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
+  //   if ((this.props.show !== prevProps.show)) {
+  //     this.getAccounts();
+  //   }
+  // }
 
   /** Adds an participation for the current customer */
 //   addAccount = () => {
@@ -117,12 +118,12 @@ class ParticipationList extends Component {
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
             <ContextErrorMessage error={loadingParticipationError} contextErrorMsg={`List of participations for project ${project.getID()} could not be loaded.`} onReload={this.getParticipations} />
-            {/* <ContextErrorMessage error={addingParticipationError} contextErrorMsg={`Participation for customer ${customer.getID()} could not be added.`} onReload={this.addParticipation} /> */}
+            {/* <ContextErrorMessage error={addingParticipationError} contextErrorMsg={`Participation for project ${participation.getID()} could not be added.`} onReload={this.addParticipation} /> */}
           </ListItem>
         </List>
-        {/* <Button className={classes.addParticipationButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addParticipation}>
-          Add Account
-        </Button> */}
+        <Button className={classes.addParticipationButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addParticipation}>
+          Teilnahme hinzufügen
+        </Button>
       </div>
     );
   }
