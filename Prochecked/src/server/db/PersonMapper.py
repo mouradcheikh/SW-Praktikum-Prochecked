@@ -133,6 +133,31 @@ class PersonMapper(Mapper):
         cursor.close()
 
 
+
+    def find_by_role(self, role_id):
+        """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param google_user_id die Google ID des gesuchten Users.
+        :return User-Objekt, das die übergebene Google ID besitzt,
+            None bei nicht vorhandenem DB-Tupel.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, name, google_id, email, role_id FROM person WHERE role_id='{}'".format(
+            role_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        result = Person.from_tuples(tuples)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
 if (__name__ == "__main__"):
 #     '''person = Person()
 #     person.set_email("j@gmx.de")

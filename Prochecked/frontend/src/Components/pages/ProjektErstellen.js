@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,6 +13,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
+import { AppApi } from '../../AppApi';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -38,6 +39,7 @@ function ProjektFormular(props) {
   const [BTinPZ, setBTinPZ] = React.useState('0');
   const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
+  const [Professors, setProfessors] = React.useState('');
   
   const [open, setOpen] = React.useState(false);
 
@@ -72,6 +74,17 @@ function ProjektFormular(props) {
       );
   }
 
+function ProfList(){
+  var api = AppApi.getAPI()
+  api.getPersonByRole(2).then((persons) =>
+  {console.log(persons)
+  setProfessors(persons)})
+}
+
+useEffect(() => {
+  ProfList()
+  })
+
 
   // ProfList = () => {
   //   const profs = props.ProfList
@@ -90,11 +103,10 @@ function ProjektFormular(props) {
               id="ProjektArt"
               value={ProjektArt}
               onChange={handleProjektArt}
-              native
             >
-              <option value={1}>Fachspezifisches Projekt</option>
-              <option value={2}>Interdisziplinäres Projekt</option>
-              <option value={3}>Transdisziplinäres Projekt</option>
+              <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
+              <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
+              <MenuItem value={3}>Transdisziplinäres Projekt</MenuItem>
 
               </Select>
         </FormControl>
@@ -124,10 +136,11 @@ function ProjektFormular(props) {
                 labelId="artProjekt"
                 id="ProjektArt"
                 value={Professor}
-                onChange={handleProfessor}
-                native
+                onChange={handleProfessor} 
               >
-              <option value={1}>prof</option>
+              {
+              Professors.map(Professor => <MenuItem value = {Professor.id}> {Professor.name} </MenuItem>)
+              }
               </Select>
             </FormControl>
                 <div><TextField className={classes.formControl}
