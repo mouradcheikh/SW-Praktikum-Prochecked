@@ -43,6 +43,7 @@ class ParticipationListEntry extends Component {
 
   constructor(props) {
     super(props);
+    // this.onSubmit = this.onSubmit.bind(this);
 
     // Init an empty state
     this.state = {
@@ -54,6 +55,18 @@ class ParticipationListEntry extends Component {
       // showMoneyTransferDialog: false,
     };
   }
+
+  // onSubmit(e) {
+  //   e.preventDefault();
+  //   var note = this.note;
+  //   console.log(note);
+  // }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    var note = this.note;
+    console.log(note);
+}
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -138,6 +151,8 @@ class ParticipationListEntry extends Component {
   //   }
   // }
 
+
+
   /** Renders the component */
   render() {
     const { classes, project, participation } = this.props;
@@ -162,7 +177,7 @@ class ParticipationListEntry extends Component {
           
           <form className={classes.root} noValidate autoComplete="off">
            
-            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} />
+            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} className= "form-control" ref={(c)=> this.note = c} name ="note"/>
             
           </form>
           {/* <Typography color='textSecondary'>
@@ -171,7 +186,7 @@ class ParticipationListEntry extends Component {
           <ListItemSecondaryAction>
           
            
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.transferMoney}>
+            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.onSubmit}>
              Bewerten
             </Button>
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
