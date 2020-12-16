@@ -12,6 +12,7 @@ import { Button } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -33,9 +34,9 @@ function ProjektFormular(props) {
   const [Inhalt, setInhalt] = React.useState('');
   const [Raum, setRaum] = React.useState('');
   const [WT, setWT] = React.useState('Ja');
-  const [BTvorVZ, setBTvorVZ] = React.useState('');
-  const [BTinPZ, setBTinPZ] = React.useState('');
-  const [BTinVZ, setBTinVZ] = React.useState('');
+  const [BTvorVZ, setBTvorVZ] = React.useState('0');
+  const [BTinPZ, setBTinPZ] = React.useState('0');
+  const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
   
   const [open, setOpen] = React.useState(false);
@@ -109,7 +110,8 @@ function ProjektFormular(props) {
           </div>
           <div><TextField className={classes.formControl}
             id="maxTeilnehmer"
-            label="Kapazität (Max. Teilnehmerzahl)" 
+            label="Kapazität (Max. Teilnehmerzahl)"
+            type="number" 
             variant="outlined" 
             value={Kapazität}
             onInput={e=>setKapazität(e.target.value)}
@@ -159,6 +161,7 @@ function ProjektFormular(props) {
                     id="BT vor der VZ"
                     label="Blocktage vor Beginn der Vorlesungszeit "
                     variant="outlined" 
+                    type="number"
                     value={BTvorVZ}
                     onInput={e=>setBTvorVZ(e.target.value)}
                     />
@@ -166,15 +169,18 @@ function ProjektFormular(props) {
               <div><TextField className={classes.formControl}
                     id="BT in der PZ"
                     label="Blocktage in der Prüfungszeit (nur inter-/tans. Projekte)"
-                    variant="outlined" 
+                    variant="outlined"
+                    type="number" 
                     value={BTinPZ}
                     onInput={e=>setBTinPZ(e.target.value)}
                     />
               </div>    
-              <div><TextField className={classes.formControl}
+              <div>
+                    <TextField className={classes.formControl}
                     id="BTSamstag"
                     label="Blocktage (Samstag) in der Vorlesungszeit"
-                    variant="outlined" 
+                    variant="outlined"
+                    type="number" 
                     value={BTinVZ}
                     onInput={e=>setBTinVZ(e.target.value)}
                     />
