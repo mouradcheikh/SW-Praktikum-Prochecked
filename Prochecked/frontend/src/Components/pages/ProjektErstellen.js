@@ -9,7 +9,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 // import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button } from '@material-ui/core';
-// import FormLabel from '@material-ui/core/FormLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,6 +32,11 @@ function ProjektFormular(props) {
   const [Kapazität,setKapazität] = React.useState('');
   const [Inhalt, setInhalt] = React.useState('');
   const [Raum, setRaum] = React.useState('');
+  const [WT, setWT] = React.useState('Ja');
+  const [BTvorVZ, setBTvorVZ] = React.useState('');
+  const [BTinPZ, setBTinPZ] = React.useState('');
+  const [BTinVZ, setBTinVZ] = React.useState('');
+  const [BesondererRaum, setBesondererRaum] = React.useState('');
   
   const [open, setOpen] = React.useState(false);
 
@@ -41,6 +48,11 @@ function ProjektFormular(props) {
     setProfesor(event.target.value);
   }
 
+  const handleWT = (event) => {
+    setWT(event.target.value);
+  };
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,8 +61,16 @@ function ProjektFormular(props) {
       'Titel:', Titel,
       'Kapazität:', Kapazität,
       'Inhalt:', Inhalt,
-      'Raum:', Raum);
+      'Raum:', Raum,
+      'Wöchentlich:', WT,
+      'Blocktage vor Beginn der VZ:', BTvorVZ,
+      'Blocktage in der PZ:', BTinPZ,
+      'BT in der VZ:', BTinVZ,
+      'Besonderer Raum:', BesondererRaum
+      
+      );
   }
+
 
   // ProfList = () => {
   //   const profs = props.ProfList
@@ -127,48 +147,51 @@ function ProjektFormular(props) {
                     />
                </div>
               <div>
-                <FormControlLabel
-                value=""
-                control={<Checkbox color="primary" />}
-                label="Wöchentliche Termine"
-                labelPlacement="end"
-                />
+              <FormControl component="fieldset" className={classes.formControl}>
+                  <FormLabel component="legend">Wöchentliche Termine</FormLabel>
+                  <RadioGroup aria-label="WT" name="WT" value={WT} onChange={handleWT}>
+                    <FormControlLabel value="true" control={<Radio />} label="Ja" />
+                    <FormControlLabel value="false" control={<Radio />} label="Nein" />
+                  </RadioGroup>
+              </FormControl>
               </div>
-              <div>
-                <FormControlLabel
-                value=""
-                control={<Checkbox color="primary" />}
-                label="Blocktage vor Beginn der Vorlesungszeit "
-                labelPlacement="end"
-                />
-              </div>
-              <div>
-                <FormControlLabel
-                value=""
-                control={<Checkbox color="primary" />}
-                label="Blocktage in der Prüfungszeit (nur inter-/trans. Projekte)"
-                labelPlacement="end"
-                />
-            </div>
-            <div>
-                <FormControlLabel
-                value=""
-                control={<Checkbox color="primary" />}
-                label="Blocktage (Samstage) in der Vorlesungszeit"
-                labelPlacement="end"
-                />
-            </div>
-            <div>
-                <FormControlLabel
-                value=""
-                control={<Checkbox color="primary" />}
-                label="Besonderer Raum notwendig"
-                labelPlacement="end"
-                />
-            </div>
+              <div><TextField className={classes.formControl}
+                    id="BT vor der VZ"
+                    label="Blocktage vor Beginn der Vorlesungszeit "
+                    variant="outlined" 
+                    value={BTvorVZ}
+                    onInput={e=>setBTvorVZ(e.target.value)}
+                    />
+               </div>
+              <div><TextField className={classes.formControl}
+                    id="BT in der PZ"
+                    label="Blocktage in der Prüfungszeit (nur inter-/tans. Projekte)"
+                    variant="outlined" 
+                    value={BTinPZ}
+                    onInput={e=>setBTinPZ(e.target.value)}
+                    />
+              </div>    
+              <div><TextField className={classes.formControl}
+                    id="BTSamstag"
+                    label="Blocktage (Samstag) in der Vorlesungszeit"
+                    variant="outlined" 
+                    value={BTinVZ}
+                    onInput={e=>setBTinVZ(e.target.value)}
+                    />
+               </div>
+               <div><TextField className={classes.formControl}
+                    id="BesondererRaum"
+                    label="Besonderer Raum notwendig"
+                    variant="outlined" 
+                    value={BesondererRaum}
+                    onInput={e=>setBesondererRaum(e.target.value)}
+                    />
+               </div>
             <div>
                 <Button
-                 type="submit" 
+                 type="submit"
+                 variant="contained"
+                 color="primary" 
                 >
                   Speichern
                 </Button>
