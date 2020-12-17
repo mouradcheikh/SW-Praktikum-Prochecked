@@ -28,7 +28,7 @@ class Participation(bo.BusinessObjects):
     def set_project(self, project_id):
         self._project = project_id
 
-    def get_project (self):
+    def get_project(self):
         return self._project
 
     def set_module(self, module_id):

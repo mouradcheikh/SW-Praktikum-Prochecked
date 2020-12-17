@@ -155,7 +155,7 @@ class ParticipationListEntry extends Component {
                 participation: participation
               }
             }} >
-              Student: {student.matr_nr + " " + student.name}
+              Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
             </Link>
 
           </Typography>

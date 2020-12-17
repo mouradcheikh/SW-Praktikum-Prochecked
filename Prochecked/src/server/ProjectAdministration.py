@@ -1,7 +1,7 @@
 """from .bo.Student import Student"""
 
 from server.bo.Person import Person
-"""from .bo.Role import Role
+from .bo.Role import Role
 from .bo.Project import Project
 from .bo.Grading import Grading
 from .bo.Module import Module
@@ -9,7 +9,7 @@ from .bo.Participation import Participation
 from .bo.ProjectType import ProjectType
 from .bo.Semester import Semester
 from .bo.ProjectState import ProjectState
-from .bo.Automat import Automat"""
+from .bo.Automat import Automat
 
 from server.db.StudentMapper import StudentMapper
 from server.db.PersonMapper import PersonMapper
@@ -324,6 +324,19 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_id(id) 
 
+
+
+    def create_participation_for_project(self, project):
+        """Für einen gegebenen Projekt ein neues Teilnahme anlegen."""
+        with ParticipationMapper() as mapper:
+            if project is not None:
+                participation = Participation()
+                participation.set_id(1)
+                participation.set_project(project.get_id())               
+
+                return mapper.insert(participation)
+            else:
+                return None
 
     def save_participation(self, participation):
         pass

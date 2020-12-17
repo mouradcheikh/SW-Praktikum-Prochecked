@@ -37,6 +37,7 @@ export default class AppAPI {
 
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
+    #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     
 
     // Project related
@@ -194,6 +195,28 @@ updatePerson(personBO){
       })
   }
 
+
+  /**
+   * Returns a Promise, which resolves to an ParticipationBOs
+   * 
+   * @param {Number} project_id for which the the accounts should be added to
+   * @public
+   */
+  addParticipationForProject(project_id) {
+    return this.#fetchAdvanced(this.#addParticipationsForProjectURL(project_id), {
+      method: 'POST'
+    })
+      .then((responseJSON) => {
+        // We always get an array of AccountBO.fromJSON, but only need one object
+        let participationBO = ParticipationBO.fromJSON(responseJSON)[0];
+        // console.info(accountBO);
+        return new Promise(function (resolve) {
+          // We expect only one new account
+          resolve(participationBO);
+        })
+      })
+  }
+  
 
 
 //Project related

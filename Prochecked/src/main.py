@@ -404,7 +404,29 @@ class ParticipationsByProjectOperation(Resource):
         #     student_list = adm.get_students_by_id(par.get_student_id)  # par.get_student_id vermutlich richtig ?!?!?
         #     return student_list
         # else:
-        #     return "project_not_found", 500 
+        #     return "project_not_found", 500
+        # 
+
+    @prochecked.marshal_with(participation, code=201)
+    @secured
+    def post(self, project_id):
+        """Anlegen eines Teilnahmes für einen gegebenen Projekt.
+
+        Das neu angelegte Teilnahme wird als Ergebnis zurückgegeben.
+
+        **Hinweis:** Unter der id muss ein Projekt existieren, andernfalls wird Status Code 500 ausgegeben."""
+        adm = ProjectAdministration()
+        """Stelle fest, ob es unter der id einen Projekt gibt. 
+        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
+        """
+        pro = adm.get_project_by_id(project_id) #funktioniert
+
+        if pro is not None:
+            # Jetzt erst macht es Sinn, für den Projekt ein neues Teilnahme anzulegen und dieses zurückzugeben.
+            result = adm.create_participation_for_project(pro)
+            return result
+        else:
+            return "Project unknown", 500
 
 
 # Student related
