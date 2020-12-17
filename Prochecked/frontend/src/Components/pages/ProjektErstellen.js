@@ -101,6 +101,7 @@ function ProfList(){
 
   return (
     <React.Fragment>
+      <center>
       <form onSubmit={handleSubmit}>
       <div>
         <h1>Geben Sie die Daten für das neue Projekt an:</h1>
@@ -225,6 +226,7 @@ function ProfList(){
                 </Button>
             </div>
           </form>
+          </center>
       </React.Fragment>
   );
 }
