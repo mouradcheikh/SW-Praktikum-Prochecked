@@ -42,7 +42,7 @@ class ParticipationMapper(Mapper):
 
         return result
     
-    def deletet_participation(self, participation):
+    def delete_participation(self, participation):
          """Löschen der Daten eines Participation-Objekts aus der Datenbank.
 
         :param participation das aus der DB zu löschende "Objekt"
