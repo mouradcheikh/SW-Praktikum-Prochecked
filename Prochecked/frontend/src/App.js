@@ -75,7 +75,7 @@ class App extends React.Component {
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
                 
                 this.getPersonByGoogleId(person.uid)
-                
+                this.ProfList()
               
                 //this.createPerson(person.displayName, person.email, person.uid)
                 
@@ -133,7 +133,7 @@ class App extends React.Component {
 
     getPersonByGoogleId = (google_id) => {
         var api = AppAPI.getAPI()
-        //console.log(api)
+        // console.log(api)
         api.getPersonByGoogleId(google_id).then((person) =>
             {
             this.setState({
@@ -223,14 +223,20 @@ class App extends React.Component {
     
 
             
-
+    ProfList(){
+        var api = AppAPI.getAPI()
+        api.getPersonByRole(2).then((persons) =>
+        {console.log(persons)
+        })
+      }
         
     
     componentDidMount() {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-        console.log("App gerendert")
+        console.log("rendered")
+        
         };
     
 

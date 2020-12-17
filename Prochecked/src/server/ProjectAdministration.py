@@ -129,6 +129,10 @@ class ProjectAdministration (object):
         with PersonMapper() as mapper:
             return mapper.find_by_google_id(google_id)
 
+    def get_persons_by_role(self, role_id):
+        with PersonMapper() as mapper:
+            return mapper.find_by_role(role_id)
+
     def get_all_persons(self, ):
         """Alle Personen auslesen."""
         with PersonMapper() as mapper:

@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import ProjectList from './ProjectList';
 import ProjektFormular from './ProjektErstellen'
 import UserView from './UserView'
-
+import { AppApi } from '../../AppApi';
 
 
 
@@ -18,8 +18,10 @@ import UserView from './UserView'
 class DozentenView extends Component{
   constructor(props){
     super(props);
+    this.state = {
+      DozentList : null
+  };
   }
-
 
 
   render() {
@@ -29,7 +31,7 @@ class DozentenView extends Component{
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
-            <Link to = '/CreateProject'>
+            <Link to='/CreateProject'>
             <Button
                 size="large"
                 variant="contained"

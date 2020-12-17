@@ -378,6 +378,19 @@ class ProjectsByDozentOperation(Resource):
 #         # else:
 #         #     return "Project not found", 500
 
+@prochecked.route('/person-by-role/<int:role_id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class PersonByRoleOperation(Resource):
+    @prochecked.marshal_list_with(person)
+    @secured
+    def get(self, role_id):
+        # """Auslesen aller Person-Objekte mit bestimmter Rolle.
+
+        # Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        persons = adm.get_persons_by_role(role_id)
+        return persons
+
 
 @prochecked.route('/projects/<int:project_id>/participations')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -452,12 +465,21 @@ class StudentOperations(Resource):
         return stud
 
 
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
-    '''adm = ProjectAdministration()
-    person = adm.get_student_by_id(1)
-    print(person)'''
+    # adm = ProjectAdministration()
+    # participations = adm.get_participations_by_project(3)
+    # print(participations)
+    # for p in participations:
+    #     print(p.get_id(), p.get_project(), p.get_student())
+
+    # adm = ProjectAdministration()
+    # persons = adm.get_persons_by_role(2)
+    # print(persons[0].get_name())
     
 
     '''adm = ProjectAdministration()
