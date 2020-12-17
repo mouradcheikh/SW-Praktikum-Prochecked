@@ -79,8 +79,8 @@ class Participation(bo.BusinessObjects):
             result.append(part)
         return result
 
-    # def __str__(self, ):
-    #     pass
+    def __str__(self):
+        return "Participation: {}, {}, {}, {}".format(self.get_id(), self.get_grading(), self.get_project(), self.get_student())
 
 if __name__ == "__main__":
     pass

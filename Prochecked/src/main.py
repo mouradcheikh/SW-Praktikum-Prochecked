@@ -444,6 +444,11 @@ class ParticipationsByProjectOperation(Resource):
         else:
             return "Project unknown", 500
 
+@prochecked.route('/participation/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ParticipationOperations(Resource):
+
     @secured
     def delete(self, id):
         """Löschen eines bestimmten Participation-Objekts.
@@ -452,8 +457,13 @@ class ParticipationsByProjectOperation(Resource):
         """
         adm = ProjectAdministration()
         par = adm.get_participation_by_id(id)
-        adm.delete_participation(par)
-        return '', 200
+
+
+        if par is not None:
+            adm.delete_participation(par)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id keine Participation existiert.'''
 
 
 # Student related
@@ -484,6 +494,15 @@ class StudentOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+    #adm = ProjectAdministration()
+    #par = adm.get_participation_by_id(3)
+    #print(par)
+    #adm.delete_participation(3)
+
 
     # adm = ProjectAdministration()
     # participations = adm.get_participations_by_project(3)

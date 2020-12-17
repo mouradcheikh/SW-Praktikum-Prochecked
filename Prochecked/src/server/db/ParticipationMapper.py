@@ -6,7 +6,8 @@ from server.bo.Participation import Participation
 
 class ParticipationMapper(Mapper):
     def __init__(self):
-        pass
+        super().__init__()
+
 
     def find_all(self, ):
         pass
@@ -43,7 +44,7 @@ class ParticipationMapper(Mapper):
         return result
     
     def delete_participation(self, participation):
-         """Löschen der Daten eines Participation-Objekts aus der Datenbank.
+        """Löschen der Daten eines Participation-Objekts aus der Datenbank.
 
         :param participation das aus der DB zu löschende "Objekt"
         """
@@ -95,7 +96,14 @@ class ParticipationMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            participation.set_id(maxid[0]+1)
+            if maxid[0] is not None:
+                """Wenn wir eine maximale ID festellen konnten, zählen wir diese
+                um 1 hoch und weisen diesen Wert als ID dem Person-Objekt zu."""
+                participation.set_id(maxid[0] + 1)
+            else:
+                """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
+                davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
+                participation.set_id(1)
 
         command = "INSERT INTO participation (id, creation_date, grading_id, module_id, project_id, student_id) VALUES (%s,%s,%s,%s,%s,%s)"
         data = (participation.get_id(), participation.get_creation_date(), participation.get_grading(), participation.get_module(), participation.get_project(),  participation.get_student())
@@ -116,15 +124,21 @@ if __name__ == "__main__":
 
     p = Participation()
     p.set_id(1)
-    #p.set_grading(2)
-    #p.set_module(5)
+    p.set_grading(2)
+    p.set_module(5)
     p.set_project(1)
-    #p.set_student(5)
+    p.set_student(5)
 
     with ParticipationMapper() as mapper:
-         result = mapper.insert(p)
+        result = mapper.insert(p)
+        #result = mapper.find_by_id(4)
+        #print(result)
+        mapper.delete_participation(4)
 
-    with
+
+
+
+
 
        
 

@@ -181,7 +181,7 @@ class ParticipationListEntry extends Component {
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The balance of participation ${participation.getID()} could not be loaded.`} onReload={this.getBalance} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
         {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}

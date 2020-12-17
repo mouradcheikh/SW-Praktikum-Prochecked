@@ -117,7 +117,7 @@ class ParticipationList extends Component {
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingParticipationError} contextErrorMsg={`List of participations for project ${project.getID()} could not be loaded.`} onReload={this.getParticipations} />
+            <ContextErrorMessage error={loadingParticipationError} contextErrorMsg={`List of participations for project ${project.getID()} could not be loaded.`} onReload={this.getParticipationsByProject} />
             <ContextErrorMessage error={addingParticipationError} contextErrorMsg={`Participation for project ${project.getID()} could not be added.`} onReload={this.addParticipation} />
           </ListItem>
         </List>
