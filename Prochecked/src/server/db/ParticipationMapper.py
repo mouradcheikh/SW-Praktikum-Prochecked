@@ -11,8 +11,49 @@ class ParticipationMapper(Mapper):
     def find_all(self, ):
         pass
 
-    def find_by_id(self, ):
-        pass
+    def find_by_id(self, id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, grading_id, module_id, project_id, student_id FROM participation WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, grading_id, module_id, project_id, student_id) = tuples[0]
+            participation = Participation()
+            participation.set_id(id),
+            participation.set_creation_date(creation_date),
+            participation.set_grading(grading_id),
+            participation.set_module(module_id),
+            participation.set_project(project_id),
+            participation.set_student(student_id),
+            result = participation
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+    
+    def deletet_participation(self, participation):
+         """Löschen der Daten eines Participation-Objekts aus der Datenbank.
+
+        :param participation das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM participation WHERE id={}".format(participation.get_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
 
     def find_by_project_id(self, project_id):
         """Auslesen aller Teilnahmen eines durch Fremdschlüssel (project_id) gegebenen Projekts.
@@ -83,6 +124,7 @@ if __name__ == "__main__":
     with ParticipationMapper() as mapper:
          result = mapper.insert(p)
 
+    with
 
        
 

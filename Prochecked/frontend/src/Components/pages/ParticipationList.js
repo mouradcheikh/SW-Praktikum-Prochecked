@@ -73,7 +73,7 @@ class ParticipationList extends Component {
   addParticipation = () => {
     AppApi.getAPI().addParticipationForProject(this.props.project.getID()).then(participationBO => {
       // console.log(participationBO)
-      this.setState({  // Set new state when AccountBOs have been fetched
+      this.setState({  // Set new state when ParticipationBOs have been fetched
         participations: [...this.state.participations, participationBO],
         loadingInProgress: false, // loading indicator 
         addingParticipationError: null
@@ -93,13 +93,13 @@ class ParticipationList extends Component {
     });
   }
 
-//   /** Handles onAccountDelete events from an AccountListEntry  */
-//   deleteAccountHandler = (deletedAccount) => {
-//     // console.log(deletedAccount.getID());
-//     this.setState({
-//       participations: this.state.participations.filter(account => account.getID() !== deletedAccount.getID())
-//     })
-//   }
+  /** Handles onParticipationDelete events from an ParticipationListEntry  */
+  deleteParticipationHandler = (deletedParticipation) => {
+    // console.log(deletedParticipation.getID());
+    this.setState({
+      participations: this.state.participations.filter(participation => participation.getID() !== deletedParticipation.getID())
+    })
+  }
 
   /** Renders the component */
   render() {
@@ -137,7 +137,7 @@ const styles = theme => ({
   participationList: {
     marginBottom: theme.spacing(2),
   },
-//   addAccountButton: {
+//   addParticipationButton: {
 //     position: 'absolute',
 //     right: theme.spacing(3),
 //     bottom: theme.spacing(1),

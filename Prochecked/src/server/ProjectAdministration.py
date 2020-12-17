@@ -341,6 +341,16 @@ class ProjectAdministration (object):
                 return mapper.insert(participation)
             else:
                 return None
+    
+    def get_participation_by_id(self, id):
+        """Das Participation mit der gegebenen ID auslesen."""
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_id(id) 
+
+    def delete_participation(self, participation):   #vielleicht müssen wir noch die Grading löschen
+       """Eine Participation löschen"""
+        with ParticipationMapper() as mapper:
+             mapper.delete(participation)
 
     def save_participation(self, participation):
         pass

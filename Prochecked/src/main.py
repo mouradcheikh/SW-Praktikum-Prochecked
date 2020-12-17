@@ -378,6 +378,9 @@ class ProjectsByDozentOperation(Resource):
 #         # else:
 #         #     return "Project not found", 500
 
+
+
+
 @prochecked.route('/person-by-role/<int:role_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonByRoleOperation(Resource):
@@ -440,6 +443,17 @@ class ParticipationsByProjectOperation(Resource):
             return result
         else:
             return "Project unknown", 500
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        par = adm.get_participation_by_id(id)
+        adm.delete_participation(par)
+        return '', 200
 
 
 # Student related
