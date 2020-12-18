@@ -57,7 +57,7 @@ class GradingMapper(Mapper):
     def find_by_id(self):
         pass
 
-if (__name__ == "__main__"):
+
 
     def find_by_participation_id(self, participation_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
@@ -90,10 +90,30 @@ if (__name__ == "__main__"):
         cursor = self._cnx.cursor()
 
         command = "UPDATE grading " + "SET creation_date=%s, grade=%s, passed=%s, participation_id=%s WHERE id=%s"
-        data = grading.get_creation_date(), grading.get_grade(), grading.get_passed(), grading.get_participation()
+
+        data = (
+                grading.get_creation_date(),
+                grading.get_grade(),
+                grading.get_passed(),
+                grading.get_participation(),
+                grading.get_id())
+
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
 
+if __name__ == "__main__":
+
+    g = Grading()
+    g.set_id(1)
+    g.set_creation_date("12.12.2020")
+    g.set_grade(20)
+    g.set_passed(5)
+    g.set_participation(5)
+
+    with GradingMapper() as mapper:
+        result = mapper.update(g)
+        # result = mapper.find_by_id(4)
+        print(result)
