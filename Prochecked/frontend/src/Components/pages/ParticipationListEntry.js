@@ -43,6 +43,7 @@ class ParticipationListEntry extends Component {
 
   constructor(props) {
     super(props);
+    this.textInput = React.createRef();
 
     // Init an empty state
     this.state = {
@@ -51,6 +52,7 @@ class ParticipationListEntry extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
+      grade: '',
       // showMoneyTransferDialog: false,
     };
   }
@@ -120,12 +122,16 @@ class ParticipationListEntry extends Component {
     });
   }
 
-  // /** Handles click events from the transfer money button */
-  // transferMoney = () => {
-  //   this.setState({
-  //     showMoneyTransferDialog: true
-  //   });
-  // }
+  /** Handles click events from the transfer money button */
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({ grade:
+      this.textInput.current.value})
+      console.log(this.textInput.current.value)
+
+      
+    }
+  
 
   // /** Handles the onClose event from the transfer money dialog */
   // moneyTransferDialogClosed = (transaction) => {
@@ -141,7 +147,7 @@ class ParticipationListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, project, participation } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog, student } = this.state;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, showMoneyTransferDialog, student } = this.state;
     
 
     return (
@@ -159,21 +165,24 @@ class ParticipationListEntry extends Component {
             </Link>
 
           </Typography>
+            <div>
+            {/* <form className={classes.root} noValidate autoComplete="off"> */}
           
-          <form className={classes.root} noValidate autoComplete="off">
-           
-            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} />
-            
-          </form>
-          {/* <Typography color='textSecondary'>
-            Abgabe erfolgt?: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
-          </Typography> */}
+            <form >
+              <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
+              {/* <button>Submit</button> */}
+              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
+              Bewerten
+              </Button>
+
+            </form>
+            </div>
+
+
           <ListItemSecondaryAction>
           
            
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.transferMoney}>
-             Bewerten
-            </Button>
+           
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
              Löschen
             </Button>
