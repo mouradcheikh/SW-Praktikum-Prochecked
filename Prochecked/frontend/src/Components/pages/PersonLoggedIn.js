@@ -44,7 +44,7 @@ class PersonLoggedIn extends Component {
             page = <>
                     <Redirect from='/' to='UserView' />
                     <Route exact path='/UserView'>
-                    <UserView setRole={this.props.setRole}/>
+                    <UserView setRole={this.props.setRole} person={this.props.person}/>
                     </Route>
                     </>;
         }
