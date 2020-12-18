@@ -39,7 +39,8 @@ export default class AppAPI {
 
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
-    
+    #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
+    #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
@@ -147,7 +148,7 @@ createPerson(name, email, google_id) {
           }).then((responseJSON) => {
           // We always get an array of PersonBOs.fromJSON, but only need one object
             let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
-          // console.info(accountBOs);
+          // console.info(participationBOs);
             return new Promise(function (resolve) {
             resolve(responsePersonBO);
           })
@@ -170,7 +171,7 @@ updatePerson(personBO){
     // We always get an array of PersonBOs.fromJSON, but only need one object 
     // kommt bei put überhaupt ein PersonenBO zurück??????????????
       let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
-    // console.info(accountBOs);
+    // console.info(participationBOs);
       return new Promise(function (resolve) {
       resolve(responsePersonBO);
     })
@@ -200,12 +201,54 @@ updatePerson(personBO){
   }
 
 
+  /**
+   * Returns a Promise, which resolves to an ParticipationBOs
+   * 
+   * @param {Number} project_id for which the the participations should be added to
+   * @public
+   */
+  addParticipationForProject(project_id) {
+    return this.#fetchAdvanced(this.#addParticipationsForProjectURL(project_id), {
+      method: 'POST'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let participationBO = ParticipationBO.fromJSON(responseJSON)[0];
+        // console.info(participationBO);
+        return new Promise(function (resolve) {
+          // We expect only one new participation
+          resolve(participationBO);
+        })
+      })
+  }
+  
+
+  /**
+   * Deletes the given participation and returns a Promise, which resolves to an ParticipationBO
+   * 
+   * @param id to be deleted
+   * @public
+   */
+  deleteParticipation(id) {
+    return this.#fetchAdvanced(this.#deleteParticipationURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let participationBOs = ParticipationBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(participationBOs);
+        })
+      })
+  }
+
 
 //Project related
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
    * 
-   * @param {Number} person_id for which the the accounts should be retrieved
+   * @param {Number} person_id for which the the participations should be retrieved
    * @public
    */
   getProjectsByDozent(person_id) {
@@ -240,7 +283,7 @@ updatePerson(personBO){
   getPersonByRole(role_id){
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responseDozentBOs = PersonBO.fromJSON(responseJSON)[0];
+      let responseDozentBOs = PersonBO.fromJSON(responseJSON);
       console.info(responseDozentBOs);
       return new Promise(function (resolve) {
         resolve(responseDozentBOs);

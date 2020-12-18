@@ -39,7 +39,7 @@ function ProjektFormular(props) {
   const [BTinPZ, setBTinPZ] = React.useState('0');
   const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
-  const [Professors, setProfessors] = React.useState('');
+  const [Professors, setProfessors] = React.useState(['']);
   
   const [open, setOpen] = React.useState(false);
 
@@ -69,8 +69,8 @@ function ProjektFormular(props) {
       'Blocktage vor Beginn der VZ:', BTvorVZ,
       'Blocktage in der PZ:', BTinPZ,
       'BT in der VZ:', BTinVZ,
-      'Besonderer Raum:', BesondererRaum
-      
+      'Besonderer Raum:', BesondererRaum,
+      'Professors:', Professors
       );
   }
 
@@ -81,18 +81,27 @@ function ProfList(){
   setProfessors(persons)})
 }
 
-useEffect(() => {
-  ProfList()
-  })
+// useEffect(() => {
+//   console.log("useEffect")
+//   function ProfList(){
+//     var api = AppApi.getAPI()
+//     api.getPersonByRole(2).then((persons) =>
+//     {console.log(persons)
+//     setProfessors(persons)})
+//   }
+//   ProfList()
+//   // var Profs = props.location.state.linkState
+//   // setProfessors(Profs)
+//   console.log(Professors)
+//   }, []
+//   )
 
 
-  // ProfList = () => {
-  //   const profs = props.ProfList
 
-  // }
 
   return (
     <React.Fragment>
+      <center>
       <form onSubmit={handleSubmit}>
       <div>
         <h1>Geben Sie die Daten für das neue Projekt an:</h1>
@@ -103,7 +112,6 @@ useEffect(() => {
               id="ProjektArt"
               value={ProjektArt}
               onChange={handleProjektArt}
-              
             >
               <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
               <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
@@ -138,9 +146,10 @@ useEffect(() => {
                 id="ProjektArt"
                 value={Professor}
                 onChange={handleProfessor} 
+                onOpen={ProfList}
               >
               {
-              Professors.map(Professor => <MenuItem value = {Professor.id}> {Professor.name} </MenuItem>)
+              Professors.map((Professor) => <MenuItem value = {Professor.id}> {Professor.name} </MenuItem>)
               }
               </Select>
             </FormControl>
@@ -217,6 +226,7 @@ useEffect(() => {
                 </Button>
             </div>
           </form>
+          </center>
       </React.Fragment>
   );
 }

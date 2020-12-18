@@ -71,7 +71,7 @@ class ProjectList extends Component {
     // console.log("gerendert")
     let person = this.props.location.state.linkState
     this.getProjectsByDozent(person.getID());
-    // console.log(person.getID())
+   
    
   }
 

@@ -385,6 +385,9 @@ class ProjectsByDozentOperation(Resource):
 #         # else:
 #         #     return "Project not found", 500
 
+
+
+
 @prochecked.route('/person-by-role/<int:role_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonByRoleOperation(Resource):
@@ -424,7 +427,50 @@ class ParticipationsByProjectOperation(Resource):
         #     student_list = adm.get_students_by_id(par.get_student_id)  # par.get_student_id vermutlich richtig ?!?!?
         #     return student_list
         # else:
-        #     return "project_not_found", 500 
+        #     return "project_not_found", 500
+        # 
+
+    @prochecked.marshal_with(participation, code=201)
+    @secured
+    def post(self, project_id):
+        """Anlegen eines Teilnahmes für einen gegebenen Projekt.
+
+        Das neu angelegte Teilnahme wird als Ergebnis zurückgegeben.
+
+        **Hinweis:** Unter der id muss ein Projekt existieren, andernfalls wird Status Code 500 ausgegeben."""
+        adm = ProjectAdministration()
+        """Stelle fest, ob es unter der id einen Projekt gibt. 
+        Dies ist aus Gründen der referentiellen Integrität sinnvoll!
+        """
+        pro = adm.get_project_by_id(project_id) #funktioniert
+
+        if pro is not None:
+            # Jetzt erst macht es Sinn, für den Projekt ein neues Teilnahme anzulegen und dieses zurückzugeben.
+            result = adm.create_participation_for_project(pro)
+            return result
+        else:
+            return "Project unknown", 500
+
+@prochecked.route('/participation/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ParticipationOperations(Resource):
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        par = adm.get_participation_by_id(id)
+
+
+        if par is not None:
+            adm.delete_participation(par)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id keine Participation existiert.'''
 
 
 # Student related
@@ -490,6 +536,15 @@ class GradingListOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+    #adm = ProjectAdministration()
+    #par = adm.get_participation_by_id(3)
+    #print(par)
+    #adm.delete_participation(3)
+
 
     # adm = ProjectAdministration()
     # participations = adm.get_participations_by_project(3)

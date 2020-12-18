@@ -1,15 +1,15 @@
 """from .bo.Student import Student"""
 
 from server.bo.Person import Person
-from .bo.Grading import Grading
-"""from .bo.Role import Role
-from .bo.Project import Project
-from .bo.Module import Module
-from .bo.Participation import Participation
-from .bo.ProjectType import ProjectType
-from .bo.Semester import Semester
-from .bo.ProjectState import ProjectState
-from .bo.Automat import Automat"""
+from server.bo.Role import Role
+from server.bo.Project import Project
+from server.bo.Grading import Grading
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.ProjectType import ProjectType
+from server.bo.Semester import Semester
+from server.bo.ProjectState import ProjectState
+from server.bo.Automat import Automat
 
 from server.db.StudentMapper import StudentMapper
 from server.db.PersonMapper import PersonMapper
@@ -355,83 +355,32 @@ class ProjectAdministration (object):
     def add_grading_to_participation(self, ):
         pass
 
-    def add_project_to_participation(self, ):
-        pass
+    def create_participation_for_project(self, project):
+        """Für einen gegebenen Projekt ein neues Teilnahme anlegen."""
+        with ParticipationMapper() as mapper:
+            if project is not None:
+                participation = Participation()
+                participation.set_id(1)
+                participation.set_project(project.get_id())               
 
-    def remove_student_from_participation(self, ):
-        pass
-
-    def remove_project_from_participation(self, ):
-        pass
-
-    def remove_grading_from_participation(self, ):
-        pass
+                return mapper.insert(participation)
+            else:
+                return None
+    
+    def get_participation_by_id(self, id):
+        """Das Participation mit der gegebenen ID auslesen."""
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_id(id)
 
     def delete_participation(self, participation):
-        pass
+        """Eine Participation löschen"""
+        with ParticipationMapper() as mapper:
+            mapper.delete_participation(participation)
 
-    def get_current_capacity_for_project(self, project):
-        pass
 
-    def set_projecttype_to_project(self, project, projecttype):
-        pass
 
-    def set_create_projecttype(self, ):
-        pass
 
-    def create_semester(self, ):
-        pass
 
-    def save_semester(self, ):
-        pass
-
-    def delete_semester(self, ):
-        pass
-
-    def get_semester_by_id(self, ):
-        pass
-
-    def get_all_semesters(self, ):
-        pass
-
-    def get_semester_by_name(self, ):
-        pass
-
-    def add_project_to_semester(self, ):
-        pass
-
-    def add_semeter_to_project(self, ):
-        pass
-
-    def remove_project_from_semester(self, ):
-        pass
-
-    def create_role(self, role):
-        pass
-
-    def save_role(self, ):
-        pass
-
-    def delete_role(self, ):
-        pass
-
-    def get_role_by_id(self, ):
-        pass
-
-    def create_automat(self, ):
-        pass
-
-    def save_automat(self, ):
-        pass
-
-    def delete_automat(self, ):
-        pass
-
-    def get_automat_by_id(self, ):
-        pass
-
-    def get_all_automats(self, ):
-        pass
 
 if __name__ == '__main__':
 
@@ -441,5 +390,6 @@ if __name__ == '__main__':
     adm.save_person(p)'''
 
     adm = ProjectAdministration()
-    person = adm.get_student_by_id(1)
-    print(person)
+    par = adm.get_participation_by_id(3)
+    print(par)
+    adm.delete_participation(par)
