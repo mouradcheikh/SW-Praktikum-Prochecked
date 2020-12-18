@@ -525,8 +525,8 @@ class GradingListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            g = adm.create_grading(proposal.get_grade(), proposal.get_participation())
-            return g, 200
+            p = adm.create_grading(proposal.get_grade(),proposal.get_participation())
+            return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
@@ -537,7 +537,11 @@ class GradingListOperations(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+
+    adm = ProjectAdministration()
+    p = adm.create_grading(2.0, 1)
+    print(p)
 
     #adm = ProjectAdministration()
     #adm.create_grading(1.1,3)

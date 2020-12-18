@@ -43,5 +43,20 @@ class Grading(bo.BusinessObjects):
         obj.set_creation_date(Grading.date_format(dictionary["creation_date"]))
         return obj
 
+    @staticmethod
+    def from_tuples(tuples=list()):
+        """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
+        result = []
+        for (grading_id, creation_date, grade, passed, participation_id) in tuples:#grading_id richtig???
+            gra = Grading()
+            gra.set_id(grading_id)
+            gra.set_creation_date(creation_date)
+            gra.set_grade(grade)
+            gra.set_passed(passed)
+            gra.set_participaton(participation_id)
+            
+            result.append(gra)
+        return result
+
     
 

@@ -22,7 +22,7 @@ class Participation(bo.BusinessObjects):
     def set_grading(self, grading_id):
         self._grading = grading_id
 
-    def get_grading (self):
+    def get_grading(self):
         return self._grading
 
     def set_project(self, project_id):
@@ -34,7 +34,7 @@ class Participation(bo.BusinessObjects):
     def set_module(self, module_id):
         self._module = module_id
 
-    def get_module (self):
+    def get_module(self):
         return self._module
     
 

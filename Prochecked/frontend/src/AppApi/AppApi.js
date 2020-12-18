@@ -47,7 +47,7 @@ export default class AppAPI {
 
     //Grading related 
 
-    #addgradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
+    #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
 
       /** 
    * Get the Singelton instance 
@@ -304,7 +304,7 @@ updatePerson(personBO){
     g.setParticipation(participation_id)
     console.log(g)
 
-    return this.#fetchAdvanced(this.#addgradingStudentURL(), {
+    return this.#fetchAdvanced(this.#addGradingStudentURL(), {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain',
