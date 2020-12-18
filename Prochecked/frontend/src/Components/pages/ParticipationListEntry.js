@@ -4,10 +4,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
+import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SwapHoriz from '@material-ui/icons/SwapHoriz';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
@@ -16,7 +14,6 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 // import {ic_compare_arrows} from 'react-icons-kit/md/ic_compare_arrows'
 // import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
-import Input from '@material-ui/core/Input';
 
 
 
@@ -180,26 +177,22 @@ class ParticipationListEntry extends Component {
           </Typography>
             <div>
             {/* <form className={classes.root} noValidate autoComplete="off"> */}
-          
             <form >
-              <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
-              {/* <button>Submit</button> */}
+              <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" />
+              {/* <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/> */}
               <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
               Bewerten
               </Button>
-
+              {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
             </div>
 
-
-          <ListItemSecondaryAction>
-          
-           
-           
+          <ListItemSecondaryAction>          
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
              Löschen
             </Button>
           </ListItemSecondaryAction>
+
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />

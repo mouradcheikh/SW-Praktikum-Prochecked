@@ -126,12 +126,13 @@ class ParticipationMapper(Mapper):
                 participation.set_id(1)
 
         command = "INSERT INTO participation (id, creation_date, grading_id, module_id, project_id, student_id) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (participation.get_creation_date(),
+        data = (participation.get_id(),
+                participation.get_creation_date(),
                 participation.get_grading(),
                 participation.get_module(),
                 participation.get_project(),
-                participation.get_student(),
-                participation.get_id())
+                participation.get_student()
+                )
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -148,7 +149,7 @@ if __name__ == "__main__":
     #         print(p.get_id(), p.get_project(), p.get_student())
 
         p = Participation()
-        p.set_id(3)
+        p.set_id(1)
         p.set_creation_date("12.12.2020")
         p.set_grading(2)
         p.set_module(5)
@@ -156,7 +157,7 @@ if __name__ == "__main__":
         p.set_student(5)
 
         with ParticipationMapper() as mapper:
-            result = mapper.update(p)
+            result = mapper.insert(p)
             #result = mapper.find_by_id(4)
             print(result)
 

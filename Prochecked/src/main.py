@@ -518,7 +518,7 @@ class GradingListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Grading.from_dict(api.payload)
-        print(proposal)
+
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -537,11 +537,11 @@ class GradingListOperations(Resource):
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
+    app.run(debug=True)
 
-    adm = ProjectAdministration()
+    '''adm = ProjectAdministration()
     p = adm.create_grading(4.0, 1)
-    print(type(p))
+    print(type(p))'''
 
     #adm = ProjectAdministration()
     #adm.create_grading(1.1,3)
