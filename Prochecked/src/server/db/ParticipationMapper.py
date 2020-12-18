@@ -88,10 +88,8 @@ class ParticipationMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE participation SET creation_date=%s, grading_id=%s, module_id=%s, project_id=%s, " \
-                                           "student_id=%s WHERE id=%s"
+        command = "UPDATE participation SET grading_id=%s, module_id=%s, project_id=%s, student_id=%s WHERE id=%s"
         data = (
-                participation.get_creation_date(),
                 participation.get_grading(),
                 participation.get_module(),
                 participation.get_project(),
@@ -150,7 +148,7 @@ if __name__ == "__main__":
     #         print(p.get_id(), p.get_project(), p.get_student())
 
         p = Participation()
-        p.set_id(1)
+        p.set_id(3)
         p.set_creation_date("12.12.2020")
         p.set_grading(2)
         p.set_module(5)

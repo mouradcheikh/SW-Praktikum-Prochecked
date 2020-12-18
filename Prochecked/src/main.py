@@ -540,8 +540,8 @@ if __name__ == '__main__':
     #app.run(debug=True)
 
     adm = ProjectAdministration()
-    p = adm.create_grading(2.0, 1)
-    print(p)
+    p = adm.create_grading(4.0, 1)
+    print(type(p))
 
     #adm = ProjectAdministration()
     #adm.create_grading(1.1,3)

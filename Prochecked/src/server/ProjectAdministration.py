@@ -247,10 +247,10 @@ class ProjectAdministration (object):
         par = adm.get_participation_by_id(participation_id)
         updated_grading = adm.get_grading_by_participation_id(participation_id)   
 
-        updated_par = par.set_grading(updated_grading.get_id())
+        par.set_grading(updated_grading.get_id())
 
         if par is not None:
-            adm.save_participation(updated_par)
+            adm.save_participation(par)
         else: 
             pass
         return updated_grading
@@ -267,7 +267,7 @@ class ProjectAdministration (object):
         pass
 
     def save_grading(self, grading):
-        with ParticipationMapper() as mapper:
+        with GradingMapper() as mapper:
             mapper.update(grading)
 
     def rate_project(self, grading):
@@ -313,7 +313,7 @@ class ProjectAdministration (object):
         pass
 
 
-#DOZENTENVIEW
+
 
 
     def get_dozent_by_id(self, id): #Person_by_id???
@@ -322,7 +322,7 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id) 
 
 
-#DOZENTENVIEW
+
     def get_participations_by_project(self, project_id):
         """Alle Teilnahmen des gegebenen Projekts auslesen."""
         with ParticipationMapper() as mapper:

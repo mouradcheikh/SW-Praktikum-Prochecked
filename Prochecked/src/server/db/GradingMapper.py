@@ -68,19 +68,31 @@ class GradingMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id from grading WHERE participation_id={}".format(participation_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        command = "SELECT id, creation_date, grade, passed, participation_id FROM grading WHERE participation_id={}".format(participation_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id) in tuples:
-            p = Participation()
-            p.set_id(id)
-            result = p
-        #hier fehlen warscheinlich noch die anderen attribute
+
+        try:
+            (id, creation_date, grade, passed, participation_id) = tuples[0]
+            g = Grading()
+            g.set_id(id)
+            g.set_creation_date(creation_date)
+            g.set_grade(grade)
+            g.set_passed(passed)
+            g.set_participation(participation_id)
+            result = g
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
         self._cnx.commit()
         cursor.close()
 
         return result
+
 
     def update(self, grading):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -114,6 +126,9 @@ if __name__ == "__main__":
     g.set_participation(5)
 
     with GradingMapper() as mapper:
-        result = mapper.update(g)
+        #result = mapper.update(g)
         # result = mapper.find_by_id(4)
-        print(result)
+        #print(result)
+
+        ge = mapper.find_by_participation_id(1)
+        print(type(ge))
