@@ -17,9 +17,7 @@ from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from .db.GradingMapper import GradingMapper
 """from .db.RoleMapper import RoleMapper
-from .db.ProjectMapper import ProjectMapper
 from .db.ModuleMapper import ModuleMapper
-from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.SemesterMapper import SemesterMapper
 from .db.ProjectStateMapper import ProjectStateMapper
@@ -100,6 +98,9 @@ class ProjectAdministration (object):
         else:
             with PersonMapper() as mapper:
                 return mapper.insert(person)
+
+        
+        
 
         # person.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
         # person.set_last_updated(last_updated)
@@ -229,29 +230,45 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_grading(self, grade, passed, participation_id):
+    def create_grading(self, grade, participation_id):
         grading = Grading()
         grading.set_grade(grade)
-        grading.set_passed(passed)
         grading.set_participation(participation_id)
         grading.set_id(1)
 
-        with GradingMapper() as mapper:
-            return mapper.insert(grading)
-        
         adm = ProjectAdministration()
-        par = adm.get_participation_by_id(participation_id)
+        grading_exists = adm.get_grading_by_participation_id(participation_id)
+        if grading_exists is not None:
+            adm.save_grading(grading)
+        else:
+            with GradingMapper() as mapper:
+                mapper.insert(grading)
         
+        par = adm.get_participation_by_id(participation_id)
+        updated_grading = adm.get_grading_by_participation_id(participation_id)   
+
+        updated_par = par.set_grading(updated_grading.get_id())
+
         if par is not None:
-            adm.save_participation(par)
+            adm.save_participation(updated_par)
         else: 
-            pass 
+            pass
+        return updated_grading
+           
+            
+        
+
+    def get_grading_by_participation_id(self, participation_id):
+        """Die Grading mit der gegebenen participation ID auslesen."""
+        with GradingMapper() as mapper:
+            return mapper.find_by_participation_id(participation_id) 
 
     def delete_grading(self, grading):
         pass
 
-    def save_grading(self, ):
-        pass
+    def save_grading(self, grading):
+        with ParticipationMapper() as mapper:
+            mapper.update(grading)
 
     def rate_project(self, grading):
         pass
@@ -386,7 +403,14 @@ if __name__ == '__main__':
     adm = ProjectAdministration()
     adm.save_person(p)'''
 
+
+
     adm = ProjectAdministration()
-    par = adm.get_participation_by_id(3)
+
+    p = adm.create_grading(2, 1)
+    print(p)
+
+
+    '''par = adm.get_participation_by_id(3)
     print(par)
-    adm.delete_participation(par)
+    adm.delete_participation(par)'''

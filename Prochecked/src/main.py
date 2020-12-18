@@ -498,10 +498,10 @@ class StudentOperations(Resource):
 
 #Grading related 
 
-@prochecked.route('/studentsgrading')
+@prochecked.route('/studentsGrading')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class GradingListOperations(Resource):
-    @prochecked.marshal_with(grading, code=200)
+    @prochecked.marshal_list_with(grading, code=200)
     @prochecked.expect(grading)  # Wir erwarten ein Grading-Objekt von Client-Seite.
     @secured
     def post(self):
@@ -523,7 +523,7 @@ class GradingListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_grading(proposal.get_grade(), proposal.get_passed(), proposal.get_participation())
+            p = adm.create_grading(proposal.get_grade(),proposal.get_participation())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -535,7 +535,11 @@ class GradingListOperations(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+
+    adm = ProjectAdministration()
+    p = adm.create_grading(2.0, 1)
+    print(p)
 
 
 

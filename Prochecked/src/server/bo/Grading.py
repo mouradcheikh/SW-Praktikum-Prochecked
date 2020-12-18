@@ -6,6 +6,7 @@ from server.bo import BusinessObjects as bo
 
 class Grading(bo.BusinessObjects):
     def __init__(self):
+        super().__init__()
         self._passed = False #angangs immer False? also nicht bestanden?
         self._grade = None
         self._participation = 0
@@ -40,6 +41,21 @@ class Grading(bo.BusinessObjects):
         obj.set_passed(dictionary["passed"]) 
         obj.set_participation(dictionary["participation_id"])
         return obj
+
+    @staticmethod
+    def from_tuples(tuples=list()):
+        """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
+        result = []
+        for (grading_id, creation_date, grade, passed, participation_id) in tuples:#grading_id richtig???
+            gra = Grading()
+            gra.set_id(grading_id)
+            gra.set_creation_date(creation_date)
+            gra.set_grade(grade)
+            gra.set_passed(passed)
+            gra.set_participaton(participation_id)
+            
+            result.append(gra)
+        return result
 
     
 
