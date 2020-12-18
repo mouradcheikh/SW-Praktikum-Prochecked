@@ -29,8 +29,8 @@ export default class AppAPI {
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
     #getProfsURL = (id) => `${this.#AppServerBaseURL}/person-by-role/${id}`;
-
-
+    #getSemURL = () => `${this.#AppServerBaseURL}/semester`;
+    #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
 
     // Student related
 
@@ -268,6 +268,34 @@ updatePerson(personBO){
   }
 
 
+  createProject(project){
+    return this.#fetchAdvanced(this.#addProjectURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(project)
+      }).then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+        let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+      // console.info(accountBOs);
+        return new Promise(function (resolve) {
+        resolve(responseProjectBO);
+      })
+    })
+  }
+
+//   getSemester(){
+//     return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
+//       // We always get an array of PersonBOs.fromJSON, but only need one object
+//       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
+//       console.info(responseDozentBOs);
+//       return new Promise(function (resolve) {
+//         resolve(responseDozentBOs);
+//       })
+//     })
+//   }
 }
 
 

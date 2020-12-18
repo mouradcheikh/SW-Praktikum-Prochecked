@@ -14,11 +14,12 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
 import { AppApi } from '../../AppApi';
+import ProjectBO from '../../AppApi/ProjectBO';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    width: "50%",
+    width: "100%",
   },
   text: {
     margin: theme.spacing(0),
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function ProjektFormular(props) {
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState('');
-  const [Professor, setProfesor] = React.useState('');
+  const [Professor, setProfessor] = React.useState('');
   const [Titel, setProjektTitel] = React.useState('');
   const [Kapazität,setKapazität] = React.useState('');
   const [Inhalt, setInhalt] = React.useState('');
@@ -40,7 +41,9 @@ function ProjektFormular(props) {
   const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
   const [Professors, setProfessors] = React.useState(['']);
-  
+  const [extKoop, setextKoop] = React.useState(['']);
+  const [Semester, setSemester] = React.useState(['']);
+
   const [open, setOpen] = React.useState(false);
 
   const handleProjektArt = (event) => {
@@ -48,7 +51,12 @@ function ProjektFormular(props) {
   };
 
   const handleProfessor = (event) => {
-    setProfesor(event.target.value);
+    setProfessor(event.target.value);
+    console.log(Professor)
+  }
+
+  const handleSemester = (event) => {
+    setSemester(event.target.value);
   }
 
   const handleWT = (event) => {
@@ -59,19 +67,44 @@ function ProjektFormular(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      'ProjektArt:', ProjektArt, 
-      'Titel:', Titel,
-      'Kapazität:', Kapazität,
-      'Inhalt:', Inhalt,
-      'Raum:', Raum,
-      'Wöchentlich:', WT,
-      'Blocktage vor Beginn der VZ:', BTvorVZ,
-      'Blocktage in der PZ:', BTinPZ,
-      'BT in der VZ:', BTinVZ,
-      'Besonderer Raum:', BesondererRaum,
-      'Professors:', Professors
-      );
+    const project = new ProjectBO(Titel)
+    project.setProjectType(ProjektArt)
+    project.setCapacity(Kapazität)
+    project.setShortDescription(Inhalt)
+    let dozent = props.location.state.linkState
+    project.setDozent(dozent.id)
+    project.setDozent2(Professor.id)
+    project.setRoom(Raum)
+    project.setWeeklyFlag(WT)
+    project.setNumberBdBLecturetime(BTvorVZ)
+    project.setNumberBdLecturetime(BTinVZ)
+    project.setNumberBdExamtime(BTinPZ)
+    project.setSpecialRoom(BesondererRaum)
+    // project.setDozent(Professor)
+    project.setProjectState(1)
+    project.setExtPartnerList(extKoop)
+    console.log(project)
+
+    var api = AppApi.getAPI()
+        // console.log(api)
+        api.createProject(project).then((project) =>
+            {console.log(project)
+            }
+            )
+    // console.log(
+    //   'ProjektArt:', ProjektArt, 
+    //   'Titel:', Titel,
+    //   'Kapazität:', Kapazität,
+    //   'Inhalt:', Inhalt,
+    //   'Raum:', Raum,
+    //   'Wöchentlich:', WT,
+    //   'Blocktage vor Beginn der VZ:', BTvorVZ,
+    //   'Blocktage in der PZ:', BTinPZ,
+    //   'BT in der VZ:', BTinVZ,
+    //   'Besonderer Raum:', BesondererRaum,
+    //   'Professors:', Professors,
+    //   'current dozent', dozent.id
+    //   );
   }
 
 function ProfList(){
@@ -79,6 +112,13 @@ function ProfList(){
   api.getPersonByRole(2).then((persons) =>
   {console.log(persons)
   setProfessors(persons)})
+}
+
+function SemesterList(){
+  var api = AppApi.getAPI()
+  api.getSemester().then((semester) =>
+  {console.log(semester)
+  setSemester(semester)})
 }
 
 // useEffect(() => {
@@ -119,6 +159,20 @@ function ProfList(){
 
               </Select>
         </FormControl>
+        {/* <FormControl className={classes.formControl}>
+            <InputLabel id="semester">Semester</InputLabel>
+              <Select
+                labelId="semester"
+                id="semester"
+                value={Semester}
+                onChange={handleSemester} 
+                onOpen={SemesterList}
+              >
+              {
+              Semester.map((Semester) => <MenuItem value = {Semester.id}> {Semester.name} </MenuItem>)
+              }
+              </Select>
+              </FormControl> */}
       </div>
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
@@ -149,10 +203,18 @@ function ProfList(){
                 onOpen={ProfList}
               >
               {
-              Professors.map((Professor) => <MenuItem value = {Professor.id}> {Professor.name} </MenuItem>)
+              Professors.map((Professor) => <MenuItem value = {Professor}> {Professor.name} </MenuItem>)
               }
               </Select>
-            </FormControl>
+              </FormControl>
+              <div><TextField className={classes.formControl}
+                      id="ext. Koop."
+                      label="externe Kooperationspartner"
+                      variant="outlined"
+                      value={extKoop}
+                      onInput={e=>setextKoop(e.target.value)}
+                      />
+                </div>
                 <div><TextField className={classes.formControl}
                     id="Inhalt"
                     label="Inhalt(Kurzbeschreibung):"

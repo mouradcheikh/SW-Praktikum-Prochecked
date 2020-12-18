@@ -26,12 +26,16 @@ class DozentenView extends Component{
 
   render() {
     const { classes } = this.props;
+    const person = this.props.location.state.person
 
     return(<div>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
-            <Link to='/CreateProject'>
+            <Link to={{
+            pathname: '/CreateProject',
+            state: { linkState: person }
+            }}>
             <Button
                 size="large"
                 variant="contained"
@@ -49,7 +53,7 @@ class DozentenView extends Component{
 
             <Link to={{
             pathname: '/ProjectList',
-            state: { linkState: this.props.person }
+            state: { linkState: person }
             }}>
            <Button
                 size="large"

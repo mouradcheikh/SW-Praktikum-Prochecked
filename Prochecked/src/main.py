@@ -90,32 +90,34 @@ semester = api.inherit('Semster', nbo, {  # wird Semester in der Main benötigt?
 })
 
 project = api.inherit('Project', nbo, {
-    'capacity': fields.Integer(attribute='_capacity',
+    'capacity': fields.String(attribute='_capacity',
                                description='Kapazität eines Projekt'),
     'room': fields.String(attribute='_room',
                           description='Raum wo das Projekt durchgeführt wird'),
-    'ext_partner_list': fields.Integer(attribute='_ext_partner_list',
+    'ext_partner_list': fields.String(attribute='_ext_partner_list',
                                        description='Welche externe Partner werden für das Projekt benötigt'),
     'short_description': fields.String(attribute='_short_description',
                                        description='Kurzbeschreibung des Projekts'),
-    'dozent': fields.String(attribute='_dozent',
+    'dozent': fields.Integer(attribute='_dozent',
+                            description='Welche Dozenten betreuen ein Projekt'),
+    'dozent2': fields.Integer(attribute='_dozent2',
                             description='Welche Dozenten betreuen ein Projekt'),
     'weekly_flag': fields.Boolean(attribute='_weekly_flag',
                                   # ist es mit einem Boolean möglich? oder wird Sgtring benötigt
                                   description='Gibt es wöchentliche Plfichttermine? True/False'),
-    'number_bd_b_lecturetime': fields.Integer(attribute='_number_bd_b_lecturetime',
+    'number_bd_b_lecturetime': fields.String(attribute='_number_bd_b_lecturetime',
                                               description='Wie viele Blocktage vor Vorlesungsbeginn'),
-    'number_bd_lecturetime': fields.Integer(attribute='_number_bd_lecturetime',
+    'number_bd_lecturetime': fields.String(attribute='_number_bd_lecturetime',
                                             description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
-    'number_bd_examtime': fields.Integer(attribute='_number_bd_examtime',
+    'number_bd_examtime': fields.String(attribute='_number_bd_examtime',
                                          description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
-    'preffered_bd': fields.String(attribute='_preffered_bd',  # fields.datettime ???
-                                  description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
+    # 'preffered_bd': fields.String(attribute='_preffered_bd',  # fields.datettime ???
+    #                               description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
     'special_room': fields.String(attribute='_special_room',
                                   description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
     'current_state': fields.Integer(attribute='_current_state',
                                     description='Jetziger Status des Projekts'),
-    'project_type': fields.String(attribute='_project_type',
+    'project_type': fields.Integer(attribute='_project_type',
                                   description='Art des Projekts'),
 })
 
@@ -269,8 +271,8 @@ class PersonsByNameOperations(Resource):
 @prochecked.route('/project')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProjectOperations(Resource):
-    @prochecked.marshal_with(person, code=200)
-    @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @prochecked.marshal_with(project, code=200)
+    @prochecked.expect(project)  
     @secured
     def post(self):
         """Anlegen eines neuen Projekt-Objekts.
@@ -281,6 +283,7 @@ class ProjectOperations(Resource):
         liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
+        print(api.payload)
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
