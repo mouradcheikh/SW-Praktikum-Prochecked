@@ -88,7 +88,7 @@ class ParticipationMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE participation" + "SET creation_date=%s, grading_id=%s, module_id=%s, project_id=%s, " \
+        command = "UPDATE participation SET creation_date=%s, grading_id=%s, module_id=%s, project_id=%s, " \
                                            "student_id=%s WHERE id=%s"
         data = (
                 participation.get_creation_date(),
