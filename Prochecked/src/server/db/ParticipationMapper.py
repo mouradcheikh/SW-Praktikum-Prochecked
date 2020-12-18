@@ -39,6 +39,20 @@ class ParticipationMapper(Mapper):
 
         return result
 
+    def update(self, participation):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param participation das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE participation " + "SET creation_date=%s, grading_id=%s, module_id=%s, project_id=%s, student_id=%s WHERE id=%s"
+        data = (participation.get_creation_date(), participation.get_grading_id(), participation.get_module_id(), participation.get_project_id(),participation.get_student_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
 
 
 if __name__ == "__main__":

@@ -46,7 +46,7 @@ export default class AppAPI {
 
     //Grading related 
 
-    #addgradingStudentURL = () => `${this.#AppServerBaseURL}/persons`;
+    #addgradingStudentURL = () => `${this.#AppServerBaseURL}/studentsgrading`;
 
       /** 
    * Get the Singelton instance 

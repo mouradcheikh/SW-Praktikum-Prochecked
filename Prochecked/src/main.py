@@ -11,7 +11,7 @@ from server.bo.Automat import Automat
 from server.bo.Grading import Grading
 from server.bo.Module import Module
 from server.bo.Participation import Participation
-
+from server.bo.Grading import Grading
 from server.bo.Person import Person
 
 from server.bo.Project import Project
@@ -128,6 +128,13 @@ participation = api.inherit('Participation', bo, {
                                  description='Project der Teilnahme'),
     'student_id': fields.Integer(attribute='_student',
                                  description='Student der Teilnahme'),
+})
+
+grading= api.inherit ('Grading', nbo, {
+    'grade': fields.String (attribute= '_grade',
+                            description= 'Bewertung des Teilnehmer'),
+    'passed': fields.Boolean (attribute='_passed', 
+                             description= 'Bestanden JA/Nein'),
 })
 
 
@@ -441,6 +448,41 @@ class StudentOperations(Resource):
         adm = ProjectAdministration()
         stud = adm.get_student_by_id(id)
         return stud
+
+
+#Grading related 
+
+@prochecked.route('/studentsgrading')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class GradingListOperations(Resource):
+    @prochecked.marshal_with(grading, code=200)
+    @prochecked.expect(grading)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Grading-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ProjectAdministration()
+
+        proposal = Grading.from_dict(api.payload)
+        print(proposal)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_grading(proposal.get_grade(), proposal.get_passed(), proposal.get_participation())
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
 
 
 

@@ -1,9 +1,9 @@
 """from .bo.Student import Student"""
 
 from server.bo.Person import Person
+from .bo.Grading import Grading
 """from .bo.Role import Role
 from .bo.Project import Project
-from .bo.Grading import Grading
 from .bo.Module import Module
 from .bo.Participation import Participation
 from .bo.ProjectType import ProjectType
@@ -15,9 +15,9 @@ from server.db.StudentMapper import StudentMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
+from .db.GradingMapper import GradingMapper
 """from .db.RoleMapper import RoleMapper
 from .db.ProjectMapper import ProjectMapper
-from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
 from .db.ParticipationMapper import ParticipationMapper
 from .db.ProjectTypeMapper import ProjectTypeMapper
@@ -229,8 +229,23 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_grading(self, passed, grade):
-        pass
+    def create_grading(self, grade, passed, participation_id):
+        grading = Grading()
+        grading.set_grade(grade)
+        grading.set_passed(passed)
+        grading.set_participation(participation_id)
+        grading.set_id(1)
+
+        with GradingMapper() as mapper:
+            return mapper.insert(grading)
+        
+        adm = ProjectAdministration()
+        par = adm.get_participation_by_id(participation_id)
+        
+        if par is not None:
+            adm.save_participation(par)
+        else: 
+            pass 
 
     def delete_grading(self, grading):
         pass
@@ -330,7 +345,9 @@ class ProjectAdministration (object):
 
 
     def save_participation(self, participation):
-        pass
+        with ParticipationMapper() as mapper:
+            mapper.update(participation)
+
 
     def add_student_to_participation(self, ):
         pass

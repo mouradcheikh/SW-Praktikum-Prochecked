@@ -43,7 +43,6 @@ class ParticipationListEntry extends Component {
 
   constructor(props) {
     super(props);
-    // this.onSubmit = this.onSubmit.bind(this);
 
     // Init an empty state
     this.state = {
@@ -52,21 +51,34 @@ class ParticipationListEntry extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
+      valueInput: ''
       // showMoneyTransferDialog: false,
-    };
+    }
   }
 
-  // onSubmit(e) {
-  //   e.preventDefault();
-  //   var note = this.note;
-  //   console.log(note);
-  // }
+
+
+  handleChange = (e) => {
+    this.setState ({
+      [e.target.name]: e.target.value
+    })
+  }
+  
 
   onSubmit = (e) => {
     e.preventDefault();
-    var note = this.note;
-    console.log(note);
-}
+    const form = {
+      note: this.state.note,
+    }
+    console.log(form)
+    // database.push(form);
+    this.setState({
+      note:'',
+    })
+  }
+
+
+
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -177,16 +189,14 @@ class ParticipationListEntry extends Component {
           
           <form className={classes.root} noValidate autoComplete="off">
            
-            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} className= "form-control" ref={(c)=> this.note = c} name ="note"/>
+            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} className= "form-control" onChange={e => this.handleChange(e)}/>
             
           </form>
           {/* <Typography color='textSecondary'>
             Abgabe erfolgt?: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
           </Typography> */}
           <ListItemSecondaryAction>
-          
-           
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.onSubmit}>
+            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={(e) => this.onSubmit(e)} >
              Bewerten
             </Button>
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>

@@ -11,11 +11,12 @@ export default class GradingBO extends BusinessObject {
    * 
    * @param {String} aname - the name of this GradingBO.
    */
-  constructor(acreation_date, agrade, apassed) {
+  constructor(acreation_date, agrade, apassed, aparticipation_id) {
     super();
     this.creation_date = acreation_date
     this.grade = agrade
     this.passed = apassed
+    this.participation = aparticipation_id
   }
 
   /**
@@ -48,6 +49,14 @@ export default class GradingBO extends BusinessObject {
 
   getPassed(){
     return this.passed
+  }
+
+  setParticipation(aparticipation_id) {
+    this.participation = aparticipation_id
+  }
+  
+  getParticipation(){
+    return this.participation
   }
 
 
