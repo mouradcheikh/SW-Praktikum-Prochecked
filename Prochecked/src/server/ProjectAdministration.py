@@ -292,9 +292,6 @@ class ProjectAdministration (object):
     def get_participation_by_student(self, student):
         pass
 
-    def get_participation_by_id(self, ):
-        pass
-
     def get_all_participations(self, ):
         pass
 

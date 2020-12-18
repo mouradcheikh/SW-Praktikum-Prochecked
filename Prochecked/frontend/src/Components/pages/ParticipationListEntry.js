@@ -58,29 +58,6 @@ class ParticipationListEntry extends Component {
   }
 
 
-
-  handleChange = (e) => {
-    this.setState ({
-      [e.target.name]: e.target.value
-    })
-  }
-  
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    const form = {
-      note: this.state.note,
-    }
-    console.log(form)
-    // database.push(form);
-    this.setState({
-      note:'',
-    })
-  }
-
-
-
-
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // load initial balance
@@ -152,9 +129,19 @@ class ParticipationListEntry extends Component {
     this.setState({ grade:
       this.textInput.current.value})
       console.log(this.textInput.current.value)
-
-      
+      this.createGrading(this.textInput.current.value, this.props.participation.getID())
     }
+
+  createGrading(grade, participation_id){
+    var api = AppApi.getAPI()
+    // console.log(api)
+    api.gradingStudent(grade, participation_id).then((grade) =>
+        {console.log(grade)
+        this.setState({
+            grade: grade
+        })}
+        )
+      }
   
 
   // /** Handles the onClose event from the transfer money dialog */

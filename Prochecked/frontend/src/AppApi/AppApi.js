@@ -297,12 +297,11 @@ updatePerson(personBO){
 //Grading Related 
 
 
-  gradingStudent(creation_date, grade, passed) {
+  gradingStudent(grade, participation_id) {
 
     let g = new GradingBO();
-    g.setCreationDate(creation_date)
     g.setGrade(grade)
-    g.setPassed(passed)
+    g.setParticipation(participation_id)
     console.log(g)
 
     return this.#fetchAdvanced(this.#addgradingStudentURL(), {
