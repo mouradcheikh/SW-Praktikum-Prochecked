@@ -55,4 +55,13 @@ class GradingMapper(Mapper):
     def find_by_id(self, ):
         pass
 
+if (__name__ == "__main__"):
 
+    grading = Grading()
+    grading.set_id(1)
+    grading.set_grade(1.1)
+    grading.set_participation(2)
+
+
+    with GradingMapper() as mapper:
+        result = mapper.insert(grading)

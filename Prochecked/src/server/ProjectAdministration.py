@@ -229,10 +229,9 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_grading(self, grade, passed, participation_id):
+    def create_grading(self, grade, participation_id):
         grading = Grading()
         grading.set_grade(grade)
-        grading.set_passed(passed)
         grading.set_participation(participation_id)
         grading.set_id(1)
 

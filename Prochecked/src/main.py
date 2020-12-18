@@ -130,11 +130,13 @@ participation = api.inherit('Participation', bo, {
                                  description='Student der Teilnahme'),
 })
 
-grading= api.inherit ('Grading', nbo, {
+grading= api.inherit ('Grading', bo, {
     'grade': fields.String (attribute= '_grade',
                             description= 'Bewertung des Teilnehmer'),
     'passed': fields.Boolean (attribute='_passed', 
                              description= 'Bestanden JA/Nein'),
+    'participation_id': fields.Integer (attribute= '_participation',
+                            description ='ID der Teilnahme für die Note')
 })
 
 
@@ -498,10 +500,10 @@ class StudentOperations(Resource):
 
 #Grading related 
 
-@prochecked.route('/studentsgrading')
+@prochecked.route('/studentsGrading')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class GradingListOperations(Resource):
-    @prochecked.marshal_with(grading, code=200)
+    @prochecked.marshal_list_with(grading, code=200)
     @prochecked.expect(grading)  # Wir erwarten ein Grading-Objekt von Client-Seite.
     @secured
     def post(self):
@@ -523,8 +525,8 @@ class GradingListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_grading(proposal.get_grade(), proposal.get_passed(), proposal.get_participation())
-            return p, 200
+            g = adm.create_grading(proposal.get_grade(), proposal.get_participation())
+            return g, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
@@ -537,8 +539,8 @@ class GradingListOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-
+    #adm = ProjectAdministration()
+    #adm.create_grading(1.1,3)
 
     #adm = ProjectAdministration()
     #par = adm.get_participation_by_id(3)
