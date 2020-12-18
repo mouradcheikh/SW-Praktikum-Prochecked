@@ -111,7 +111,7 @@ class PersonMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person " + "SET name=%s, email=%s, role_id=%s WHERE google_id=%s"
+        command = "UPDATE person SET name=%s, email=%s, role_id=%s WHERE google_id=%s"
         data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_google_id())
         cursor.execute(command, data)
 
