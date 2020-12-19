@@ -39,7 +39,7 @@ class Grading(bo.BusinessObjects):
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_grade(dictionary["grade"])
         obj.set_passed(dictionary["passed"]) 
-        obj.set_participation(dictionary["participation_id"])
+        obj.set_participation(dictionary["participation"])
         obj.set_creation_date(Grading.date_format(dictionary["creation_date"]))
         return obj
 
@@ -53,10 +53,10 @@ class Grading(bo.BusinessObjects):
             gra.set_creation_date(creation_date)
             gra.set_grade(grade)
             gra.set_passed(passed)
-            gra.set_participaton(participation_id)
+            gra.set_participation(participation_id)
             
             result.append(gra)
         return result
 
-    
+
 
