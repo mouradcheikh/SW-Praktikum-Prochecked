@@ -102,6 +102,7 @@ class ParticipationMapper(Mapper):
         cursor.close()
 
 
+
     def insert(self, participation):
         """Einfügen eines Participation-Objekts in die Datenbank.
         

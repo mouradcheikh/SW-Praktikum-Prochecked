@@ -229,7 +229,7 @@ class ParticipationListEntry extends Component {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} onClose={this.participationFormClosed} />
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} />
         {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}
       </div>
     );

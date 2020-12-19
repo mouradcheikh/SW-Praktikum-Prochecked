@@ -49,8 +49,11 @@ class ProjectAdministration (object):
         #     return mapper.insert(student)'''
 
         
-    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
-    #     return
+    def get_student_by_matr_nr(self, matr_nr): 
+        """Die Person mit der gegebenen ID auslesen."""
+        with StudentMapper() as mapper:
+            return mapper.find_by_matr_nr(matr_nr) 
+        
 
     '''#DOZENTENVIEW
     # def get_student_by_id(self, number):

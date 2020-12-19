@@ -474,6 +474,24 @@ class ParticipationOperations(Resource):
         else:
             return '', 500  # Wenn unter id keine Participation existiert.'''
 
+@prochecked.route('/participation')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ParticipationPutOperation(Resource):
+    @prochecked.marshal_list_with(participation, code=200)
+    @prochecked.expect(participation)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @secured
+    def put(self, participation):
+        """Update eines bestimmten Participation-Objekts."""
+
+        adm = ProjectAdministration()
+        p = Participation.from_dict(api.payload)
+
+        if p is not None:
+            adm.save_participation(p)
+            return p, 200
+        else:
+            return '', 500
+
 
 # Student related
 
@@ -495,6 +513,21 @@ class StudentOperations(Resource):
         """
         adm = ProjectAdministration()
         stud = adm.get_student_by_id(id)
+        return stud
+
+@prochecked.route('/students/<int:matr_nr>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('matr_nr', 'Die matrikelnummer des Student-Objekts')
+class StudentByMatrikelNummerOperation(Resource):
+    @prochecked.marshal_with(student)
+    @secured
+    def get(self, matr_nr):
+        """Auslesen eines bestimmten Person-Objekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        stud = adm.get_student_by_matr_nr(matr_nr)
         return stud
 
 
@@ -526,7 +559,7 @@ class GradingListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             p = adm.create_grading(proposal.get_grade(),proposal.get_participation())
-            return p, 200
+            return '', 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
@@ -538,6 +571,20 @@ class GradingListOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    '''adm = ProjectAdministration()
+    s = adm.get_student_by_matr_nr(38543)
+    print(s.get_name())'''
+
+    p = Participation()
+    p.set_grading(3)
+    p.set_id(6)
+    p.set_project(3)
+    p.set_student(s.get_id())
+
+
+    result = adm.save_participation(p)
+    print(result)
 
     '''adm = ProjectAdministration()
     p = adm.create_grading(4.0, 1)

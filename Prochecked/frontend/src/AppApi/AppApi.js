@@ -44,7 +44,7 @@ export default class AppAPI {
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
-    #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;//leer lassen???!oder mitParticipationBO
+    #updateParticipationURL = (participation) => `${this.#AppServerBaseURL}/participation/${participation}`;//leer lassen???!oder mitParticipationBO
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
 
@@ -246,19 +246,20 @@ updatePerson(personBO){
       })
   }
 
-  updateParticipation(participationBO){
+  updateParticipation(participationBo){
+    // console.log(participationBo)
     return this.#fetchAdvanced(this.#updateParticipationURL(), { //URL LEER LASSEN ???! oder ParticipationBO?? 
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(participationBO)
+      body: JSON.stringify(participationBo)
       }).then((responseJSON) => {
       // We always get an array of ParticipationBOs.fromJSON, but only need one object 
-        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+        let responseParticipationBo = ParticipationBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
-        resolve(responseParticipationBO);
+        resolve(responseParticipationBo);
       })
     })
   }
