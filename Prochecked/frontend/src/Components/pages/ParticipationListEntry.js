@@ -12,6 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
+import ParticipationForm from '../dialogs/ParticipationForm';
 // import {ic_compare_arrows} from 'react-icons-kit/md/ic_compare_arrows'
 // import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
 
@@ -50,6 +51,7 @@ class ParticipationListEntry extends Component {
       loadingError: null,
       deletingError: null,
       grade: '',
+      showParticipationForm: false,
       // showMoneyTransferDialog: false,
     }
   }
@@ -120,6 +122,30 @@ class ParticipationListEntry extends Component {
     });
   }
 
+   /** Handles the onClick event of the edit participation button */
+   editParticipationButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showParticipationForm: true
+    });
+  }
+
+  /** Handles the onClose event of the ParticipationForm */
+  participationFormClosed = (participation) => {
+    // participation is not null and therefor changed
+    if (participation) {
+      this.setState({
+        participation: participation,
+        showParticipationForm: false
+      });
+    } else {
+      this.setState({
+        showParticipationForm: false
+      });
+    }
+  }
+
+
   /** Handles click events from the transfer money button */
   handleSubmit = e => {
     e.preventDefault();
@@ -157,7 +183,7 @@ class ParticipationListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes, project, participation } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, showMoneyTransferDialog, student } = this.state;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, showParticipationForm, student } = this.state;
     
 
     return (
@@ -165,7 +191,7 @@ class ParticipationListEntry extends Component {
         <ListItem>
           <Typography className={classes.participationEntry}>
             <Link component={RouterLink} to={{
-              pathname: '/transactions',
+              pathname: '/StudentZuordnung',
               owner: {
                 project: project,
                 participation: participation
@@ -174,12 +200,16 @@ class ParticipationListEntry extends Component {
               Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
             </Link>
 
+            <Button color='primary' onClick={this.editParticipationButtonClicked}>
+              edit
+            </Button>
+
           </Typography>
             <div>
             {/* <form className={classes.root} noValidate autoComplete="off"> */}
             <form >
-              <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" />
-              {/* <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/> */}
+              {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
+              <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
               <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
               Bewerten
               </Button>
@@ -199,6 +229,7 @@ class ParticipationListEntry extends Component {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} onClose={this.participationFormClosed} />
         {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}
       </div>
     );
