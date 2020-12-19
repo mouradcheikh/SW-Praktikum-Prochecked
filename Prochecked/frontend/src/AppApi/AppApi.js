@@ -36,12 +36,15 @@ export default class AppAPI {
     // Student related
 
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
+    #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/students/${matr_nr}`; //leer lasen???
+
+   
 
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
-
+    #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;//leer lassen???!oder mitParticipationBO
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
 
@@ -243,6 +246,23 @@ updatePerson(personBO){
       })
   }
 
+  updateParticipation(participationBO){
+    return this.#fetchAdvanced(this.#updateParticipationURL(), { //URL LEER LASSEN ???! oder ParticipationBO?? 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(participationBO)
+      }).then((responseJSON) => {
+      // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responseParticipationBO);
+      })
+    })
+  }
+
 
 //Project related
   /**
@@ -274,6 +294,18 @@ updatePerson(personBO){
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
       console.log(responseStudentBO);
+      return new Promise(function (resolve) {
+        resolve(responseStudentBO);
+      })
+    })
+  }
+
+
+  getStudentByMatrikelNummer(matr_nr) {
+    return this.#fetchAdvanced(this.#getStudentByMatrikelNummerURL(matr_nr)).then((responseJSON) => { //URL LEER LASSEN????
+      // We always get an array of StudentBOs.fromJSON, but only need one object
+      let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+      console.info(responseStudentBO);
       return new Promise(function (resolve) {
         resolve(responseStudentBO);
       })

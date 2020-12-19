@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import ProjectForm from '../dialogs/ProjectForm';
+import ProjectForm from '../dialogs/ParticipationForm';
 import ProjectListEntry from './ProjectListEntry';
 
 /**
