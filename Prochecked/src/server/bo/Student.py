@@ -25,7 +25,7 @@ class Student(Person):
         return self._studiengang
 
     def __str__(self):
-        return "Student: {}, {} ".format(self.get_matr_nr(),self.get_studiengang())
+        return "Student: {}, {}, {} ".format(self.get_name(),self.get_matr_nr(),self.get_studiengang())
         
 
     @staticmethod
