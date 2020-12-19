@@ -36,6 +36,9 @@ class Participation(bo.BusinessObjects):
 
     def get_module(self):
         return self._module
+
+    def __str__(self):
+        return "Participation: {}, {}, {}, {}".format(self.set_creation_date(), self.get_grading(), self.get_module(), self.get_project(), self.get_student(), self.get_id())
     
 
     def to_dict(self):
@@ -79,8 +82,7 @@ class Participation(bo.BusinessObjects):
             result.append(part)
         return result
 
-    def __str__(self):
-        return "Participation: {}, {}, {}, {}".format(self.get_id(), self.get_grading(), self.get_project(), self.get_student())
+
 
 if __name__ == "__main__":
     pass
