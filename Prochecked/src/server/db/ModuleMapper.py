@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from server.db.Mapper import Mapper
-from server.db.Module import Module
+from server.bo.Module import Module
 
 class ModuleMapper(Mapper):
     def __init__(self):
