@@ -9,8 +9,11 @@ class ModuleMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-         """Auslesen aller Module.
-            :return Eine Sammlung mit Module-Objekten, die sämtliche Module repräsentieren."""
+        """Auslesen aller Module.
+
+                :return Eine Sammlung mit Module-Objekten, die sämtliche Module 
+                        repräsentieren.
+                """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * from prochecked.module")

@@ -10,7 +10,29 @@ class ParticipationMapper(Mapper):
 
 
     def find_all(self, ):
-        pass
+        """Auslesen aller Teilnahmen.
+
+                :return Eine Sammlung mit Participation-Objekten, die sämtliche Teilnahmen an einem Projekt
+                        repräsentieren.
+                """
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT * from prochecked.participation")
+        tuples = cursor.fetchall()
+
+        for (id, creation_date,grading_id,module_id,project_id,student_id) in tuples:
+            participation = Participation()
+            participation.set_id(id),
+            participation.set_creation_date(creation_date),
+            participation.set_grading(grading_id),
+            participation.set_module(module_id),
+            participation.set_project(project_id),
+            participation.set_student(student_id),
+            result.append(participation)
+
+        self._cnx.commit()
+        cursor.close()
+
 
     def find_by_id(self, id):
 
