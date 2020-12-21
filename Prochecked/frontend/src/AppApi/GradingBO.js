@@ -37,6 +37,7 @@ export default class GradingBO extends BusinessObject {
 
   setGrade(agrade){
     this.grade = agrade
+    // this.setPassed()
   }
 
   getGrade(){
@@ -46,7 +47,11 @@ export default class GradingBO extends BusinessObject {
   setPassed(apassed){
     this.passed = apassed
   }
-
+  // setPassed(){
+  //   if (this.grade <= 4.0) {
+  //     this.passed = true
+  //   }
+  // }
   getPassed(){
     return this.passed
   }

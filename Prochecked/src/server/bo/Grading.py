@@ -7,18 +7,23 @@ from server.bo import BusinessObjects as bo
 class Grading(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._passed = False #angangs immer False? also nicht bestanden?
+        self._passed = False 
         self._grade = None
         self._participation = 0
 
     def set_grade(self, grade):
         self._grade = grade
+        # self.set_passed()
 
     def get_grade(self):
         return self._grade
 
+    # def set_passed(self):
+    #     if self._grade <= 4.0:
+    #         self._passed = True
+
     def set_passed(self, passed):
-        self._passed = passed 
+        self._passed = passed
 
     def get_passed(self):
         return self._passed
@@ -38,7 +43,7 @@ class Grading(bo.BusinessObjects):
         obj = Grading()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_grade(dictionary["grade"])
-        obj.set_passed(dictionary["passed"]) 
+        # obj.set_passed(dictionary["passed"]) 
         obj.set_participation(dictionary["participation"])
         obj.set_creation_date(Grading.date_format(dictionary["creation_date"]))
         return obj

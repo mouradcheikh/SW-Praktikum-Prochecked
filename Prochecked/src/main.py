@@ -65,18 +65,20 @@ person = api.inherit('Person', nbo, {
     'email': fields.String(attribute='_email',
                            description='E-Mail-Adresse einer Person'),
     'google_id': fields.String(attribute='_google_id',
-                               description='Google User ID einer Person'),
+                            description='Google User ID einer Person'),
     'berechtigung': fields.Integer(attribute='_berechtigung',
-                                   description='Berechtigung (bzw. Rolle) einer Person')  # kommt komma wieder hin
-    # 'vorname': fields.String(atrribute='__vorname',
-    # description='Vorname einer Person')
+                            description='Berechtigung (bzw. Rolle) einer Person'),  # kommt komma wieder hin
+    'student_id': fields.Integer(attribute='_student',
+                            description='Falls Person ein Student ist')
 })
 
-student = api.inherit('Student', nbo, {
+student = api.inherit('Student', person, {
     'studiengang': fields.String(attribute='_studiengang',
-                                 description='Studiengang eines Studenten'),
+                            description='Studiengang eines Studenten'),
     'matr_nr': fields.Integer(attribute='_matr_nr',
-                              description='Matrikelnummer eines Studenten')
+                            description='Matrikelnummer eines Studenten'),
+    'person_id': fields.Integer(attribute='_person',
+                            description='PersonenObjekt eines Studenten')
 })
 
 module = api.inherit('Module', nbo, {
@@ -124,7 +126,7 @@ participation = api.inherit('Participation', bo, {
                                  description='Note der Teilnahme'),
     'module_id': fields.Integer(attribute='_module',
                                 description='Module der Teilnahme'),
-    'project_id': fields.Integer(atrribute='_project',
+    'project_id': fields.Integer(attribute='_project',
                                  description='Project der Teilnahme'),
     'student_id': fields.Integer(attribute='_student',
                                  description='Student der Teilnahme'),
@@ -228,7 +230,7 @@ class PersonOperations(Resource):
         return '', 200
 
     @prochecked.marshal_with(person)
-    @prochecked.expect(person, validate=True)
+    @prochecked.expect(person)
     @secured
     def put(self, google_id):
         """Update eines bestimmten Person-Objekts.
@@ -238,7 +240,9 @@ class PersonOperations(Resource):
         Project-Objekts.
         """
         adm = ProjectAdministration()
+        print(api.payload)
         p = Person.from_dict(api.payload)
+        print(p)
 
         if p is not None:
             """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
@@ -408,7 +412,7 @@ class PersonByRoleOperation(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('project_id', 'Die ID des Project-Objekts')
 class ParticipationsByProjectOperation(Resource):
-    @prochecked.marshal_with(participation) #evtl. list rausnehemn ?!?!
+    @prochecked.marshal_list_with(participation) #evtl. list rausnehemn ?!?!
     @secured
     def get(self, project_id):
         """Auslesen aller Participation-Objekte bzgl. eines bestimmten Project-Objekts.
@@ -418,6 +422,8 @@ class ParticipationsByProjectOperation(Resource):
         adm = ProjectAdministration()
         # Zunächst benötigen wir das durch id gegebene Project.
         par = adm.get_participations_by_project(project_id)
+        for p in par:
+            print(p)
         return par
 
 
@@ -477,10 +483,10 @@ class ParticipationOperations(Resource):
 @prochecked.route('/participation')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationPutOperation(Resource):
-    @prochecked.marshal_list_with(participation, code=200)
+    @prochecked.marshal_with(participation, code=200)
     @prochecked.expect(participation)  # Wir erwarten ein Grading-Objekt von Client-Seite.
     @secured
-    def put(self, participation):
+    def put(self):
         """Update eines bestimmten Participation-Objekts."""
 
         adm = ProjectAdministration()
@@ -488,7 +494,7 @@ class ParticipationPutOperation(Resource):
 
         if p is not None:
             adm.save_participation(p)
-            return p, 200
+            return '', 200
         else:
             return '', 500
 
@@ -512,10 +518,12 @@ class StudentOperations(Resource):
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
+        print(id)
         stud = adm.get_student_by_id(id)
+        
         return stud
 
-@prochecked.route('/students/<int:matr_nr>')
+@prochecked.route('/student-by-matr/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('matr_nr', 'Die matrikelnummer des Student-Objekts')
 class StudentByMatrikelNummerOperation(Resource):
@@ -524,10 +532,11 @@ class StudentByMatrikelNummerOperation(Resource):
     def get(self, matr_nr):
         """Auslesen eines bestimmten Person-Objekts.
 
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        Das auszulesende Objekt wird durch die ```matr_nr``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
         stud = adm.get_student_by_matr_nr(matr_nr)
+    
         return stud
 
 
@@ -572,11 +581,18 @@ class GradingListOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
+
     '''adm = ProjectAdministration()
-    s = adm.get_student_by_matr_nr(38543)
+    p = adm.get_participations_by_project(3)
+    for i in p:
+        print(i)'''
+
+
+    '''adm = ProjectAdministration()
+    s = adm.get_student_by_id(1)
     print(s.get_name())'''
 
-    p = Participation()
+    '''p = Participation()
     p.set_grading(3)
     p.set_id(6)
     p.set_project(3)
@@ -584,7 +600,7 @@ if __name__ == '__main__':
 
 
     result = adm.save_participation(p)
-    print(result)
+    print(result)'''
 
     '''adm = ProjectAdministration()
     p = adm.create_grading(4.0, 1)

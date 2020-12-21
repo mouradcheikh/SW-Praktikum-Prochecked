@@ -51,9 +51,9 @@ class ParticipationForm extends Component {
     this.baseState = this.state;
   }
 
-  getStudentByMatrikelNummer = () => {
+  getStudentByMatrikelNummer = (matr_nr) => {
     var api = AppApi.getAPI()
-    api.getStudentByMatrikelNummer(this.state.matr_nr).then(student =>
+    api.getStudentByMatrikelNummer(matr_nr).then(student =>
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -81,6 +81,7 @@ class ParticipationForm extends Component {
     let updatedParticipation = Object.assign(new ParticipationBO(), this.props.participation);
     
     // set the new attributes from our dialog
+    console.log(this.state.student.id)
     updatedParticipation.setStudent(this.state.student.id);//EVTL NUR student.id
     console.log(updatedParticipation)
     
@@ -122,7 +123,7 @@ class ParticipationForm extends Component {
     });
 
     if(value.length === 5){
-      this.getStudentByMatrikelNummer()
+      this.getStudentByMatrikelNummer(event.target.value)
     }
     
   }

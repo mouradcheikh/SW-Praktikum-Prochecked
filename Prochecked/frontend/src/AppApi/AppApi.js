@@ -36,7 +36,7 @@ export default class AppAPI {
     // Student related
 
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
-    #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/students/${matr_nr}`; //leer lasen???
+    #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; //leer lasen???
 
    
 
@@ -44,7 +44,7 @@ export default class AppAPI {
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
-    #updateParticipationURL = (participation) => `${this.#AppServerBaseURL}/participation/${participation}`;//leer lassen???!oder mitParticipationBO
+    #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;//leer lassen???!oder mitParticipationBO
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
 
@@ -161,7 +161,8 @@ createPerson(name, email, google_id) {
 
 updatePerson(personBO){
   // personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // console.log(personBO)
+  console.log(personBO.getGoogleId())
+  
   return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
     method: 'PUT',
     headers: {
@@ -169,7 +170,7 @@ updatePerson(personBO){
       'Content-type': 'application/json',
     },
     body: JSON.stringify(personBO)
-    }).then((responseJSON) => {
+    }).then((responseJSON) => { 
       // console.log(responseJSON)
     // We always get an array of PersonBOs.fromJSON, but only need one object 
     // kommt bei put überhaupt ein PersonenBO zurück??????????????
@@ -195,8 +196,9 @@ updatePerson(personBO){
   getParticipationsByProject(project_id){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
+        //console.log(responseJSON)
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
-        console.log(participationBOs);
+        // console.log(participationBOs);
         return new Promise(function (resolve) {
           resolve(participationBOs);
         })
@@ -280,7 +282,7 @@ updatePerson(personBO){
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -294,7 +296,7 @@ updatePerson(personBO){
     .then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      console.log(responseStudentBO);
+      // console.log(responseStudentBO);
       return new Promise(function (resolve) {
         resolve(responseStudentBO);
       })
@@ -317,7 +319,7 @@ updatePerson(personBO){
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      console.info(responseDozentBOs);
+      // console.info(responseDozentBOs);
       return new Promise(function (resolve) {
         resolve(responseDozentBOs);
       })
@@ -347,7 +349,7 @@ updatePerson(personBO){
       }).then((responseJSON) => {
       // We always get an array of GradingBO.fromJSON, but only need one object
         let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
-      // console.info(accountBOs);
+      console.info(responseJSON);
         return new Promise(function (resolve) {
         resolve(responseGradingBO);
       })

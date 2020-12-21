@@ -75,8 +75,11 @@ class ParticipationListEntry extends Component {
 
   
   getStudent = () => {
-    var api = AppApi.getAPI()
-    api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
+    let stud = this.props.participation.student_id
+    if (stud !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+      var api = AppApi.getAPI()
+      console.log(this.props.participation)
+      api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -87,15 +90,16 @@ class ParticipationListEntry extends Component {
           loadingInProgress: false,
           loadingError: e
         })
-      );
+      );  
 
     // set loading to true
     this.setState({
-      balance: 'loading',
+      sut: 'loading',//????????
       loadingInProgress: true,
       loadingError: null
     });
   }
+}
 
   /** Deletes this participation */
   deleteParticipation = () => {
@@ -159,7 +163,8 @@ class ParticipationListEntry extends Component {
     var api = AppApi.getAPI()
     // console.log(api)
     api.gradingStudent(grade, participation_id).then((grade) =>
-        {console.log(grade)
+        {
+          // console.log(grade)
         this.setState({
             grade: grade
         })}
@@ -190,7 +195,7 @@ class ParticipationListEntry extends Component {
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
-            <Link component={RouterLink} to={{
+            {/* <Link component={RouterLink} to={{
               pathname: '/StudentZuordnung',
               owner: {
                 project: project,
@@ -198,7 +203,13 @@ class ParticipationListEntry extends Component {
               }
             }} >
               Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
-            </Link>
+            </Link> */}
+       
+            <div>
+
+            Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
+            </div>
+           
 
             <Button color='primary' onClick={this.editParticipationButtonClicked}>
               edit

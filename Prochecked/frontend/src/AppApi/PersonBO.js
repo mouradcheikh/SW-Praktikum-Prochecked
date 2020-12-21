@@ -17,6 +17,7 @@ export default class PersonBO extends BusinessObject {
     this.email = aemail
     this.google_id = agoogleid
     this.berechtigung = aberechtigung
+    this.student_id = null
   }
 
   /**
@@ -57,6 +58,14 @@ export default class PersonBO extends BusinessObject {
 
   getBerechtigung(){
     return this.berechtigung
+  }
+
+  setStudent(astudent_id){
+    this.student_id = astudent_id
+  }
+
+  getStudent(){
+    return this.student_id
   }
 
   /** 
