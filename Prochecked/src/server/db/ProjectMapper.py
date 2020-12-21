@@ -10,7 +10,39 @@ class ProjectMapper(Mapper):
 
 
     def find_all(self, ):
-        pass
+        """Auslesen aller Projekte.
+
+                :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
+                        repräsentieren.
+                """
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT * from prochecked.project")
+        tuples = cursor.fetchall()
+
+        for (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) in tuples:
+            project = Project()
+            project.set_id(id),
+            project.set_name(name),
+            project.set_creation_date(creation_date),
+            project.set_capacity(capacity),
+            project.set_ext_partner_list(ext_partner_list),
+            project.set_short_description(short_description),
+            project.set_weekly_flag(weekly_flag),
+            project.set_number_bd_b_lecturetime(number_bd_b_lecturetime),
+            project.set_number_bd_examtime(number_bd_examtime),
+            project.set_number_bd_lecturetime(number_bd_lecturetime),
+            project.set_preffered_bd(preffered_bd),
+            project.set_special_room(special_room),
+            project.set_dozent(person_id),
+            project.set_project_state(project_state_id),
+            project.set_project_type(project_type_id),
+            project.set_semester(semester_id),
+            project.set_dozent(person2_id)
+            result.append(project)
+
+        self._cnx.commit()
+        cursor.close()
 
     def find_by_id(self, id):
         """Auslesen aller Teilnahmen eines durch Fremdschlüssel gegebenen Projekts.
