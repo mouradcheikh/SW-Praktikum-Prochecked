@@ -20,7 +20,13 @@ class GradingMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        result = Grading.from_tuples(tuples)
+        for (id, creation_date,grade,passed) in tuples:
+            grade = Grading()
+            grade.set_id(id)
+            grade.set_creation_date(creation_date)
+            grade.set_grade(grade)
+            grade.set_passed(passed)
+            result.append(grade)
 
         self._cnx.commit()
         cursor.close()
