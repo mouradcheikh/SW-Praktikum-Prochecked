@@ -6,6 +6,7 @@ from server.bo.NamedBusinessObjects import NamedBusinessObjects
 
 class Module(NamedBusinessObjects):
     def __init__(self):
+        super().__init__()
         self.__edv_nr = None
 
     def get_edv_nr(self, ):
