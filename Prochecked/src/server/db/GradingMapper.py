@@ -8,7 +8,7 @@ class GradingMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all(self ):
+    def find_all(self):
         """Auslesen aller Noten.
 
         :return Eine Sammlung mit GRading-Objekten, die sämtliche Noten der Studierenden
@@ -21,12 +21,12 @@ class GradingMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, creation_date,grade,passed) in tuples:
-            grade = Grading()
-            grade.set_id(id)
-            grade.set_creation_date(creation_date)
-            grade.set_grade(grade)
-            grade.set_passed(passed)
-            result.append(grade)
+            grades = Grading()
+            grades.set_id(id)
+            grades.set_creation_date(creation_date)
+            grades.set_grade(grade)
+            grades.set_passed(passed)
+            result.append(grades)
 
         self._cnx.commit()
         cursor.close()
