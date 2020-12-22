@@ -182,6 +182,7 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_project_type(dictionary["project_type"])
         obj.set_creation_date(Project.date_format(dictionary["creation_date"]))
         obj.set_last_updated(Project.date_format(dictionary["last_updated"]))
+        obj.set_semester(dictionary["semester"])
         return obj
         #benötigen wir hier alle Attribute ? JA
 

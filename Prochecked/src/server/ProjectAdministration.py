@@ -15,6 +15,7 @@ from server.db.StudentMapper import StudentMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
+from server.db.SemesterMapper import SemesterMapper
 """from .db.RoleMapper import RoleMapper
 from .db.ProjectMapper import ProjectMapper
 from .db.GradingMapper import GradingMapper
@@ -387,8 +388,10 @@ class ProjectAdministration (object):
     def get_semester_by_id(self, ):
         pass
 
-    def get_all_semesters(self, ):
-        pass
+    def get_all_semesters(self):
+        with SemesterMapper() as mapper:
+            return mapper.find_all()
+
 
     def get_semester_by_name(self, ):
         pass

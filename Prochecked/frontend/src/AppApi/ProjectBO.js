@@ -26,6 +26,7 @@ export default class ProjectBO extends BusinessObject {
     //    this.semester = null 
        this.current_state = null
        this.project_type = null
+       this.semester = null
     }
   
     setName(aname){
@@ -103,6 +104,11 @@ export default class ProjectBO extends BusinessObject {
     setProjectState(ProjectState){
         this.current_state = ProjectState
     }
+
+    setSemester(semester){
+        this.semester = semester
+    }
+
 /** 
    * Returns an Array of PersonBOs from a given JSON structure.
    */

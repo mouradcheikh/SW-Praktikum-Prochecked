@@ -85,8 +85,8 @@ module = api.inherit('Module', nbo, {
 })
 
 semester = api.inherit('Semster', nbo, {  # wird Semester in der Main benötigt??
-    'teilleistung': fields.String(attribute='teilleistung',
-                                  descripton='Teilleistung eines Semester')
+    # 'teilleistung': fields.String(attribute='teilleistung',
+    #                               descripton='Teilleistung eines Semester')
 })
 
 project = api.inherit('Project', nbo, {
@@ -119,6 +119,7 @@ project = api.inherit('Project', nbo, {
                                     description='Jetziger Status des Projekts'),
     'project_type': fields.Integer(attribute='_project_type',
                                   description='Art des Projekts'),
+    'semester': fields.Integer(attribute='_semester', description='semester des Projekts')
 })
 
 participation = api.inherit('Participation', bo, {
@@ -467,7 +468,17 @@ class StudentOperations(Resource):
         stud = adm.get_student_by_id(id)
         return stud
 
-
+@prochecked.route('/semesters')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class SemesterOperations(Resource):
+    @prochecked.marshal_with(semester)
+    @secured
+    def get(self):
+        """Auslesen aller Semester Objekte
+        """
+        adm = ProjectAdministration()
+        sem = adm.get_all_semesters()
+        return sem
 
 
 

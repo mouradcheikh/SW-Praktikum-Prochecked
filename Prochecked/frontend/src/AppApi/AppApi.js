@@ -29,7 +29,7 @@ export default class AppAPI {
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
     #getProfsURL = (id) => `${this.#AppServerBaseURL}/person-by-role/${id}`;
-    #getSemURL = () => `${this.#AppServerBaseURL}/semester`;
+    #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
 
     // Student related
@@ -154,7 +154,8 @@ createPerson(name, email, google_id) {
 
 updatePerson(personBO){
   // personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // console.log(personBO)
+  console.log(personBO)
+  console.log(personBO.getGoogleId())
   return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
     method: 'PUT',
     headers: {
@@ -286,16 +287,16 @@ updatePerson(personBO){
     })
   }
 
-//   getSemester(){
-//     return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
-//       // We always get an array of PersonBOs.fromJSON, but only need one object
-//       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-//       console.info(responseDozentBOs);
-//       return new Promise(function (resolve) {
-//         resolve(responseDozentBOs);
-//       })
-//     })
-//   }
+  getSemesters(){
+    return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseDozentBOs = PersonBO.fromJSON(responseJSON);
+      console.info(responseDozentBOs);
+      return new Promise(function (resolve) {
+        resolve(responseDozentBOs);
+      })
+    })
+  }
 }
 
 

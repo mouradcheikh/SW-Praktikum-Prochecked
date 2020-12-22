@@ -131,19 +131,18 @@ CREATE TABLE `project` (
   `id` int NOT NULL DEFAULT '0',
   `name` varchar(45) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
-  `capacity` int DEFAULT NULL,
+  `capacity` varchar(45) DEFAULT NULL,
   `ext_partner_list` varchar(45) DEFAULT NULL,
   `short_description` longtext,
   `weekly_flag` tinyint DEFAULT NULL,
-  `number_bd_b_lecturetime` int DEFAULT NULL,
-  `number_bd_examtime` int DEFAULT NULL,
-  `number_bd_lecturetime` int DEFAULT NULL,
-  `preffered_bd` int DEFAULT NULL,
+  `number_bd_b_lecturetime` varchar(45) DEFAULT NULL,
+  `number_bd_examtime` varchar(45) DEFAULT NULL,
+  `number_bd_lecturetime` varchar(45) DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
   `person_id` int NOT NULL DEFAULT '0',
   `project_state_id` int NOT NULL DEFAULT '0',
   `project_type_id` int NOT NULL DEFAULT '0',
-  `semester_id` int NOT NULL DEFAULT '0',
+  `semester_id` int DEFAULT '0',
   `person2_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -255,6 +254,9 @@ CREATE TABLE `semester` (
 --
 -- Dumping data for table `semester`
 --
+LOCK TABLES `semester` WRITE;
+INSERT INTO `semester` VALUES (1, NULL, "WS20/21"),(2, NULL, "SS21"),(3, NULL, "WS21/22"),(4, NULL, "SS22"),(5, NULL, "WS22/23");
+UNLOCK TABLES;
 
 LOCK TABLES `semester` WRITE;
 /*!40000 ALTER TABLE `semester` DISABLE KEYS */;

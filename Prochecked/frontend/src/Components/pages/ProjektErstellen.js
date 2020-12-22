@@ -15,6 +15,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
 import { AppApi } from '../../AppApi';
 import ProjectBO from '../../AppApi/ProjectBO';
+import {Link, useHistory} from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 function ProjektFormular(props) {
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState('');
-  const [Professor, setProfessor] = React.useState('');
+  const [Professor, setProfessor] = React.useState(null);
   const [Titel, setProjektTitel] = React.useState('');
   const [Kapazität,setKapazität] = React.useState('');
   const [Inhalt, setInhalt] = React.useState('');
@@ -41,10 +43,12 @@ function ProjektFormular(props) {
   const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
   const [Professors, setProfessors] = React.useState(['']);
-  const [extKoop, setextKoop] = React.useState(['']);
-  const [Semester, setSemester] = React.useState(['']);
-
+  const [extKoop, setextKoop] = React.useState('');
+  const [Semester, setSemester] = React.useState('');
+  const [Semesters, setSemesters] = React.useState(['']);
   const [open, setOpen] = React.useState(false);
+
+  const history = useHistory()
 
   const handleProjektArt = (event) => {
     setProjektArt(event.target.value);
@@ -73,7 +77,6 @@ function ProjektFormular(props) {
     project.setShortDescription(Inhalt)
     let dozent = props.location.state.linkState
     project.setDozent(dozent.id)
-    project.setDozent2(Professor.id)
     project.setRoom(Raum)
     project.setWeeklyFlag(WT)
     project.setNumberBdBLecturetime(BTvorVZ)
@@ -83,6 +86,12 @@ function ProjektFormular(props) {
     // project.setDozent(Professor)
     project.setProjectState(1)
     project.setExtPartnerList(extKoop)
+    project.setSemester(Semester.id)
+
+    if (Professor != null){
+      project.setDozent2(Professor.id)
+    }
+
     console.log(project)
 
     var api = AppApi.getAPI()
@@ -91,6 +100,7 @@ function ProjektFormular(props) {
             {console.log(project)
             }
             )
+
     // console.log(
     //   'ProjektArt:', ProjektArt, 
     //   'Titel:', Titel,
@@ -105,7 +115,14 @@ function ProjektFormular(props) {
     //   'Professors:', Professors,
     //   'current dozent', dozent.id
     //   );
+    history.push({
+      pathname: '/DozentView',
+      state: {  
+        person: props.location.state.linkState, 
+      },
+    }); 
   }
+  
 
 function ProfList(){
   var api = AppApi.getAPI()
@@ -116,9 +133,9 @@ function ProfList(){
 
 function SemesterList(){
   var api = AppApi.getAPI()
-  api.getSemester().then((semester) =>
-  {console.log(semester)
-  setSemester(semester)})
+  api.getSemesters().then((semesters) =>
+  {console.log(semesters)
+  setSemesters(semesters)})
 }
 
 // useEffect(() => {
@@ -159,6 +176,20 @@ function SemesterList(){
 
               </Select>
         </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="semester">Semester</InputLabel>
+              <Select
+                labelId="semester"
+                id="semester"
+                value={Semester}
+                onChange={handleSemester} 
+                onOpen={SemesterList}
+              >
+              {
+              Semesters.map((semester) => <MenuItem value = {semester}> {semester.name} </MenuItem>)
+              }
+              </Select>
+              </FormControl>
         {/* <FormControl className={classes.formControl}>
             <InputLabel id="semester">Semester</InputLabel>
               <Select
@@ -279,6 +310,10 @@ function SemesterList(){
                     />
                </div>
             <div>
+              {/* <Link to={{
+              pathname: "/DozentView",
+              state: { person : props.location.state.linkState }
+              }}> */}
                 <Button
                  type="submit"
                  variant="contained"
@@ -286,6 +321,7 @@ function SemesterList(){
                 >
                   Speichern
                 </Button>
+              {/* </Link> */}
             </div>
           </form>
           </center>
