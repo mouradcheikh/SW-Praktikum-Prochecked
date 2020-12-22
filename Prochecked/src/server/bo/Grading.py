@@ -7,23 +7,23 @@ from server.bo import BusinessObjects as bo
 class Grading(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._passed = False 
+        self._passed = 0 
         self._grade = None
         self._participation = 0
 
     def set_grade(self, grade):
         self._grade = grade
-        # self.set_passed()
+        # self.set_passed(grade)
 
     def get_grade(self):
         return self._grade
 
-    # def set_passed(self):
-    #     if self._grade <= 4.0:
-    #         self._passed = True
+    def set_passed(self, grade):
+        if grade <= 4.0:
+            self._passed = 1
 
-    def set_passed(self, passed):
-        self._passed = passed
+    # def set_passed(self, passed):
+    #     self._passed = passed
 
     def get_passed(self):
         return self._passed

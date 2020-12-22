@@ -15,7 +15,7 @@ export default class GradingBO extends BusinessObject {
     super();
     this.creation_date = null
     this.grade = agrade
-    this.passed = false
+    this.passed = 0
     this.participation = aparticipation_id
   }
 
@@ -53,7 +53,12 @@ export default class GradingBO extends BusinessObject {
   //   }
   // }
   getPassed(){
-    return this.passed
+    if (this.passed == 1){
+      return "Bestanden"
+    }      
+    else {
+      return "Nicht Bestanden"
+    }
   }
 
   setParticipation(aparticipation_id) {
