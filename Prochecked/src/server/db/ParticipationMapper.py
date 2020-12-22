@@ -89,7 +89,7 @@ class ParticipationMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, project_id, student_id FROM participation WHERE project_id={} ORDER BY id".format(project_id)
+        command = "SELECT id, project_id, student_id FROM participation WHERE project_id={} ORDER BY project_id".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -104,6 +104,27 @@ class ParticipationMapper(Mapper):
         cursor.close()
 
         return result
+
+    def update(self, participation):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param participation das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE participation SET grading_id=%s, module_id=%s, project_id=%s, student_id=%s WHERE id=%s"
+        data = (
+                participation.get_grading(),
+                participation.get_module(),
+                participation.get_project(),
+                participation.get_student(),
+                participation.get_id())
+
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
 
 
     def insert(self, participation):
@@ -130,7 +151,13 @@ class ParticipationMapper(Mapper):
                 participation.set_id(1)
 
         command = "INSERT INTO participation (id, creation_date, grading_id, module_id, project_id, student_id) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (participation.get_id(), participation.get_creation_date(), participation.get_grading(), participation.get_module(), participation.get_project(),  participation.get_student())
+        data = (participation.get_id(),
+                participation.get_creation_date(),
+                participation.get_grading(),
+                participation.get_module(),
+                participation.get_project(),
+                participation.get_student()
+                )
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -163,6 +190,18 @@ if (__name__ == "__main__"):
         result = mapper.find_all()
         for p in result:
             print(p)
+        p = Participation()
+        p.set_id(1)
+        p.set_creation_date("12.12.2020")
+        p.set_grading(2)
+        p.set_module(5)
+        p.set_project(1)
+        p.set_student(5)
+
+        with ParticipationMapper() as mapper:
+            result = mapper.insert(p)
+            #result = mapper.find_by_id(4)
+            print(result)
 
 
 

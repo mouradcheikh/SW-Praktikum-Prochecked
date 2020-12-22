@@ -12,10 +12,10 @@ export default class ParticipationBO extends BusinessObject {
    */
   constructor(astudentID, agradingID, aprojectID, amoduleID) {
     super();
-    this.student = astudentID
-    this.grading = agradingID
-    this.project = aprojectID
-    this.module = amoduleID
+    this.student_id = astudentID
+    this.grading_id = agradingID
+    this.project_id = aprojectID
+    this.module_id = amoduleID
   }
 
   /**
@@ -23,39 +23,36 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} aname - the new name of this ParticipationBO.
    */
-  setStudent_id(astudentID) {
-    this.student = astudentID;
+  setStudent(astudentID) {
+    this.student_id = astudentID;
   }
 
-  /**
-   * Gets the name.
-   */
-  getStudent_id(){
-    return this.student
+  getStudent(){
+    return this.student_id
   }
 
   setGrading(agradingID){
-    this.grading = agradingID
+    this.grading_id = agradingID
   }
 
   getGrading(){
-    return this.grading
+    return this.grading_id
   }
 
   setProject(aprojectID){
-    this.project = aprojectID
+    this.project_id = aprojectID
   }
 
   getProject(){
-    return this.project
+    return this.project_id
   }
 
   setModule(amoduleID){
-    this.module = amoduleID
+    this.module_id = amoduleID
   }
 
   getModule(){
-    return this.module
+    return this.module_id
   }
 
   /** 

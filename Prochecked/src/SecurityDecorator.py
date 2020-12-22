@@ -40,7 +40,7 @@ def secured(function):
                 if claims is not None:
                     adm = ProjectAdministration()
 
-                    google_id = claims.get("user_id") #im Bankprojekt ist hier User-ID
+                    google_id = claims.get("user_id")
                     email = claims.get("email")
                     name = claims.get("name")
                     berechtigung = None
@@ -61,7 +61,7 @@ def secured(function):
                         Wir legen daher ein neues Person-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        person = adm.create_person(name, google_id, email, berechtigung)
+                        person = adm.create_person(name, google_id, email)
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 

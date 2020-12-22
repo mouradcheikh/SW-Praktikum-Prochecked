@@ -9,6 +9,7 @@ class Student(Person):
         super().__init__()
         self._studiengang = ""
         self._matr_nr = 0
+        self._person = 0
         # self.__Registrierung = []
         # self.__Beteiligter = None
 
@@ -23,6 +24,12 @@ class Student(Person):
 
     def get_studiengang(self):
         return self._studiengang
+
+    def set_person(self, person_id):
+        self._person = person_id
+
+    def get_person(self):
+        return self._person
 
     def __str__(self):
         return "Student: {}, {} ".format(self.get_matr_nr(),self.get_studiengang())
@@ -40,6 +47,7 @@ class Student(Person):
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
         obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
+        obj.set_person(dictionary["person_id"])
 
         
         return obj
@@ -48,12 +56,13 @@ class Student(Person):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
-        for (id, creation_date, name, matr_nr, studiengang) in tuples:
+        for (id, creation_date, matr_nr, studiengang, person_id) in tuples:
             student = Student()
             student.set_id(id)
             student.set_creation_date(creation_date)
-            student.set_name(name)
             student.set_matr_nr(matr_nr)
+            student.set_studiengang(studiengang)
+            student.set_person(person_id)
             result.append(student)
         return result
         # PROBLEM: Datenbank

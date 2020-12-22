@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import ProjectForm from '../dialogs/ProjectForm';
+import ProjectForm from '../dialogs/ParticipationForm';
 import ProjectListEntry from './ProjectListEntry';
 
 /**
@@ -44,15 +44,13 @@ class ProjectList extends Component {
   getProjectsByDozent = (person_id) => {
   // console.log("vor fetch")
     var api = AppApi.getAPI()
-    console.log("DozentID:", person_id, "vor aufruf in appapi")
     api.getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
-        this.setState({                // Set new state when ProjectBOs have been fetched
+        this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
           filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
-          
         })).catch(e =>
           this.setState({             // Reset state with error from catch
             projects: [],
@@ -65,7 +63,7 @@ class ProjectList extends Component {
     this.setState({
       loadingInProgress: true,
       error: null
-    }); console.log("projekte nach Fetch:" ,this.projects)
+    });
   }
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
