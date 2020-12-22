@@ -16,7 +16,7 @@ class Module(NamedBusinessObjects):
         self.__edv_nr = edv_nr
 
     def __str__(self):
-        return "Module: {}".format(self.get_id())
+        return "Module: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_edv_nr())
 
     @staticmethod
     def from_dict(dictionary=dict()):

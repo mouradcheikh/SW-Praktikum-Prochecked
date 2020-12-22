@@ -17,7 +17,8 @@ class ProjectMapper(Mapper):
                 """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from prochecked.project")
+        command = "SELECT * from prochecked.project"
+        cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) in tuples:
@@ -43,6 +44,7 @@ class ProjectMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+        return result
 
     def find_by_id(self, id):
         """Auslesen aller Teilnahmen eines durch Fremdschlüssel gegebenen Projekts.
@@ -257,6 +259,10 @@ if __name__ == "__main__":
     '''with ProjectMapper() as mapper:
         result = mapper.insert(project)'''
 
+    # with ProjectMapper() as mapper:
+    #     result = mapper.find_by_id(2)
+    #     print(result)
     with ProjectMapper() as mapper:
-        result = mapper.find_by_id(2)
-        print(result)
+        result = mapper.find_all()
+        for p in result:
+            print(p)
