@@ -212,6 +212,30 @@ class ProjectMapper(Mapper):
 
         return result
 
+    def find_project_by_project_state_id(self,project_state_id):
+        """Auslesen aller Projekte eines durch Fremdschlüssel (ProjectStateID) gegebenen Projekte.
+
+        
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, person_id, project_state) in tuples:
+            p = Project()
+            p.set_id(id)
+            p.set_name(name)
+            p.set_dozent(person_id)
+            p.set_project_state(project_state)
+            result.append(p)
+
+               
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
     def delete(self, project):
         """Löschen der Daten eines User-Objekts aus der Datenbank.
