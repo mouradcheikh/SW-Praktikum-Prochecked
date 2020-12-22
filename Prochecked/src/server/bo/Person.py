@@ -38,7 +38,7 @@ class Person(NamedBusinessObjects):
 
 
     def __str__(self):
-        return "Person: {}, {}".format(self.get_id(),self.get_name())
+        return "Person: {}, {},{}".format(self.get_id(),self.get_creation_date(),self.get_name())
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""
