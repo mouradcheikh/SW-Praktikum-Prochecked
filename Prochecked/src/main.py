@@ -132,12 +132,12 @@ participation = api.inherit('Participation', bo, {
                                  description='Student der Teilnahme'),
 })
 
-grading= api.inherit ('Grading', bo, {
-    'grade': fields.String (attribute= '_grade',
+grading = api.inherit('Grading', bo, {
+    'grade': fields.String(attribute='_grade',
                             description= 'Bewertung des Teilnehmer'),
-    'passed': fields.Boolean (attribute='_passed', 
-                             description= 'Bestanden JA/Nein'),
-    'participation_id': fields.Integer (attribute= '_participation',
+    'passed': fields.Integer(attribute='_passed',
+                            description= 'Bestanden JA/Nein (0 oder 1)'),
+    'participation_id': fields.Integer(attribute= '_participation',
                             description ='ID der Teilnahme für die Note')
 })
 
@@ -560,6 +560,8 @@ class GradingListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Grading.from_dict(api.payload)
+        print(proposal.get_grade(), proposal.get_passed())
+        print(api.payload)
 
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
@@ -568,10 +570,29 @@ class GradingListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             p = adm.create_grading(proposal.get_grade(),proposal.get_participation())
-            return '', 200
+            return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
+
+@prochecked.route('/participation/<int:participation_id>/grading')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('participation_id', 'Die ID des Participation-Objekts')
+class GradingByParticipationOperation(Resource):
+    @prochecked.marshal_with(grading)
+    @secured
+    def get(self, participation_id):
+        """Auslesen eines Grading-Objekte bzgl. eines bestimmten Participation-Objekts.
+
+        Das Participation-Objekt dessen GRading wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir das durch id gegebene Project.
+        gra = adm.get_grading_by_participation_id(participation_id)
+        # 'for p in par:
+        #     print(p)'
+        return gra
 
 
 
@@ -583,7 +604,14 @@ if __name__ == '__main__':
 
 
     '''adm = ProjectAdministration()
-    p = adm.get_participations_by_project(3)
+    g = adm.get_grading_by_participation_id(1)
+    print(g.get_grade())'''
+
+
+
+
+
+    '''p = adm.get_participations_by_project(3)
     for i in p:
         print(i)'''
 

@@ -81,6 +81,8 @@ class StudentMapper(Mapper):
         return result    
 if __name__ == '__main__':
 
+
+
       '''with StudentMapper() as mapper:
         result = mapper.find_by_id(1)
         print(result.get_id(), result.get_name())'''

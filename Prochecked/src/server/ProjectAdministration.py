@@ -282,9 +282,8 @@ class ProjectAdministration (object):
         else: 
             pass
         return updated_grading
-           
-            
         
+       
 
     def get_grading_by_participation_id(self, participation_id):
         """Die Grading mit der gegebenen participation ID auslesen."""

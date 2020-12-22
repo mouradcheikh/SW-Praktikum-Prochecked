@@ -8,19 +8,23 @@ class Grading(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
         self._passed = 0 
-        self._grade = None
+        self._grade = 0.0
         self._participation = 0
 
     def set_grade(self, grade):
-        self._grade = grade
+        self._grade = float(grade)
         # self.set_passed(grade)
 
     def get_grade(self):
         return self._grade
 
-    def set_passed(self, grade):
-        if grade <= 4.0:
-            self._passed = 1
+    def set_passed(self, passed):
+
+        self._passed = passed
+        # print(type(grade))
+        # print(float(grade))
+        # if float(grade) <= 4.0:
+        #     self._passed = 1
 
     # def set_passed(self, passed):
     #     self._passed = passed
@@ -43,7 +47,7 @@ class Grading(bo.BusinessObjects):
         obj = Grading()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_grade(dictionary["grade"])
-        # obj.set_passed(dictionary["passed"]) 
+        obj.set_passed(dictionary["passed"]) 
         obj.set_participation(dictionary["participation"])
         obj.set_creation_date(Grading.date_format(dictionary["creation_date"]))
         return obj
