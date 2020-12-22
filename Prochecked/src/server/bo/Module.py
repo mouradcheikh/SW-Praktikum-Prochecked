@@ -6,6 +6,7 @@ from server.bo.NamedBusinessObjects import NamedBusinessObjects
 
 class Module(NamedBusinessObjects):
     def __init__(self):
+        super().__init__()
         self.__edv_nr = None
 
     def get_edv_nr(self, ):
@@ -14,8 +15,8 @@ class Module(NamedBusinessObjects):
     def set_edv_nr (self, edv_nr):
         self.__edv_nr = edv_nr
 
-    def __str__(self, ):
-        pass
+    def __str__(self):
+        return "Module: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_edv_nr())
 
     @staticmethod
     def from_dict(dictionary=dict()):

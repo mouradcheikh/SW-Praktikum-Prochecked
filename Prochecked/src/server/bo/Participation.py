@@ -70,9 +70,9 @@ class Participation(bo.BusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
         result = []
-        for (participation_id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
+        for (id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
             part = Participation()
-            part.set_id(participation_id)
+            part.set_id(id)
             part.set_creation_date(creation_date)
             part.set_grading(grading_id)
             part.set_module(module_id)

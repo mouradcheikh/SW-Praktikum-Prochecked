@@ -31,7 +31,7 @@ class ParticipationForm extends Component {
 
     let m = '';
     if (props.student) {
-      m = props.student.getMatrNr();
+      m = props.student.matr_nr;
       
     }
 
@@ -51,9 +51,9 @@ class ParticipationForm extends Component {
     this.baseState = this.state;
   }
 
-  getStudentByMatrikelNummer = () => {
+  getStudentByMatrikelNummer = (matr_nr) => {
     var api = AppApi.getAPI()
-    api.getStudentByMatrikelNummer(this.state.matr_nr).then(student =>
+    api.getStudentByMatrikelNummer(matr_nr).then(student =>
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -76,10 +76,14 @@ class ParticipationForm extends Component {
 
   /** Updates the participation */
   updateParticipation = () => {
+    console.log(this.props.participation)
     // clone the original participation, in case the backend call fails
     let updatedParticipation = Object.assign(new ParticipationBO(), this.props.participation);
+    
     // set the new attributes from our dialog
-    updatedParticipation.setStudent_id(this.state.student.getID());//EVTL NUR student.id
+    console.log(this.state.student.id)
+    updatedParticipation.setStudent(this.state.student.id);//EVTL NUR student.id
+    console.log(updatedParticipation)
     
     AppApi.getAPI().updateParticipation(updatedParticipation).then(participation => {
       this.setState({
@@ -117,6 +121,11 @@ class ParticipationForm extends Component {
       // [event.target.id + 'ValidationFailed']: error,
       // [event.target.id + 'Edited']: true
     });
+
+    if(value.length === 5){
+      this.getStudentByMatrikelNummer(event.target.value)
+    }
+    
   }
 
   /** Handles the close / cancel button click event */

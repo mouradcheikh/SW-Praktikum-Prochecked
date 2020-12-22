@@ -49,12 +49,46 @@ class ProjectAdministration (object):
         #     return mapper.insert(student)'''
 
         
-    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
-    #     return
+    def get_student_by_matr_nr(self, matr_nr): 
+        """Die Person mit der gegebenen ID auslesen."""
+        with StudentMapper() as mapper:
+            stud = mapper.find_by_matr_nr(matr_nr) 
+
+        with PersonMapper() as mapper:
+            pers = mapper.find_by_id(stud.get_person())
+
+        stud.set_name(pers.get_name())
+        stud.set_google_id(pers.get_google_id())
+        stud.set_email(pers.get_email())
+        stud.set_berechtigung(pers.get_berechtigung())
+        return stud
+    
+
+    def get_student_by_id(self, id):
+        with StudentMapper() as mapper:
+            stud = mapper.find_by_id(id)
+            print("Student", stud) 
+
+        with PersonMapper() as mapper:
+            
+            pers = mapper.find_by_id(stud.get_person())
+            print("Person:", pers)
+
+        stud.set_name(pers.get_name())
+        stud.set_google_id(pers.get_google_id())
+        stud.set_email(pers.get_email())
+        stud.set_berechtigung(pers.get_berechtigung())
+        return stud
+        
+
+        
+        
 
     '''#DOZENTENVIEW
     # def get_student_by_id(self, number):
-    #     with StudentMapper() as mapper:
+    #     with Stude
+    # 
+    # ntMapper() as mapper:
     #         return mapper.find_by_key(number)'''
         
 
@@ -200,13 +234,7 @@ class ProjectAdministration (object):
         #     return mapper.insert(student)
 
         
-    # def get_student_by_matrnr(self, matr_nr):  BRAUCHEN WIR?
-    #     return
-
-    def get_student_by_id(self, id):
-        with StudentMapper() as mapper:
-            return mapper.find_by_id(id)
-        
+    
 
     # def get_student_by_name(self, name):
     #     with StudentMapper() as mapper:
