@@ -16,7 +16,8 @@ class ModuleMapper(Mapper):
                 """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from prochecked.module")
+        command = "SELECT * from prochecked.module"
+        cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, creation_date,name,edv_nr) in tuples:
@@ -35,3 +36,8 @@ class ModuleMapper(Mapper):
     def find_by_id(self, ):
         pass
 
+if (__name__ == "__main__"):
+    with ModuleMapper() as mapper:
+        result = mapper.find_all()
+        for p in result:
+            print(p)
