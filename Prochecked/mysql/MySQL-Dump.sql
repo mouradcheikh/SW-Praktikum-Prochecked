@@ -274,7 +274,6 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
-  `name` varchar(128) DEFAULT NULL,
   `matr_nr` int NOT NULL,
   `studiengang` varchar(256) DEFAULT NULL,
   `person_id` int DEFAULT '0',
