@@ -115,12 +115,13 @@ class ProjectAdministration (object):
     #         mapper.delete(student)
 
     #Person related
-    def create_person(self, name, google_id, email, berechtigung):
+    def create_person(self, name, google_id, email):
+        #berechtigung?
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
-        person.set_berechtigung(berechtigung)
+        #person.set_berechtigung(berechtigung)
         person.set_id(1)
         
 
@@ -150,8 +151,6 @@ class ProjectAdministration (object):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
-
-
 
 
     def get_person_by_email(self, email):
@@ -258,9 +257,11 @@ class ProjectAdministration (object):
 
     #         mapper.delete(student)
 
-    def create_grading(self, grade, participation_id):
+    def create_grading(self, grade, passed, participation_id):
+        print(grade)
         grading = Grading()
         grading.set_grade(grade)
+        grading.set_passed(passed)
         grading.set_participation(participation_id)
         grading.set_id(1)
 
@@ -289,6 +290,11 @@ class ProjectAdministration (object):
         """Die Grading mit der gegebenen participation ID auslesen."""
         with GradingMapper() as mapper:
             return mapper.find_by_participation_id(participation_id) 
+
+    def get_grading_by_id(self, id):
+        with GradingMapper() as mapper:
+            gra = mapper.find_by_id(id)
+            return gra
 
     def delete_grading(self, grading):
         pass

@@ -65,13 +65,15 @@ class ParticipationMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, project_id, student_id FROM participation WHERE project_id={} ORDER BY project_id".format(project_id)
+        command = "SELECT id, grading_id, module_id, project_id, student_id FROM participation WHERE project_id={} ORDER BY project_id".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, project_id, student_id) in tuples:
+        for (id, grading_id, module_id, project_id, student_id) in tuples:
             p = Participation()
             p.set_id(id)
+            p.set_grading(grading_id)
+            p.set_module(module_id)
             p.set_project(project_id)
             p.set_student(student_id)
             result.append(p)

@@ -62,6 +62,7 @@ class ParticipationListEntry extends Component {
     // load initial balance
     // debugger;
     this.getGrading();
+    // console.log("nach aufruf von Grading")
     this.getStudent();
     
   }
@@ -157,7 +158,7 @@ class ParticipationListEntry extends Component {
     e.preventDefault();
     this.setState({ grade:
       this.textInput.current.value})
-      console.log(this.textInput.current.value)
+      // console.log(this.textInput.current.value)
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
       this.getGrading()
     }
@@ -175,37 +176,64 @@ class ParticipationListEntry extends Component {
       }
   
   
-    getGrading = () => {
-    let grade = this.props.participation.grading_id
-    if (grade !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
-      var api = AppApi.getAPI()
-      console.log(this.props.participation)
-      api.getGradingByParticipation(this.props.participation.getID()).then(grade => 
-      this.setState({
-        grade: grade,
-        loadingInProgress: false, // loading indicator 
-        loadingError: null
-      })).catch(e =>
-        this.setState({ // Reset state with error from catch 
-          grade: null,
-          loadingInProgress: false,
-          loadingError: e
-        })
-      );  
-    // set loading to true
+//     getGrading = () => {
+//     let grade = this.props.participation.grading_id
+//     if (grade !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+//       var api = AppApi.getAPI()
+//       console.log(this.props.participation)
+//       api.getGradingByParticipation(this.props.participation.id).then(grade => 
+//       this.setState({
+//         grade: grade,
+//         loadingInProgress: false, // loading indicator 
+//         loadingError: null
+//       })).catch(e =>
+//         this.setState({ // Reset state with error from catch 
+//           grade: null,
+//           loadingInProgress: false,
+//           loadingError: e
+//         })
+//       );  
+//     // set loading to true
+//     this.setState({
+//       sut: 'loading',//????????
+//       loadingInProgress: true,
+//       loadingError: null
+//     });
+//     }
+// }
+
+getGrading = () => {
+  let grade = this.props.participation.grading_id
+  // console.log(grade)
+  if (grade !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+    var api = AppApi.getAPI()
+    // console.log(this.props.participation)
+    api.getGrading(this.props.participation.grading_id).then(grade => 
     this.setState({
-      sut: 'loading',//????????
-      loadingInProgress: true,
+      grade: grade,
+      loadingInProgress: false, // loading indicator 
       loadingError: null
-    });
-    }
+    })).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        grade: null,
+        loadingInProgress: false,
+        loadingError: e
+      })
+    );  
+  // set loading to true
+  this.setState({
+    sut: 'loading',//????????
+    loadingInProgress: true,
+    loadingError: null
+  });
+  }
 }
   
     passed(){
       let passed = this.state.grade.passed
-      console.log(passed)
+      // console.log(passed)
       // if (passed !== undefined){
-        if (passed == 1){
+        if (passed == true){
           return "Bestanden"
         }      
         else {
@@ -265,7 +293,7 @@ class ParticipationListEntry extends Component {
             <form >
               {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
               <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
-              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
+              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.getGrading}>
               Bewerten
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
@@ -286,6 +314,7 @@ class ParticipationListEntry extends Component {
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading} />
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
         <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} />
