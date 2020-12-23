@@ -139,17 +139,12 @@ class GradingMapper(Mapper):
 
 if __name__ == "__main__":
 
-    g = Grading()
-    g.set_id(1)
-    g.set_creation_date("12.12.2020")
-    g.set_grade(20)
-    g.set_passed(5)
-    g.set_participation(5)
+
 
     with GradingMapper() as mapper:
         #result = mapper.update(g)
-        # result = mapper.find_by_id(4)
+        #result = mapper.find_by_id(4)
         #print(result)
 
         ge = mapper.find_by_participation_id(1)
-        print(type(ge))
+        print(ge.get_passed())
