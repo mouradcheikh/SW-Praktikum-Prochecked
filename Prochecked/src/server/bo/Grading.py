@@ -7,7 +7,7 @@ from server.bo import BusinessObjects as bo
 class Grading(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._passed = 0 
+        self._passed = False 
         self._grade = 0.0
         self._participation = 0
 
@@ -19,8 +19,8 @@ class Grading(bo.BusinessObjects):
         return self._grade
 
     def set_passed(self, passed):
-
         self._passed = passed
+
         # print(type(grade))
         # print(float(grade))
         # if float(grade) <= 4.0:
@@ -38,8 +38,8 @@ class Grading(bo.BusinessObjects):
     def get_participation(self):
         return self._participation
 
-    def __str__(self, ):
-        pass
+    def __str__(self):
+        return "Grading: {}, {}, {}, {}".format(self.get_id(), self.get_grade(), self.get_passed(), self.get_participation())
 
     @staticmethod
     def from_dict(dictionary=dict()):
