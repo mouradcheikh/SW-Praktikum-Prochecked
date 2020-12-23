@@ -438,10 +438,10 @@ if __name__ == '__main__':
 
 
 
-    adm = ProjectAdministration()
+    # adm = ProjectAdministration()
 
-    p = adm.create_grading(2, 1)
-    print(p)
+    # p = adm.create_grading(2, 1)
+    # print(p)
 
 
     '''par = adm.get_participation_by_id(3)
