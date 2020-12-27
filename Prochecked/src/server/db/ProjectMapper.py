@@ -194,16 +194,32 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id, project_state_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id, project_state) in tuples:
+        for (id, name, person_id, project_state, person2_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
             p.set_dozent(person_id)
             p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
+            result.append(p)
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person2_id={}".format(
+            person_id)  # zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, person_id, project_state, person2_id) in tuples:
+            p = Project()
+            p.set_id(id)
+            p.set_name(name)
+            p.set_dozent(person_id)
+            p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()
@@ -274,10 +290,10 @@ class ProjectMapper(Mapper):
 
 if __name__ == "__main__":
 
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_by_dozent_id(1)
-    #     for p in result:
-    #         print(p.get_id(), p.get_name(), p.get_dozent())
+    with ProjectMapper() as mapper:
+        result = mapper.find_by_dozent_id(1)
+        for p in result:
+            print(p.get_id(), p.get_name(), p.get_dozent(), p.get_dozent2())
 
     '''with ProjectMapper() as mapper:
         result = mapper.insert(project)'''
@@ -285,7 +301,7 @@ if __name__ == "__main__":
     # with ProjectMapper() as mapper:
     #     result = mapper.find_by_id(2)
     #     print(result)
-    with ProjectMapper() as mapper:
-        result = mapper.find_all()
-        for p in result:
-            print(p)
+    # with ProjectMapper() as mapper:
+    #     result = mapper.find_all()
+    #     for p in result:
+    #         print(p)
