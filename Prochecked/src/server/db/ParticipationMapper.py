@@ -10,7 +10,31 @@ class ParticipationMapper(Mapper):
 
 
     def find_all(self, ):
-        pass
+        """Auslesen aller Teilnahmen.
+
+                :return Eine Sammlung mit Participation-Objekten, die sämtliche Teilnahmen an einem Projekt
+                        repräsentieren.
+                """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * from prochecked.participation"
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_date, grading_id, module_id, project_id, student_id) in tuples:
+            participation = Participation()
+            participation.set_id(id),
+            participation.set_creation_date(creation_date),
+            participation.set_grading(grading_id),
+            participation.set_module(module_id),
+            participation.set_project(project_id),
+            participation.set_student(student_id),
+            result.append(participation)
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
 
     def find_by_id(self, id):
 
@@ -144,13 +168,30 @@ class ParticipationMapper(Mapper):
 
 
 
-if __name__ == "__main__":
+if (__name__ == "__main__"):
 
     #   with ParticipationMapper() as mapper:
     #     result = mapper.find_by_project_id(1)
     #     for p in result:
     #         print(p.get_id(), p.get_project(), p.get_student())
 
+    #p = Participation()
+    #p.set_id(1)
+    #p.set_grading(2)
+    #p.set_module(5)
+    #p.set_project(1)
+    #p.set_student(5)
+
+    # with ParticipationMapper() as mapper:
+    #     result = mapper.insert(p)
+    #     # result = mapper.find_by_id(4)
+    #     # print(result)
+    #     mapper.delete_participation(4)
+
+    with ParticipationMapper() as mapper:
+        result = mapper.find_all()
+        for p in result:
+            print(p)
         p = Participation()
         p.set_id(1)
         p.set_creation_date("12.12.2020")

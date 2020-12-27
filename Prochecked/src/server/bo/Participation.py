@@ -36,7 +36,10 @@ class Participation(bo.BusinessObjects):
 
     def get_module(self):
         return self._module
+
     
+    def __str__(self):
+        return "Participation: {}".format(self.get_id())
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""
@@ -68,9 +71,9 @@ class Participation(bo.BusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
         result = []
-        for (participation_id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
+        for (id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
             part = Participation()
-            part.set_id(participation_id)
+            part.set_id(id)
             part.set_creation_date(creation_date)
             part.set_grading(grading_id)
             part.set_module(module_id)
@@ -79,8 +82,7 @@ class Participation(bo.BusinessObjects):
             result.append(part)
         return result
 
-    def __str__(self):
-        return "Participation: {}, {}, {}, {}".format(self.get_id(), self.get_grading(), self.get_project(), self.get_student())
+
 
 if __name__ == "__main__":
     pass
