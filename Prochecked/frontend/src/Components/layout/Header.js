@@ -5,7 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import SubjectIcon from '@material-ui/icons/Subject';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+
 
 class Header extends React.Component {
     constructor (props) {
@@ -14,17 +15,17 @@ class Header extends React.Component {
 
 render () {
 
-    const {user,classes} = this.props;
+    const {person,classes} = this.props;
 
     return (
         <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton}  aria-label="menu">
-            <SubjectIcon/>
+            <AssignmentIcon fontSize= "large"/>
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-              ProChecked - Hochschule der Medien
+          <Typography variant="h5" className={classes.title}>
+              <div>ProChecked - Hochschule der Medien</div>
           </Typography>
           <Button color="inherit"></Button>
         </Toolbar>
@@ -46,4 +47,4 @@ const styles = (theme) => ({
     },
   })
 
-export default withStyles(styles) (Header);
+export default withStyles(styles)(Header);

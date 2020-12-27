@@ -13,7 +13,8 @@ class Person(NamedBusinessObjects):
         super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
         self._email = ""
         self._google_id = ""
-        self._berechtigung = ""
+        self._berechtigung = 0
+        self._student = 0
 
     
     def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
@@ -35,10 +36,18 @@ class Person(NamedBusinessObjects):
     def get_email(self):
         """Auslesen der Email"""
         return self._email
+    
+    def set_student(self, student_id):
+        """Setzen der Email"""
+        self._student = student_id
+    
+    def get_student(self):
+        """Auslesen der Email"""
+        return self._student
 
 
     def __str__(self):
-        return "Person: {}, {}".format(self.get_id(),self.get_name())
+        return "Person: {}, {},{}".format(self.get_id(),self.get_creation_date(),self.get_name())
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""
@@ -50,6 +59,8 @@ class Person(NamedBusinessObjects):
             "creation_date": self.get_creation_date(),
             "last_updated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
+            "student": self.get_student(),
+
         }
         return result
 
@@ -64,6 +75,7 @@ class Person(NamedBusinessObjects):
         obj.set_google_id(dictionary["google_id"])
         obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
         obj.set_last_updated(Person.date_format(dictionary["last_updated"]))
+        obj.set_student(dictionary["student_id"])
         return obj
 
     
@@ -71,7 +83,7 @@ class Person(NamedBusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine Person() (Python Objekt)"""
         result = []
-        for (user_id, creation_date, name, google_id, email , role_id) in tuples:
+        for (user_id, creation_date, name, google_id, email , role_id, student_id) in tuples:
             person = Person()
             person.set_id(user_id)
             person.set_name(name)
@@ -79,6 +91,7 @@ class Person(NamedBusinessObjects):
             person.set_email(email)
             person.set_google_id(google_id)
             person.set_creation_date(creation_date)
+            person.set_student(student_id)
             result.append(person)
         return result
        

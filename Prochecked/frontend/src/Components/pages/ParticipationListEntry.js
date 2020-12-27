@@ -4,19 +4,17 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography } from '@material-ui/core';
+import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SwapHoriz from '@material-ui/icons/SwapHoriz';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
+import ParticipationForm from '../dialogs/ParticipationForm';
 // import {ic_compare_arrows} from 'react-icons-kit/md/ic_compare_arrows'
 // import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
-import Input from '@material-ui/core/Input';
 
 
 
@@ -43,6 +41,7 @@ class ParticipationListEntry extends Component {
 
   constructor(props) {
     super(props);
+    this.textInput = React.createRef();
 
     // Init an empty state
     this.state = {
@@ -51,9 +50,12 @@ class ParticipationListEntry extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
+      grade: '',
+      showParticipationForm: false,
       // showMoneyTransferDialog: false,
-    };
+    }
   }
+
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -73,8 +75,11 @@ class ParticipationListEntry extends Component {
 
   
   getStudent = () => {
-    var api = AppApi.getAPI()
-    api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
+    let stud = this.props.participation.student_id
+    if (stud !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+      var api = AppApi.getAPI()
+      console.log(this.props.participation)
+      api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -85,15 +90,16 @@ class ParticipationListEntry extends Component {
           loadingInProgress: false,
           loadingError: e
         })
-      );
+      );  
 
     // set loading to true
     this.setState({
-      balance: 'loading',
+      sut: 'loading',//????????
       loadingInProgress: true,
       loadingError: null
     });
   }
+}
 
   /** Deletes this participation */
   deleteParticipation = () => {
@@ -120,12 +126,51 @@ class ParticipationListEntry extends Component {
     });
   }
 
-  // /** Handles click events from the transfer money button */
-  // transferMoney = () => {
-  //   this.setState({
-  //     showMoneyTransferDialog: true
-  //   });
-  // }
+   /** Handles the onClick event of the edit participation button */
+   editParticipationButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showParticipationForm: true
+    });
+  }
+
+  /** Handles the onClose event of the ParticipationForm */
+  participationFormClosed = (participation) => {
+    // participation is not null and therefor changed
+    if (participation) {
+      this.setState({
+        participation: participation,
+        showParticipationForm: false
+      });
+    } else {
+      this.setState({
+        showParticipationForm: false
+      });
+    }
+  }
+
+
+  /** Handles click events from the transfer money button */
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({ grade:
+      this.textInput.current.value})
+      console.log(this.textInput.current.value)
+      this.createGrading(this.textInput.current.value, this.props.participation.getID())
+    }
+
+  createGrading(grade, participation_id){
+    var api = AppApi.getAPI()
+    // console.log(api)
+    api.gradingStudent(grade, participation_id).then((grade) =>
+        {
+          // console.log(grade)
+        this.setState({
+            grade: grade
+        })}
+        )
+      }
+  
 
   // /** Handles the onClose event from the transfer money dialog */
   // moneyTransferDialogClosed = (transaction) => {
@@ -138,52 +183,64 @@ class ParticipationListEntry extends Component {
   //   }
   // }
 
+
+
   /** Renders the component */
   render() {
     const { classes, project, participation } = this.props;
-    const { loadingInProgress, deletingInProgress, loadingError, deletingError, balance, showMoneyTransferDialog, student } = this.state;
+    const { loadingInProgress, deletingInProgress, loadingError, deletingError, showParticipationForm, student } = this.state;
     
 
     return (
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
-            <Link component={RouterLink} to={{
-              pathname: '/transactions',
+            {/* <Link component={RouterLink} to={{
+              pathname: '/StudentZuordnung',
               owner: {
                 project: project,
                 participation: participation
               }
             }} >
               Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
-            </Link>
+            </Link> */}
+       
+            <div>
+
+            Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
+            </div>
+           
+
+            <Button color='primary' onClick={this.editParticipationButtonClicked}>
+              edit
+            </Button>
 
           </Typography>
-          
-          <form className={classes.root} noValidate autoComplete="off">
-           
-            <Input placeholder="Note" inputProps={{ 'aria-label': 'description' }} />
-            
-          </form>
-          {/* <Typography color='textSecondary'>
-            Abgabe erfolgt?: {!isNaN(balance) ? AppApi.getAPI().getCurrencyFormatter().format(balance) : balance}
-          </Typography> */}
-          <ListItemSecondaryAction>
-          
-           
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.transferMoney}>
-             Bewerten
-            </Button>
+            <div>
+            {/* <form className={classes.root} noValidate autoComplete="off"> */}
+            <form >
+              {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
+              <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
+              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
+              Bewerten
+              </Button>
+              {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
+            </form>
+            </div>
+
+          <ListItemSecondaryAction>          
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
              Löschen
             </Button>
           </ListItemSecondaryAction>
+
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The balance of participation ${participation.getID()} could not be loaded.`} onReload={this.getBalance} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
         </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} />
         {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}
       </div>
     );

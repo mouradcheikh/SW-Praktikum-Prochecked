@@ -6,6 +6,7 @@ from datetime import datetime
 
 class Semester(NamedBusinessObjects):
     def __init__(self):
+        super().__init__()
         self.teilleistung = []
 
 
