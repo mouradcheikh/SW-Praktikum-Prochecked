@@ -195,8 +195,7 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(),
-                                  proposal.get_berechtigung())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -599,7 +598,7 @@ class GradingByParticipationOperation(Resource):
 @prochecked.route('/gradings/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die id des Grading-Objekts')
-class StudentOperations(Resource):
+class GradingOperations(Resource):
     @prochecked.marshal_with(grading)
     @secured
     def get(self, id):
