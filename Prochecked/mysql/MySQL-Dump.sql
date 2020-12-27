@@ -29,6 +29,8 @@ CREATE TABLE `grading` (
   `creation_date` datetime DEFAULT NULL,
   `grade` float DEFAULT '0.0',
   `passed` tinyint DEFAULT NULL,
+  `participation_id` int DEFAULT '0',
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -53,7 +55,7 @@ CREATE TABLE `module` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `edv_nr` int NOT NULL,
+  `edv_nr` int ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -79,8 +81,9 @@ CREATE TABLE `participation` (
   `creation_date` datetime DEFAULT NULL,
   `grading_id` int DEFAULT NULL,
   `module_id` int DEFAULT NULL,
-  `project_id` int NOT NULL DEFAULT '0',
-  `student_id` int NOT NULL DEFAULT '0'
+  `project_id` int DEFAULT '0',
+  `student_id` int DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -107,6 +110,7 @@ CREATE TABLE `person` (
   `google_id` varchar(128) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
   `role_id` int DEFAULT NULL,
+  `student_id` int DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -133,17 +137,17 @@ CREATE TABLE `project` (
   `creation_date` datetime DEFAULT NULL,
   `capacity` int DEFAULT NULL,
   `ext_partner_list` varchar(45) DEFAULT NULL,
-  `short_description` longtext,
+  `short_description` longtext DEFAULT NULL,
   `weekly_flag` tinyint DEFAULT NULL,
   `number_bd_b_lecturetime` int DEFAULT NULL,
   `number_bd_examtime` int DEFAULT NULL,
   `number_bd_lecturetime` int DEFAULT NULL,
   `preffered_bd` int DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
-  `person_id` int NOT NULL DEFAULT '0',
-  `project_state_id` int NOT NULL DEFAULT '0',
-  `project_type_id` int NOT NULL DEFAULT '0',
-  `semester_id` int NOT NULL DEFAULT '0',
+  `person_id` int DEFAULT '0',
+  `project_state_id` int DEFAULT '0',
+  `project_type_id` int DEFAULT '0',
+  `semester_id` int DEFAULT '0',
   `person2_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -272,8 +276,9 @@ CREATE TABLE `student` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `matr_nr` int NOT NULL,
+  `matr_nr` int DEFAULT '0',
   `studiengang` varchar(256) DEFAULT NULL,
+  `person_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
