@@ -599,7 +599,7 @@ class GradingByParticipationOperation(Resource):
 @prochecked.route('/gradings/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die id des Grading-Objekts')
-class StudentOperations(Resource):
+class GradingOperations(Resource):
     @prochecked.marshal_with(grading)
     @secured
     def get(self, id):
