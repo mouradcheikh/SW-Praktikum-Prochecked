@@ -286,7 +286,11 @@ if __name__ == "__main__":
     # with ProjectMapper() as mapper:
     #     result = mapper.find_by_id(2)
     #     print(result)
+    # with ProjectMapper() as mapper:
+    #     result = mapper.find_all()
+    #     for p in result:
+    #         print(p)
+
     with ProjectMapper() as mapper:
-        result = mapper.find_all()
-        for p in result:
-            print(p)
+        result = mapper.find_project_by_project_state_id(3)
+        print(result)

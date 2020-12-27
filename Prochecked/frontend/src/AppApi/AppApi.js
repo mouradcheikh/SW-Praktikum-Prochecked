@@ -45,8 +45,10 @@ export default class AppAPI {
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
     #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;//leer lassen???!oder mitParticipationBO
+
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
+    #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
 
     //Grading related 
 
@@ -134,14 +136,11 @@ getPersonByGoogleId(google_id) {
 
 createPerson(name, email, google_id) {
 
-
-        
         let p = new PersonBO();
         p.setName(name)
         p.setEmail(email)
         p.setGoogleId(google_id)
         // console.log(p)
-        
 
         return this.#fetchAdvanced(this.#addPersonURL(), {
           method: 'POST',
@@ -280,6 +279,21 @@ updatePerson(personBO){
     // console.log(person_id)
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
+    getProjectsByStateNew(project_id) {
+    // console.log(person_id)
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getProjectsByStateNewURL(project_id))
       .then((responseJSON) => {
         // console.log(responseJSON)
         // console.log("gefetched")
