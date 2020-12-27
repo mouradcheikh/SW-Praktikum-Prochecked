@@ -113,6 +113,11 @@ class ParticipationListEntry extends Component {
       })
     );
 
+    handleChange(event) {
+      const value = event.target.value.replace(/\+|-/ig, '');
+      this.setState({financialGoal: value});
+    }
+
     // set loading to true
     this.setState({
       deletingInProgress: true,
@@ -171,7 +176,7 @@ class ParticipationListEntry extends Component {
           <ListItemSecondaryAction>
           
            
-            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.transferMoney}>
+            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleChange}>
              Bewerten
             </Button>
             <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
