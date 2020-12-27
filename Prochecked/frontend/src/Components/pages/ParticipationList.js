@@ -30,11 +30,11 @@ class ParticipationList extends Component {
 
   /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
-    console.log("vor fetch")
+    // console.log("vor fetch")
 
       var api = AppApi.getAPI()
       api.getParticipationsByProject(this.props.project.getID())
-        .then(participationBOs =>
+        .then(participationBOs => 
           this.setState({               // Set new state when ParticipationBOs have been fetched
             participations: participationBOs,
             filteredParticipations: [...participationBOs], // store a copy
@@ -45,8 +45,9 @@ class ParticipationList extends Component {
               participations: [],
               loadingInProgress: false, // disable loading indicator
               error: e
-            })
-          );
+            }) 
+          ); 
+          // console.log(this.state.participations)
   
       // set loading to true
       this.setState({

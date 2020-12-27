@@ -11,11 +11,12 @@ export default class GradingBO extends BusinessObject {
    * 
    * @param {String} aname - the name of this GradingBO.
    */
-  constructor(acreation_date, agrade, apassed) {
+  constructor(agrade, aparticipation_id) {
     super();
-    this.creation_date = acreation_date
+    this.creation_date = null
     this.grade = agrade
-    this.passed = apassed
+    this.passed = false
+    this.participation = aparticipation_id
   }
 
   /**
@@ -35,8 +36,15 @@ export default class GradingBO extends BusinessObject {
   }
 
   setGrade(agrade){
+    if (agrade <= 4.0){
+      this.setPassed(true)}
+    else{
+      this.setPassed(false)
+    }
+
     this.grade = agrade
   }
+  
 
   getGrade(){
     return this.grade
@@ -45,9 +53,26 @@ export default class GradingBO extends BusinessObject {
   setPassed(apassed){
     this.passed = apassed
   }
-
+  // setPassed(){
+  //   if (this.grade <= 4.0) {
+  //     this.passed = true
+  //   }
+  // }
   getPassed(){
-    return this.passed
+    if (this.passed == 1){
+      return "Bestanden"
+    }      
+    else {
+      return "Nicht Bestanden"
+    }
+  }
+
+  setParticipation(aparticipation_id) {
+    this.participation = aparticipation_id
+  }
+  
+  getParticipation(){
+    return this.participation
   }
 
 

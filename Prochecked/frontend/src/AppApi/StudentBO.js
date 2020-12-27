@@ -4,18 +4,19 @@ import PersonBO from './PersonBO';
 /**
  * Represents a Role of the system
  */
-export default class StudentBO extends BusinessObject {
+export default class StudentBO extends PersonBO {
 
   /**
    * Constructs a RoleBO object with a given name
    * 
    * @param {String} aname - the name of this RoleBO.
    */
-  constructor(aname, astudiengang, amatr_nr) {
+  constructor(aname, astudiengang, amatr_nr, aperson_id) {
     super();
     this.name = aname
     this.studiengang = astudiengang;
     this.matr_nr = amatr_nr;
+    this.person_id = aperson_id
   }
 
   setName(aname) {
@@ -41,6 +42,15 @@ export default class StudentBO extends BusinessObject {
   getMatrNr(){
       return this.matr_nr
   }
+
+  setPerson(aperson_id){
+    this.person_id = aperson_id
+  }
+
+  getPerson(){
+    return this.person_id
+  }
+
 
     /** 
    * Returns an Array of ParticipationBOs from a given JSON structure.

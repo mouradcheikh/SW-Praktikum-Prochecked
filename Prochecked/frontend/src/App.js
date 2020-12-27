@@ -226,7 +226,8 @@ class App extends React.Component {
     ProfList(){
         var api = AppAPI.getAPI()
         api.getPersonByRole(2).then((persons) =>
-        {console.log(persons)
+        {
+            // console.log(persons)
         })
       }
         
@@ -235,7 +236,7 @@ class App extends React.Component {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-        console.log("rendered")
+        // console.log("rendered")
         
         };
     
