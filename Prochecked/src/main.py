@@ -135,12 +135,12 @@ participation = api.inherit('Participation', bo, {
                                  description='Student der Teilnahme'),
 })
 
-grading= api.inherit ('Grading', bo, {
-    'grade': fields.String (attribute= '_grade',
+grading = api.inherit('Grading', bo, {
+    'grade': fields.String(attribute='_grade',
                             description= 'Bewertung des Teilnehmer'),
-    'passed': fields.Boolean (attribute='_passed', 
-                             description= 'Bestanden JA/Nein'),
-    'participation_id': fields.Integer (attribute= '_participation',
+    'passed': fields.Boolean(attribute='_passed',
+                            description= 'Bestanden JA/Nein (0 oder 1)'),
+    'participation_id': fields.Integer(attribute= '_participation',
                             description ='ID der Teilnahme für die Note')
 })
 
@@ -191,15 +191,14 @@ class PersonListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Person.from_dict(api.payload)
-        print(proposal)
+        #print(proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(),
-                                  proposal.get_berechtigung())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -243,9 +242,9 @@ class PersonOperations(Resource):
         Project-Objekts.
         """
         adm = ProjectAdministration()
-        print(api.payload)
+        #print(api.payload)
         p = Person.from_dict(api.payload)
-        print(p)
+        #print(p)
 
         if p is not None:
             """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
@@ -301,7 +300,7 @@ class ProjectOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
-        print(proposal)
+        #print(proposal)
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -522,7 +521,7 @@ class StudentOperations(Resource):
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        print(id)
+        #print(id)
         stud = adm.get_student_by_id(id)
         
         return stud
@@ -575,6 +574,8 @@ class GradingListOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Grading.from_dict(api.payload)
+        #print(proposal.get_grade(), proposal.get_passed())
+        #print(api.payload)
 
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
@@ -582,12 +583,49 @@ class GradingListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_grading(proposal.get_grade(),proposal.get_participation())
-            return '', 200
+            print(proposal.get_passed())
+            p = adm.create_grading(proposal.get_grade(), proposal.get_passed(), proposal.get_participation())
+            print(p)
+            return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+
+@prochecked.route('/participation/<int:participation_id>/grading')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('participation_id', 'Die ID des Participation-Objekts')
+class GradingByParticipationOperation(Resource):
+    @prochecked.marshal_with(grading)
+    @secured
+    def get(self, participation_id):
+        """Auslesen eines Grading-Objekte bzgl. eines bestimmten Participation-Objekts.
+
+        Das Participation-Objekt dessen GRading wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        # Zunächst benötigen wir das durch id gegebene Project.
+        gra = adm.get_grading_by_participation_id(participation_id)
+        # 'for p in par:
+        #     print(p)'
+        return gra
+
+@prochecked.route('/gradings/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die id des Grading-Objekts')
+class GradingOperations(Resource):
+    @prochecked.marshal_with(grading)
+    @secured
+    def get(self, id):
+        """Auslesen eines bestimmten Person-Objekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        #print(id)
+        gra = adm.get_grading_by_id(id)
+        
+        return gra
 
 
 
@@ -596,9 +634,29 @@ class GradingListOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
+    '''adm = ProjectAdministration()
+        #print(id)
+    gra = adm.get_grading_by_id(1)
+    print(gra.get_grade())'''
 
     '''adm = ProjectAdministration()
-    p = adm.get_participations_by_project(3)
+    g = Grading()
+    g.set_id(4)
+    g.set_grade(2.0)
+    g.set_passed(1)
+    g.set_participation(1)
+    p = adm.create_grading(g.get_grade(), g.get_participation())
+    print(p.get_passed())'''
+
+    '''adm = ProjectAdministration()
+    g = adm.get_grading_by_participation_id(1)
+    print(g.get_grade())'''
+
+
+
+
+
+    '''p = adm.get_participations_by_project(3)
     for i in p:
         print(i)'''
 

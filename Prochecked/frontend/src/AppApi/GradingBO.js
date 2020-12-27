@@ -15,7 +15,7 @@ export default class GradingBO extends BusinessObject {
     super();
     this.creation_date = null
     this.grade = agrade
-    this.passed = 0
+    this.passed = false
     this.participation = aparticipation_id
   }
 
@@ -36,9 +36,15 @@ export default class GradingBO extends BusinessObject {
   }
 
   setGrade(agrade){
+    if (agrade <= 4.0){
+      this.setPassed(true)}
+    else{
+      this.setPassed(false)
+    }
+
     this.grade = agrade
-    // this.setPassed()
   }
+  
 
   getGrade(){
     return this.grade

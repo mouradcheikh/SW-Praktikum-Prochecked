@@ -75,15 +75,47 @@ class GradingMapper(Mapper):
         cursor.close()
         return result
 
-    def find_by_id(self):
-        pass
+    def find_by_id(self, id):
+        """Suchen eines Person mit vorgegebener ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param key Primärschlüsselattribut (->DB)
+        :return Customer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+            nicht vorhandenem DB-Tupel.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, grade, passed, participation_id FROM grading WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, grade, passed, participation_id) = tuples[0]
+            grading = Grading()
+            grading.set_id(id)
+            grading.set_creation_date(creation_date)
+            grading.set_grade(grade)
+            grading.set_passed(passed)
+            grading.set_participation(participation_id)
+
+            result = grading
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
 
     def find_by_participation_id(self, participation_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
-        :param person_id Schlüssel des zugehörigen Dozenten.
+        :param participation_id Schlüssel des zugehörigen Dozenten.
         :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
                 betreffenden Dozenten repräsentieren.
         """
@@ -139,17 +171,12 @@ class GradingMapper(Mapper):
 
 if __name__ == "__main__":
 
-    g = Grading()
-    g.set_id(1)
-    g.set_creation_date("12.12.2020")
-    g.set_grade(20)
-    g.set_passed(5)
-    g.set_participation(5)
+
 
     with GradingMapper() as mapper:
         #result = mapper.update(g)
-        # result = mapper.find_by_id(4)
+        #result = mapper.find_by_id(4)
         #print(result)
 
         ge = mapper.find_by_participation_id(1)
-        print(type(ge))
+        print(ge.get_passed())

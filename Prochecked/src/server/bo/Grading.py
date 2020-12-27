@@ -7,20 +7,24 @@ from server.bo import BusinessObjects as bo
 class Grading(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._passed = 0 
-        self._grade = None
+        self._passed = False 
+        self._grade = 0.0
         self._participation = 0
 
     def set_grade(self, grade):
-        self._grade = grade
+        self._grade = float(grade)
         # self.set_passed(grade)
 
     def get_grade(self):
         return self._grade
 
-    def set_passed(self, grade):
-        if grade <= 4.0:
-            self._passed = 1
+    def set_passed(self, passed):
+        self._passed = passed
+
+        # print(type(grade))
+        # print(float(grade))
+        # if float(grade) <= 4.0:
+        #     self._passed = 1
 
     # def set_passed(self, passed):
     #     self._passed = passed
@@ -34,8 +38,8 @@ class Grading(bo.BusinessObjects):
     def get_participation(self):
         return self._participation
 
-    def __str__(self, ):
-        pass
+    def __str__(self):
+        return "Grading: {}, {}, {}, {}".format(self.get_id(), self.get_grade(), self.get_passed(), self.get_participation())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -43,7 +47,7 @@ class Grading(bo.BusinessObjects):
         obj = Grading()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_grade(dictionary["grade"])
-        # obj.set_passed(dictionary["passed"]) 
+        obj.set_passed(dictionary["passed"]) 
         obj.set_participation(dictionary["participation"])
         obj.set_creation_date(Grading.date_format(dictionary["creation_date"]))
         return obj
