@@ -204,8 +204,6 @@ class ProjectMapper(Mapper):
 
     def find_project_by_project_state_id(self,project_state_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (ProjectStateID) gegebenen Projekte.
-
-        
         """
         result = []
         cursor = self._cnx.cursor()

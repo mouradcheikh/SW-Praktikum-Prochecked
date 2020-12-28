@@ -283,6 +283,18 @@ class ProjectOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+    
+    @prochecked.marshal_list_with(project)
+    @secured
+    def get(self):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
+
+        Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_state_new()
+        print(project_list)
+        return project_list
 
 # Project related
 
@@ -299,22 +311,6 @@ class ProjectsByDozentOperation(Resource):
         """
         adm = ProjectAdministration()
         project_list = adm.get_projects_by_dozent(person_id)
-
-        return project_list
-
-@prochecked.route('/state/<int:project_state_id>/projects')
-@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('person_id', 'Die ID des Dozent-Objekts')
-class ProjectsByStateNewOperation(Resource):
-    @prochecked.marshal_list_with(project)
-    @secured
-    def get(self, project_state_id):
-        """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
-
-        Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ProjectAdministration()
-        project_list = adm.get_projects_by_State_New(project_state_id)
 
         return project_list
 
@@ -530,3 +526,9 @@ class GradingOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    # adm = ProjectAdministration()
+    # z = adm.get_projects_by_state_new()
+
+    # for x in z:
+    #     print(x)

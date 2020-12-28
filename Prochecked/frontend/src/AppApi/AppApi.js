@@ -27,8 +27,9 @@ export default class AppAPI {
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
     #getProfsURL = (id) => `${this.#AppServerBaseURL}/person-by-role/${id}`;
+
+    //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
-    #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
 
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
@@ -42,7 +43,8 @@ export default class AppAPI {
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
-    // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
+    #getProjectsByStateNewURL = () => `${this.#AppServerBaseURL}/project`;
+    #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
 
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
@@ -327,20 +329,19 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-  //   getProjectsByStateNew(project_id) {
-  //   // console.log(person_id)
-  //   // console.log("vor fetch in appapi")
-  //   return this.#fetchAdvanced(this.#getProjectsByStateNewURL(project_id))
-  //     .then((responseJSON) => {
-  //       // console.log(responseJSON)
-  //       // console.log("gefetched")
-  //       let projectBOs = ProjectBO.fromJSON(responseJSON);
-  //       // console.log(projectBOs);
-  //       return new Promise(function (resolve) {
-  //         resolve(projectBOs);
-  //       })
-  //     })
-  // }
+    getProjectsByStateNew() {
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getProjectsByStateNewURL())
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
 
 
   //Student Relation
