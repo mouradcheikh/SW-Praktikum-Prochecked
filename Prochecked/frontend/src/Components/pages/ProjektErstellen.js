@@ -46,6 +46,7 @@ function ProjektFormular(props) {
   const [extKoop, setextKoop] = React.useState('');
   const [Semester, setSemester] = React.useState('');
   const [Semesters, setSemesters] = React.useState(['']);
+  const [BT, setBT] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
   const history = useHistory()
@@ -87,6 +88,7 @@ function ProjektFormular(props) {
     project.setProjectState(1)
     project.setExtPartnerList(extKoop)
     project.setSemester(Semester.id)
+    project.setprefferedbd(BT)
 
     if (Professor != null){
       project.setDozent2(Professor.id)
@@ -216,7 +218,7 @@ function SemesterList(){
           </div>
           <div><TextField className={classes.formControl}
             id="maxTeilnehmer"
-            label="Kapazität (Max. Teilnehmerzahl)"
+            label="Kapazität (max. Teilnehmerzahl)"
             type="number" 
             variant="outlined" 
             value={Kapazität}
@@ -225,7 +227,7 @@ function SemesterList(){
             
           </div>
           <FormControl className={classes.formControl}>
-            <InputLabel id="artProjekt">weitere Betreuende(r) ProfessorInnen</InputLabel>
+            <InputLabel id="artProjekt">weitere betreuende Professoren</InputLabel>
               <Select
                 labelId="artProjekt"
                 id="ProjektArt"
@@ -256,14 +258,6 @@ function SemesterList(){
                     onInput={e=>setInhalt(e.target.value)}
                     />
                 </div>
-                <div><TextField className={classes.formControl}
-                    id="Raum"
-                    label="Raum-/Ressourcenplanung" 
-                    variant="outlined" 
-                    value={Raum}
-                    onInput={e=>setRaum(e.target.value)}
-                    />
-               </div>
               <div>
               <FormControl component="fieldset" className={classes.formControl}>
                   <FormLabel component="legend">Wöchentliche Termine</FormLabel>
@@ -301,9 +295,21 @@ function SemesterList(){
                     onInput={e=>setBTinVZ(e.target.value)}
                     />
                </div>
+               <div>
+                 <TextField className={classes.formControl}
+                    id="Blocktage"
+                    label="präferierte Blocktage"
+                    type="date" 
+                    variant="outlined" 
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onInput={e=>setBT(e.target.value)}
+                  />
+               </div>
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
-                    label="Besonderer Raum notwendig"
+                    label="Besonderer Raum (falls notwendig)"
                     variant="outlined" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}

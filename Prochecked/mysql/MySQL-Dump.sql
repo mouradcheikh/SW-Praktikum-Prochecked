@@ -142,7 +142,7 @@ CREATE TABLE `project` (
   `number_bd_b_lecturetime` varchar(45) DEFAULT NULL,
   `number_bd_examtime` varchar(45) DEFAULT NULL,
   `number_bd_lecturetime` varchar(45) DEFAULT NULL,
-  `preffered_bd` varchar(45) DEFAULT NULL,
+  `preffered_bd` date DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
   `person_id` int DEFAULT '0',
   `project_state_id` int DEFAULT '0',

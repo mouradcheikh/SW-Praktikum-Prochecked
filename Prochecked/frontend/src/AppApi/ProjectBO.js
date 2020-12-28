@@ -19,7 +19,7 @@ export default class ProjectBO extends BusinessObject {
        this.number_bd_b_lecturetime = null //blocktage vor beginn der vorlesungszeit
        this.number_bd_examtime = null
        this.number_bd_lecturetime = null //blocktage vorlesungszeit
-    //    this.preffered_bd = null //Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
+       this.preffered_bd = null //Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
        this.special_room = null
        this.dozent = null
        this.dozent2 = null
@@ -107,6 +107,10 @@ export default class ProjectBO extends BusinessObject {
 
     setSemester(semester){
         this.semester = semester
+    }
+
+    setprefferedbd(bd){
+        this.preffered_bd = bd
     }
 
 /** 
