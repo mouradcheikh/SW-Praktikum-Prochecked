@@ -9,7 +9,17 @@ class StudentMapper(Mapper):
         super().__init__()
 
     def find_all(self, ):
-        pass
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT * from prochecked.student"
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        result = Student.from_tuples(tuples)
+
+        self._cnx.commit()
+        cursor.close()
+        return result
 
     def find_by_id(self, id):
         """Suchen eines Studentens mit vorgegebener ID. Da diese eindeutig ist,

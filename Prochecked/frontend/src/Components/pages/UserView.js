@@ -52,7 +52,10 @@ render () {
                 </Link>
                 </div>
                 <div>
-                <Link to='/DozentView'>
+                <Link to={{
+                pathname: '/DozentView',
+                state: { person: this.props.person }
+                }}>
                 <Button
                     size="large"
                     variant="contained"

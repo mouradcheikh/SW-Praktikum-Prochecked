@@ -20,14 +20,15 @@ class Project(NamedBusinessObjects, Automat):
         self._ext_partner_list = None
         self._short_description = None
         self._weekly_flag = None
-        self._number_bd_per_week = None
+        # self._number_bd_per_week = None
         self._number_bd_b_lecturetime = None #blocktage vor beginn der vorlesungszeit
         self._number_bd_examtime = None
         self._number_bd_lecturetime = None #blocktage vorlesungszeit
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
-        self._module = None
-        self._dozent = [None,None]
+        # self._module = None
+        self._dozent = None
+        self._dozent2 = None
         self._semester = None #Kommt hier ein Objekt von Semester rein?
         self._project_type = None
         self._project_state = None
@@ -69,7 +70,12 @@ class Project(NamedBusinessObjects, Automat):
         return self._short_description
 
     def set_weekly_flag(self, weekly_flag):
-        self._weekly_flag = weekly_flag
+        if weekly_flag == True:
+            self._weekly_flag = 1
+        elif weekly_flag == False:
+            self._weekly_flag = 0
+        else:
+            self._weekly_flag = None
 
     def get_weekly_flag(self):
         return self._weekly_flag
@@ -104,12 +110,16 @@ class Project(NamedBusinessObjects, Automat):
         return self._special_room
  
     def set_dozent(self, dozent):
-        if self._dozent[0] == None:
-            self._dozent[0]= dozent
-        else: self._dozent[1] = dozent
+        self._dozent = dozent
 
     def get_dozent(self):
         return self._dozent
+
+    def set_dozent2(self, dozent):
+        self._dozent2 = dozent
+
+    def get_dozent2(self):
+        return self._dozent2
 
     def set_semester(self, semester):
         self._semester = semester
@@ -122,14 +132,13 @@ class Project(NamedBusinessObjects, Automat):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Person()-Objekt."""
+        """Umwandeln eines Python dict() in ein Projekt()-Objekt."""
         obj = Project()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_project_type(dictionary["project_type"])
-        obj.set_project_state(dictionary["project_state"])
         obj.set_capacity(dictionary["capacity"])
-        obj.set_room(dictionary["room"])
+        # obj.set_room(dictionary["room"])
         obj.set_ext_partner_list(dictionary["ext_partner_list"])
         obj.set_short_description(dictionary["short_description"])
         obj.set_weekly_flag(dictionary["weekly_flag"])
@@ -138,8 +147,14 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_preffered_bd(dictionary["preffered_bd"])
         obj.set_special_room(dictionary["special_room"])
         obj.set_dozent(dictionary["dozent"])
+        obj.set_dozent2(dictionary["dozent2"])
         obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
         obj.set_state(dictionary["current_state"])
+        obj.set_project_type(dictionary["project_type"])
+        obj.set_creation_date(Project.date_format(dictionary["creation_date"]))
+        obj.set_last_updated(Project.date_format(dictionary["last_updated"]))
+        obj.set_semester(dictionary["semester"])
+        return obj
 
 if __name__ == "__main__":
 

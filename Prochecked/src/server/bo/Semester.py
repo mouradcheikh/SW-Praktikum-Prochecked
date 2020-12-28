@@ -20,3 +20,14 @@ class Semester(NamedBusinessObjects):
         obj.set_name(dictionary["name"])    
         return obj
 
+    @staticmethod
+    def from_tuples(tuples=list()):
+        """Umwandeln eines DB tuples in ein Semester() (Python Objekt)"""
+        result = []
+        for (id, creation_date, name) in tuples:
+            semester = Semester()
+            semester.set_id(id)
+            semester.set_creation_date(creation_date)
+            semester.set_name(name)
+            result.append(semester)
+        return result

@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Project import Project
 
@@ -134,11 +133,11 @@ class ProjectMapper(Mapper):
                 project.get_number_bd_lecturetime(),
                 project.get_preffered_bd(),
                 project.get_special_room(),
-                project.get_dozent()[0],
+                project.get_dozent(),
                 project.get_state(),
                 project.get_project_type(),
                 project.get_semester(),
-                project.get_dozent()[1]
+                project.get_dozent2()
                 )
         cursor.execute(command, data)
 
@@ -170,16 +169,32 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id, project_state_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id, project_state) in tuples:
+        for (id, name, person_id, project_state, person2_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
             p.set_dozent(person_id)
             p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
+            result.append(p)
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person2_id={}".format(
+            person_id)  # zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, person_id, project_state, person2_id) in tuples:
+            p = Project()
+            p.set_id(id)
+            p.set_name(name)
+            p.set_dozent(person_id)
+            p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()

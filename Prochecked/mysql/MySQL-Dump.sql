@@ -54,7 +54,7 @@ CREATE TABLE `module` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `edv_nr` int NOT NULL,
+  `edv_nr` int ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -78,8 +78,8 @@ DROP TABLE IF EXISTS `participation`;
 CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
-  `grading_id` int DEFAULT NULL,
-  `module_id` int DEFAULT NULL,
+  `grading_id` int DEFAULT '0',
+  `module_id` int DEFAULT '0',
   `project_id` int DEFAULT '0',
   `student_id` int DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -134,19 +134,19 @@ CREATE TABLE `project` (
   `id` int NOT NULL DEFAULT '0',
   `name` varchar(45) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
-  `capacity` int DEFAULT NULL,
+  `capacity` varchar(45) DEFAULT NULL,
   `ext_partner_list` varchar(45) DEFAULT NULL,
-  `short_description` longtext,
+  `short_description` longtext DEFAULT NULL,
   `weekly_flag` tinyint DEFAULT NULL,
-  `number_bd_b_lecturetime` int DEFAULT NULL,
-  `number_bd_examtime` int DEFAULT NULL,
-  `number_bd_lecturetime` int DEFAULT NULL,
-  `preffered_bd` int DEFAULT NULL,
+  `number_bd_b_lecturetime` varchar(45) DEFAULT NULL,
+  `number_bd_examtime` varchar(45) DEFAULT NULL,
+  `number_bd_lecturetime` varchar(45) DEFAULT NULL,
+  `preffered_bd` date DEFAULT NULL,
   `special_room` varchar(45) DEFAULT NULL,
-  `person_id` int NOT NULL DEFAULT '0',
-  `project_state_id` int NOT NULL DEFAULT '0',
-  `project_type_id` int NOT NULL DEFAULT '0',
-  `semester_id` int NOT NULL DEFAULT '0',
+  `person_id` int DEFAULT '0',
+  `project_state_id` int DEFAULT '0',
+  `project_type_id` int DEFAULT '0',
+  `semester_id` int DEFAULT '0',
   `person2_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -258,6 +258,9 @@ CREATE TABLE `semester` (
 --
 -- Dumping data for table `semester`
 --
+LOCK TABLES `semester` WRITE;
+INSERT INTO `semester` VALUES (1, NULL, "WS20/21"),(2, NULL, "SS21"),(3, NULL, "WS21/22"),(4, NULL, "SS22"),(5, NULL, "WS22/23");
+UNLOCK TABLES;
 
 LOCK TABLES `semester` WRITE;
 /*!40000 ALTER TABLE `semester` DISABLE KEYS */;
@@ -274,9 +277,9 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
-  `matr_nr` int NOT NULL,
+  `matr_nr` int DEFAULT '0',
   `studiengang` varchar(256) DEFAULT NULL,
-  `person_id` int DEFAULT '0',
+  `person_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

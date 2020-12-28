@@ -238,7 +238,7 @@ getGrading = () => {
             <form >
               {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
               <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
-              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.getGrading}>
+              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
               Bewerten
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
