@@ -187,6 +187,7 @@ class ProjectAdministration (object):
     
 #Projekt related
 
+    
     def get_projects_by_dozent(self, person_id): #dozent eig. !!
         """Alle Projects des gegebenen Dozenten auslesen."""
         # with ProjectMapper() as mapper:
@@ -202,11 +203,27 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
 
+    def get_projects_by_State_New(self, project_state_id):
+        """Alle Projects mit dem Status Neu auslesen."""
+
+        with ProjectMapper() as mapper:
+            pro = mapper.find_project_by_project_state_id(project_state_id)
+
+            p_list = []
+
+            for p in pro:
+                if p.get_project_state() == 2:
+                    p_list.append(p)
+            return p_list
+                
+
 
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
         with ProjectMapper() as mapper:
             return mapper.find_by_id(id) 
+
+  
 
     def get_all_projects(self, ):
         pass
@@ -284,48 +301,6 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.find_by_project_id(project_id) 
 
-#DOZENTENVIEW
-    # def get_projects_by_dozent(self, person): #dozent eig. !!! falls Funktion darunter nicht funktioniert diese versuchen(main.py entsprechend ändern)
-    #     """Alle Projects des gegebenen Dozenten auslesen."""
-    #     with ProjectMapper() as mapper:
-    #         return mapper.find_by_dozent_id(person.get_id()) 
-
-    def get_projects_by_dozent(self, person_id): #dozent eig. !!
-        """Alle Projects des gegebenen Dozenten auslesen."""
-        # with ProjectMapper() as mapper:
-        #     return mapper.find_by_dozent_id(person_id) 
-
-        with ProjectMapper() as mapper:
-            pro = mapper.find_by_dozent_id(person_id)
-
-            p_list = []
-
-            for p in pro:
-                if p.get_project_state() == 2:
-                    p_list.append(p)
-            return p_list
-
-    def get_projects_by_State_New(self, project_state_id):
-        """Alle Projects mit dem Status Neu auslesen."""
-
-        with ProjectMapper() as mapper:
-            pro = mapper.find_project_by_project_state_id(project_state_id)
-
-            p_list = []
-
-            for p in pro:
-                if p.get_project_state() == 2:
-                    p_list.append(p)
-            return p_list
-                
-
-
-
-    def get_project_by_id(self, id):
-        """Das Project mit der gegebenen ID auslesen."""
-        with ProjectMapper() as mapper:
-            return mapper.find_by_id(id) 
-
 
     def save_participation(self, participation):
         with ParticipationMapper() as mapper:
@@ -379,7 +354,7 @@ class ProjectAdministration (object):
 
    
     
-    #Role Related
+#Role Related
 
     def create_role(self, role):
         pass
