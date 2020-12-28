@@ -12,31 +12,31 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
 
-  /** Fetches all ProjectBOs with State-New from the backend */
-  getProjectsByStateNew = (project_id) => {
-    // console.log("vor fetch")
-      var api = AppApi.getAPI()
-      api.getProjectsByStateNew(project_id) //evtl. Objekt von API vorher anlegen
-        .then(projectBOs =>
-          this.setState({               // Set new state when ProjectBOs have been fetched
-            projects: projectBOs,
-            filteredProjects: [...projectBOs], // store a copy
-            loadingInProgress: false,   // disable loading indicator
-            error: null
-          })).catch(e =>
-            this.setState({             // Reset state with error from catch
-              projects: [],
-              loadingInProgress: false, // disable loading indicator
-              error: e
-            })
-          );
+  // /** Fetches all ProjectBOs with State-New from the backend */
+  // getProjectsByStateNew = (project_id) => {
+  //   // console.log("vor fetch")
+  //     var api = AppApi.getAPI()
+  //     api.getProjectsByStateNew(project_id) //evtl. Objekt von API vorher anlegen
+  //       .then(projectBOs =>
+  //         this.setState({               // Set new state when ProjectBOs have been fetched
+  //           projects: projectBOs,
+  //           filteredProjects: [...projectBOs], // store a copy
+  //           loadingInProgress: false,   // disable loading indicator
+  //           error: null
+  //         })).catch(e =>
+  //           this.setState({             // Reset state with error from catch
+  //             projects: [],
+  //             loadingInProgress: false, // disable loading indicator
+  //             error: e
+  //           })
+  //         );
   
-      // set loading to true
-      this.setState({
-        loadingInProgress: true,
-        error: null
-      });
-    }
+  //     // set loading to true
+  //     this.setState({
+  //       loadingInProgress: true,
+  //       error: null
+  //     });
+  //   }
 
 
 const useStyles = makeStyles((theme) => ({
