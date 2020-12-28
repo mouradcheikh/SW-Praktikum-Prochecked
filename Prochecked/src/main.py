@@ -94,8 +94,8 @@ semester = api.inherit('Semster', nbo, {  # wird Semester in der Main benötigt?
 project = api.inherit('Project', nbo, {
     'capacity': fields.String(attribute='_capacity',
                                description='Kapazität eines Projekt'),
-    'room': fields.String(attribute='_room',
-                          description='Raum wo das Projekt durchgeführt wird'),
+    # 'room': fields.String(attribute='_room',
+    #                       description='Raum wo das Projekt durchgeführt wird'),
     'ext_partner_list': fields.String(attribute='_ext_partner_list',
                                        description='Welche externe Partner werden für das Projekt benötigt'),
     'short_description': fields.String(attribute='_short_description',
@@ -113,8 +113,8 @@ project = api.inherit('Project', nbo, {
                                             description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
     'number_bd_examtime': fields.String(attribute='_number_bd_examtime',
                                          description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
-    # 'preffered_bd': fields.String(attribute='_preffered_bd',  # fields.datettime ???
-    #                               description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
+    'preffered_bd': fields.DateTime(attribute='_preffered_bd',  # fields.datettime ???
+                                  description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
     'special_room': fields.String(attribute='_special_room',
                                   description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
     'current_state': fields.Integer(attribute='_current_state',
@@ -300,7 +300,7 @@ class ProjectOperations(Resource):
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
-        #print(proposal)
+        print(proposal.get_preffered_bd())
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
