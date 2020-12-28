@@ -385,26 +385,26 @@ updatePerson(personBO){
   }
 
   
-  // /**
-  //  * Returns a Promise, which resolves to an Array of ProjectBOs
-  //  * 
-  //  * @param {Number} participation_id for which the the participations should be retrieved
-  //  * @public
-  //  */
-  // getGradingByParticipation(participation_id) {
-  //   console.log(participation_id)
-  //   // console.log("vor fetch in appapi")
-  //   return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
-  //     .then((responseJSON) => { 
-  //       console.log(responseJSON)
-  //       // console.log("gefetched")
-  //       let GradingBOs = GradingBO.fromJSON(responseJSON);
-  //       // console.log(projectBOs);
-  //       return new Promise(function (resolve) {
-  //         resolve(GradingBOs);
-  //       })
-  //     })
-  // }
+  /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} participation_id for which the the participations should be retrieved
+   * @public
+   */
+  getGradingByParticipation(participation_id) {
+    console.log(participation_id)
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
+      .then((responseJSON) => { 
+        console.log(responseJSON)
+        // console.log("gefetched")
+        let GradingBOs = GradingBO.fromJSON(responseJSON);
+        // console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(GradingBOs);
+        })
+      })
+  }
 
   getGrading(id) {
     // console.log(id)
