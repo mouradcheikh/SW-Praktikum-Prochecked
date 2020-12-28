@@ -13,33 +13,6 @@ import Divider from '@material-ui/core/Divider';
 import {AppApi} from '../../../AppApi';
 
 
-  /** Fetches all ProjectBOs with State-New from the backend */
-  const getProjectsByStateNew = () => {
-    // console.log("vor fetch")
-      var api = AppApi.getAPI()
-      api.getProjectsByStateNew() //evtl. Objekt von API vorher anlegen
-        .then(projectBOs =>
-          this.setLeft({               // Set new state when ProjectBOs have been fetched
-            left: projectBOs,
-            // filteredProjects: [...projectBOs], // store a copy
-            // loadingInProgress: false,   // disable loading indicator
-            // error: null
-          })).catch(e =>
-            this.setState({             // Reset state with error from catch
-              left: [],
-              // loadingInProgress: false, // disable loading indicator
-              // error: e
-            })
-          );
-  
-    //   // set loading to true
-    //   this.setState({
-    //     loadingInProgress: true,
-    //     error: null
-    //   });
-    };
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
@@ -113,6 +86,32 @@ export default function TransferList() {
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
   };
+
+    /** Fetches all ProjectBOs with State-New from the backend */
+  const getProjectsByStateNew = () => {
+    // console.log("vor fetch")
+      var api = AppApi.getAPI()
+      api.getProjectsByStateNew() //evtl. Objekt von API vorher anlegen
+        .then(projectBOs => {
+          setLeft(projectBOs)});          // Set new state when ProjectBOs have been fetched
+            
+            // filteredProjects: [...projectBOs], // store a copy
+            // loadingInProgress: false,   // disable loading indicator
+            // error: null
+          // })).catch(e =>
+          //   this.setState({             // Reset state with error from catch
+          //     left: [],
+          //     // loadingInProgress: false, // disable loading indicator
+          //     // error: e
+          //   })
+          // );
+  
+    //   // set loading to true
+    //   this.setState({
+    //     loadingInProgress: true,
+    //     error: null
+    //   });
+    };
 
   useEffect (() => getProjectsByStateNew());
   // const componentDidMount = () => {
