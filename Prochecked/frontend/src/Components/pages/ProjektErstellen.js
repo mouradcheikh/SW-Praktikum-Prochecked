@@ -250,7 +250,7 @@ function SemesterList(){
                 </div>
                 <div><TextField className={classes.formControl}
                     id="Inhalt"
-                    label="Inhalt(Kurzbeschreibung):"
+                    label="Inhalt (Kurzbeschreibung):"
                     multiline
                     rows={6} 
                     variant="outlined" 
@@ -260,7 +260,7 @@ function SemesterList(){
                 </div>
               <div>
               <FormControl component="fieldset" className={classes.formControl}>
-                  <FormLabel component="legend">Wöchentliche Termine</FormLabel>
+                  <FormLabel component="legend">wöchentliche Termine</FormLabel>
                   <RadioGroup aria-label="WT" name="WT" value={WT} onChange={handleWT}>
                     <FormControlLabel value="true" control={<Radio />} label="Ja" />
                     <FormControlLabel value="false" control={<Radio />} label="Nein" />
@@ -309,7 +309,7 @@ function SemesterList(){
                </div>
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
-                    label="Besonderer Raum (falls notwendig)"
+                    label="besonderer Raum (falls notwendig)"
                     variant="outlined" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}
