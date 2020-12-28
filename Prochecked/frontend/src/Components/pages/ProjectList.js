@@ -66,15 +66,6 @@ class ProjectList extends Component {
     });
   }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // console.log("gerendert")
-    let person = this.props.location.state.linkState
-    this.getProjectsByDozent(person.getID());
-   
-   
-  }
-
   /**
    * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
    * the ProjectListEntry of the given ProjectBO.
@@ -97,47 +88,6 @@ class ProjectList extends Component {
     });
   }
 
-  // /**
-  //  * Handles onProjectDeleted events from the ProjectListEntry component
-  //  *
-  //  * @param {project} ProjectBO of the ProjectListEntry to be deleted
-  //  */
-  // projectDeleted = project => {
-  //   const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
-  //   this.setState({
-  //     projects: newProjectList,
-  //     filteredProjects: [...newProjectList],
-  //     showProjectForm: false
-  //   });
-  // }
-
-  // /** Handles the onClick event of the add project button */
-  // addProjectButtonClicked = event => {
-  //   // Do not toggle the expanded state
-  //   event.stopPropagation();
-  //   //Show the CustmerForm
-  //   this.setState({
-  //     showProjectForm: true
-  //   });
-  // }
-
-  // /** Handles the onClose event of the ProjectForm */
-  // projectFormClosed = project => {
-  //   // project is not null and therefore created
-  //   if (project) {
-  //     const newProjectList = [...this.state.projects, project];
-  //     this.setState({
-  //       projects: newProjectList,
-  //       filteredProjects: [...newProjectList],
-  //       showProjectForm: false
-  //     });
-  //   } else {
-  //     this.setState({
-  //       showProjectForm: false
-  //     });
-  //   }
-  // }
-
   /** Handels onChange events of the project filter text field */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
@@ -158,6 +108,12 @@ class ProjectList extends Component {
       filteredProjects: [...this.state.projects],
       projectFilter: ''
     });
+  }
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log("gerendert")
+    let person = this.props.location.state.linkState
+    this.getProjectsByDozent(person.getID());
   }
 
   /** Renders the component */
@@ -190,12 +146,6 @@ class ProjectList extends Component {
               }}
             />
           </Grid>
-          {/* <Grid item xs />
-          <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
-              Add Project
-          </Button>
-          </Grid> */}
         </Grid>
         {
           // Show the list of ProjectListEntry components

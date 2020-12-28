@@ -12,8 +12,6 @@ import LoadingProgress from './LoadingProgress';
  * is called with the deleted PersonBO object as parameter. When the dialog is canceled, onClose is called with null.
  * 
  * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
 class PersonDeleteDialog extends Component {
 

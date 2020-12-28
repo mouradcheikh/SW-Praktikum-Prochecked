@@ -77,10 +77,6 @@ class App extends React.Component {
                 this.getPersonByGoogleId(person.uid)
                 this.ProfList()
               
-                //this.createPerson(person.displayName, person.email, person.uid)
-                
-
-
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -105,8 +101,6 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
-
-
 
     getPersons(){
         var api = AppAPI.getAPI()
@@ -231,7 +225,6 @@ class App extends React.Component {
         })
       }
         
-    
     componentDidMount() {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
@@ -240,46 +233,10 @@ class App extends React.Component {
         
         };
     
-
     	/** Renders the whole app */
 	render() {
         const { person, appError, authError, authLoading } = this.state;
         
-        // let page
-        // let berechtigung = person.getBerechtigung()
-        // if (berechtigung === 1){
-        //     page = <> 
-        //             <Redirect from='/' to='StudentenView' />
-        //             <Route exact path='/StudentenView'>
-        //             <StudentenView/>
-        //             </Route>
-        //             </>
-        // }
-        // else if (berechtigung === 2){
-        //     page = <>	
-        //             <Redirect from='/' to='DozentView' />
-        //             <Route exact path='/DozentView'>
-        //             <DozentView/>
-        //             </Route> 
-        //             </>
-        // }
-        // else if (berechtigung === 3){
-        //     page = <>	
-        //             <Redirect from='/' to='AdminView' />
-        //             <Route exact path='/AdminView'>
-        //             <AdminView/>
-        //             </Route>
-        //            </>
-        // }
-        // else {
-        //     page = <>
-        //             <Redirect from='/' to='UserView' />
-        //             <Route exact path='/UserView'>
-        //             <UserView setRole={this.setRole}/>
-        //             </Route>
-        //             </>;
-        // }
-
 		return (
 			<ThemeProvider theme={Theme}>
 				<CssBaseline />
@@ -313,55 +270,3 @@ class App extends React.Component {
 
 
 export default App;
-
-// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
-
-
-
-// UserAbfrage(person) {
-//     const userType = person.getBerechtigung();
-//     console.log("UseerAbfrage")
-//     return (
-
-//     <div>
-//             {(() => {
-
-//             if (userType === 1) {
-//                 console.log("StudentenAbfrage")
-//             return (
-//                 <>	<Redirect from='/' to='StudentenView' />
-//                     <Route exact path='/StudentenView'>
-//                     <StudentenView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 2) {
-//             return (
-//                 <>	<Redirect from='/' to='DozentView' />
-//                     <Route exact path='/DozentView'>
-//                     <DozentView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 3) {
-//                 return (
-//                 <>	<Redirect from='/' to='AdminView' />
-//                     <Route exact path='/AdminView'>
-//                     <AdminView/>
-//                     </Route>
-//                 </>
-//                 )
-//             } else {
-//                 return (
-//                 <>
-//                     <Redirect from='/' to='UserView' />
-//                     <Route exact path='/UserView'>
-//                         <UserView setRole={this.setRole}/>
-//                     </Route>
-//                 </>
-//             )
-//             }
-//         })()}
-//     <div/>
-// );
-// }

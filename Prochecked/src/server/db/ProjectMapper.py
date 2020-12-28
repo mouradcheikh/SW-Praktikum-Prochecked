@@ -160,32 +160,7 @@ class ProjectMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-    
-    # def find_by_dozent_id(self, person_id):
-    #     """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
-
-    #     :param person_id Schlüssel des zugehörigen Dozenten.
-    #     :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
-    #             betreffenden Dozenten repräsentieren.
-    #     """
-    #     result = []
-    #     cursor = self._cnx.cursor()
-    #     command = "SELECT id, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
-    #     cursor.execute(command)
-    #     tuples = cursor.fetchall()
-
-    #     for (id, person_id) in tuples:
-    #         p = Project()
-    #         p.set_id(id)
-    #         p.set_dozent_id(person_id)
-    #         result.append(p)
-    #     #hier fehlen warscheinlich noch die anderen attribute
-    #     self._cnx.commit()
-    #     cursor.close()
-
-    #     return result
-
-        
+           
     def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -251,45 +226,8 @@ class ProjectMapper(Mapper):
         cursor.close()
 
 
-# if __name__ == "__main__":
-
-#       with ProjectMapper() as mapper:
-#         result = mapper.find_by_dozent_id(2)
-#         for p in result:
-#             print(p.get_id(), p.get_dozent())
-
-    #   with ProjectMapper() as mapper:
-    #     result = mapper.find_by_dozent_id(2)
-    #     for p in result:
-    #         print(p.get_id(), p.get_name(), p.get_dozent_id())
-
-'''if (__name__ == "__main__"):
-    project = Project()
-    project.set_name("SE")
-    project.set_capacity(123)
-    project.set_id(1)
-    project.set_dozent(12)
-    project.set_state(13)
-    project.set_project_type(1)
-    project.set_semester(2)'''
-
 if __name__ == "__main__":
 
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_by_dozent_id(1)
-    #     for p in result:
-    #         print(p.get_id(), p.get_name(), p.get_dozent())
-
-    '''with ProjectMapper() as mapper:
-        result = mapper.insert(project)'''
-
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_by_id(2)
-    #     print(result)
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_all()
-    #     for p in result:
-    #         print(p)
 
     with ProjectMapper() as mapper:
         result = mapper.find_project_by_project_state_id(3)

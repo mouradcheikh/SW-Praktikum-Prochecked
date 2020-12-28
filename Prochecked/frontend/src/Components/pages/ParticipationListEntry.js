@@ -1,7 +1,3 @@
-//getParticipationByProject()
-
-//getPersonByParticipation()
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
@@ -13,11 +9,6 @@ import { AppApi } from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
-// import {ic_compare_arrows} from 'react-icons-kit/md/ic_compare_arrows'
-// import MoneyTransferDialog from './dialogs/MoneyTransferDialog'; Noten Dialog 
-
-
-
 
 /**
  * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links participations 
@@ -52,32 +43,11 @@ class ParticipationListEntry extends Component {
       deletingError: null,
       grade: '',
       showParticipationForm: false,
-      // showMoneyTransferDialog: false,
-    }
-  }
-
-
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // load initial balance
-    // debugger;
-    this.getGrading();
-    // console.log("nach aufruf von Grading")
-    this.getStudent();
-    
-  }
-
-  /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    if ((this.props.show) && (this.props.show !== prevProps.show)) {
-      this.getStudent();
-      this.getGrading();
     }
   }
 
   /** gets the students for this participation */
 
-  
   getStudent = () => {
     let stud = this.props.participation.student_id
     if (stud !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
@@ -129,40 +99,6 @@ class ParticipationListEntry extends Component {
     });
   }
 
-   /** Handles the onClick event of the edit participation button */
-   editParticipationButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showParticipationForm: true
-    });
-  }
-
-  /** Handles the onClose event of the ParticipationForm */
-  participationFormClosed = (participation) => {
-    // participation is not null and therefor changed
-    if (participation) {
-      this.setState({
-        participation: participation,
-        showParticipationForm: false
-      });
-    } else {
-      this.setState({
-        showParticipationForm: false
-      });
-    }
-  }
-
-
-  /** Handles click events from the transfer money button */
-  handleSubmit = e => {
-    e.preventDefault();
-    this.setState({ grade:
-      this.textInput.current.value})
-      // console.log(this.textInput.current.value)
-      this.createGrading(this.textInput.current.value, this.props.participation.getID())
-      this.getGrading()
-    }
-
   createGrading(grade, participation_id){
     var api = AppApi.getAPI()
     // console.log(api)
@@ -175,33 +111,6 @@ class ParticipationListEntry extends Component {
         )
       }
   
-  
-//     getGrading = () => {
-//     let grade = this.props.participation.grading_id
-//     if (grade !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
-//       var api = AppApi.getAPI()
-//       console.log(this.props.participation)
-//       api.getGradingByParticipation(this.props.participation.id).then(grade => 
-//       this.setState({
-//         grade: grade,
-//         loadingInProgress: false, // loading indicator 
-//         loadingError: null
-//       })).catch(e =>
-//         this.setState({ // Reset state with error from catch 
-//           grade: null,
-//           loadingInProgress: false,
-//           loadingError: e
-//         })
-//       );  
-//     // set loading to true
-//     this.setState({
-//       sut: 'loading',//????????
-//       loadingInProgress: true,
-//       loadingError: null
-//     });
-//     }
-// }
-
 getGrading = () => {
   let grade = this.props.participation.grading_id
   // console.log(grade)
@@ -241,21 +150,57 @@ getGrading = () => {
         }
       // }
     }
+
+   /** Handles the onClick event of the edit participation button */
+   editParticipationButtonClicked = (event) => {
+    event.stopPropagation();
+    this.setState({
+      showParticipationForm: true
+    });
+  }
+
+  /** Handles the onClose event of the ParticipationForm */
+  participationFormClosed = (participation) => {
+    // participation is not null and therefor changed
+    if (participation) {
+      this.setState({
+        participation: participation,
+        showParticipationForm: false
+      });
+    } else {
+      this.setState({
+        showParticipationForm: false
+      });
+    }
+  }
+
+  /** Handles click events from the transfer money button */
+  handleSubmit = e => {
+    e.preventDefault();
+    this.setState({ grade:
+      this.textInput.current.value})
+      // console.log(this.textInput.current.value)
+      this.createGrading(this.textInput.current.value, this.props.participation.getID())
+      this.getGrading()
+    }
      
-    
-
-  // /** Handles the onClose event from the transfer money dialog */
-  // moneyTransferDialogClosed = (transaction) => {
-  //   this.setState({
-  //     showMoneyTransferDialog: false
-  //   });
-  //   if (transaction) {
-  //     // Transaction is not null and therefore was performed
-  //     this.getBalance();
-  //   }
-  // }
-
-
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // load initial balance
+    // debugger;
+    this.getGrading();
+    // console.log("nach aufruf von Grading")
+    this.getStudent();
+      
+    }
+  
+  /** Lifecycle method, which is called when the component was updated */
+  componentDidUpdate(prevProps) {
+    if ((this.props.show) && (this.props.show !== prevProps.show)) {
+      this.getStudent();
+      this.getGrading();
+      }
+    }
 
   /** Renders the component */
   render() {
@@ -313,12 +258,11 @@ getGrading = () => {
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading} />
-          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} />
-        {/* <MoneyTransferDialog show={showMoneyTransferDialog} project={project} participation={participation} onClose={this.moneyTransferDialogClosed} /> */}
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed}/>
       </div>
     );
   }

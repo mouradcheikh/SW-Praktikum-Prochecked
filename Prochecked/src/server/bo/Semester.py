@@ -9,7 +9,6 @@ class Semester(NamedBusinessObjects):
         super().__init__()
         self.teilleistung = []
 
-
     def __str__(self, ):
         pass
 

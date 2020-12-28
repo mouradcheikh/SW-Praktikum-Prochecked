@@ -12,12 +12,9 @@ class Project(NamedBusinessObjects, Automat):
     interdisziplinaer = ProjectType("Interdisziplinäres Projekt",5, 10)
     fachspezifisch = ProjectType("Fachspezifisches Projekt",3, 5)
 
-
-
     def __init__(self):
         super().__init__()
         
-        #mpssen hier glaub einige  variablen rausnehmen - denke nicht dass wir die alle brauchen
         self._capacity = None
         self._room = None
         self._ext_partner_list = None
@@ -35,18 +32,6 @@ class Project(NamedBusinessObjects, Automat):
         self._project_type = None
         self._project_state = None
 
-
-
-        
-    # def get_dozent_id(self):
-    #     return self._dozent
-
-    # def set_dozent_id(self, person_id):
-    #     self._dozent = person_id
-
-    #def set_projecttype(self, projecttype):
-        #self._projecttype = projecttype
-
     def set_project_type(self, project_type):
         self._project_type = project_type
 
@@ -58,8 +43,6 @@ class Project(NamedBusinessObjects, Automat):
 
     def get_project_state(self):
         return self._project_state
-
-
 
     def set_capacity(self, capacity):
         self._capacity = capacity
@@ -73,20 +56,17 @@ class Project(NamedBusinessObjects, Automat):
     def get_room(self):
         return self._room
 
-
     def set_ext_partner_list(self, ext_partner_list):
         self._ext_partner_list = ext_partner_list
 
     def get_ext_partner_list(self):
         return self._ext_partner_list
 
-
     def set_short_description(self, short_description):
         self._short_description = short_description
         
     def get_short_description(self):
         return self._short_description
-
 
     def set_weekly_flag(self, weekly_flag):
         self._weekly_flag = weekly_flag
@@ -99,7 +79,6 @@ class Project(NamedBusinessObjects, Automat):
    
     def get_number_bd_b_lecturetime(self):
         return self._number_bd_b_lecturetime
-
 
     def set_number_bd_examtime(self, number_bd_examtime):
         self._number_bd_examtime = number_bd_examtime
@@ -118,17 +97,12 @@ class Project(NamedBusinessObjects, Automat):
     def get_preffered_bd(self):
         return self._preffered_bd
 
-
     def set_special_room(self, special_room):
         self._special_room = special_room
 
     def get_special_room(self):
         return self._special_room
-
-    
-    # def set_dozent(self, dozent): //obere ist richtig ?!
-    #     self._dozent = dozent
-    
+ 
     def set_dozent(self, dozent):
         if self._dozent[0] == None:
             self._dozent[0]= dozent
@@ -136,11 +110,6 @@ class Project(NamedBusinessObjects, Automat):
 
     def get_dozent(self):
         return self._dozent
-
-    # def set_dozent(self, dozent): //obere ist richtig ?!
-    #     self._dozent = dozent
-
-
 
     def set_semester(self, semester):
         self._semester = semester
@@ -171,7 +140,6 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_dozent(dictionary["dozent"])
         obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
         obj.set_state(dictionary["current_state"])
-        #benötigen wir hier alle Attribute ? JA
 
 if __name__ == "__main__":
 

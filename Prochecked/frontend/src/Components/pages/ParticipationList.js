@@ -56,20 +56,6 @@ class ParticipationList extends Component {
       });
     }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // console.log(this.props.participation.getStudent_id)
-    this.getParticipationsByProject(); //props richtig ??
-  }
-
-  /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
-    if ((this.props.show !== prevProps.show)) { 
-      this.getParticipationsByProject();
-    }
-  }
-
   /** Adds an participation for the current customer */
   addParticipation = () => {
     AppApi.getAPI().addParticipationForProject(this.props.project.getID()).then(participationBO => {
@@ -101,6 +87,20 @@ class ParticipationList extends Component {
       participations: this.state.participations.filter(participation => participation.getID() !== deletedParticipation.getID())
     })
   }
+
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log(this.props.participation.getStudent_id)
+    this.getParticipationsByProject(); //props richtig ??
+    }
+  
+  /** Lifecycle method, which is called when the component was updated */
+  componentDidUpdate(prevProps) {
+    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
+    if ((this.props.show !== prevProps.show)) { 
+      this.getParticipationsByProject();
+      }
+    }
 
   /** Renders the component */
   render() {
@@ -138,11 +138,6 @@ const styles = theme => ({
   participationList: {
     marginBottom: theme.spacing(2),
   },
-//   addParticipationButton: {
-//     position: 'absolute',
-//     right: theme.spacing(3),
-//     bottom: theme.spacing(1),
-//   }
 });
 
 /** PropTypes */

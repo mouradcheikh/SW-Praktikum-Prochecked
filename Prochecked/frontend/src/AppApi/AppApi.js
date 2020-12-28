@@ -13,12 +13,9 @@ export default class AppAPI {
     // Singelton instance
     static #api = null;
   
-  
     // Local Python backend
     #AppServerBaseURL ='/app';
     
-
-
   // Local http-fake-backend 
     // #AppServerBaseURL = '/AppApi/app';
     
@@ -31,27 +28,21 @@ export default class AppAPI {
     #searchPersonURL = (name) => `${this.#AppServerBaseURL}/person-by-name/${name}`;
     #getProfsURL = (id) => `${this.#AppServerBaseURL}/person-by-role/${id}`;
 
-
-
     // Student related
-
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
-    #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; //leer lasen???
-
-   
+    #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
 
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
-    #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;//leer lassen???!oder mitParticipationBO
+    #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
-    #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
+    // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
 
     //Grading related 
-
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
@@ -82,7 +73,6 @@ export default class AppAPI {
       return res.json();
     }
     )
-
 
 //Person related
 getPersons() {
@@ -132,8 +122,6 @@ getPersonByGoogleId(google_id) {
         })
       }
 
-      
-
 createPerson(name, email, google_id) {
 
         let p = new PersonBO();
@@ -159,9 +147,7 @@ createPerson(name, email, google_id) {
         })
       }
     
-
 updatePerson(personBO){
-  // personBO.setGoogleId("fiwhoafi") //nur zum Test, muss weg!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // console.log(personBO.getGoogleId())
   
   return this.#fetchAdvanced(this.#updatePersonURL(personBO.getGoogleId()), {
@@ -183,8 +169,40 @@ updatePerson(personBO){
   })
 }
 
+getPersonByRole(role_id){
+  return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
+    // We always get an array of PersonBOs.fromJSON, but only need one object
+    let responseDozentBOs = PersonBO.fromJSON(responseJSON);
+    // console.info(responseDozentBOs);
+    return new Promise(function (resolve) {
+      resolve(responseDozentBOs);
+    })
+  })
+}
 
+//Student related
+getStudent(id) {
+  return this.#fetchAdvanced(this.#getStudentURL(id))
+  .then((responseJSON) => {
+    // We always get an array of PersonBOs.fromJSON, but only need one object
+    let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+    // console.log(responseStudentBO);
+    return new Promise(function (resolve) {
+      resolve(responseStudentBO);
+    })
+  })
+}
 
+getStudentByMatrikelNummer(matr_nr) {
+  return this.#fetchAdvanced(this.#getStudentByMatrikelNummerURL(matr_nr)).then((responseJSON) => { //URL LEER LASSEN????
+    // We always get an array of StudentBOs.fromJSON, but only need one object
+    let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+    console.info(responseStudentBO);
+    return new Promise(function (resolve) {
+      resolve(responseStudentBO);
+    })
+  })
+}
 
 //Participation related
 
@@ -205,7 +223,6 @@ updatePerson(personBO){
         })
       })
   }
-
 
   /**
    * Returns a Promise, which resolves to an ParticipationBOs
@@ -228,7 +245,6 @@ updatePerson(personBO){
       })
   }
   
-
   /**
    * Deletes the given participation and returns a Promise, which resolves to an ParticipationBO
    * 
@@ -251,7 +267,7 @@ updatePerson(personBO){
 
   updateParticipation(participationBo){
     // console.log(participationBo)
-    return this.#fetchAdvanced(this.#updateParticipationURL(), { //URL LEER LASSEN ???! oder ParticipationBO?? 
+    return this.#fetchAdvanced(this.#updateParticipationURL(), { 
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain',
@@ -266,7 +282,26 @@ updatePerson(personBO){
       })
     })
   }
-
+    // /**
+  //  * Returns a Promise, which resolves to an Array of ProjectBOs
+  //  * 
+  //  * @param {Number} participation_id for which the the participations should be retrieved
+  //  * @public
+  //  */
+  // getGradingByParticipation(participation_id) {
+  //   console.log(participation_id)
+  //   // console.log("vor fetch in appapi")
+  //   return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
+  //     .then((responseJSON) => { 
+  //       console.log(responseJSON)
+  //       // console.log("gefetched")
+  //       let GradingBOs = GradingBO.fromJSON(responseJSON);
+  //       // console.log(projectBOs);
+  //       return new Promise(function (resolve) {
+  //         resolve(GradingBOs);
+  //       })
+  //     })
+  // }
 
 //Project related
   /**
@@ -290,64 +325,22 @@ updatePerson(personBO){
       })
   }
 
-    getProjectsByStateNew(project_id) {
-    // console.log(person_id)
-    // console.log("vor fetch in appapi")
-    return this.#fetchAdvanced(this.#getProjectsByStateNewURL(project_id))
-      .then((responseJSON) => {
-        // console.log(responseJSON)
-        // console.log("gefetched")
-        let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.log(projectBOs);
-        return new Promise(function (resolve) {
-          resolve(projectBOs);
-        })
-      })
-  }
-
-
-  //Student Relation
-  getStudent(id) {
-    return this.#fetchAdvanced(this.#getStudentURL(id))
-    .then((responseJSON) => {
-      // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      // console.log(responseStudentBO);
-      return new Promise(function (resolve) {
-        resolve(responseStudentBO);
-      })
-    })
-  }
-
-
-  getStudentByMatrikelNummer(matr_nr) {
-    return this.#fetchAdvanced(this.#getStudentByMatrikelNummerURL(matr_nr)).then((responseJSON) => { //URL LEER LASSEN????
-      // We always get an array of StudentBOs.fromJSON, but only need one object
-      let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      console.info(responseStudentBO);
-      return new Promise(function (resolve) {
-        resolve(responseStudentBO);
-      })
-    })
-  }
-
-  getPersonByRole(role_id){
-    return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
-      // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      // console.info(responseDozentBOs);
-      return new Promise(function (resolve) {
-        resolve(responseDozentBOs);
-      })
-    })
-  }
-
-
-
+  //   getProjectsByStateNew(project_id) {
+  //   // console.log(person_id)
+  //   // console.log("vor fetch in appapi")
+  //   return this.#fetchAdvanced(this.#getProjectsByStateNewURL(project_id))
+  //     .then((responseJSON) => {
+  //       // console.log(responseJSON)
+  //       // console.log("gefetched")
+  //       let projectBOs = ProjectBO.fromJSON(responseJSON);
+  //       // console.log(projectBOs);
+  //       return new Promise(function (resolve) {
+  //         resolve(projectBOs);
+  //       })
+  //     })
+  // }
 
 //Grading Related 
-
-
   gradingStudent(grade, participation_id) {
 
     let g = new GradingBO();
@@ -372,29 +365,6 @@ updatePerson(personBO){
     })
   }
 
-
-  
-  // /**
-  //  * Returns a Promise, which resolves to an Array of ProjectBOs
-  //  * 
-  //  * @param {Number} participation_id for which the the participations should be retrieved
-  //  * @public
-  //  */
-  // getGradingByParticipation(participation_id) {
-  //   console.log(participation_id)
-  //   // console.log("vor fetch in appapi")
-  //   return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
-  //     .then((responseJSON) => { 
-  //       console.log(responseJSON)
-  //       // console.log("gefetched")
-  //       let GradingBOs = GradingBO.fromJSON(responseJSON);
-  //       // console.log(projectBOs);
-  //       return new Promise(function (resolve) {
-  //         resolve(GradingBOs);
-  //       })
-  //     })
-  // }
-
   getGrading(id) {
     // console.log(id)
     return this.#fetchAdvanced(this.#getGradingURL(id))
@@ -409,6 +379,15 @@ updatePerson(personBO){
   }
 
 
+
+
+
+
+
+
+
+
+  
 
 
 

@@ -10,8 +10,6 @@ class Student(Person):
         self._studiengang = ""
         self._matr_nr = 0
         self._person = 0
-        # self.__Registrierung = []
-        # self.__Beteiligter = None
 
     def set_matr_nr(self, matr_nr):
         self._matr_nr = matr_nr
@@ -34,7 +32,6 @@ class Student(Person):
     def __str__(self):
         return "Student: {}, {}, {} ".format(self.get_name(),self.get_matr_nr(),self.get_studiengang())
         
-
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Person()-Objekt."""
@@ -65,9 +62,7 @@ class Student(Person):
             student.set_person(person_id)
             result.append(student)
         return result
-        # PROBLEM: Datenbank
-
-
+        
 if __name__ == "__main__":
 
     s1 = Student()
