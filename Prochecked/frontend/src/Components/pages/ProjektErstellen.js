@@ -46,7 +46,7 @@ function ProjektFormular(props) {
   const [extKoop, setextKoop] = React.useState('');
   const [Semester, setSemester] = React.useState('');
   const [Semesters, setSemesters] = React.useState(['']);
-  const [BT, setBT] = React.useState('');
+  const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
 
   const history = useHistory()
