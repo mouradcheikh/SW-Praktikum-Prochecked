@@ -123,10 +123,6 @@ class ParticipationListEntry extends Component {
       })
     );
 
-    handleChange(event) {
-      const value = event.target.value.replace(/\+|-/ig, '');
-      this.setState({financialGoal: value});
-    }
 
     // set loading to true
     this.setState({
