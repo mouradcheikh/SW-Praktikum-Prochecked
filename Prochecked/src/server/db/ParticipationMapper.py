@@ -107,6 +107,34 @@ class ParticipationMapper(Mapper):
 
         return result
 
+
+    def find_by_student_id(self, student_id):
+        """Auslesen aller Teilnahmen eines durch Fremdschlüssel (student_id) gegebenen Projekts.
+
+        :param project_id Schlüssel des zugehörigen Studenten.
+        :return Eine Sammlung mit Teilnahme-Objekten, die sämtliche teilnahmen des
+                betreffenden Studentenn repräsentieren.
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, grading_id, module_id, project_id, student_id FROM participation WHERE student_id={} ORDER BY project_id".format(student_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, grading_id, module_id, project_id, student_id) in tuples:
+            p = Participation()
+            p.set_id(id)
+            p.set_grading(grading_id)
+            p.set_module(module_id)
+            p.set_project(project_id)
+            p.set_student(student_id)
+            result.append(p)
+        
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
     def update(self, participation):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 
@@ -189,21 +217,26 @@ if (__name__ == "__main__"):
     #     mapper.delete_participation(4)
 
     with ParticipationMapper() as mapper:
-        result = mapper.find_all()
+        result = mapper.find_by_student_id(1)
         for p in result:
             print(p)
-        p = Participation()
-        p.set_id(1)
-        p.set_creation_date("12.12.2020")
-        p.set_grading(2)
-        p.set_module(5)
-        p.set_project(1)
-        p.set_student(5)
 
-        with ParticipationMapper() as mapper:
-            result = mapper.insert(p)
-            #result = mapper.find_by_id(4)
-            print(result)
+    # with ParticipationMapper() as mapper:
+    #     result = mapper.find_all()
+    #     for p in result:
+    #         print(p)
+    #     p = Participation()
+    #     p.set_id(1)
+    #     p.set_creation_date("12.12.2020")
+    #     p.set_grading(2)
+    #     p.set_module(5)
+    #     p.set_project(1)
+    #     p.set_student(5)
+
+    #     with ParticipationMapper() as mapper:
+    #         result = mapper.insert(p)
+    #         #result = mapper.find_by_id(4)
+    #         print(result)
 
 
 

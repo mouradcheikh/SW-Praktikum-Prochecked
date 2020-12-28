@@ -14,6 +14,7 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
+
 from .db.RoleMapper import RoleMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
@@ -203,6 +204,23 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
 
+
+    def get_projects_by_student(self, matr_nr):
+        adm = ProjectAdministration()
+        student = adm.get_student_by_matr_nr(matr_nr)
+        student_id = student.get_id()
+        participations = adm.get_participations_by_student_id(student_id)
+
+        project_list = []
+
+        for p in participations:
+            project_id = p.get_project()
+            project = adm.get_project_by_id(project_id)
+            project_list.append(project)
+         
+        return project_list
+            
+
     def get_projects_by_State_New(self, project_state_id):
         """Alle Projects mit dem Status Neu auslesen."""
 
@@ -229,9 +247,6 @@ class ProjectAdministration (object):
         pass
 
     def get_projects_by_person(self, person):
-        pass
-
-    def get_projects_by_student(self, student):
         pass
 
     def delete_project(self, project):
@@ -330,6 +345,10 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.find_by_id(id)
 
+    def get_participations_by_student_id(self, student_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_student_id(student_id)
+
     def delete_participation(self, participation):
         """Eine Participation löschen"""
         with ParticipationMapper() as mapper:
@@ -383,7 +402,10 @@ if __name__ == '__main__':
 
 
 
-    # adm = ProjectAdministration()
+    adm = ProjectAdministration()
+    projects = adm.get_projects_by_student(12345)
+    for p in projects:
+        print(p)
 
     # p = adm.create_grading(2, 1)
     # print(p)

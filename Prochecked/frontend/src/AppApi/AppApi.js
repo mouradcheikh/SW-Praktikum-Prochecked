@@ -42,6 +42,7 @@ export default class AppAPI {
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
+    #getProjectsByStudentURL = (person_id) => `${this.#AppServerBaseURL}/students/${person_id}/projects`;
     // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
 
     //Grading related 
@@ -466,6 +467,19 @@ getStudentByMatrikelNummer(matr_nr) {
         resolve(responseGradingBO);
       })
     })
+  }
+
+  getProjectsByStudent(matr_nr){
+    return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
+      .then((responseJSON) => {
+        console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
   }
 
 

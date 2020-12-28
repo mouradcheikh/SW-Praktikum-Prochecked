@@ -302,6 +302,24 @@ class ProjectsByDozentOperation(Resource):
 
         return project_list
 
+
+@prochecked.route('/students/<int:matr_nr>/projects')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('matr_nr', 'Die Personen ID des Student-Objekts')
+class ProjectsByStudentOperation(Resource):
+    @prochecked.marshal_list_with(project)  #evtl. list rausnehemn ?!?!
+    @secured
+    def get(self, matr_nr):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_student(matr_nr)
+
+        return project_list
+
+
 @prochecked.route('/state/<int:project_state_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('person_id', 'Die ID des Dozent-Objekts')

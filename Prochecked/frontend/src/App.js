@@ -22,6 +22,8 @@ import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
+
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -245,6 +247,7 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>

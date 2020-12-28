@@ -109,6 +109,10 @@ export default class ProjectBO extends BusinessObject {
         this.semester = semester
     }
 
+    getSemester(){
+        return this.semester
+    }
+
     setprefferedbd(bd){
         this.preffered_bd = bd
     }
