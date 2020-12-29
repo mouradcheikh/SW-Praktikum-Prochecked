@@ -43,7 +43,7 @@ class ProjectListNew extends Component {
     // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByStateNew() //evtl. Objekt von API vorher anlegen
-        .then(projectBOs => 
+        .then(projectBOs =>
           this.setState({
           projects: projectBOs,
           filteredProjects: [...projectBOs], // store a copy

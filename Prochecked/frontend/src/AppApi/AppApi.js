@@ -336,7 +336,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.log(projectBOs);
+        console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })

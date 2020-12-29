@@ -29,6 +29,35 @@ class ProjectListEntryNew extends Component {
     };
   }
 
+  updateProject = (new_state) => {
+    // clone the original cutomer, in case the backend call fails
+    let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+    // set the new attributes from our dialog
+    updatedProject.setState(new_state);
+   
+    AppApi.getAPI().updateProject(updatedProject).then(project => {
+      this.setState({
+        // project: project,
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.project = this.state.project;
+      this.props.onClose(updatedProject);      // call the parent with the new project
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
+    });
+  }
+
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
 //     this.props.onExpandedStateChange(this.props.project);
@@ -42,6 +71,9 @@ class ProjectListEntryNew extends Component {
 //     })
 //   }
 
+/** Handles click events from the transfer money button */
+
+
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
@@ -53,34 +85,44 @@ class ProjectListEntryNew extends Component {
  
       <div>
 
-        <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
-        <List>
-            <ListItem>
+        {/* <Grid container spacing={1} justify='flex-start' alignItems='center'>
+              <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
-            </ListItem>
-        </List>
-        </Grid>
-        {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+              </Grid>
+             
+        </Grid> */}
+
+
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            // expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
           >
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()}
+                <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+                  <Button className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={this.updateProject(3)}>
+                  Freigeben
+                  </Button>
+                  <Button className={classes.buttonAblehnen} variant='outlined' color='primary' size='small'  onClick={this.updateProject(2)}>
+                  Ablehnen
+                  </Button>
+                </Typography>
+                <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
               </Grid>
-              <Grid item xs />
+              {/* <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
           </AccordionSummary>
          <AccordionDetails>
-            <ParticipationList show={expandedState} project={project} /> 
+            {/* <ParticipationList show={expandedState} project={project} />  */}
+            
           </AccordionDetails>
-        </Accordion>  */}
+        </Accordion> 
       </div>
     );
   }
@@ -90,7 +132,7 @@ class ProjectListEntryNew extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
-  }
+  },
 });
 
 /** PropTypes */
