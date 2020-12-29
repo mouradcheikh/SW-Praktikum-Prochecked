@@ -11,6 +11,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import {AppApi} from '../../../AppApi';
+import ProjectBO from '../../../AppApi';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -137,8 +139,8 @@ export default function TransferList() {
       />
       <Divider />
       <List className={classes.list} dense component="div" role="list">
-        {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value}-label`;
+        {items.map((value) => { console.log(items, value.name)
+          const labelId = `transfer-list-all-item-${value.name}-label`;
 
           return (
             <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
@@ -151,6 +153,8 @@ export default function TransferList() {
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              {/* <ListItemText projectName={value.name} id={labelId} primary={`List item ${value + 1}`} /> */}
+              
             </ListItem>
           );
         })}

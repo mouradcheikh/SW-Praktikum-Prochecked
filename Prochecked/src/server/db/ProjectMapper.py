@@ -202,21 +202,23 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_project_by_project_state_id(self,project_state_id):
+    def find_project_by_project_state_id(self, project_state_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (ProjectStateID) gegebenen Projekte.
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
+        command = "SELECT id, name, short_description, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id, project_state) in tuples:
+        for (id, name, short_description, person_id, project_state_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
+            p.set_short_description(short_description)
             p.set_dozent(person_id)
-            p.set_project_state(project_state)
+            p.set_project_state(project_state_id)
+
             result.append(p)
 
                
@@ -243,5 +245,6 @@ if __name__ == "__main__":
 
 
     with ProjectMapper() as mapper:
-        result = mapper.find_project_by_project_state_id(3)
-        print(result)
+        result = mapper.find_project_by_project_state_id(1)
+        for p in result:
+            print(p.get_short_description())
