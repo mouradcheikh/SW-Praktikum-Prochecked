@@ -135,6 +135,33 @@ class ParticipationMapper(Mapper):
 
         return result
 
+    def find_by_student_id_and_project_id(self, student_id, project_id):
+        """Auslesen einer Teilnahme durch Fremdschlüssel (student_id und project_id) 
+
+        :param project_id Schlüssel des zugehörigen Studenten.
+        :return Teilnahme-Objekt
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        command = "SELECT id, grading_id, module_id, project_id, student_id FROM participation WHERE student_id={} and project_id={} ORDER BY project_id".format(student_id, project_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, grading_id, module_id, project_id, student_id) in tuples:
+            p = Participation()
+            p.set_id(id)
+            p.set_grading(grading_id)
+            p.set_module(module_id)
+            p.set_project(project_id)
+            p.set_student(student_id)
+            result.append(p)
+        
+        self._cnx.commit()
+        cursor.close()
+
+        return result[0]
+    
+
     def update(self, participation):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 

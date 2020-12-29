@@ -3,6 +3,7 @@ import StudentBO from './StudentBO';
 import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
+import SemesterBO from './SemesterBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -49,6 +50,7 @@ export default class AppAPI {
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
+    #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
 
       /** 
    * Get the Singelton instance 
@@ -425,11 +427,11 @@ getStudentByMatrikelNummer(matr_nr) {
 
   getSemesters(){
     return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
-      // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      console.info(responseDozentBOs);
+      // We always get an array of SemBOs.fromJSON, but only need one object
+      let responseSemBOs = SemesterBO.fromJSON(responseJSON);
+      console.info(responseSemBOs);
       return new Promise(function (resolve) {
-        resolve(responseDozentBOs);
+        resolve(responseSemBOs);
       })
     })
   }
@@ -469,13 +471,25 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  getGradingByProjectandMatr(project_id, matr_nr){
+    return this.#fetchAdvanced(this.#getGradingbyProjectAndMatrURL(project_id, matr_nr))
+    .then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+      // console.log(responseGradingBO);
+      return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
   getProjectsByStudent(matr_nr){
     return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
       .then((responseJSON) => {
         console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.log(projectBOs);
+        console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })

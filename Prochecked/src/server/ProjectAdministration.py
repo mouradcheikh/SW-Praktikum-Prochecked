@@ -295,6 +295,15 @@ class ProjectAdministration (object):
         with GradingMapper() as mapper:
             return mapper.find_by_participation_id(participation_id) 
 
+    def get_grading_by_project_id_and_matr_nr(self, project_id, matr_nr):
+        adm = ProjectAdministration()
+        student = adm.get_student_by_matr_nr(matr_nr)
+        student_id = student.get_id()
+        participation = adm.get_participation_by_student_id_and_project_id(student_id, project_id)
+        participation_id = participation.get_id()
+        grading = adm.get_grading_by_participation_id(participation_id)
+        return grading
+
     def get_grading_by_id(self, id):
         with GradingMapper() as mapper:
             gra = mapper.find_by_id(id)
@@ -348,6 +357,10 @@ class ProjectAdministration (object):
     def get_participations_by_student_id(self, student_id):
         with ParticipationMapper() as mapper:
             return mapper.find_by_student_id(student_id)
+
+    def get_participation_by_student_id_and_project_id(self, student_id, project_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_student_id_and_project_id(student_id, project_id)
 
     def delete_participation(self, participation):
         """Eine Participation löschen"""

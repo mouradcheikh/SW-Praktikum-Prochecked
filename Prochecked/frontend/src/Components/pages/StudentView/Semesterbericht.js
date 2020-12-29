@@ -108,38 +108,52 @@ class Semesterbericht extends Component {
 //   }
 
 
-  semesterList(){
+  semesterList = () => {
     var api = AppAPI.getAPI()
     api.getSemesters().then((semesters) =>
-    {console.log(semesters)
+    
     this.setState({
         semesters : semesters
-    })})
+    })
+  )
   }
 
-  handleSemFilter(event){
+  handleSemFilter = (event) => {
+      console.log(event.target.value)
+      if (event.target.value === "all"){
+        this.setState({
+          semester : "all",
+          filteredProjects : this.state.projects,
+        })
+      }
+      else{
       this.setState({
         semester : event.target.value
-      })
+      }, () => {this.updateFilteredSemesters()})
+    }
+  }
+
+  updateFilteredSemesters = () => {
       let semester = this.state.semester
       let semester_id = semester.id
       let filtered_projects = []
       this.state.projects.forEach((project) => {
-        if (project.getSemester() == semester_id) {
+        if (project.getSemester() === semester_id) {
+            console.log(project)
             filtered_projects.push(project)
         }
       }
       )
       this.setState({
           filteredProjects: filtered_projects
-      })
+      }, () => {console.log(this.state.filteredProjects)})  
   }
 
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // console.log("gerendert")
-    let person = this.props.location.state.student
+    // let person = this.props.location.state.student
     this.getProjectsByStudent(12345); 
     // this.getProjectsByStudent(person.getMatrNr()); richtig
     // Im backend wird dann zuerst die id des studenten objekts rausgefunden mithilfe der matrikelnummer, dann mit der id die participations rausgeholt und dann mit der projekt id in den participations die projekte hochgeholt
@@ -148,7 +162,7 @@ class Semesterbericht extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredProjects, projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
@@ -177,7 +191,7 @@ class Semesterbericht extends Component {
             />
           </Grid>
         </Grid> */}
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} fullWidth>
             <InputLabel id="semester">Semester</InputLabel>
               <Select
                 labelId="semester"
@@ -186,6 +200,7 @@ class Semesterbericht extends Component {
                 onChange={this.handleSemFilter} 
                 onOpen={this.semesterList}
               >
+              <MenuItem value = "all">alle Projekte</MenuItem>
               {
               this.state.semesters.map((semester) => <MenuItem value = {semester}> {semester.name} </MenuItem>)
               }
@@ -194,8 +209,9 @@ class Semesterbericht extends Component {
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
-            <SemesterberichtEntry key={project.id} project={project} 
+          this.state.filteredProjects.map((project) =>
+            <SemesterberichtEntry project_id={project.id} project={project} 
+            // student={this.props.location.state.student}
             />)
         }
         <LoadingProgress show={loadingInProgress} />

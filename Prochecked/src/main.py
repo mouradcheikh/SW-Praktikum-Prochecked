@@ -412,7 +412,7 @@ class ParticipationOperations(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationPutOperation(Resource):
     @prochecked.marshal_with(participation, code=200)
-    @prochecked.expect(participation)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @prochecked.expect(participation)  # Wir erwarten ein participation-Objekt von Client-Seite.
     @secured
     def put(self):
         """Update eines bestimmten Participation-Objekts."""
@@ -542,6 +542,23 @@ class GradingOperations(Resource):
         adm = ProjectAdministration()
         #print(id)
         gra = adm.get_grading_by_id(id)
+        
+        return gra
+
+
+@prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('project_id', 'matr_nr')
+class GradingByProjectandStudentOperations(Resource):
+    @prochecked.marshal_with(grading)
+    @secured
+    def get(self, project_id, matr_nr):
+        """Auslesen eines bestimmten Grading-Objekts.
+
+        Das auszulesende Objekt wird durch die ```project_id``` und matrnr in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        gra = adm.get_grading_by_project_id_and_matr_nr(project_id, matr_nr)
         
         return gra
 
