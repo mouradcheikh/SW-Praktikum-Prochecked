@@ -29,7 +29,10 @@ class ProjectListNew extends Component {
 
     // Init an empty state
     this.state = {
-      projects: [],
+      projectNew: [],
+      // projectsNew: [],
+      // projectsAccepted: [],
+      // projectsDeclined: [],
       filteredProjects: [],
       projectFilter: '',
       error: null,
@@ -144,7 +147,39 @@ class ProjectListNew extends Component {
               }}
             />
           </Grid>
+
         </Grid>
+
+        <h1>Neue Projekte</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          filteredProjects.map(project =>
+            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onProjectDeleted={this.projectDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
+        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+
+        <h1>Freigegebene Projekte</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          filteredProjects.map(project =>
+            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onProjectDeleted={this.projectDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
+        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+
+
+        <h1>Abgelehnte Projekte</h1>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -161,6 +196,7 @@ class ProjectListNew extends Component {
     );
   }
 }
+
 
 /** Component specific styles */
 const styles = theme => ({

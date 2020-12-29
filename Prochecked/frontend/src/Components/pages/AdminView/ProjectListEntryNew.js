@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
+import  {AppApi}  from '../../../AppApi';
+import {ProjectBO} from '../../../AppApi';
+
+
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -31,9 +36,10 @@ class ProjectListEntryNew extends Component {
 
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
+    console.log(new_state)
     let updatedProject = Object.assign(new ProjectBO(), this.props.project);
     // set the new attributes from our dialog
-    updatedProject.setState(new_state);
+    updatedProject.setProjectState(new_state);
    
     AppApi.getAPI().updateProject(updatedProject).then(project => {
       this.setState({
@@ -57,6 +63,9 @@ class ProjectListEntryNew extends Component {
       updatingError: null                       // disable error message
     });
   }
+
+
+
 
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
@@ -82,7 +91,7 @@ class ProjectListEntryNew extends Component {
 
     // console.log(this.state);
     return (
- 
+      
       <div>
 
         {/* <Grid container spacing={1} justify='flex-start' alignItems='center'>
@@ -99,13 +108,14 @@ class ProjectListEntryNew extends Component {
             // expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
           >
+            
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                  <Button className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={this.updateProject(3)}>
+                  <Button className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
                   Freigeben
                   </Button>
-                  <Button className={classes.buttonAblehnen} variant='outlined' color='primary' size='small'  onClick={this.updateProject(2)}>
+                  <Button className={classes.buttonAblehnen} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
                   Ablehnen
                   </Button>
                 </Typography>

@@ -331,11 +331,11 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-    getProjectsByStateNew() {
+  getProjectsByStateNew() {
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getProjectsByStateNewURL())
       .then((responseJSON) => {
-        // console.log(responseJSON)
+        console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
         console.log(projectBOs);
@@ -345,7 +345,7 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-  updateProject(projectBO){
+  updateProject(projectBo){
     // console.log(personBO.getGoogleId())
     
     return this.#fetchAdvanced(this.#updateProjectURL(), {
@@ -354,14 +354,14 @@ getStudentByMatrikelNummer(matr_nr) {
         'Accept': 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(projectBO)
+      body: JSON.stringify(projectBo)
       }).then((responseJSON) => { 
-        // console.log(responseJSON)
+        console.log(responseJSON)
       // We always get an array of ProjectBO.fromJSON, but only need one object 
-        let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+        let responseProjectBo = ProjectBO.fromJSON(responseJSON)[0];
       // console.info(participationBOs);
         return new Promise(function (resolve) {
-        resolve(responseProjectBO);
+        resolve(responseProjectBo);
       })
     })
   }

@@ -154,7 +154,11 @@ class ProjectMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE project SET name=%s, project_state_id=%s WHERE id=%s"
-        data = (project.get_project_state())
+        data = (
+            project.get_name(),
+            project.get_project_state(),
+            project.get_id())
+            
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -247,4 +251,4 @@ if __name__ == "__main__":
     with ProjectMapper() as mapper:
         result = mapper.find_project_by_project_state_id(1)
         for p in result:
-            print(p.get_short_description())
+            print(p.get_project_state())
