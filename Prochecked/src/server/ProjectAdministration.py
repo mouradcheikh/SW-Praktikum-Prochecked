@@ -239,7 +239,8 @@ class ProjectAdministration (object):
             return mapper.insert(project)
 
     def save_project(self, project):
-        pass
+        with ProjectMapper() as mapper:
+            mapper.update(project)
 
 
 #Grading Related

@@ -153,7 +153,7 @@ class ProjectMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name=%s, project_state=%s WHERE id=%s"
+        command = "UPDATE project SET name=%s, project_state_id=%s WHERE id=%s"
         data = (project.get_project_state())
         cursor.execute(command, data)
 

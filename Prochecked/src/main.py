@@ -364,6 +364,30 @@ class ParticipationsByProjectOperation(Resource):
             return result
         else:
             return "Project unknown", 500
+    
+    @prochecked.marshal_with(project)
+    @prochecked.expect(project)
+    @secured
+    def put(self):
+        """Update eines bestimmten Project-Objekts.
+
+        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
+        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
+        Project-Objekts.
+        """
+        adm = ProjectAdministration()
+        #print(api.payload)
+        p = Person.from_dict(api.payload)
+        #print(p)
+
+        if p is not None:
+            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
+            Siehe Hinweise oben.
+            """
+            adm.save_project(p)
+            return '', 200
+        else:
+            return '', 500
 
 @prochecked.route('/participation/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -525,10 +549,15 @@ class GradingOperations(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
 
-    # adm = ProjectAdministration()
-    # z = adm.get_projects_by_state_new()
+    project = Project()
+    project.set_id(1)
+    project.set_name("ADS")
+    project.set_project_state(2)
 
-    # for x in z:
-    #     print(x)
+    adm = ProjectAdministration()
+    z = adm.save_project(project)
+    print(z)
+
+   

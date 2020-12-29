@@ -45,6 +45,8 @@ export default class AppAPI {
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
     #getProjectsByStateNewURL = () => `${this.#AppServerBaseURL}/project`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
+    #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
+    
 
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
@@ -343,6 +345,26 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
+  updateProject(projectBO){
+    // console.log(personBO.getGoogleId())
+    
+    return this.#fetchAdvanced(this.#updateProjectURL(), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(projectBO)
+      }).then((responseJSON) => { 
+        // console.log(responseJSON)
+      // We always get an array of ProjectBO.fromJSON, but only need one object 
+        let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+      // console.info(participationBOs);
+        return new Promise(function (resolve) {
+        resolve(responseProjectBO);
+      })
+    })
+  }
 
   //Student Relation
   getStudent(id) {
