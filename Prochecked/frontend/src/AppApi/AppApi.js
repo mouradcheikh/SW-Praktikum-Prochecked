@@ -29,11 +29,12 @@ export default class AppAPI {
     #getProfsURL = (id) => `${this.#AppServerBaseURL}/person-by-role/${id}`;
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
+    
 
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
-
+    
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
@@ -468,6 +469,23 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  // saveStudent(student){
+  //   return this.#fetchAdvanced(this.#addProjectURL(), {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json, text/plain',
+  //       'Content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify(project)
+  //     }).then((responseJSON) => {
+  //     // We always get an array of StudentBOs.fromJSON, but only need one object
+  //       let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+  //       return new Promise(function (resolve) {
+  //       resolve(responseStudentBO);
+  //     })
+  //   })
+  // }
+  
 
 
 
