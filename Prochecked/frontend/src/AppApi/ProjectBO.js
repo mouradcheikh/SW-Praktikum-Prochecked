@@ -24,7 +24,8 @@ export default class ProjectBO extends BusinessObject {
        this.dozent = null
        this.dozent2 = null
     //    this.semester = null 
-       this.current_state = null
+    //    this.current_state = null
+       this.project_state = null
        this.project_type = null
        this.semester = null
     }
@@ -102,7 +103,11 @@ export default class ProjectBO extends BusinessObject {
     }
 
     setProjectState(ProjectState){
-        this.current_state = ProjectState
+        this.project_state = ProjectState
+    }
+
+    getProjectState(){
+        return this.project_state
     }
 
     setSemester(semester){

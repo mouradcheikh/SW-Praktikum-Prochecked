@@ -149,7 +149,7 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_dozent(dictionary["dozent"])
         obj.set_dozent2(dictionary["dozent2"])
         obj.set_number_bd_lecturetime(dictionary["number_bd_lecturetime"])
-        obj.set_state(dictionary["current_state"])
+        obj.set_project_state(dictionary["project_state"])
         obj.set_project_type(dictionary["project_type"])
         obj.set_creation_date(Project.date_format(dictionary["creation_date"]))
         obj.set_last_updated(Project.date_format(dictionary["last_updated"]))
