@@ -30,11 +30,11 @@ class ParticipationList extends Component {
 
   /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
-    console.log("vor fetch")
+    // console.log("vor fetch")
 
       var api = AppApi.getAPI()
       api.getParticipationsByProject(this.props.project.getID())
-        .then(participationBOs =>
+        .then(participationBOs => 
           this.setState({               // Set new state when ParticipationBOs have been fetched
             participations: participationBOs,
             filteredParticipations: [...participationBOs], // store a copy
@@ -45,8 +45,9 @@ class ParticipationList extends Component {
               participations: [],
               loadingInProgress: false, // disable loading indicator
               error: e
-            })
-          );
+            }) 
+          ); 
+          // console.log(this.state.participations)
   
       // set loading to true
       this.setState({
@@ -55,50 +56,51 @@ class ParticipationList extends Component {
       });
     }
 
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    this.getParticipationsByProject(); //props richtig ??
+  /** Adds an participation for the current customer */
+  addParticipation = () => {
+    AppApi.getAPI().addParticipationForProject(this.props.project.getID()).then(participationBO => {
+      // console.log(participationBO)
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        participations: [...this.state.participations, participationBO],
+        loadingInProgress: false, // loading indicator 
+        addingParticipationError: null
+      })
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        participations: [],
+        loadingInProgress: false,
+        addingParticipationError: e
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      addingParticipationError: null
+    });
   }
 
+  /** Handles onParticipationDelete events from an ParticipationListEntry  */
+  deleteParticipationHandler = (deletedParticipation) => {
+    // console.log(deletedParticipation.getID());
+    this.setState({
+      participations: this.state.participations.filter(participation => participation.getID() !== deletedParticipation.getID())
+    })
+  }
+
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log(this.props.participation.getStudent_id)
+    this.getParticipationsByProject(); //props richtig ??
+    }
+  
   /** Lifecycle method, which is called when the component was updated */
   componentDidUpdate(prevProps) {
     // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
-    // if ((this.props.show !== prevProps.show)) {
-    //   this.getAccounts();
-    // }
-  }
-
-  /** Adds an participation for the current customer */
-//   addAccount = () => {
-//     BankAPI.getAPI().addAccountForCustomer(this.props.customer.getID()).then(accountBO => {
-//       // console.log(participationBO)
-//       this.setState({  // Set new state when AccountBOs have been fetched
-//         accounts: [...this.state.accounts, accountBO],
-//         loadingInProgress: false, // loading indicator 
-//         addingParticipationError: null
-//       })
-//     }).catch(e =>
-//       this.setState({ // Reset state with error from catch 
-//         accounts: [],
-//         loadingInProgress: false,
-//         addingAccountError: e
-//       })
-//     );
-
-//     // set loading to true
-//     this.setState({
-//       loadingInProgress: true,
-//       addingParticipationError: null
-//     });
-//   }
-
-//   /** Handles onAccountDelete events from an AccountListEntry  */
-//   deleteAccountHandler = (deletedAccount) => {
-//     // console.log(deletedAccount.getID());
-//     this.setState({
-//       participations: this.state.participations.filter(account => account.getID() !== deletedAccount.getID())
-//     })
-//   }
+    if ((this.props.show !== prevProps.show)) { 
+      this.getParticipationsByProject();
+      }
+    }
 
   /** Renders the component */
   render() {
@@ -116,13 +118,13 @@ class ParticipationList extends Component {
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={loadingParticipationError} contextErrorMsg={`List of participations for project ${project.getID()} could not be loaded.`} onReload={this.getParticipations} />
-            {/* <ContextErrorMessage error={addingParticipationError} contextErrorMsg={`Participation for customer ${customer.getID()} could not be added.`} onReload={this.addParticipation} /> */}
+            <ContextErrorMessage error={loadingParticipationError} contextErrorMsg={`List of participations for project ${project.getID()} could not be loaded.`} onReload={this.getParticipationsByProject} />
+            <ContextErrorMessage error={addingParticipationError} contextErrorMsg={`Participation for project ${project.getID()} could not be added.`} onReload={this.addParticipation} />
           </ListItem>
         </List>
-        {/* <Button className={classes.addParticipationButton} variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addParticipation}>
-          Add Account
-        </Button> */}
+        <Button className={classes.addParticipationButton} variant='contained' color='primary' startIcon={<AddIcon/>} onClick={this.addParticipation}>
+          Teilnahme hinzufügen
+        </Button>
       </div>
     );
   }
@@ -136,11 +138,6 @@ const styles = theme => ({
   participationList: {
     marginBottom: theme.spacing(2),
   },
-//   addAccountButton: {
-//     position: 'absolute',
-//     right: theme.spacing(3),
-//     bottom: theme.spacing(1),
-//   }
 });
 
 /** PropTypes */

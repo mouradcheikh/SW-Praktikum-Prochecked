@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -15,12 +15,13 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 // import PersonList from './Components/PersonList';
-import StudentenView from './Components/pages/StudentenView';
-import DozentView from './Components/pages/DozentView';
+import StudentView from './Components/pages/StudentView';
+import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
+import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -72,20 +73,11 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
                 });
-<<<<<<< HEAD
-                //schauen ob die Person bereits in der Datenbank ist
-                this.checkIfPersonInDatabase (person.displayName, person.email,person.uid);
-=======
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
                 
                 this.getPersonByGoogleId(person.uid)
                 
               
-                //this.createPerson(person.displayName, person.email, person.uid)
-                
-
-
->>>>>>> main
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -111,23 +103,8 @@ class App extends React.Component {
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
 
-
-
     getPersons(){
         var api = AppAPI.getAPI()
-<<<<<<< HEAD
-            api.getPersonByGoogleId(googleId).then((person) => {
-                if (!person.getGoogleId()) {
-                    //console.log("Creating new person for '" + name + "'")
-                    var suggestion = new PersonBO(name, email, googleId)
-                    api.createPerson(suggestion).then((newPerson) => {
-                    this.setState({
-                        person: newPerson})
-                    }
-                    )
-                }
-            
-=======
         console.log(api)
         api.getPersons().then((person) =>
             {console.log(person)
@@ -159,7 +136,6 @@ class App extends React.Component {
             })
             })
     }
->>>>>>> main
 
     setRole = (aRole) => {
         const person = this.state.person
@@ -242,65 +218,38 @@ class App extends React.Component {
     
 
             
-
+    ProfList(){
+        var api = AppAPI.getAPI()
+        api.getPersonByRole(2).then((persons) =>
+        {
+            // console.log(persons)
+        })
+      }
         
-    
     componentDidMount() {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
         firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-        console.log("rendered")
+        // console.log("rendered")
         
         };
     
-
     	/** Renders the whole app */
 	render() {
         const { person, appError, authError, authLoading } = this.state;
         
-        // let page
-        // let berechtigung = person.getBerechtigung()
-        // if (berechtigung === 1){
-        //     page = <> 
-        //             <Redirect from='/' to='StudentenView' />
-        //             <Route exact path='/StudentenView'>
-        //             <StudentenView/>
-        //             </Route>
-        //             </>
-        // }
-        // else if (berechtigung === 2){
-        //     page = <>	
-        //             <Redirect from='/' to='DozentView' />
-        //             <Route exact path='/DozentView'>
-        //             <DozentView/>
-        //             </Route> 
-        //             </>
-        // }
-        // else if (berechtigung === 3){
-        //     page = <>	
-        //             <Redirect from='/' to='AdminView' />
-        //             <Route exact path='/AdminView'>
-        //             <AdminView/>
-        //             </Route>
-        //            </>
-        // }
-        // else {
-        //     page = <>
-        //             <Redirect from='/' to='UserView' />
-        //             <Route exact path='/UserView'>
-        //             <UserView setRole={this.setRole}/>
-        //             </Route>
-        //             </>;
-        // }
-
 		return (
 			<ThemeProvider theme={Theme}>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
+                        <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/DozentView' component = {DozentenView}/>
+                        <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?
@@ -326,55 +275,3 @@ class App extends React.Component {
 
 
 export default App;
-
-// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
-
-
-
-// UserAbfrage(person) {
-//     const userType = person.getBerechtigung();
-//     console.log("UseerAbfrage")
-//     return (
-
-//     <div>
-//             {(() => {
-
-//             if (userType === 1) {
-//                 console.log("StudentenAbfrage")
-//             return (
-//                 <>	<Redirect from='/' to='StudentenView' />
-//                     <Route exact path='/StudentenView'>
-//                     <StudentenView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 2) {
-//             return (
-//                 <>	<Redirect from='/' to='DozentView' />
-//                     <Route exact path='/DozentView'>
-//                     <DozentView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 3) {
-//                 return (
-//                 <>	<Redirect from='/' to='AdminView' />
-//                     <Route exact path='/AdminView'>
-//                     <AdminView/>
-//                     </Route>
-//                 </>
-//                 )
-//             } else {
-//                 return (
-//                 <>
-//                     <Redirect from='/' to='UserView' />
-//                     <Route exact path='/UserView'>
-//                         <UserView setRole={this.setRole}/>
-//                     </Route>
-//                 </>
-//             )
-//             }
-//         })()}
-//     <div/>
-// );
-// }

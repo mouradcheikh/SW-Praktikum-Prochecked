@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import ProjectForm from '../dialogs/ProjectForm';
+import ProjectForm from '../dialogs/ParticipationForm';
 import ProjectListEntry from './ProjectListEntry';
 
 /**
@@ -44,15 +44,13 @@ class ProjectList extends Component {
   getProjectsByDozent = (person_id) => {
   // console.log("vor fetch")
     var api = AppApi.getAPI()
-    console.log("DozentID:", person_id, "vor aufruf in appapi")
     api.getProjectsByDozent(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
-        this.setState({                // Set new state when ProjectBOs have been fetched
+        this.setState({               // Set new state when ProjectBOs have been fetched
           projects: projectBOs,
           filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
-          
         })).catch(e =>
           this.setState({             // Reset state with error from catch
             projects: [],
@@ -65,16 +63,7 @@ class ProjectList extends Component {
     this.setState({
       loadingInProgress: true,
       error: null
-    }); console.log("projekte nach Fetch:" ,this.projects)
-  }
-
-  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
-  componentDidMount() {
-    // console.log("gerendert")
-    let person = this.props.location.state.linkState
-    this.getProjectsByDozent(person.getID());
-   
-   
+    });
   }
 
   /**
@@ -99,47 +88,6 @@ class ProjectList extends Component {
     });
   }
 
-  /**
-   * Handles onProjectDeleted events from the ProjectListEntry component
-   *
-   * @param {project} ProjectBO of the ProjectListEntry to be deleted
-   */
-  projectDeleted = project => {
-    const newProjectList = this.state.projects.filter(projectFromState => projectFromState.getID() !== project.getID());
-    this.setState({
-      projects: newProjectList,
-      filteredProjects: [...newProjectList],
-      showProjectForm: false
-    });
-  }
-
-  /** Handles the onClick event of the add project button */
-  addProjectButtonClicked = event => {
-    // Do not toggle the expanded state
-    event.stopPropagation();
-    //Show the CustmerForm
-    this.setState({
-      showProjectForm: true
-    });
-  }
-
-  /** Handles the onClose event of the ProjectForm */
-  projectFormClosed = project => {
-    // project is not null and therefore created
-    if (project) {
-      const newProjectList = [...this.state.projects, project];
-      this.setState({
-        projects: newProjectList,
-        filteredProjects: [...newProjectList],
-        showProjectForm: false
-      });
-    } else {
-      this.setState({
-        showProjectForm: false
-      });
-    }
-  }
-
   /** Handels onChange events of the project filter text field */
   filterFieldValueChange = event => {
     const value = event.target.value.toLowerCase();
@@ -160,6 +108,12 @@ class ProjectList extends Component {
       filteredProjects: [...this.state.projects],
       projectFilter: ''
     });
+  }
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log("gerendert")
+    let person = this.props.location.state.linkState
+    this.getProjectsByDozent(person.getID());
   }
 
   /** Renders the component */
@@ -192,12 +146,6 @@ class ProjectList extends Component {
               }}
             />
           </Grid>
-          <Grid item xs />
-          <Grid item>
-            <Button variant='contained' color='primary' startIcon={<AddIcon />} onClick={this.addProjectButtonClicked}>
-              Add Project
-          </Button>
-          </Grid>
         </Grid>
         {
           // Show the list of ProjectListEntry components
@@ -210,7 +158,7 @@ class ProjectList extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozent} />
-        <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} />
+        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
       </div>
     );
   }

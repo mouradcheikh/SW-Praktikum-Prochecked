@@ -21,13 +21,13 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name, google_id, email, role_id FROM person WHERE google_id='{}'".format(
+        command = "SELECT id, creation_date, name, google_id, email, role_id, student_id FROM person WHERE google_id='{}'".format(
             google_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, name, google_id, email, role_id) = tuples[0]
+            (id, creation_date, name, google_id, email, role_id, student_id) = tuples[0]
             u = Person()
             u.set_id(id)
             u.set_creation_date(creation_date)
@@ -35,8 +35,8 @@ class PersonMapper(Mapper):
             u.set_google_id(google_id)
             u.set_creation_date(creation_date)
             u.set_email(email)
-
             u.set_berechtigung(role_id)
+            u.set_student(student_id)
             
             result = u
         except IndexError:
@@ -72,9 +72,9 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, creation_date, name, google_id, email, role_id) VALUES (%s,%s,%s,%s,%s,%s)"
+        command = "INSERT INTO person (id, creation_date, name, google_id, email, role_id, student_id) VALUES (%s,%s,%s,%s,%s,%s,%s)"
         data = (person.get_id(), person.get_creation_date(), person.get_name(),
-                person.get_google_id(), person.get_email(), person.get_berechtigung())
+                person.get_google_id(), person.get_email(), person.get_berechtigung(), person.get_student())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -102,8 +102,42 @@ class PersonMapper(Mapper):
 
 
 
-    def find_by_id(self, ):
-        pass
+    def find_by_id(self, id):
+        """Suchen eines Person mit vorgegebener ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param key Primärschlüsselattribut (->DB)
+        :return Customer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+            nicht vorhandenem DB-Tupel.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, name, google_id, email, role_id, student_id FROM person WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, name, google_id, email, role_id, student_id) = tuples[0]
+            person = Person()
+            person.set_id(id)
+            person.set_creation_date(creation_date)
+            person.set_name(name)
+            person.set_google_id(google_id)
+            person.set_email(email)
+            person.set_berechtigung(role_id)
+            person.set_student(student_id)
+
+            result = person
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
     def update(self, person):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -112,8 +146,8 @@ class PersonMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person " + "SET name=%s, email=%s, role_id=%s WHERE google_id=%s"
-        data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_google_id())
+        command = "UPDATE person SET name=%s, email=%s, role_id=%s, student_id=%s WHERE google_id=%s"
+        data = (person.get_name(), person.get_email(), person.get_berechtigung(), person.get_student(), person.get_google_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -134,6 +168,31 @@ class PersonMapper(Mapper):
         cursor.close()
 
 
+
+    def find_by_role(self, role_id):
+        """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param google_user_id die Google ID des gesuchten Users.
+        :return User-Objekt, das die übergebene Google ID besitzt,
+            None bei nicht vorhandenem DB-Tupel.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, name, google_id, email, role_id, student_id FROM person WHERE role_id='{}'".format(
+            role_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        result = Person.from_tuples(tuples)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
 if (__name__ == "__main__"):
 #     '''person = Person()
 #     person.set_email("j@gmx.de")
@@ -143,6 +202,7 @@ if (__name__ == "__main__"):
 #     person.set_berechtigung("Student")'''
 
   with PersonMapper() as mapper:
-        result = mapper.find_all()
-        for p in result:
-            print(p)
+        result = mapper.find_by_id(1)
+        print(result)
+        # for p in result:
+        #     print(p)

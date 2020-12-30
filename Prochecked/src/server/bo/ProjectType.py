@@ -9,7 +9,6 @@ class ProjectType(NamedBusinessObjects):
         self._number_ects = ects
         self._Charakterannehmer = []
 
-
     def set_number_sws(self, number_sws):
         self._number_sws = number_sws
 

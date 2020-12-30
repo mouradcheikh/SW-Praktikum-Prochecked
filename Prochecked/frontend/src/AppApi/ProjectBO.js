@@ -15,17 +15,18 @@ export default class ProjectBO extends BusinessObject {
        this.ext_partner_list = null
        this.short_description = null
        this.weekly_flag = null
-       this.number_bd_per_week = null
+    //    this.number_bd_per_week = null
        this.number_bd_b_lecturetime = null //blocktage vor beginn der vorlesungszeit
        this.number_bd_examtime = null
        this.number_bd_lecturetime = null //blocktage vorlesungszeit
        this.preffered_bd = null //Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
        this.special_room = null
-       this.module = null
-       this.dozent = []
-       this.semester = null 
-       this.project_state = null
-       this.projecttype = null
+       this.dozent = null
+       this.dozent2 = null
+    //    this.semester = null 
+       this.current_state = null
+       this.project_type = null
+       this.semester = null
     }
   
     setName(aname){
@@ -67,6 +68,51 @@ export default class ProjectBO extends BusinessObject {
     getShortDescription(){
         return this.short_description
     }
+
+    setProjectType(aprojecttype){
+        this.project_type = aprojecttype
+    }
+
+    setDozent(aDozent){
+        this.dozent = aDozent
+    }
+
+    setDozent2(aDozent){
+        this.dozent2 = aDozent
+    }
+
+    setWeeklyFlag(aweeklyflag){
+        this.weekly_flag = aweeklyflag
+    }
+
+    setNumberBdBLecturetime(NumberBdBLecturetime){
+        this.number_bd_b_lecturetime = NumberBdBLecturetime
+    }
+
+    setNumberBdExamtime(NumberBdExamtime){
+        this.number_bd_examtime = NumberBdExamtime
+    }
+
+    setNumberBdLecturetime(NumberBdLecturetime){
+        this.number_bd_lecturetime = NumberBdLecturetime
+    }
+
+    setSpecialRoom(SpecialRoom){
+        this.special_room = SpecialRoom
+    }
+
+    setProjectState(ProjectState){
+        this.current_state = ProjectState
+    }
+
+    setSemester(semester){
+        this.semester = semester
+    }
+
+    setprefferedbd(bd){
+        this.preffered_bd = bd
+    }
+
 /** 
    * Returns an Array of PersonBOs from a given JSON structure.
    */

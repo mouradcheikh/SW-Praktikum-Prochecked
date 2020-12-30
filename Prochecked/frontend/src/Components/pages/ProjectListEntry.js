@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProjectForm from '../../Components/dialogs/ProjectForm';
+import ProjectForm from '../dialogs/ParticipationForm';
 import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
 import ParticipationList from './ParticipationList';
-
-
-//import AccountList from './AccountList';
-
 
 /**
  * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
@@ -44,50 +40,6 @@ class ProjectListEntry extends Component {
     })
   }
 
-  /** Handles the onClick event of the edit project button */
-  editProjectButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProjectForm: true
-    });
-  }
-
-  /** Handles the onClose event of the ProjectForm */
-  projectFormClosed = (project) => {
-    // project is not null and therefor changed
-    if (project) {
-      this.setState({
-        project: project,
-        showProjectForm: false
-      });
-    } else {
-      this.setState({
-        showProjectForm: false
-      });
-    }
-  }
-
-  /** Handles the onClick event of the delete project button */
-  deleteProjectButtonClicked = (event) => {
-    event.stopPropagation();
-    this.setState({
-      showProjectDeleteDialog: true
-    });
-  }
-
-  /** Handles the onClose event of the ProjectDeleteDialog */
-  deleteProjectDialogClosed = (project) => {
-    // if project is not null, delete it
-    if (project) {
-      this.props.onProjectDeleted(project);
-    };
-
-    // Don´t show the dialog
-    this.setState({
-      showProjectDeleteDialog: false
-    });
-  }
-
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
@@ -108,16 +60,6 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
-              <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editProjectButtonClicked}>
-                    edit
-                  </Button>
-                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
-                    delete
-                  </Button>
-                </ButtonGroup>
-              </Grid>
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
@@ -128,10 +70,7 @@ class ProjectListEntry extends Component {
             <ParticipationList show={expandedState} project={project} /> 
           </AccordionDetails>
         </Accordion>
-        <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
-        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} />
       </div>
-      
     );
   }
 }
