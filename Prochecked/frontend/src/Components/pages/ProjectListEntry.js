@@ -27,6 +27,7 @@ class ProjectListEntry extends Component {
       project: props.project,
       showProjectForm: false,
       showProjectDeleteDialog: false,
+      updatingInProgress: false,
     };
   }
 
@@ -39,7 +40,7 @@ class ProjectListEntry extends Component {
    
     AppApi.getAPI().updateProject(updatedProject).then(project => {
       this.setState({
-        // project: project,
+        project: project,
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
       });
@@ -89,7 +90,7 @@ class ProjectListEntry extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes, expandedState} = this.props;
     // Use the states project
     const { project} = this.state;
 
@@ -103,15 +104,22 @@ class ProjectListEntry extends Component {
             expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
           >
-            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid container spacing={1} justify='flex-start' alignItems='center' >
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
+                </Grid>
+                <Grid direction="row"
+                      alignItems="center"
+                      justify="flex-end">
                 <Button variant="contained"
                           color="secondary"
                           className={classes.buttonFreigeben}
                           startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(4)}>
+                          variant='outlined'
+                          color='primary' 
+                          size='small'  
+                          onClick={() => this.updateProject(4)}>
                   Bewerten
                 </Button>
               </Grid>
@@ -127,7 +135,7 @@ class ProjectListEntry extends Component {
         </Accordion>
       </div>
 
-      : project.project_state ===4?
+      :project.project_state ===4?
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -138,14 +146,17 @@ class ProjectListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
-                <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
               </Grid>
-              <Button variant="contained"
+                {/* <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
+              </Grid> */}
+
+              <Grid>
+                <Button variant="contained"
                           color="secondary"
                           className={classes.buttonFreigeben}
                           startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(4)}>
+                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(5)}>
                   Bewertung abschließen
                 </Button>
               </Grid>
@@ -171,9 +182,9 @@ class ProjectListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
-                <Grid item>
+                {/* <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Grid item xs />
               <Grid item>

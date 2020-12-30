@@ -240,6 +240,49 @@ getGrading = () => {
     
 
     return (
+      project.project_state === 3?
+      <div>
+        <ListItem>
+          <Typography className={classes.participationEntry}>
+            {/* <Link component={RouterLink} to={{
+              pathname: '/StudentZuordnung',
+              owner: {
+                project: project,
+                participation: participation
+              }
+            }} >
+              Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
+            </Link> */}
+       
+            <div>
+
+            {student.matr_nr + " - " + student.name}
+            </div>
+           
+
+            <Button color='primary' onClick={this.editParticipationButtonClicked}>
+              edit
+            </Button>
+
+          </Typography>
+
+          <ListItemSecondaryAction>          
+            <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
+             Löschen
+            </Button>
+          </ListItemSecondaryAction>
+
+        </ListItem>
+        <ListItem>
+          <LoadingProgress show={loadingInProgress || deletingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
+        </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed}/>
+      </div>
+
+      :project.project_state ===4?
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
@@ -274,10 +317,9 @@ getGrading = () => {
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
-            <div>
-
-            Bewertet: {grade.grade + " - " + this.passed()}
-            </div>
+            <Typography variant='body2' color={'textSecondary'}>
+              Bewertet: {grade.grade + " - " + this.passed()}
+          </Typography>
             </div>
 
           <ListItemSecondaryAction>          
@@ -285,6 +327,28 @@ getGrading = () => {
              Löschen
             </Button>
           </ListItemSecondaryAction>
+
+        </ListItem>
+        <ListItem>
+          <LoadingProgress show={loadingInProgress || deletingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
+        </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed}/>
+      </div>
+
+      :
+      <div>
+        <ListItem>
+          <Typography className={classes.participationEntry}>      
+            <div>
+              {student.matr_nr + " - " + student.name}
+            </div>
+          </Typography>
+          <Typography variant='body2' color={'textSecondary'}>
+              Bewertet: {grade.grade + " - " + this.passed()}
+          </Typography>
 
         </ListItem>
         <ListItem>
