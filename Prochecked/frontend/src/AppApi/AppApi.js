@@ -43,7 +43,7 @@ export default class AppAPI {
 
     // Project related
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
-    #getProjectsByStateURL = (s) => `${this.#AppServerBaseURL}projects/${s}`;
+    #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     
@@ -331,9 +331,9 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-  getProjectsByState(s) {
-    // console.log("vor fetch in appapi")
-    return this.#fetchAdvanced(this.#getProjectsByStateURL(s))
+  getProjectsByState(project_state) {
+    console.log(project_state)
+    return this.#fetchAdvanced(this.#getProjectsByStateURL(project_state))
       .then((responseJSON) => {
         console.log(responseJSON)
         // console.log("gefetched")

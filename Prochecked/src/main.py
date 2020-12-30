@@ -321,26 +321,23 @@ class ProjectOperations(Resource):
     #     #     print(p.get_project_state())
     #     return project_list
 
-@prochecked.route('/projects/<int:s>')
+@prochecked.route('/projects/<int:project_state>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('s', 'Die id des Grading-Objekts')
+@prochecked.param('project_state', 'Jetziger Status des Projekts')
 class ProjectsByStateOperation(Resource):
     @prochecked.marshal_list_with(project)
     @secured
-    def get(self,s):
+    def get(self,project_state):
         """Auslesen eines bestimmten Person-Objekts.
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
+        print(project_state)
         adm = ProjectAdministration()
-        project_list = adm.get_projects_by_state(s)
+        project_list = adm.get_projects_by_state(project_state)
         for p in project_list:
             print(p.get_project_state())
         return project_list
-
-
-
-# Project related
 
 @prochecked.route('/dozents/<int:person_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

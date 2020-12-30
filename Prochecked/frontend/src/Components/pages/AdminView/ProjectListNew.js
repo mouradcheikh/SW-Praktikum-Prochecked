@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
@@ -21,12 +19,12 @@ class ProjectListNew extends Component {
   constructor(props) {
     super(props);
 
-    // console.log(props);
-    let expandedID = null;
+    // // console.log(props);
+    // let expandedID = null;
 
-    if (this.props.location.expandProject) {
-      expandedID = this.props.location.expandProject.getID();
-    }
+    // if (this.props.location.expandProject) {
+    //   expandedID = this.props.location.expandProject.getID();
+    // }
 
     // Init an empty state
     this.state = {
@@ -34,12 +32,9 @@ class ProjectListNew extends Component {
       projectsNew: [],
       projectsAccepted: [],
       projectsDeclined: [],
-      filteredProjects: [],
-      projectFilter: '',
       error: null,
       loadingInProgress: false,
-      expandedProjectID: expandedID,
-      showProjectForm: false //evtl.nicht 
+      // expandedProjectID: expandedID,
     };
   }
 
@@ -50,7 +45,6 @@ class ProjectListNew extends Component {
         .then(projectBOs =>
           this.setState({
           projectsNew: projectBOs,
-          filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
@@ -75,7 +69,6 @@ class ProjectListNew extends Component {
         .then(projectBOs =>
           this.setState({
           projectsAccepted: projectBOs,
-          filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
@@ -100,7 +93,6 @@ class ProjectListNew extends Component {
         .then(projectBOs =>
           this.setState({
           projectsDeclined: projectBOs,
-          filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
@@ -119,49 +111,28 @@ class ProjectListNew extends Component {
   }
 
 
-  /**
-   * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
-   * the ProjectListEntry of the given ProjectBO.
-   *
-   * @param {project} ProjectBO of the ProjectListEntry to be toggeled
-   */
-  onExpandedStateChange = project => {
-    // console.log(projectID);
-    // Set expandend project entry to null by default
-    let newID = null;
+  // /**
+  //  * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
+  //  * the ProjectListEntry of the given ProjectBO.
+  //  *
+  //  * @param {project} ProjectBO of the ProjectListEntry to be toggeled
+  //  */
+  // onExpandedStateChange = project => {
+  //   // console.log(projectID);
+  //   // Set expandend project entry to null by default
+  //   let newID = null;
 
-    // If same project entry is clicked, collapse it else expand a new one
-    if (project.getID() !== this.state.expandedProjectID) {
-      // Expand the project entry with projectID
-      newID = project.getID();
-    }
-    // console.log(newID);
-    this.setState({
-      expandedProjectID: newID,
-    });
-  }
+  //   // If same project entry is clicked, collapse it else expand a new one
+  //   if (project.getID() !== this.state.expandedProjectID) {
+  //     // Expand the project entry with projectID
+  //     newID = project.getID();
+  //   }
+  //   // console.log(newID);
+  //   this.setState({
+  //     expandedProjectID: newID,
+  //   });
+  // }
 
-  /** Handels onChange events of the project filter text field */
-  filterFieldValueChange = event => {
-    const value = event.target.value.toLowerCase();
-    this.setState({
-      filteredProjects: this.state.projects.filter(project => {
-        let nameContainsValue = project.getName().toLowerCase().includes(value);
-
-        return nameContainsValue
-      }),
-      projectFilter: value
-    });
-  }
-
-  /** Handles the onClose event of the clear filter button */
-  clearFilterFieldButtonClicked = () => {
-    // Reset the filter
-    this.setState({
-      filteredProjects: [...this.state.projects],
-      projectFilter: ''
-    });
-  }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // console.log("gerendert")
@@ -170,44 +141,28 @@ class ProjectListNew extends Component {
     this.getProjectsByStateAccepted();
   }
 
+   /** Lifecycle method, which is called when the component was updated */
+   componentDidUpdate(prevProps) {
+    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
+    if ((this.props.show !== prevProps.show)) { 
+      this.getProjectsByStateNew();
+    this.getProjectsByStateDeclined();
+    this.getProjectsByStateAccepted();
+      }
+    }
+
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { filteredProjects, projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { filteredProjects, projectsNew, projectsAccepted, projectsDeclined,  projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Projektfilter:
-              </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='projectFilter'
-              type='text'
-              value={projectFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
-
-        </Grid>
-
         <h1>Neue Projekte</h1>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
+          projectsNew.map(project => 
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
@@ -215,33 +170,6 @@ class ProjectListNew extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
-        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-
-        {/* <h1>Freigegebene Projekte</h1>
-        {
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
-            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
-            />)
-        }
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
-        <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-
-
-        {/* <h1>Abgelehnte Projekte</h1>
-        {
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
-            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-              onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
-            />)
-        } */}
         <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={6}>
@@ -250,7 +178,7 @@ class ProjectListNew extends Component {
           {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
+          projectsAccepted.map(project =>
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
@@ -266,7 +194,7 @@ class ProjectListNew extends Component {
           {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          filteredProjects.map(project =>
+          projectsDeclined.map(project =>
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
@@ -279,8 +207,8 @@ class ProjectListNew extends Component {
       </Grid>
         </div>
         
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByState} />
+        {/* <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByState} /> */}
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
       </div>
     );

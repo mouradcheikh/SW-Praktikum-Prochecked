@@ -6,9 +6,11 @@ import  {AppApi}  from '../../../AppApi';
 import {ProjectBO} from '../../../AppApi';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
+import CheckIcon from '@material-ui/icons/Check';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
 
 
 
@@ -64,8 +66,6 @@ class ProjectListEntryNew extends Component {
   }
 
 
-
-
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
 //     this.props.onExpandedStateChange(this.props.project);
@@ -90,18 +90,8 @@ class ProjectListEntryNew extends Component {
 
     // console.log(this.state);
     return (
-      
+      project.project_state ===1?
       <div>
-
-        {/* <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{project.getName()}
-                </Typography>
-              </Grid>
-             
-        </Grid> */}
-
-
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             // expandIcon={<ExpandMoreIcon />}
@@ -114,7 +104,7 @@ class ProjectListEntryNew extends Component {
                   <Button variant="contained"
                           color="secondary"
                           className={classes.button}
-                          startIcon={<AddIcon/>}
+                          startIcon={<CheckIcon/>}
                   className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
                   Freigeben
                   </Button>
@@ -129,18 +119,82 @@ class ProjectListEntryNew extends Component {
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
               </Grid>
-              {/* <Grid item xs />
-              <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
-              </Grid> */}
             </Grid>
           </AccordionSummary>
-         <AccordionDetails>
-            {/* <ParticipationList show={expandedState} project={project} />  */}
-            
+         <AccordionDetails> 
           </AccordionDetails>
         </Accordion> 
       </div>
+      : project.project_state ===2?
+      <div>
+      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        <AccordionSummary
+          // expandIcon={<ExpandMoreIcon />}
+          id={`project${project.getID()}accountpanel-header`}
+        >
+          
+          <Grid container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item>
+              <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+                <Button variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<CheckIcon/>}
+                className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
+                Freigeben
+                </Button>
+                <Button variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<ReplyRoundedIcon/>}
+                className={classes.buttonAblehnen} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
+                Rückgängig
+                </Button>
+              </Typography>
+              <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+              </Typography>
+            </Grid>
+          </Grid>
+        </AccordionSummary>
+       <AccordionDetails> 
+        </AccordionDetails>
+      </Accordion> 
+    </div>
+    : 
+    <div>
+    <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+      <AccordionSummary
+        // expandIcon={<ExpandMoreIcon />}
+        id={`project${project.getID()}accountpanel-header`}
+      >
+        
+        <Grid container spacing={1} justify='flex-start' alignItems='center'>
+          <Grid item>
+            <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+              <Button variant="contained"
+                      color="secondary"
+                      className={classes.button}
+                      startIcon={<HighlightOffIcon/>}
+              className={classes.buttonAblehnen} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
+              Ablehnen
+              </Button>
+              <Button variant="contained"
+                      color="secondary"
+                      className={classes.button}
+                      startIcon={<ReplyRoundedIcon/>}
+              className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(1)}>
+              Rückgängig
+              </Button>
+            </Typography>
+            <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+            </Typography>
+          </Grid>
+        </Grid>
+      </AccordionSummary>
+     <AccordionDetails> 
+      </AccordionDetails>
+    </Accordion> 
+  </div>
     );
   }
 }
@@ -151,7 +205,6 @@ const styles = theme => ({
     width: '100%',
   },
 });
-
 
 
 /** PropTypes */
