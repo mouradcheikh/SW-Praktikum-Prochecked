@@ -101,7 +101,6 @@ class ProjectListEntryNew extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                  <div id= "button">
                   <Button variant="contained"
                           color="secondary"
                           className={classes.buttonFreigeben}
@@ -116,7 +115,6 @@ class ProjectListEntryNew extends Component {
                           variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
                   Ablehnen
                   </Button>
-                  </div>
                 </Typography>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
@@ -207,8 +205,8 @@ const styles = theme => ({
     width: '100%',
   },
   buttonFreigeben: {
-    // marginRight: theme.spacing(0),
-    // marginLeft: theme.spacing(65)
+    marginRight: theme.spacing(0),
+    marginLeft: theme.spacing(65)
   },
   buttonAblehnen:{
     marginRight: theme.spacing(0),
