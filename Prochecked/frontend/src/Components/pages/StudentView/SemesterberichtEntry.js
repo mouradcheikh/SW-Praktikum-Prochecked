@@ -5,6 +5,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Semesterbericht from './Semesterbericht'
 import AppAPI from '../../../AppApi/AppApi'
+import Paper from '@material-ui/core/Paper';
+import LoadingProgress from '../../dialogs/LoadingProgress';
+
 
 /**
  * Renders a ProjectBO object in the Semesterbericht by selected filter (semester filter)
@@ -35,6 +38,18 @@ class SemesterberichtEntry extends Component {
             )
   }
 
+  getGradeofGrading = () => {
+    if(this.props.project.getCurrentState() != 5){
+      return "In Bewertung"
+    }
+    else if (this.state.grading === null){
+      return "loading"
+    }
+    else {
+      return this.state.grading.grade
+    }
+  }
+
   componentDidMount(){
     this.getGrade()
   }
@@ -48,7 +63,18 @@ class SemesterberichtEntry extends Component {
     return (
  
       <div>
-        {this.props.project.name}
+        <Grid container spacing={1} justify='flex-start' alignItems='center'>
+        <Grid item xs={8}>
+            <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
+            </Typography>
+          {/* <Paper className={classes.paper}>{this.props.project.name, "Note:", "2.0"}</Paper> */}
+        </Grid>
+        <Grid item xs={4}>
+            <Typography variant='body1' className={classes.heading}>Note: {this.getGradeofGrading()}
+            </Typography>
+          {/* <Paper className={classes.paper}>{this.props.project.name, "Note:", "2.0"}</Paper> */}
+        </Grid>
+        </Grid>
       </div>
     );
   }

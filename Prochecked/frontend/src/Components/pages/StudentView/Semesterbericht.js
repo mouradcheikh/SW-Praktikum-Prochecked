@@ -34,6 +34,7 @@ class Semesterbericht extends Component {
       showProjectForm: false, //evtl.nicht 
       semesters: [],
       semester: null,
+      student: null
     };
   }
 
@@ -154,8 +155,8 @@ class Semesterbericht extends Component {
   componentDidMount() {
     // console.log("gerendert")
     // let person = this.props.location.state.student
-    this.getProjectsByStudent(12345); 
     // this.getProjectsByStudent(person.getMatrNr()); richtig
+    this.getProjectsByStudent(12345); 
     // Im backend wird dann zuerst die id des studenten objekts rausgefunden mithilfe der matrikelnummer, dann mit der id die participations rausgeholt und dann mit der projekt id in den participations die projekte hochgeholt
   }
 
@@ -191,7 +192,7 @@ class Semesterbericht extends Component {
             />
           </Grid>
         </Grid> */}
-        <FormControl className={classes.formControl} fullWidth>
+        <FormControl className={classes.formControl} fullWidth margin='normal'>
             <InputLabel id="semester">Semester</InputLabel>
               <Select
                 labelId="semester"

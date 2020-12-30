@@ -117,6 +117,10 @@ export default class ProjectBO extends BusinessObject {
         this.preffered_bd = bd
     }
 
+    getCurrentState(){
+        return this.current_state 
+    }
+
 /** 
    * Returns an Array of PersonBOs from a given JSON structure.
    */
