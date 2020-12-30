@@ -214,7 +214,19 @@ class ProjectAdministration (object):
             for p in pro:
                 p_list.append(p)
             return p_list
-                
+    
+    def get_projects_by_state(self, s):
+        """Alle Projects mit dem Status Neu auslesen."""
+
+        with ProjectMapper() as mapper:
+            pro = mapper.find_project_by_project_state_id(s)
+
+            p_list = []
+
+            for p in pro:
+                p_list.append(p)
+            return p_list
+
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
         with ProjectMapper() as mapper:

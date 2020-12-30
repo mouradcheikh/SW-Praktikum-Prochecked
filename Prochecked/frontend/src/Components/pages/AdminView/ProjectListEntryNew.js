@@ -4,9 +4,8 @@ import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { Button, ButtonGroup } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import {ProjectBO} from '../../../AppApi';
-
-
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -112,10 +111,18 @@ class ProjectListEntryNew extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                  <Button className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
+                  <Button variant="contained"
+                          color="secondary"
+                          className={classes.button}
+                          startIcon={<AddIcon/>}
+                  className={classes.buttonFreigeben} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
                   Freigeben
                   </Button>
-                  <Button className={classes.buttonAblehnen} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
+                  <Button variant="contained"
+                          color="secondary"
+                          className={classes.button}
+                          startIcon={<HighlightOffIcon/>}
+                  className={classes.buttonAblehnen} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
                   Ablehnen
                   </Button>
                 </Typography>
@@ -145,6 +152,8 @@ const styles = theme => ({
   },
 });
 
+
+
 /** PropTypes */
 ProjectListEntryNew.propTypes = {
   /** @ignore */
@@ -167,3 +176,7 @@ ProjectListEntryNew.propTypes = {
 }
 
 export default withStyles(styles)(ProjectListEntryNew);
+
+
+
+

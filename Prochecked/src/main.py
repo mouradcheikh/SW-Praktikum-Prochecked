@@ -308,18 +308,37 @@ class ProjectOperations(Resource):
         else:
             return '', 500
     
+    # @prochecked.marshal_list_with(project)
+    # @secured
+    # def get(self):
+    #     """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
+
+    #     Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+    #     """
+    #     adm = ProjectAdministration()
+    #     project_list = adm.get_projects_by_state_new()
+    #     # for p in project_list:
+    #     #     print(p.get_project_state())
+    #     return project_list
+
+@prochecked.route('/projects/<int:s>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('s', 'Die id des Grading-Objekts')
+class ProjectsByStateOperation(Resource):
     @prochecked.marshal_list_with(project)
     @secured
-    def get(self):
-        """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
+    def get(self,s):
+        """Auslesen eines bestimmten Person-Objekts.
 
-        Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        project_list = adm.get_projects_by_state_new()
-        # for p in project_list:
-        #     print(p.get_project_state())
+        project_list = adm.get_projects_by_state(s)
+        for p in project_list:
+            print(p.get_project_state())
         return project_list
+
+
 
 # Project related
 
@@ -563,8 +582,8 @@ if __name__ == '__main__':
     z = adm.save_project(project)
     print(z)'''
 
-    '''adm = ProjectAdministration()
-    p = adm.get_projects_by_state_new()
-    for i in p:
-        print(i.get_project_state())'''
+    # adm = ProjectAdministration()
+    # p = adm.get_projects_by_state(2)
+    # for i in p:
+    #     print(i.get_name(), i.get_project_state())
    

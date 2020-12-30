@@ -8,6 +8,7 @@ import  {AppApi}  from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 import ProjectListEntryNew from './ProjectListEntryNew';
+import Paper from '@material-ui/core/Paper';
 
 /**
  * Controlls a list of ProjectListEntrys to create a accordion for each project.
@@ -29,10 +30,10 @@ class ProjectListNew extends Component {
 
     // Init an empty state
     this.state = {
-      projectNew: [],
-      // projectsNew: [],
-      // projectsAccepted: [],
-      // projectsDeclined: [],
+      // projectNew: [],
+      projectsNew: [],
+      projectsAccepted: [],
+      projectsDeclined: [],
       filteredProjects: [],
       projectFilter: '',
       error: null,
@@ -45,16 +46,66 @@ class ProjectListNew extends Component {
   getProjectsByStateNew = () => {
     // console.log("vor fetch")
       var api = AppApi.getAPI()
-      api.getProjectsByStateNew() //evtl. Objekt von API vorher anlegen
+      api.getProjectsByState(1) //evtl. Objekt von API vorher anlegen
         .then(projectBOs =>
           this.setState({
-          projects: projectBOs,
+          projectsNew: projectBOs,
           filteredProjects: [...projectBOs], // store a copy
           loadingInProgress: false,   // disable loading indicator
           error: null
         })).catch(e =>
           this.setState({             // Reset state with error from catch
-            projects: [],
+            projectsNew: [],
+            loadingInProgress: false, // disable loading indicator
+            error: e
+          })
+        );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  getProjectsByStateAccepted = () => {
+    // console.log("vor fetch")
+      var api = AppApi.getAPI()
+      api.getProjectsByState(3) //evtl. Objekt von API vorher anlegen
+        .then(projectBOs =>
+          this.setState({
+          projectsAccepted: projectBOs,
+          filteredProjects: [...projectBOs], // store a copy
+          loadingInProgress: false,   // disable loading indicator
+          error: null
+        })).catch(e =>
+          this.setState({             // Reset state with error from catch
+            projectsAccepted: [],
+            loadingInProgress: false, // disable loading indicator
+            error: e
+          })
+        );
+
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      error: null
+    });
+  }
+
+  getProjectsByStateDeclined = () => {
+    // console.log("vor fetch")
+      var api = AppApi.getAPI()
+      api.getProjectsByState(2) //evtl. Objekt von API vorher anlegen
+        .then(projectBOs =>
+          this.setState({
+          projectsDeclined: projectBOs,
+          filteredProjects: [...projectBOs], // store a copy
+          loadingInProgress: false,   // disable loading indicator
+          error: null
+        })).catch(e =>
+          this.setState({             // Reset state with error from catch
+            projectsDeclined: [],
             loadingInProgress: false, // disable loading indicator
             error: e
           })
@@ -115,6 +166,8 @@ class ProjectListNew extends Component {
   componentDidMount() {
     // console.log("gerendert")
     this.getProjectsByStateNew();
+    this.getProjectsByStateDeclined();
+    this.getProjectsByStateAccepted();
   }
 
   /** Renders the component */
@@ -164,8 +217,37 @@ class ProjectListNew extends Component {
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
 
+        {/* <h1>Freigegebene Projekte</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          filteredProjects.map(project =>
+            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onProjectDeleted={this.projectDeleted}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
+        <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+
+
+        {/* <h1>Abgelehnte Projekte</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          filteredProjects.map(project =>
+            <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onProjectDeleted={this.projectDeleted}
+            />)
+        } */}
+        <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
         <h1>Freigegebene Projekte</h1>
-        {
+          <Paper className={classes.paper}>
+          {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           filteredProjects.map(project =>
@@ -175,12 +257,13 @@ class ProjectListNew extends Component {
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
-        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-
-
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
         <h1>Abgelehnte Projekte</h1>
-        {
+          <Paper className={classes.paper}>
+          {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           filteredProjects.map(project =>
@@ -190,7 +273,14 @@ class ProjectListNew extends Component {
             />)
         }
         <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateNew} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateDeclined} /> 
+          </Paper>
+        </Grid>
+      </Grid>
+        </div>
+        
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByState} />
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
       </div>
     );
@@ -206,7 +296,15 @@ const styles = theme => ({
   projectFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
-  }
+  },
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+  },
 });
 
 /** PropTypes */
