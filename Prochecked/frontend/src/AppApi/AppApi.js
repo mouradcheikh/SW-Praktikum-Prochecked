@@ -34,7 +34,8 @@ export default class AppAPI {
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
-    
+    #createStudentURL = () => `${this.#AppServerBaseURL}/student`;
+
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
@@ -357,6 +358,22 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  createStudent(student){
+    return this.#fetchAdvanced(this.#createStudentURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(student)
+      }).then((responseJSON) => {
+      // We always get an array of StudentBOs.fromJSON, but only need one object
+        let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responseStudentBO);
+      })
+    })
+  }
 
   getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getStudentByMatrikelNummerURL(matr_nr)).then((responseJSON) => { //URL LEER LASSEN????
@@ -469,22 +486,7 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  // saveStudent(student){
-  //   return this.#fetchAdvanced(this.#addProjectURL(), {
-  //     method: 'POST',
-  //     headers: {
-  //       'Accept': 'application/json, text/plain',
-  //       'Content-type': 'application/json',
-  //     },
-  //     body: JSON.stringify(project)
-  //     }).then((responseJSON) => {
-  //     // We always get an array of StudentBOs.fromJSON, but only need one object
-  //       let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
-  //       return new Promise(function (resolve) {
-  //       resolve(responseStudentBO);
-  //     })
-  //   })
-  // }
+  
   
 
 

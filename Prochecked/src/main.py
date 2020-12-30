@@ -444,6 +444,38 @@ class StudentByMatrikelNummerOperation(Resource):
     
         return stud
 
+@prochecked.route('/student')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StudentLogInOperations(Resource):
+    @prochecked.marshal_with(student, code=200)
+    @prochecked.expect(student)  
+    @secured
+    def post(self):
+        """Anlegen eines neuen Projekt-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        print(api.payload)
+        adm = ProjectAdministration()
+
+        proposal = Student.from_dict(api.payload)
+        print(proposal.get_matr_nr())
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_student(proposal.get_matr_nr(), proposal.get_studiengang(), proposal.get_person())
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterOperations(Resource):

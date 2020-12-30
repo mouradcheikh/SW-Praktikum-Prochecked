@@ -16,7 +16,8 @@ class PersonLoggedIn extends Component {
         if (berechtigung === 1){
             page = <> 
                     <Redirect to={{
-                    pathname: '/StudentView'
+                    pathname: '/StudentView',
+                    state: {person : this.props.person}
                     }}
                     />
                     </>

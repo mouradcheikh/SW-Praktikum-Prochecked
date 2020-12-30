@@ -6,6 +6,7 @@ from server.bo.Module import Module
 from server.bo.Participation import Participation
 from server.bo.ProjectType import ProjectType
 from server.bo.Semester import Semester
+from server.bo.Student import Student
 from server.bo.ProjectState import ProjectState
 from server.bo.Automat import Automat
 
@@ -159,6 +160,18 @@ class ProjectAdministration (object):
         stud.set_email(pers.get_email())
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
+
+
+    def create_student(self,student):
+        
+        # student = Student()
+        # student.set_matr_nr(matr_nr)
+        # student.set_studiengang(studiengang)
+        # student.set_person(person_id)
+        # student.set_id(1)
+        
+        with StudentMapper() as mapper:
+            return mapper.insert(student)
     
 
     '''# def get_student_by_name(self, name):

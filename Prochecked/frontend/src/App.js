@@ -250,6 +250,7 @@ class App extends React.Component {
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        
 						{
 							// Ist eine Person eingeloggt?
                            person ?
