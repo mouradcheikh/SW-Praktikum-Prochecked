@@ -267,11 +267,11 @@ class ProjectOperations(Resource):
         liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
-        print(api.payload)
+        #print(api.payload)
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
-        print(proposal.get_preffered_bd())
+        #print(proposal.get_preffered_bd())
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -335,8 +335,8 @@ class ProjectsByStateOperation(Resource):
         print(project_state)
         adm = ProjectAdministration()
         project_list = adm.get_projects_by_state(project_state)
-        for p in project_list:
-            print(p.get_project_state())
+        #for p in project_list:
+            #print(p.get_project_state())
         return project_list
 
 @prochecked.route('/dozents/<int:person_id>/projects')
@@ -351,7 +351,23 @@ class ProjectsByDozentOperation(Resource):
         Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        project_list = adm.get_projects_by_dozent(person_id)
+        project_list = adm.get_projects_by_dozent_accepted(person_id)
+
+        return project_list
+
+@prochecked.route('/dozent/<int:person_id>/project')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('person_id', 'Die ID des Dozent-Objekts')
+class ProjectsByDozentOperationInReview(Resource):
+    @prochecked.marshal_with(project)  #evtl. list rausnehemn ?!?!
+    @secured
+    def get(self, person_id):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_dozent_in_review(person_id)
 
         return project_list
 
@@ -382,8 +398,8 @@ class ParticipationsByProjectOperation(Resource):
         adm = ProjectAdministration()
         # Zunächst benötigen wir das durch id gegebene Project.
         par = adm.get_participations_by_project(project_id)
-        for p in par:
-            print(p)
+        #for p in par:
+            #print(p)
         return par
 
     @prochecked.marshal_with(participation, code=201)
@@ -523,9 +539,9 @@ class GradingListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            print(proposal.get_passed())
+            #print(proposal.get_passed())
             p = adm.create_grading(proposal.get_grade(), proposal.get_passed(), proposal.get_participation())
-            print(p)
+            #print(p)
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.

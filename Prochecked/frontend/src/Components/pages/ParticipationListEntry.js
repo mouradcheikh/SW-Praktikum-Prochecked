@@ -137,6 +137,36 @@ getGrading = () => {
   });
   }
 }
+
+// updateProject = (new_state) => {
+//   // clone the original cutomer, in case the backend call fails
+//   console.log(new_state)
+//   let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+//   // set the new attributes from our dialog
+//   updatedProject.setProjectState(new_state);
+ 
+//   AppApi.getAPI().updateProject(updatedProject).then(project => {
+//     this.setState({
+//       // project: project,
+//       updatingInProgress: false,              // disable loading indicator  
+//       updatingError: null                     // no error message
+//     });
+//     // keep the new state as base state
+//     this.baseState.project = this.state.project;
+//     this.props.onClose(updatedProject);      // call the parent with the new project
+//   }).catch(e =>
+//     this.setState({
+//       updatingInProgress: false,              // disable loading indicator 
+//       updatingError: e                        // show error message
+//     })
+//   );
+
+//   // set loading to true
+//   this.setState({
+//     updatingInProgress: true,                 // show loading indicator
+//     updatingError: null                       // disable error message
+//   });
+// }
   
     passed(){
       let passed = this.state.grade.passed
@@ -182,6 +212,7 @@ getGrading = () => {
       // console.log(this.textInput.current.value)
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
       this.getGrading()
+      this.updateProject(5)
     }
      
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
