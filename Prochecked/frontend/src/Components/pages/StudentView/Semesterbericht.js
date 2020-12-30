@@ -24,21 +24,19 @@ class Semesterbericht extends Component {
   constructor(props) {
     super(props);
 
-    // Init an empty state
     this.state = {
       projects: [],
       filteredProjects: [],
       projectFilter: '',
       error: null,
       loadingInProgress: false,
-      showProjectForm: false, //evtl.nicht 
       semesters: [],
       semester: null,
       student: null
     };
   }
 
-  /** Fetches all ProjectBOs from the backend */
+  /** Fetches ProjectBOsbyMatrNr from the backend */
   getProjectsByStudent = (person_id) => {
   // console.log("vor fetch")
     var api = AppAPI.getAPI()
@@ -63,50 +61,6 @@ class Semesterbericht extends Component {
       error: null
     });
   }
-
-//   /**
-//    * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
-//    * the ProjectListEntry of the given ProjectBO.
-//    *
-//    * @param {project} ProjectBO of the ProjectListEntry to be toggeled
-//    */
-//   onExpandedStateChange = project => {
-//     // console.log(projectID);
-//     // Set expandend project entry to null by default
-//     let newID = null;
-
-//     // If same project entry is clicked, collapse it else expand a new one
-//     if (project.getID() !== this.state.expandedProjectID) {
-//       // Expand the project entry with projectID
-//       newID = project.getID();
-//     }
-//     // console.log(newID);
-//     this.setState({
-//       expandedProjectID: newID,
-//     });
-//   }
-
-  /** Handels onChange events of the project filter text field */
-//   filterFieldValueChange = event => {
-//     const value = event.target.value.toLowerCase();
-//     this.setState({
-//       filteredProjects: this.state.projects.filter(project => {
-//         let nameContainsValue = project.getName().toLowerCase().includes(value);
-
-//         return nameContainsValue
-//       }),
-//       projectFilter: value
-//     });
-//   }
-
-//   /** Handles the onClose event of the clear filter button */
-//   clearFilterFieldButtonClicked = () => {
-//     // Reset the filter
-//     this.setState({
-//       filteredProjects: [...this.state.projects],
-//       projectFilter: ''
-//     });
-//   }
 
 
   semesterList = () => {
@@ -153,7 +107,6 @@ class Semesterbericht extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log("gerendert")
     // let person = this.props.location.state.student
     // this.getProjectsByStudent(person.getMatrNr()); richtig
     this.getProjectsByStudent(12345); 
@@ -168,30 +121,6 @@ class Semesterbericht extends Component {
     return (
       <div className={classes.root}>
         <h1>Sehen Sie ihren Semesterbericht ein:</h1>
-        {/* <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Projektfilter:
-              </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='projectFilter'
-              type='text'
-              value={projectFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
-        </Grid> */}
         <FormControl className={classes.formControl} fullWidth margin='normal'>
             <InputLabel id="semester">Semester</InputLabel>
               <Select
@@ -208,16 +137,14 @@ class Semesterbericht extends Component {
               </Select>
         </FormControl>
         {
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          // Show the list of SemesterListEntry components
           this.state.filteredProjects.map((project) =>
             <SemesterberichtEntry project_id={project.id} project={project} 
-            // student={this.props.location.state.student}
+            // student={this.props.location.state.student} kommt hier noch hin!!!!!!!!!
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStudent} />
-        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
       </div>
     );
   }

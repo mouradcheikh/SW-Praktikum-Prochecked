@@ -30,6 +30,7 @@ class SemesterberichtEntry extends Component {
 
   getGrade = () => {
     var api = AppAPI.getAPI()
+    // this.props.project.getID(), this.props.student.getMatrNr() kommt eigentlich in die Klammer
     api.getGradingByProjectandMatr(1, 12345).then((grading) =>
             {console.log(grading)
             this.setState({
@@ -57,9 +58,7 @@ class SemesterberichtEntry extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    // Use the states project
 
-    // console.log(this.state);
     return (
  
       <div>
@@ -67,12 +66,10 @@ class SemesterberichtEntry extends Component {
         <Grid item xs={8}>
             <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
             </Typography>
-          {/* <Paper className={classes.paper}>{this.props.project.name, "Note:", "2.0"}</Paper> */}
         </Grid>
         <Grid item xs={4}>
             <Typography variant='body1' className={classes.heading}>Note: {this.getGradeofGrading()}
             </Typography>
-          {/* <Paper className={classes.paper}>{this.props.project.name, "Note:", "2.0"}</Paper> */}
         </Grid>
         </Grid>
       </div>
@@ -94,6 +91,7 @@ SemesterberichtEntry.propTypes = {
   /** The ProjectBO to be rendered */
   project: PropTypes.object.isRequired,
   /** The state of this SemesterberichtEntry. If true the project is shown with its accounts */
+  student: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(SemesterberichtEntry);
