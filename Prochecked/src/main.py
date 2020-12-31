@@ -495,6 +495,38 @@ class SemesterOperations(Resource):
         sem = adm.get_all_semesters()
         return sem
 
+    @prochecked.marshal_list_with(semester, code=200)
+    @prochecked.expect(semester)  # Wir erwarten ein Semester-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Grading-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ProjectAdministration()
+
+        proposal = Semester.from_dict(api.payload)
+        #print(proposal.get_grade(), proposal.get_passed())
+        #print(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            s = adm.create_semester(proposal.get_name())
+            print(s)
+            return s, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+    
+    
+
 #Grading related 
 
 @prochecked.route('/studentsGrading')

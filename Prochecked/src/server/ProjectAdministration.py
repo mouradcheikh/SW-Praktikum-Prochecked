@@ -353,6 +353,14 @@ class ProjectAdministration (object):
         with SemesterMapper() as mapper:
             return mapper.find_all()
 
+    def create_semester(self, name):
+        #berechtigung?
+        semester = Semester()
+        semester.set_name(name)
+   
+        with SemesterMapper() as mapper:
+            return mapper.insert(semester)
+
     def get_semester_by_name(self, ):
         pass
 

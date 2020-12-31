@@ -30,6 +30,7 @@ export default class AppAPI {
 
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
+    #addSemesterURL = () => `${this.#AppServerBaseUR}/semesters`;
 
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
@@ -52,6 +53,10 @@ export default class AppAPI {
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
+
+  
+
+    
 
       /** 
    * Get the Singelton instance 
@@ -490,6 +495,32 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
+
+  //Semester Related 
+  createSemester(semester) {
+
+    let s = new SemesterBO();
+    s.setName(semester)
+    // console.log(s)
+
+    return this.#fetchAdvanced(this.#addSemesterURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(s)
+      }).then((responseJSON) => {
+      // We always get an array of GradingBO.fromJSON, but only need one object
+        let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
+      // console.info(responseJSON);
+        return new Promise(function (resolve) {
+        resolve(responseSemesterBO);
+      })
+    })
+  }
+
+
 
 
 
