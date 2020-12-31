@@ -4,7 +4,7 @@ import BusinessObject from './BusinessObject';
 /**
  * Represents a person of the system
  */
-export default class PersonBO extends BusinessObject {
+export default class SemesterBO extends BusinessObject {
 
   /**
    * Constructs a PersonBO object with a given name, email, google id and role
@@ -37,14 +37,14 @@ export default class PersonBO extends BusinessObject {
     let result = [];
 
     if (Array.isArray(semesters)) {
-      semesters.forEach((p) => {
+      semesters.forEach((s) => {
         Object.setPrototypeOf(s, SemesterBO.prototype);
         result.push(s);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
       let s = semesters;
-      Object.setPrototypeOf(p, PersonBO.prototype);
+      Object.setPrototypeOf(s, SemesterBO.prototype);
       result.push(s);
     }
 

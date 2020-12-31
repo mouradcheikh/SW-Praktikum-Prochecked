@@ -3,7 +3,7 @@ import StudentBO from './StudentBO';
 import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
-
+import SemesterBO from './SemesterBO'
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
  * The class is implemented as a singleton.
@@ -30,7 +30,7 @@ export default class AppAPI {
 
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
-    #addSemesterURL = () => `${this.#AppServerBaseUR}/semesters`;
+    #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
 
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;

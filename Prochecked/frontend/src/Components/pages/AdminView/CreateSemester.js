@@ -1,9 +1,11 @@
 import React from 'react';
 import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
+import  {AppApi}  from '../../../AppApi';
 
 class CreateSemester extends React.Component {
     constructor(props) {
         super(props);
+        this.textInput = React.createRef();
 
         this.state = {
             semester: null,
@@ -22,10 +24,10 @@ class CreateSemester extends React.Component {
         )
       }
     
-    handleSubmit = e => {
+    handleSubmit = e => { console.log(this.textInput.current.value)
         e.preventDefault();
-        this.setState({ semester:
-          this.textInput.current.value})
+        this.setState({ 
+          semester: this.textInput.current.value})
           // console.log(this.textInput.current.value)
           this.createSemester(this.textInput.current.value)
         }

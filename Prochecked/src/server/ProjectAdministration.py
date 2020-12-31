@@ -389,7 +389,7 @@ class ProjectAdministration (object):
         semester.set_name(name)
    
         with SemesterMapper() as mapper:
-            return mapper.insert(semester)
+            mapper.insert(semester)
 
     def get_semester_by_name(self, ):
         pass
