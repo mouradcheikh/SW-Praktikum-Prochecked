@@ -43,12 +43,13 @@ export default class AppAPI {
     #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
 
     // Project related
-    #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
+    #getProjectsByDozentAcceptedURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
+    #getProjectsByDozentInReviewURL = (person_id) => `${this.#AppServerBaseURL}/dozent/${person_id}/project`;
+    #getProjectsByDozentReviewedURL = (person_id) => `${this.#AppServerBaseURL}/dozente/${person_id}/projecte`;
     #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
-    
-
+  
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
@@ -321,20 +322,64 @@ getStudentByMatrikelNummer(matr_nr) {
    * @param {Number} person_id for which the the participations should be retrieved
    * @public
    */
-  getProjectsByDozent(person_id) {
+  getProjectsByDozentAccepted(person_id) {
     // console.log(person_id)
     // console.log("vor fetch in appapi")
-    return this.#fetchAdvanced(this.#getProjectsByDozentURL(person_id))
+    return this.#fetchAdvanced(this.#getProjectsByDozentAcceptedURL(person_id))
       .then((responseJSON) => {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.log(projectBOs);
+        console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
       })
   }
+
+  /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} person_id for which the the participations should be retrieved
+   * @public
+   */
+    getProjectsByDozentInReview(person_id) {
+    // console.log(person_id)
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getProjectsByDozentInReviewURL(person_id))
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
+  /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} person_id for which the the participations should be retrieved
+   * @public
+   */
+  getProjectsByDozentReviewed(person_id) {
+    // console.log(person_id)
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getProjectsByDozentReviewedURL(person_id))
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
+  
 
   getProjectsByState(project_state) {
     console.log(project_state)

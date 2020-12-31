@@ -188,7 +188,7 @@ class ProjectAdministration (object):
 #Projekt related
 
     
-    def get_projects_by_dozent(self, person_id): #dozent eig. !!
+    def get_projects_by_dozent_accepted(self, person_id): #dozent eig. !!
         """Alle Projects des gegebenen Dozenten auslesen."""
         # with ProjectMapper() as mapper:
         #     return mapper.find_by_dozent_id(person_id) 
@@ -199,7 +199,37 @@ class ProjectAdministration (object):
             p_list = []
 
             for p in pro:
-                if p.get_project_state() == 2:
+                if p.get_project_state() == 3:
+                    p_list.append(p)
+            return p_list
+
+    def get_projects_by_dozent_in_review(self, person_id): #dozent eig. !!
+        """Alle Projects des gegebenen Dozenten auslesen."""
+        # with ProjectMapper() as mapper:
+        #     return mapper.find_by_dozent_id(person_id) 
+
+        with ProjectMapper() as mapper:
+            pro = mapper.find_by_dozent_id(person_id)
+
+            p_list = []
+
+            for p in pro:
+                if p.get_project_state() == 4:
+                    p_list.append(p)
+            return p_list
+        
+    def get_projects_by_dozent_reviewed(self, person_id): #dozent eig. !!
+        """Alle Projects des gegebenen Dozenten auslesen."""
+        # with ProjectMapper() as mapper:
+        #     return mapper.find_by_dozent_id(person_id) 
+
+        with ProjectMapper() as mapper:
+            pro = mapper.find_by_dozent_id(person_id)
+
+            p_list = []
+
+            for p in pro:
+                if p.get_project_state() == 5:
                     p_list.append(p)
             return p_list
 
