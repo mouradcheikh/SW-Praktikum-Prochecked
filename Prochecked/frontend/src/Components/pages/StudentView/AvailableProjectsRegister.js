@@ -125,6 +125,8 @@ class AvailableProjectsRegister extends Component {
           </AccordionDetails>
         </Accordion> 
       </div>
+      :
+      <div></div>
     );
   }
 }
