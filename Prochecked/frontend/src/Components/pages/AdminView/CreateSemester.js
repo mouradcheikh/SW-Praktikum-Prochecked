@@ -45,7 +45,7 @@ class CreateSemester extends React.Component {
               Eintragen
               </Button>
               <Typography variant='body2' color={'textSecondary'}>
-              Semester erfolgreich eingetragen: {semester.semester}
+              Semester erfolgreich eingetragen!
               </Typography>
             </form>
         </div>
@@ -57,9 +57,9 @@ class CreateSemester extends React.Component {
            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit} >
            Eintragen
            </Button>
-           <Typography variant='body2' color={'textSecondary'}>
+           {/* <Typography variant='body2' color={'textSecondary'}>
            Semester noch nicht eingetragen
-           </Typography>
+           </Typography> */}
          </form>
      </div>
          );
