@@ -1,6 +1,9 @@
 import React from 'react';
-import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
+import {makeStyles, withStyles, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
+import Paper from '@material-ui/core/Paper';
+
+
 
 class CreateSemester extends React.Component {
     constructor(props) {
@@ -8,7 +11,8 @@ class CreateSemester extends React.Component {
         this.textInput = React.createRef();
 
         this.state = {
-            semester: null,
+            semester: null, //für CreateSemester das State 
+            semesters: [], // für SemesterList das State 
         }
     }
 
@@ -20,25 +24,48 @@ class CreateSemester extends React.Component {
           // console.log(semester)
         this.setState({
             semester: semester
-        })}
+        },
+        this.SemesterList()
+        )}
         )
       }
-    
+
+    SemesterList(){
+      var api = AppApi.getAPI()
+      api.getSemesters().then((semesters) =>
+      {
+          this.setState({
+            semesters:semesters
+          })}
+          )
+        }
+      
     handleSubmit = e => { console.log(this.textInput.current.value)
         e.preventDefault();
         this.setState({ 
-          semester: this.textInput.current.value})
+          semester: this.textInput.current.value},
+          () => {this.createSemester(this.textInput.current.value)})
           // console.log(this.textInput.current.value)
-          this.createSemester(this.textInput.current.value)
+          // this.createSemester(this.textInput.current.value),
+          // this.SemesterList()
         }
+    
+      /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log("gerendert")
+    this.SemesterList();
+  }
          
     render() { 
         const { classes  } = this.props;
-        const { semester } = this.state; 
+        const { semester, semesters } = this.state; 
         return (
         semester !== null? 
         <div>
+      <Grid container spacing={3}>
+            <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
+            <Paper className={classes.paper}>
             <form >
               <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
               <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit} >
@@ -48,10 +75,24 @@ class CreateSemester extends React.Component {
               Semester erfolgreich eingetragen!
               </Typography>
             </form>
+            </Paper>
+            </Grid>
+            <Grid item xs={6}>
+            <h1>Bestehende Semester</h1>
+           <Paper className={classes.paper}>
+          <div>
+            {semesters.map(s => <ListItem>{s.name}</ListItem >)}
+            </div>
+           </Paper>
+         </Grid>
+      </Grid>
         </div>
         :
-         <div>
-         <h1>Neues Semester eintragen</h1>
+        <div>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+        <h1>Neues Semester eintragen</h1>
+         <Paper className={classes.paper}>
          <form >
            <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit} >
@@ -61,7 +102,18 @@ class CreateSemester extends React.Component {
            Semester noch nicht eingetragen
            </Typography> */}
          </form>
-     </div>
+         </Paper>
+         </Grid>
+         <Grid item xs={6}>
+         <h1>Bestehende Semester</h1>
+           <Paper className={classes.paper}>
+           <div>
+            {semesters.map(s => <ListItem>{s.name}</ListItem >)}
+            </div>
+           </Paper>
+         </Grid>
+        </Grid>
+        </div>
          );
         }
 }
@@ -79,7 +131,12 @@ const styles = theme => ({
       fontSize: theme.typography.pxToRem(15),
       flexBasis: '33.33%',
       flexShrink: 0,
-    }
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'left',
+      color: theme.palette.text.secondary,
+    },
   });
  
   export default withStyles(styles)(CreateSemester); 
