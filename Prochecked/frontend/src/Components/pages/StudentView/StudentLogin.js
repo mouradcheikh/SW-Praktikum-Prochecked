@@ -14,9 +14,9 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
-import { AppApi } from '../../AppApi';
-import StudentBO from '../../AppApi/StudentBO';
-import PersonBO from '../../AppApi/PersonBO';
+import { AppApi } from '../../../AppApi';
+import StudentBO from '../../../AppApi/StudentBO';
+import PersonBO from '../../../AppApi/PersonBO';
 import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function StudentView(props) {
+function StudentLogin(props) {
     const classes = useStyles();
     const [Matrikelnummer, setMatrNr] = React.useState(null);
     const [Studiengang, setStudiengang] = React.useState('');
     const person = props.location.state.person;
-
+    const [student, setStudent] = React.useState(null);
     const history = useHistory()
 
 
@@ -55,17 +55,17 @@ function StudentView(props) {
         var api = AppApi.getAPI()
         // console.log(api)
         api.createStudent(student).then((student) => {
-
+            setStudent(student)
             console.log(student)
-            history.push({
-                pathname: '/StudentView2',
-                state: {
-                    student:student,
-                },
-            });
+            
         }
         )
-        
+        history.push({
+            pathname: '/StudentView',
+            state: {
+                student:student,
+            },
+        });  
 
 
 
@@ -108,7 +108,7 @@ function StudentView(props) {
                         onInput={e => setStudiengang(e.target.value)}
                     />
 
-                        {/* <Link > */}
+                        
                         <Button
                             type="submit"
                             variant="contained"
@@ -118,11 +118,11 @@ function StudentView(props) {
                         >
                             Speichern
                 </Button>
-                        {/* </Link> */}
+                        
                     </div>
                 </form>
             </center>
         </React.Fragment>
     );
 }
-export default StudentView;
+export default StudentLogin;

@@ -15,7 +15,8 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 // import PersonList from './Components/PersonList';
-import StudentView from './Components/pages/StudentView';
+import StudentLogin from './Components/pages/StudentView/StudentLogin';
+// import StudentView from './Components/pages/StudentView';
 import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
@@ -244,7 +245,7 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
-                        <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>

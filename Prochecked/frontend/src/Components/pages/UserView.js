@@ -38,7 +38,7 @@ render () {
           <center>
                 <h1>Bitte wählen Sie Ihre Rolle:</h1>
                 <div>
-                <Link to='/StudentView'>
+                <Link to='/StudentLogin'>
                 <Button
                     size="large"
                     variant="contained"

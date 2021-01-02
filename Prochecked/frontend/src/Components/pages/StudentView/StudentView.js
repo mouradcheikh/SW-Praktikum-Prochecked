@@ -9,11 +9,12 @@
 // import ProjectList from './ProjectList';
 // import ProjektFormular from './ProjektErstellen'
 // import UserView from './UserView'
+//import StudentLogin from './StudentLogin'
 // import { AppApi } from '../../AppApi';
 
 
-// // function DozentenView(props) {
-// class DozentenView extends Component{
+// // function StudentView(props) {
+// class StudentView extends Component{
 //   constructor(props){
 //     super(props);
     
@@ -29,7 +30,7 @@
 //             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
 //             <Link to={{
 //             pathname: '',
-//             state: { linkState: person }
+//             state: { linkState: person, student: this.location.state.student }
 //             }}>
 //             <Button
 //                 size="large"
@@ -45,7 +46,7 @@
 //             <div>            
 //             <Link to={{
 //             pathname: '',
-//             state: { linkState: person }
+//             state: { linkState: person, student: this.location.state.student }
 //             }}>
 //            <Button
 //                 size="large"
@@ -73,5 +74,5 @@
 //   },
 // })
 
-//   export default withStyles(styles)(DozentenView);
+//   export default withStyles(styles)(StudentView);
 

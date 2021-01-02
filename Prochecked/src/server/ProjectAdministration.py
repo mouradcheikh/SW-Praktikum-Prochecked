@@ -162,13 +162,13 @@ class ProjectAdministration (object):
         return stud
 
 
-    def create_student(self,student):
+    def create_student(self,matr_nr,studiengang,person_id):
         
-        # student = Student()
-        # student.set_matr_nr(matr_nr)
-        # student.set_studiengang(studiengang)
-        # student.set_person(person_id)
-        # student.set_id(1)
+        student = Student()
+        student.set_matr_nr(matr_nr)
+        student.set_studiengang(studiengang)
+        student.set_person(person_id)
+        student.set_id(1)
         
         with StudentMapper() as mapper:
             return mapper.insert(student)
