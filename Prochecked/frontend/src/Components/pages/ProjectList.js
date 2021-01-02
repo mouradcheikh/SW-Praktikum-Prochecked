@@ -176,16 +176,23 @@ class ProjectList extends Component {
   }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log("gerendert")
-    let person = this.props.location.state.linkState
+    let adminProf = this.props.location.state.adminProf
+    let person = this.props.location.state.linkState  
+    if (person === undefined){
+      this.getProjectsByDozentAccepted(adminProf.id);
+      this.getProjectsByDozentInReview(adminProf.id);
+      this.getProjectsByDozentReviewed(adminProf.id);
+    }
+    else{
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
     this.getProjectsByDozentReviewed(person.id);
+    } 
   }
 
   /** Renders the component */
   render() {
-    const { classes, projectsFromEntry} = this.props;
+    const { classes} = this.props;
     const { filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
 
     return (
