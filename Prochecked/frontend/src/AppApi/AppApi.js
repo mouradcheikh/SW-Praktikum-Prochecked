@@ -30,7 +30,6 @@ export default class AppAPI {
 
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
-    #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     
 
     // Student related

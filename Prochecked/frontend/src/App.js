@@ -23,6 +23,7 @@ import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
+import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 
 // import firebaseconfig from './firebaseconfig';
 
