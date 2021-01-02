@@ -445,7 +445,7 @@ getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      // console.info(responseDozentBOs);
+      console.info(responseDozentBOs);
       return new Promise(function (resolve) {
         resolve(responseDozentBOs);
       })
