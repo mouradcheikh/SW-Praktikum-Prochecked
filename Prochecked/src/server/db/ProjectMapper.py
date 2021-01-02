@@ -134,7 +134,7 @@ class ProjectMapper(Mapper):
                 project.get_preffered_bd(),
                 project.get_special_room(),
                 project.get_dozent(),
-                project.get_state(),
+                project.get_project_state(),
                 project.get_project_type(),
                 project.get_semester(),
                 project.get_dozent2()

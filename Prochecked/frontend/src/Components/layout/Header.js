@@ -5,7 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
+import MenuIcon from '@material-ui/icons/Menu';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+
 
 class Header extends React.Component {
     constructor (props) {
@@ -21,7 +23,7 @@ render () {
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton}  aria-label="menu">
-            <HomeIcon fontSize= "large"/>
+            <MenuIcon fontSize= "large"/>
           </IconButton>
           <Typography variant="h5" className={classes.title}>
               <div>ProChecked - Hochschule der Medien</div>

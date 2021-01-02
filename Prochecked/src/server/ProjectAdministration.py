@@ -6,6 +6,7 @@ from server.bo.Module import Module
 from server.bo.Participation import Participation
 from server.bo.ProjectType import ProjectType
 from server.bo.Semester import Semester
+from server.bo.Student import Student
 from server.bo.ProjectState import ProjectState
 from server.bo.Automat import Automat
 
@@ -14,6 +15,7 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
+
 from .db.RoleMapper import RoleMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
@@ -159,6 +161,18 @@ class ProjectAdministration (object):
         stud.set_email(pers.get_email())
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
+
+
+    def create_student(self,matr_nr,studiengang,person_id):
+        
+        student = Student()
+        student.set_matr_nr(matr_nr)
+        student.set_studiengang(studiengang)
+        student.set_person(person_id)
+        student.set_id(1)
+        
+        with StudentMapper() as mapper:
+            return mapper.insert(student)
     
 
     '''# def get_student_by_name(self, name):
@@ -233,6 +247,23 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
 
+
+    def get_projects_by_student(self, matr_nr):
+        adm = ProjectAdministration()
+        student = adm.get_student_by_matr_nr(matr_nr)
+        student_id = student.get_id()
+        participations = adm.get_participations_by_student_id(student_id)
+
+        project_list = []
+
+        for p in participations:
+            project_id = p.get_project()
+            project = adm.get_project_by_id(project_id)
+            project_list.append(project)
+         
+        return project_list
+            
+
     def get_projects_by_state_new(self):
         """Alle Projects mit dem Status Neu auslesen."""
 
@@ -268,9 +299,6 @@ class ProjectAdministration (object):
         pass
 
     def get_projects_by_person(self, person):
-        pass
-
-    def get_projects_by_student(self, student):
         pass
 
     def delete_project(self, project):
@@ -319,6 +347,15 @@ class ProjectAdministration (object):
         """Die Grading mit der gegebenen participation ID auslesen."""
         with GradingMapper() as mapper:
             return mapper.find_by_participation_id(participation_id) 
+
+    def get_grading_by_project_id_and_matr_nr(self, project_id, matr_nr):
+        adm = ProjectAdministration()
+        student = adm.get_student_by_matr_nr(matr_nr)
+        student_id = student.get_id()
+        participation = adm.get_participation_by_student_id_and_project_id(student_id, project_id)
+        participation_id = participation.get_id()
+        grading = adm.get_grading_by_participation_id(participation_id)
+        return grading
 
     def get_grading_by_id(self, id):
         with GradingMapper() as mapper:
@@ -369,6 +406,14 @@ class ProjectAdministration (object):
         """Das Participation mit der gegebenen ID auslesen."""
         with ParticipationMapper() as mapper:
             return mapper.find_by_id(id)
+
+    def get_participations_by_student_id(self, student_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_student_id(student_id)
+
+    def get_participation_by_student_id_and_project_id(self, student_id, project_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_by_student_id_and_project_id(student_id, project_id)
 
     def delete_participation(self, participation):
         """Eine Participation löschen"""
@@ -431,7 +476,10 @@ if __name__ == '__main__':
 
 
 
-    # adm = ProjectAdministration()
+    adm = ProjectAdministration()
+    projects = adm.get_projects_by_student(12345)
+    for p in projects:
+        print(p)
 
     # p = adm.create_grading(2, 1)
     # print(p)

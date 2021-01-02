@@ -339,6 +339,24 @@ class ProjectsByStateOperation(Resource):
             #print(p.get_project_state())
         return project_list
 
+
+@prochecked.route('/students/<int:matr_nr>/projects')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('matr_nr', 'Die Personen ID des Student-Objekts')
+class ProjectsByStudentOperation(Resource):
+    @prochecked.marshal_list_with(project)  #evtl. list rausnehemn ?!?!
+    @secured
+    def get(self, matr_nr):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_student(matr_nr)
+
+        return project_list
+
+
 @prochecked.route('/dozents/<int:person_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('person_id', 'Die ID des Dozent-Objekts')
@@ -465,7 +483,7 @@ class ParticipationOperations(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationPutOperation(Resource):
     @prochecked.marshal_with(participation, code=200)
-    @prochecked.expect(participation)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @prochecked.expect(participation)  # Wir erwarten ein participation-Objekt von Client-Seite.
     @secured
     def put(self):
         """Update eines bestimmten Participation-Objekts."""
@@ -514,6 +532,38 @@ class StudentByMatrikelNummerOperation(Resource):
         stud = adm.get_student_by_matr_nr(matr_nr)
     
         return stud
+
+@prochecked.route('/student')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StudentLogInOperations(Resource):
+    @prochecked.marshal_with(student, code=200)
+    @prochecked.expect(student)  
+    @secured
+    def post(self):
+        """Anlegen eines neuen Projekt-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        print(api.payload)
+        adm = ProjectAdministration()
+
+        proposal = Student.from_dict(api.payload)
+        print(proposal.get_matr_nr())
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_student(proposal.get_matr_nr(), proposal.get_studiengang(), proposal.get_person())
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -627,6 +677,23 @@ class GradingOperations(Resource):
         adm = ProjectAdministration()
         #print(id)
         gra = adm.get_grading_by_id(id)
+        
+        return gra
+
+
+@prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('project_id', 'matr_nr')
+class GradingByProjectandStudentOperations(Resource):
+    @prochecked.marshal_with(grading)
+    @secured
+    def get(self, project_id, matr_nr):
+        """Auslesen eines bestimmten Grading-Objekts.
+
+        Das auszulesende Objekt wird durch die ```project_id``` und matrnr in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        gra = adm.get_grading_by_project_id_and_matr_nr(project_id, matr_nr)
         
         return gra
 

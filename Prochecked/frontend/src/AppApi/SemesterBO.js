@@ -3,6 +3,8 @@ import BusinessObject from './BusinessObject';
 
 /**
  * Represents a person of the system
+/**
+ * Represents a Role of the system
  */
 export default class SemesterBO extends BusinessObject {
 

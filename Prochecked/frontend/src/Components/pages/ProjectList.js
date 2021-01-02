@@ -191,6 +191,7 @@ class ProjectList extends Component {
     return (
       <div>
       <div className={classes.root}>
+        <h1>Pflegen Sie ihre Projekte und bewerten Sie die Teilnehmer:</h1>
         <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
