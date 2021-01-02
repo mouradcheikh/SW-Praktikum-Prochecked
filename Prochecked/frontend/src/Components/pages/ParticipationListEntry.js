@@ -174,7 +174,7 @@ getGrading = () => {
     }
   }
 
-  /** Handles click events from the transfer money button */
+  /** Handles click events from the !!!!!!!!!!!!!!!!!!!!transfer money button */
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ grade:

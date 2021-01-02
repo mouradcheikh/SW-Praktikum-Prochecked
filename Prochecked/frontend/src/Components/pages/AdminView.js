@@ -55,7 +55,7 @@ export default function MenuListComposition() {
       <Paper className={classes.paper}>
         <h1>Was möchten Sie tun?</h1>
         <MenuList>
-          <Link to='/ReleaseProject'>
+          <Link to='/ProjectListNew'>
           <MenuItem>Projekte freigeben</MenuItem>
           </Link>
           <Link to='/CreateProject' >

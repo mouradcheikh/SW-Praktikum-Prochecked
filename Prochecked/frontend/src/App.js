@@ -22,7 +22,7 @@ import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
-import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -252,6 +252,7 @@ class App extends React.Component {
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
                         
+                        <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?

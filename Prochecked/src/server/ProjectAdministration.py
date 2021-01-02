@@ -216,20 +216,29 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
 
-    def get_projects_by_State_New(self, project_state_id):
+    def get_projects_by_state_new(self):
         """Alle Projects mit dem Status Neu auslesen."""
 
         with ProjectMapper() as mapper:
-            pro = mapper.find_project_by_project_state_id(project_state_id)
+            pro = mapper.find_project_by_project_state_id(1)
 
             p_list = []
 
             for p in pro:
-                if p.get_project_state() == 2:
-                    p_list.append(p)
+                p_list.append(p)
             return p_list
-                
+    
+    def get_projects_by_state(self, project_state):
+        """Alle Projects mit dem Status Neu auslesen."""
 
+        with ProjectMapper() as mapper:
+            pro = mapper.find_project_by_project_state_id(project_state)
+
+            p_list = []
+
+            for p in pro:
+                p_list.append(p)
+            return p_list
 
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
@@ -255,7 +264,8 @@ class ProjectAdministration (object):
             return mapper.insert(project)
 
     def save_project(self, project):
-        pass
+        with ProjectMapper() as mapper:
+            mapper.update(project)
 
 
 #Grading Related

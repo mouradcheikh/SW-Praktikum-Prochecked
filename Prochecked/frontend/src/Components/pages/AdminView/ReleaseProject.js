@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -10,33 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import {AppApi} from '../../../AppApi';
+import ProjectBO from '../../../AppApi';
 
-
-  // /** Fetches all ProjectBOs with State-New from the backend */
-  // getProjectsByStateNew = (project_id) => {
-  //   // console.log("vor fetch")
-  //     var api = AppApi.getAPI()
-  //     api.getProjectsByStateNew(project_id) //evtl. Objekt von API vorher anlegen
-  //       .then(projectBOs =>
-  //         this.setState({               // Set new state when ProjectBOs have been fetched
-  //           projects: projectBOs,
-  //           filteredProjects: [...projectBOs], // store a copy
-  //           loadingInProgress: false,   // disable loading indicator
-  //           error: null
-  //         })).catch(e =>
-  //           this.setState({             // Reset state with error from catch
-  //             projects: [],
-  //             loadingInProgress: false, // disable loading indicator
-  //             error: e
-  //           })
-  //         );
-  
-  //     // set loading to true
-  //     this.setState({
-  //       loadingInProgress: true,
-  //       error: null
-  //     });
-  //   }
 
 
 const useStyles = makeStyles((theme) => ({
@@ -72,8 +48,8 @@ function union(a, b) {
 export default function TransferList() {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [right, setRight] = React.useState([4, 5, 6, 7]);
+  const [left, setLeft] = React.useState(['']);
+  const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -113,6 +89,38 @@ export default function TransferList() {
     setChecked(not(checked, rightChecked));
   };
 
+    /** Fetches all ProjectBOs with State-New from the backend */
+  const getProjectsByStateNew = () => {
+    // console.log("vor fetch")
+      var api = AppApi.getAPI()
+      api.getProjectsByStateNew() //evtl. Objekt von API vorher anlegen
+        .then(projectBOs => {
+          setLeft(projectBOs)});          // Set new state when ProjectBOs have been fetched
+            
+            // filteredProjects: [...projectBOs], // store a copy
+            // loadingInProgress: false,   // disable loading indicator
+            // error: null
+          // })).catch(e =>
+          //   this.setState({             // Reset state with error from catch
+          //     left: [],
+          //     // loadingInProgress: false, // disable loading indicator
+          //     // error: e
+          //   })
+          // );
+  
+    //   // set loading to true
+    //   this.setState({
+    //     loadingInProgress: true,
+    //     error: null
+    //   });
+    };
+
+  useEffect (() => getProjectsByStateNew());
+  // const componentDidMount = () => {
+  //   // console.log("gerendert")
+  //   this.getProjectsByStateNew();
+  // };
+
   const customList = (title, items) => (
     <Card>
       <CardHeader
@@ -131,8 +139,8 @@ export default function TransferList() {
       />
       <Divider />
       <List className={classes.list} dense component="div" role="list">
-        {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value}-label`;
+        {items.map((value) => { console.log(items, value.name)
+          const labelId = `transfer-list-all-item-${value.name}-label`;
 
           return (
             <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
@@ -145,6 +153,8 @@ export default function TransferList() {
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              {/* <ListItemText projectName={value.name} id={labelId} primary={`List item ${value + 1}`} /> */}
+              
             </ListItem>
           );
         })}

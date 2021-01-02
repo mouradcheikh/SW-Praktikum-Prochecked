@@ -37,7 +37,7 @@ class Participation(bo.BusinessObjects):
         return self._student
 
     def __str__(self):
-        return "Participation: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.set_creation_date(), self.get_grading(), self.get_module(), self.get_project(), self.get_student())
+        return "Participation: {}, {}, {}, {}, {}".format(self.get_id(), self.get_grading(), self.get_module(), self.get_project(), self.get_student())
     
 
     def to_dict(self):

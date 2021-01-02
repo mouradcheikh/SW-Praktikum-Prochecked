@@ -41,7 +41,7 @@ const styles = (theme) => ({
       width: "100%"
     },
     menuButton: {
-      marginRight: theme.spacing(28),
+      marginRight: theme.spacing(25),
     },
     title: {
       flexGrow: 1,
