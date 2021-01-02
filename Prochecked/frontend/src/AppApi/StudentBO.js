@@ -15,7 +15,7 @@ export default class StudentBO extends PersonBO {
     super();
     this.name = aname
     this.studiengang = astudiengang;
-    this.matr_nr = amatr_nr;
+    this.matr_nr = null;
     this.person_id = aperson_id
   }
 

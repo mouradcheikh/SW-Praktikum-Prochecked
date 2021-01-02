@@ -38,7 +38,10 @@ render () {
           <center>
                 <h1>Bitte wählen Sie Ihre Rolle:</h1>
                 <div>
-                <Link to='/StudentView'>
+                <Link to={{
+                pathname: '/StudentLogin',
+                state: { person: this.props.person }
+                }}>
                 <Button
                     size="large"
                     variant="contained"

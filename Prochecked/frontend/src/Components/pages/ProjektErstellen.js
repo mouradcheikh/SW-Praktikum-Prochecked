@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import SaveIcon from '@material-ui/icons/Save';
 import Checkbox from '@material-ui/core/Checkbox';
 // import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -324,6 +325,7 @@ function SemesterList(){
                  type="submit"
                  variant="contained"
                  color="primary" 
+                 startIcon={<SaveIcon />}
                 >
                   Speichern
                 </Button>

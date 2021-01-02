@@ -129,6 +129,13 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+<<<<<<< HEAD
+node_modules
+.idea/.gitignore
+.gitignore
+.xml
+.iml
+=======
 ###                                                 ###
 ### React Teil auf Basis von create-react-app       ###
 # dependencies
@@ -163,12 +170,16 @@ yarn-error.log*
 .eslintcache
 .gitignore
 .gitignore
+>>>>>>> main
 .idea/misc.xml
 .idea/modules.xml
 .idea/SW-Praktikum-Projected.iml
 .idea/vcs.xml
 .idea/inspectionProfiles/profiles_settings.xml
+<<<<<<< HEAD
+=======
 Prochecked/.gitignore
+>>>>>>> main
 .vscode/settings.json
 .gitignore
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StudentView from './StudentView'
+import StudentView from './StudentView/StudentLogin'
 import AdminView from './AdminView'
 import DozentView from './DozentView'
 import UserView from './UserView'
@@ -16,7 +16,8 @@ class PersonLoggedIn extends Component {
         if (berechtigung === 1){
             page = <> 
                     <Redirect to={{
-                    pathname: '/StudentView'
+                    pathname: '/StudentLogin',
+                    state: {person : this.props.person}
                     }}
                     />
                     </>

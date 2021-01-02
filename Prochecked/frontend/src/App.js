@@ -15,7 +15,8 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 // import PersonList from './Components/PersonList';
-import StudentView from './Components/pages/StudentView';
+import StudentLogin from './Components/pages/StudentView/StudentLogin';
+// import StudentView from './Components/pages/StudentView';
 import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
@@ -23,6 +24,10 @@ import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
+import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
+import StudentView from './Components/pages/StudentView/StudentView';
+
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -246,11 +251,15 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
                         <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
 						{
 							// Ist eine Person eingeloggt?
