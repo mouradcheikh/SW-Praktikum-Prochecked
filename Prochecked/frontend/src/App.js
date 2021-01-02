@@ -24,6 +24,7 @@ import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
+import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
@@ -261,6 +262,7 @@ class App extends React.Component {
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
                         
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
+                        <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?

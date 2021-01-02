@@ -24,6 +24,8 @@ class DozentenView extends Component{
   render() {
     const { classes } = this.props;
     const person = this.props.location.state.person
+    const adminProf = this.props.location.state.prof
+    console.log(this.props.location.state.prof)
 
     return(<div>
       <center>
@@ -31,7 +33,8 @@ class DozentenView extends Component{
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
             <Link to={{
             pathname: '/CreateProject',
-            state: { linkState: person }
+            state: { linkState: person},
+            state: { linkState: adminProf}
             }}>
             <Button
                 size="large"
@@ -47,7 +50,8 @@ class DozentenView extends Component{
             <div>            
             <Link to={{
             pathname: '/ProjectList',
-            state: { linkState: person }
+            state: { linkState: person},
+            state: { linkState: adminProf}
             }}>
            <Button
                 size="large"
