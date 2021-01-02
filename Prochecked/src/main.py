@@ -116,7 +116,7 @@ project = api.inherit('Project', nbo, {
                                   description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
     'special_room': fields.String(attribute='_special_room',
                                   description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
-    'current_state': fields.Integer(attribute='_project_state',
+    'project_state': fields.Integer(attribute='_project_state',
                                     description='Jetziger Status des Projekts'),
     'project_type': fields.Integer(attribute='_project_type',
                                   description='Art des Projekts'),
@@ -283,23 +283,60 @@ class ProjectOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
-
-# Project related
-
-@prochecked.route('/dozents/<int:person_id>/projects')
-@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('person_id', 'Die ID des Dozent-Objekts')
-class ProjectsByDozentOperation(Resource):
-    @prochecked.marshal_with(project)  #evtl. list rausnehemn ?!?!
+    
+    @prochecked.marshal_with(project)
+    @prochecked.expect(project)
     @secured
-    def get(self, person_id):
-        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+    def put(self):
+        """Update eines bestimmten Project-Objekts.
 
-        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
+        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
+        Project-Objekts.
         """
         adm = ProjectAdministration()
-        project_list = adm.get_projects_by_dozent(person_id)
+        #print(api.payload)
+        p = Project.from_dict(api.payload)
+        #print(p)
 
+        if p is not None:
+            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Person-Objekts gesetzt.
+            Siehe Hinweise oben.
+            """
+            adm.save_project(p)
+            return '', 200
+        else:
+            return '', 500
+    
+    # @prochecked.marshal_list_with(project)
+    # @secured
+    # def get(self):
+    #     """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
+
+    #     Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+    #     """
+    #     adm = ProjectAdministration()
+    #     project_list = adm.get_projects_by_state_new()
+    #     # for p in project_list:
+    #     #     print(p.get_project_state())
+    #     return project_list
+
+@prochecked.route('/projects/<int:project_state>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('project_state', 'Jetziger Status des Projekts')
+class ProjectsByStateOperation(Resource):
+    @prochecked.marshal_list_with(project)
+    @secured
+    def get(self,project_state):
+        """Auslesen eines bestimmten Person-Objekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        print(project_state)
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_state(project_state)
+        for p in project_list:
+            print(p.get_project_state())
         return project_list
 
 
@@ -320,19 +357,19 @@ class ProjectsByStudentOperation(Resource):
         return project_list
 
 
-@prochecked.route('/state/<int:project_state_id>/projects')
+@prochecked.route('/dozents/<int:person_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('person_id', 'Die ID des Dozent-Objekts')
-class ProjectsByStateNewOperation(Resource):
-    @prochecked.marshal_list_with(project)
+class ProjectsByDozentOperation(Resource):
+    @prochecked.marshal_with(project)  #evtl. list rausnehemn ?!?!
     @secured
-    def get(self, project_state_id):
-        """Auslesen aller Project-Objekte bzgl. eines bestimmten State-Objekts.
+    def get(self, person_id):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
 
-        Das State-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        project_list = adm.get_projects_by_State_New(project_state_id)
+        project_list = adm.get_projects_by_dozent(person_id)
 
         return project_list
 
@@ -386,6 +423,8 @@ class ParticipationsByProjectOperation(Resource):
             return result
         else:
             return "Project unknown", 500
+    
+
 
 @prochecked.route('/participation/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -461,6 +500,38 @@ class StudentByMatrikelNummerOperation(Resource):
         stud = adm.get_student_by_matr_nr(matr_nr)
     
         return stud
+
+@prochecked.route('/student')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class StudentLogInOperations(Resource):
+    @prochecked.marshal_with(student, code=200)
+    @prochecked.expect(student)  
+    @secured
+    def post(self):
+        """Anlegen eines neuen Projekt-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        print(api.payload)
+        adm = ProjectAdministration()
+
+        proposal = Student.from_dict(api.payload)
+        print(proposal.get_matr_nr())
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_student(proposal.get_matr_nr(), proposal.get_studiengang(), proposal.get_person())
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -565,3 +636,18 @@ class GradingByProjectandStudentOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    '''project = Project()
+    project.set_id(1)
+    project.set_name("ADS")
+    project.set_project_state(2)
+
+    adm = ProjectAdministration()
+    z = adm.save_project(project)
+    print(z)'''
+
+    # adm = ProjectAdministration()
+    # p = adm.get_projects_by_state(2)
+    # for i in p:
+    #     print(i.get_name(), i.get_project_state())
+   

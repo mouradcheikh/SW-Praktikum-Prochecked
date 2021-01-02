@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+
 function StudentView(){
     return( 
         <div>
@@ -14,3 +15,4 @@ function StudentView(){
     );
 }
 export default StudentView;
+
