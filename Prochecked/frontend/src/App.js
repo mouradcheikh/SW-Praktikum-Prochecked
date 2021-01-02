@@ -25,6 +25,7 @@ import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
+import StudentView from './Components/pages/StudentView/StudentView';
 
 
 // import firebaseconfig from './firebaseconfig';

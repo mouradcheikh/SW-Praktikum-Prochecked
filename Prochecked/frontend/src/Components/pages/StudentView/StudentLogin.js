@@ -63,7 +63,7 @@ function StudentLogin(props) {
         history.push({
             pathname: '/StudentView',
             state: {
-                student:student,
+                student: student,
             },
         });  
 
@@ -91,7 +91,7 @@ function StudentLogin(props) {
                     <div>
                         <h1>Bitte geben Sie Ihre Matrikelnummer und Ihren Studiengang ein:</h1>
                     </div>
-                    <div><TextField className={classes.formControl}
+                    <div><TextField required className={classes.formControl}
                         id="matrikelnummer"
                         label="Matrikelnummer"
                         variant="outlined"
@@ -100,7 +100,7 @@ function StudentLogin(props) {
                     />
 
                     </div>
-                    <div><TextField className={classes.formControl}
+                    <div><TextField required className={classes.formControl}
                         id="studiengang"
                         label="Studiengangskürzel"
                         variant="outlined"

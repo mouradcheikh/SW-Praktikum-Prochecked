@@ -122,8 +122,8 @@ export default class ProjectBO extends BusinessObject {
         this.preffered_bd = bd
     }
 
-    getCurrentState(){
-        return this.current_state 
+    getProjectState(){
+        return this.project_state
     }
 
 /** 
