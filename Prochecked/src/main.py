@@ -356,6 +356,21 @@ class ProjectsByStudentOperation(Resource):
 
         return project_list
 
+@prochecked.route('/dozentn/<int:person_id>/projectn')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('person_id', 'Die ID des Dozent-Objekts')
+class ProjectsByDozentOperationNew(Resource):
+    @prochecked.marshal_with(project)  #evtl. list rausnehemn ?!?!
+    @secured
+    def get(self, person_id):
+        """Auslesen aller Project-Objekte bzgl. eines bestimmten Dozent-Objekts.
+
+        Das Dozent-Objekt dessen Projects wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        project_list = adm.get_projects_by_dozent_new(person_id)
+
+        return project_list
 
 @prochecked.route('/dozents/<int:person_id>/projects')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -536,7 +551,7 @@ class StudentByMatrikelNummerOperation(Resource):
 @prochecked.route('/student-by-person-id/<int:person_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('person_id', 'Die personen id des Student-Objekts')
-class StudentByMatrikelNummerOperation(Resource):
+class StudentByMatrikelNummerOperations(Resource):
     @prochecked.marshal_with(student)
     @secured
     def get(self, person_id):
