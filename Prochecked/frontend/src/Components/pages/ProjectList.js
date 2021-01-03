@@ -33,6 +33,7 @@ class ProjectList extends Component {
     // Init an empty state
     this.state = {
       projects: [],
+      newProjects: [],
       projectsInReview: [],
       projectsReviewed: [],
       filteredProjects: [],
@@ -50,7 +51,30 @@ class ProjectList extends Component {
   //     projectsInReview: this.projectsFromEntry
   //   })
   // }
-
+  getProjectsByDozentNew = (person_id) => {
+    // console.log("vor fetch")
+      var api = AppApi.getAPI()
+      api.getProjectsByDozentNew(person_id) //evtl. Objekt von API vorher anlegen
+        .then(projectBOs =>
+          this.setState({               // Set new state when ProjectBOs have been fetched
+            projects: projectBOs,
+            newProjects: [...projectBOs], // store a copy
+            loadingInProgress: false,   // disable loading indicator
+            error: null
+          })).catch(e =>
+            this.setState({             // Reset state with error from catch
+              projects: [],
+              loadingInProgress: false, // disable loading indicator
+              error: e
+            })
+          );
+  
+      // set loading to true
+      this.setState({
+        loadingInProgress: true,
+        error: null
+      });
+    }
 
   /** Fetches all ProjectBOs from the backend */
   getProjectsByDozentAccepted = (person_id) => {
@@ -178,6 +202,7 @@ class ProjectList extends Component {
   componentDidMount() {
     // console.log("gerendert")
     let person = this.props.location.state.linkState
+    this.getProjectsByDozentNew(person.id);
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
     this.getProjectsByDozentReviewed(person.id);
@@ -186,7 +211,7 @@ class ProjectList extends Component {
   /** Renders the component */
   render() {
     const { classes, projectsFromEntry} = this.props;
-    const { filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
+    const { newProjects, filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
 
     return (
       <div>
@@ -220,6 +245,20 @@ class ProjectList extends Component {
       </div>
 
       <div>
+
+      <h1>Projekte zur Freigabe übergeben</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          newProjects.map(project =>
+            <ProjectListEntry key={project.getID()}
+              project={project}
+              expandedState={expandedProjectID === project.getID()}
+              // projectsFromEntry={this.projectsFromEntry}
+              onExpandedStateChange={this.onExpandedStateChange}
+              onProjectDeleted={this.projectDeleted}
+            />)
+        }
         
         <h1>Akzeptierte Projekte</h1>
         {

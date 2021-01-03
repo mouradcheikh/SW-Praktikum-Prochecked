@@ -135,6 +135,37 @@ class ProjectListEntry extends Component {
         </Accordion>
       </div>
 
+      :project.project_state ===1?
+      <div>
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id={`project${project.getID()}accountpanel-header`}
+          >
+            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
+                </Typography>
+              </Grid>
+                {/* <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
+              </Grid> */}
+
+              <Grid>
+                
+              </Grid>
+              <Grid item xs />
+              <Grid item>
+                
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+             Dieses Projekt wird momentan noch geprüft und ist noch nicht freigegeben!
+          </AccordionDetails>
+        </Accordion>
+      </div>
+
       :project.project_state ===4?
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>

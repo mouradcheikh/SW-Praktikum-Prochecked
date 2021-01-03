@@ -56,6 +56,7 @@ export default class AppAPI {
     #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
+    #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
   
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
@@ -324,6 +325,28 @@ getStudentByMatrikelNummer(matr_nr) {
   // }
 
 //Project related
+
+ /**
+   * Returns a Promise, which resolves to an Array of ProjectBOs
+   * 
+   * @param {Number} person_id for which the the participations should be retrieved
+   * @public
+   */
+  getProjectsByDozentNew(person_id) {
+    // console.log(person_id)
+    // console.log("vor fetch in appapi")
+    return this.#fetchAdvanced(this.#getProjectsByDozentNewURL(person_id))
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
    * 
