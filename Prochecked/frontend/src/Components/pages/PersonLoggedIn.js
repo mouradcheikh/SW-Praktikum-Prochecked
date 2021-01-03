@@ -56,6 +56,16 @@ class PersonLoggedIn extends Component {
                     </>
             }}
 
+        else if (berechtigung === 2){
+            page = <>	
+                    <Redirect to={{
+                    pathname: '/DozentView',
+                    state: {person: this.props.person}
+                    }}
+                    />
+                    </>
+        }
+
         else if (berechtigung === 3){
             page = <>	
                     <Redirect to={{
