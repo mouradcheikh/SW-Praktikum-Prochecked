@@ -144,7 +144,23 @@ class ProjectAdministration (object):
         stud.set_email(pers.get_email())
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
-    
+
+
+    def get_student_by_person_id(self, person_id):
+        with StudentMapper() as mapper:
+            stud = mapper.find_by_person_id(person_id) 
+
+        with PersonMapper() as mapper:
+            pers = mapper.find_by_id(person_id)
+
+
+        if stud is not None: 
+            stud.set_name(pers.get_name())
+            stud.set_google_id(pers.get_google_id())
+            stud.set_email(pers.get_email())
+            stud.set_berechtigung(pers.get_berechtigung())
+        return stud
+        
 
     def get_student_by_id(self, id):
         with StudentMapper() as mapper:

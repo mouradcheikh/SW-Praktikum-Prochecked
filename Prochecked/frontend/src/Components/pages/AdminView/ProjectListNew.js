@@ -145,11 +145,11 @@ class ProjectListNew extends Component {
    componentDidUpdate(prevProps) {
     // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
     if ((this.props.show !== prevProps.show)) { 
-      this.getProjectsByStateNew();
+    this.getProjectsByStateNew();
     this.getProjectsByStateDeclined();
     this.getProjectsByStateAccepted();
-      }
     }
+  }
 
   /** Renders the component */
   render() {
@@ -165,7 +165,8 @@ class ProjectListNew extends Component {
           projectsNew.map(project => 
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
+              onProjectDeleted={this.projectDeleted} getProjectsByStateNew={this.getProjectsByStateNew} getProjectsByStateDeclined={this.getProjectsByStateDeclined} 
+              getProjectsByStateAccepted={this.getProjectsByStateAccepted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -181,7 +182,8 @@ class ProjectListNew extends Component {
           projectsAccepted.map(project =>
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
+              onProjectDeleted={this.projectDeleted} getProjectsByStateNew={this.getProjectsByStateNew} getProjectsByStateDeclined={this.getProjectsByStateDeclined} 
+              getProjectsByStateAccepted={this.getProjectsByStateAccepted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -197,7 +199,8 @@ class ProjectListNew extends Component {
           projectsDeclined.map(project =>
             <ProjectListEntryNew key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
+              onProjectDeleted={this.projectDeleted} getProjectsByStateNew={this.getProjectsByStateNew} getProjectsByStateDeclined={this.getProjectsByStateDeclined} 
+              getProjectsByStateAccepted={this.getProjectsByStateAccepted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />

@@ -57,6 +57,42 @@ class StudentMapper(Mapper):
 
         return result
 
+    def find_by_person_id(self, person_id):
+        """Suchen eines Studentens mit vorgegebener matr_nr. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param matr_nr Primärschlüsselattribut (->DB)
+        :return Student-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+            nicht vorhandenem DB-Tupel.
+        """
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, matr_nr, studiengang, person_id FROM student WHERE person_id={}".format(
+            person_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, matr_nr, studiengang, person_id) = tuples[0]
+            student = Student()
+            student.set_id(id)
+            student.set_creation_date(creation_date)
+            student.set_matr_nr(matr_nr)
+            student.set_studiengang(studiengang)
+            student.set_person(person_id)
+            result = student
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
     def find_by_matr_nr(self, matr_nr):
         """Suchen eines Studentens mit vorgegebener matr_nr. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.

@@ -533,6 +533,23 @@ class StudentByMatrikelNummerOperation(Resource):
     
         return stud
 
+@prochecked.route('/student-by-person-id/<int:person_id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('person_id', 'Die personen id des Student-Objekts')
+class StudentByMatrikelNummerOperation(Resource):
+    @prochecked.marshal_with(student)
+    @secured
+    def get(self, person_id):
+        """Auslesen eines bestimmten Person-Objekts.
+
+        Das auszulesende Objekt wird durch die ```matr_nr``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        stud = adm.get_student_by_person_id(person_id)
+    
+        return stud
+
+
 @prochecked.route('/student')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class StudentLogInOperations(Resource):

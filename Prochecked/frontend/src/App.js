@@ -28,6 +28,7 @@ import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
+import { StudentBO } from './AppApi';
 
 
 // import firebaseconfig from './firebaseconfig';
@@ -53,6 +54,7 @@ class App extends React.Component {
     //Dann wird ein leeres state initalisiert 
 	    this.state = {
             person: null,
+            student: new StudentBO(),
             appError: null,
             authError: null,
             authLoading: false
@@ -140,8 +142,18 @@ class App extends React.Component {
             {
             this.setState({
                 person: person
+            }, () => this.getStudentByPersonId(this.state.person.getID()))
             })
-            })
+    }
+
+    getStudentByPersonId = (person_id) => {
+        var api = AppAPI.getAPI()
+        api.getStudentByPersonId(person_id).then((student) => {
+        this.setState({
+            student: student
+        })
+        console.log(this.state.student)
+    })
     }
 
     setRole = (aRole) => {
@@ -266,7 +278,7 @@ class App extends React.Component {
 						{
 							// Ist eine Person eingeloggt?
                            person ?
-                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
+                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
 
                                 
 								:
