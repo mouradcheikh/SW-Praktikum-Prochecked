@@ -56,8 +56,7 @@ class ParticipationForm extends Component {
         student: student,
         loadingInProgress: false, // loading indicator 
         loadingError: null
-      }, (student) => this.setStudent(student))
-      ).catch(e =>
+      })).catch(e =>
         this.setState({ // Reset state with error from catch 
           student: null,
           loadingInProgress: false,
@@ -73,9 +72,9 @@ class ParticipationForm extends Component {
     });
   }
 
-  setStudent = (student) => {
-    this.props.setStudent(student)  
-  }
+  // setStudent = (student) => {
+  //   this.props.setStudent(student)  
+  // }
 
   /** Updates the participation */
   updateParticipation = () => {
