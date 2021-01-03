@@ -28,6 +28,7 @@ import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
+import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 
 
 // import firebaseconfig from './firebaseconfig';
@@ -252,6 +253,8 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
                         <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>

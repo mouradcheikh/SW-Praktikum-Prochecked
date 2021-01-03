@@ -10,12 +10,12 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} astudentID - the name of this ParticipationBO. 
    */
-  constructor(astudentID, agradingID, aprojectID, amoduleID) {
+  constructor() { //astudentID, agradingID, aprojectID, amoduleID (rausgenommen da sonst undefined)
     super();
-    this.student_id = astudentID
-    this.grading_id = agradingID
-    this.project_id = aprojectID
-    this.module_id = amoduleID
+    this.student_id = null
+    this.grading_id = null
+    this.project_id = null
+    this.module_id = null
   }
 
   /**
