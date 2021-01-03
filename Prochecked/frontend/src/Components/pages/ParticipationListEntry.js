@@ -139,6 +139,12 @@ getGrading = () => {
   }
 }
 
+setStudent = (student) => {
+  this.setState({
+    student: student
+  })
+}
+
 // updateProject = (new_state) => {
 //   // clone the original cutomer, in case the backend call fails
 //   console.log(new_state)
@@ -269,7 +275,7 @@ getGrading = () => {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed}/>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStudent={this.setStudent}/>
       </div>
 
       :project.project_state ===4?
@@ -288,7 +294,7 @@ getGrading = () => {
        
             <div>
 
-            {student.matr_nr + " - " + student.name}
+            {this.state.student.matr_nr + " - " + this.state.student.name}
             </div>
            
 

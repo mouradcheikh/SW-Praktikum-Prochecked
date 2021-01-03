@@ -115,7 +115,7 @@ class ParticipationList extends Component {
         <List className={classes.participationList}>
           {
             participations.map(participation => <ParticipationListEntry key={participation.getID()} project={project} participation={participation} onParticipationDeleted={this.deleteParticipationHandler}
-              show={this.props.show} />)
+              show={this.props.show}/>)
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
@@ -129,7 +129,7 @@ class ParticipationList extends Component {
         <List className={classes.participationList}>
           {
             participations.map(participation => <ParticipationListEntry key={participation.getID()} project={project} participation={participation} onParticipationDeleted={this.deleteParticipationHandler}
-              show={this.props.show} />)
+              show={this.props.show}/>)
           }
           <ListItem>
             <LoadingProgress show={loadingInProgress} />
