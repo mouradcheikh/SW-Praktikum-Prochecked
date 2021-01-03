@@ -10,8 +10,6 @@ class Student(Person):
         self._studiengang = ""
         self._matr_nr = 0
         self._person = 0
-        # self.__Registrierung = []
-        # self.__Beteiligter = None
 
     def set_matr_nr(self, matr_nr):
         self._matr_nr = matr_nr
@@ -32,18 +30,13 @@ class Student(Person):
         return self._person
 
     def __str__(self):
-        return "Student: {}, {} ".format(self.get_matr_nr(),self.get_studiengang())
+        return "Student: {}, {}, {} ".format(self.get_name(),self.get_matr_nr(),self.get_studiengang())
         
-
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Person()-Objekt."""
         obj = Student()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_name(dictionary["name"])
-        obj.set_berechtigung(dictionary["berechtigung"])
-        obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["google_id"])
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
         obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
@@ -65,9 +58,7 @@ class Student(Person):
             student.set_person(person_id)
             result.append(student)
         return result
-        # PROBLEM: Datenbank
-
-
+        
 if __name__ == "__main__":
 
     s1 = Student()

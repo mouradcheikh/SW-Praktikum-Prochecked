@@ -21,8 +21,6 @@ import LoadingProgress from './LoadingProgress';
  * 
  * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
  * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
 class ParticipationForm extends Component {
 
@@ -62,7 +60,7 @@ class ParticipationForm extends Component {
         this.setState({ // Reset state with error from catch 
           student: null,
           loadingInProgress: false,
-          loadingError: e
+          loadingError: e,
         })
       );
 
@@ -74,6 +72,10 @@ class ParticipationForm extends Component {
     });
   }
 
+  // setStudent = (student) => {
+  //   this.props.setStudent(student)  
+  // }
+
   /** Updates the participation */
   updateParticipation = () => {
     console.log(this.props.participation)
@@ -82,7 +84,7 @@ class ParticipationForm extends Component {
     
     // set the new attributes from our dialog
     console.log(this.state.student.id)
-    updatedParticipation.setStudent(this.state.student.id);//EVTL NUR student.id
+    updatedParticipation.setStudent(this.state.student.id);
     console.log(updatedParticipation)
     
     AppApi.getAPI().updateParticipation(updatedParticipation).then(participation => {
@@ -111,15 +113,8 @@ class ParticipationForm extends Component {
   textFieldValueChange = (event) => {
     const value = event.target.value;
 
-    // let error = false;
-    // if (value.trim().length === 0) {
-    //   error = true;
-    // }
-
     this.setState({
       [event.target.id]: event.target.value,
-      // [event.target.id + 'ValidationFailed']: error,
-      // [event.target.id + 'Edited']: true
     });
 
     if(value.length === 5){
@@ -143,15 +138,6 @@ class ParticipationForm extends Component {
 
     let title = '';
     let header = '';
-
-    // if (project) {
-    //   // project defindet, so ist an edit dialog
-    //   title = 'Update a project';
-    //   header = `Project ID: ${project.getID()}`;
-    // } else {
-    //   title = 'Create a new project';
-    //   header = 'Enter project data';
-    // }
 
     return (
       show ?

@@ -43,13 +43,12 @@ class GradingMapper(Mapper):
                 grading.get_participation()
                 )
         
-
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-        return grading#stimmt das hier ?
+        return grading
 
     def find_all(self):
         """Auslesen aller Noten.
@@ -110,8 +109,6 @@ class GradingMapper(Mapper):
 
         return result
 
-
-
     def find_by_participation_id(self, participation_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -124,7 +121,6 @@ class GradingMapper(Mapper):
         command = "SELECT id, creation_date, grade, passed, participation_id FROM grading WHERE participation_id={}".format(participation_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
-
 
         try:
             (id, creation_date, grade, passed, participation_id) = tuples[0]

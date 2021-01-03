@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProjectForm from '../dialogs/ParticipationForm';
-import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
+// import ProjectForm from '../dialogs/ParticipationForm';
+// import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
 import ParticipationList from './ParticipationList';
-
-
-//import AccountList from './AccountList';
-
+import CheckIcon from '@material-ui/icons/Check';
+import {ProjectBO} from '../../AppApi';
+import  {AppApi}  from '../../AppApi';
 
 /**
  * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
@@ -28,7 +27,38 @@ class ProjectListEntry extends Component {
       project: props.project,
       showProjectForm: false,
       showProjectDeleteDialog: false,
+      updatingInProgress: false,
     };
+  }
+
+  updateProject = (new_state) => {
+    // clone the original cutomer, in case the backend call fails
+    console.log(new_state)
+    let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+    // set the new attributes from our dialog
+    updatedProject.setProjectState(new_state);
+   
+    AppApi.getAPI().updateProject(updatedProject).then(project => {
+      this.setState({
+        project: project,
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.project = this.state.project;
+      this.props.onClose(updatedProject);      // call the parent with the new project
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
+    });
   }
 
   /** Handles onChange events of the underlying ExpansionPanel */
@@ -44,59 +74,68 @@ class ProjectListEntry extends Component {
     })
   }
 
-  // /** Handles the onClick event of the edit project button */
-  // editProjectButtonClicked = (event) => {
-  //   event.stopPropagation();
-  //   this.setState({
-  //     showProjectForm: true
-  //   });
-  // }
-
-  // /** Handles the onClose event of the ProjectForm */
-  // projectFormClosed = (project) => {
-  //   // project is not null and therefor changed
-  //   if (project) {
-  //     this.setState({
-  //       project: project,
-  //       showProjectForm: false
-  //     });
-  //   } else {
-  //     this.setState({
-  //       showProjectForm: false
-  //     });
-  //   }
-  // }
-
-  // /** Handles the onClick event of the delete project button */
-  // deleteProjectButtonClicked = (event) => {
-  //   event.stopPropagation();
-  //   this.setState({
-  //     showProjectDeleteDialog: true
-  //   });
-  // }
-
-  // /** Handles the onClose event of the ProjectDeleteDialog */
-  // deleteProjectDialogClosed = (project) => {
-  //   // if project is not null, delete it
-  //   if (project) {
-  //     this.props.onProjectDeleted(project);
-  //   };
-
-  //   // Don´t show the dialog
-  //   this.setState({
-  //     showProjectDeleteDialog: false
-  //   });
-  // }
+  evaluate(){
+    let zustand = this.state.project.project_state
+    // console.log(passed)
+    // if (passed !== undefined){
+      if (zustand == 4){
+        return "In Bewertung"
+      }      
+      else if (zustand == 5){
+        return "Bewertung abgeschlossen"
+      }   
+      
+    // }
+  }
 
   /** Renders the component */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes, expandedState} = this.props;
     // Use the states project
-    const { project, showProjectForm, showProjectDeleteDialog } = this.state;
+    const { project} = this.state;
 
     // console.log(this.state);
     return (
  
+      project.project_state ===3?
+      <div>
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id={`project${project.getID()}accountpanel-header`}
+          >
+            <Grid container spacing={1} justify='flex-start' alignItems='center' >
+              <Grid item>
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
+                </Typography>
+                </Grid>
+                <Grid direction="row"
+                      alignItems="center"
+                      justify="flex-end">
+                <Button variant="contained"
+                          color="secondary"
+                          className={classes.buttonFreigeben}
+                          startIcon={<CheckIcon/>}
+                          variant='outlined'
+                          color='primary' 
+                          size='small'  
+                          onClick={() => this.updateProject(4)}>
+                  Bewerten
+                </Button>
+              </Grid>
+              <Grid item xs />
+              <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ParticipationList show={expandedState} project={project} /> 
+          </AccordionDetails>
+        </Accordion>
+      </div>
+
+      :project.project_state ===1?
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -108,16 +147,50 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
-              {/* <Grid item>
-                <ButtonGroup variant='text' size='small'>
-                  <Button color='primary' onClick={this.editProjectButtonClicked}>
-                    edit
-                  </Button>
-                  <Button color='secondary' onClick={this.deleteProjectButtonClicked}>
-                    delete
-                  </Button>
-                </ButtonGroup>
+                {/* <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
               </Grid> */}
+
+              <Grid>
+                
+              </Grid>
+              <Grid item xs />
+              <Grid item>
+                
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+             Dieses Projekt wird momentan noch geprüft und ist noch nicht freigegeben!
+          </AccordionDetails>
+        </Accordion>
+      </div>
+
+      :project.project_state ===4?
+      <div>
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id={`project${project.getID()}accountpanel-header`}
+          >
+            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
+                </Typography>
+              </Grid>
+                {/* <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
+              </Grid> */}
+
+              <Grid>
+                <Button variant="contained"
+                          color="secondary"
+                          className={classes.buttonFreigeben}
+                          startIcon={<CheckIcon/>}
+                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(5)}>
+                  Bewertung abschließen
+                </Button>
+              </Grid>
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
@@ -128,10 +201,33 @@ class ProjectListEntry extends Component {
             <ParticipationList show={expandedState} project={project} /> 
           </AccordionDetails>
         </Accordion>
-        {/* <ProjectForm show={showProjectForm} project={project} onClose={this.projectFormClosed} />
-        <ProjectDeleteDialog show={showProjectDeleteDialog} project={project} onClose={this.deleteProjectDialogClosed} /> */}
       </div>
-      
+      :
+      <div>
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id={`project${project.getID()}accountpanel-header`}
+          >
+            <Grid container spacing={1} justify='flex-start' alignItems='center'>
+              <Grid item>
+                <Typography variant='body1' className={classes.heading}>{project.getName()}
+                </Typography>
+                {/* <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
+                </Grid> */}
+              </Grid>
+              <Grid item xs />
+              <Grid item>
+                <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ParticipationList show={expandedState} project={project} /> 
+          </AccordionDetails>
+        </Accordion>
+      </div>
     );
   }
 }

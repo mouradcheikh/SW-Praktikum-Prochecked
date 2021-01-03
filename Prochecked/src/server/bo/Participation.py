@@ -7,17 +7,10 @@ from datetime import datetime
 class Participation(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
-        self._student = 0
         self._grading = 0
         self._project = 0
         self._module = 0
-    
-
-    def set_student(self, student_id):
-        self._student = student_id
-
-    def get_student(self):
-        return self._student
+        self._student = 0
     
     def set_grading(self, grading_id):
         self._grading = grading_id
@@ -37,9 +30,15 @@ class Participation(bo.BusinessObjects):
     def get_module(self):
         return self._module
 
-    
+    def set_student(self, student_id):
+        self._student = student_id
+
+    def get_student(self):
+        return self._student
+
     def __str__(self):
-        return "Participation: {}".format(self.get_id())
+        return "Participation: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_creation_date(), self.get_grading(), self.get_module(), self.get_project(), self.get_student())
+    
 
     def to_dict(self):
         """Umwandeln User() in ein Python dict()"""

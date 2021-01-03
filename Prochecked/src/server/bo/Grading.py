@@ -21,14 +21,6 @@ class Grading(bo.BusinessObjects):
     def set_passed(self, passed):
         self._passed = passed
 
-        # print(type(grade))
-        # print(float(grade))
-        # if float(grade) <= 4.0:
-        #     self._passed = 1
-
-    # def set_passed(self, passed):
-    #     self._passed = passed
-
     def get_passed(self):
         return self._passed
     
@@ -56,7 +48,7 @@ class Grading(bo.BusinessObjects):
     def from_tuples(tuples=list()):
         """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
         result = []
-        for (grading_id, creation_date, grade, passed, participation_id) in tuples:#grading_id richtig???
+        for (grading_id, creation_date, grade, passed, participation_id) in tuples:
             gra = Grading()
             gra.set_id(grading_id)
             gra.set_creation_date(creation_date)

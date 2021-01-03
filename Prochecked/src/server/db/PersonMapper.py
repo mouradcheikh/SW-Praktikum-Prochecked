@@ -30,6 +30,7 @@ class PersonMapper(Mapper):
             (id, creation_date, name, google_id, email, role_id, student_id) = tuples[0]
             u = Person()
             u.set_id(id)
+            u.set_creation_date(creation_date)
             u.set_name(name)
             u.set_google_id(google_id)
             u.set_creation_date(creation_date)

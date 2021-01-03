@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import SaveIcon from '@material-ui/icons/Save';
 import Checkbox from '@material-ui/core/Checkbox';
 // import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -14,11 +15,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
 import { AppApi } from '../../AppApi';
+import ProjectBO from '../../AppApi/ProjectBO';
+import {Link, useHistory} from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    width: "50%",
+    width: "100%",
   },
   text: {
     margin: theme.spacing(0),
@@ -29,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function ProjektFormular(props) {
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState('');
-  const [Professor, setProfesor] = React.useState('');
+  const [Professor, setProfessor] = React.useState(null);
   const [Titel, setProjektTitel] = React.useState('');
   const [Kapazität,setKapazität] = React.useState('');
   const [Inhalt, setInhalt] = React.useState('');
@@ -40,15 +44,25 @@ function ProjektFormular(props) {
   const [BTinVZ, setBTinVZ] = React.useState('0');
   const [BesondererRaum, setBesondererRaum] = React.useState('');
   const [Professors, setProfessors] = React.useState(['']);
-  
+  const [extKoop, setextKoop] = React.useState('');
+  const [Semester, setSemester] = React.useState('');
+  const [Semesters, setSemesters] = React.useState(['']);
+  const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+
+  const history = useHistory()
 
   const handleProjektArt = (event) => {
     setProjektArt(event.target.value);
   };
 
   const handleProfessor = (event) => {
-    setProfesor(event.target.value);
+    setProfessor(event.target.value);
+    console.log(Professor)
+  }
+
+  const handleSemester = (event) => {
+    setSemester(event.target.value);
   }
 
   const handleWT = (event) => {
@@ -59,26 +73,72 @@ function ProjektFormular(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      'ProjektArt:', ProjektArt, 
-      'Titel:', Titel,
-      'Kapazität:', Kapazität,
-      'Inhalt:', Inhalt,
-      'Raum:', Raum,
-      'Wöchentlich:', WT,
-      'Blocktage vor Beginn der VZ:', BTvorVZ,
-      'Blocktage in der PZ:', BTinPZ,
-      'BT in der VZ:', BTinVZ,
-      'Besonderer Raum:', BesondererRaum,
-      'Professors:', Professors
-      );
+    const project = new ProjectBO(Titel)
+    project.setProjectType(ProjektArt)
+    project.setCapacity(Kapazität)
+    project.setShortDescription(Inhalt)
+    let dozent = props.location.state.linkState
+    project.setDozent(dozent.id)
+    project.setRoom(Raum)
+    project.setWeeklyFlag(WT)
+    project.setNumberBdBLecturetime(BTvorVZ)
+    project.setNumberBdLecturetime(BTinVZ)
+    project.setNumberBdExamtime(BTinPZ)
+    project.setSpecialRoom(BesondererRaum)
+    // project.setDozent(Professor)
+    project.setProjectState(1)
+    project.setExtPartnerList(extKoop)
+    project.setSemester(Semester.id)
+    project.setprefferedbd(BT)
+
+    if (Professor != null){
+      project.setDozent2(Professor.id)
+    }
+
+    console.log(project)
+
+    var api = AppApi.getAPI()
+        // console.log(api)
+        api.createProject(project).then((project) =>
+            {console.log(project)
+            }
+            )
+
+    // console.log(
+    //   'ProjektArt:', ProjektArt, 
+    //   'Titel:', Titel,
+    //   'Kapazität:', Kapazität,
+    //   'Inhalt:', Inhalt,
+    //   'Raum:', Raum,
+    //   'Wöchentlich:', WT,
+    //   'Blocktage vor Beginn der VZ:', BTvorVZ,
+    //   'Blocktage in der PZ:', BTinPZ,
+    //   'BT in der VZ:', BTinVZ,
+    //   'Besonderer Raum:', BesondererRaum,
+    //   'Professors:', Professors,
+    //   'current dozent', dozent.id
+    //   );
+    history.push({
+      pathname: '/DozentView',
+      state: {  
+        person: props.location.state.linkState, 
+      },
+    }); 
   }
+  
 
 function ProfList(){
   var api = AppApi.getAPI()
   api.getPersonByRole(2).then((persons) =>
   {console.log(persons)
   setProfessors(persons)})
+}
+
+function SemesterList(){
+  var api = AppApi.getAPI()
+  api.getSemesters().then((semesters) =>
+  {console.log(semesters)
+  setSemesters(semesters)})
 }
 
 // useEffect(() => {
@@ -119,6 +179,34 @@ function ProfList(){
 
               </Select>
         </FormControl>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="semester">Semester</InputLabel>
+              <Select
+                labelId="semester"
+                id="semester"
+                value={Semester}
+                onChange={handleSemester} 
+                onOpen={SemesterList}
+              >
+              {
+              Semesters.map((semester) => <MenuItem value = {semester}> {semester.name} </MenuItem>)
+              }
+              </Select>
+              </FormControl>
+        {/* <FormControl className={classes.formControl}>
+            <InputLabel id="semester">Semester</InputLabel>
+              <Select
+                labelId="semester"
+                id="semester"
+                value={Semester}
+                onChange={handleSemester} 
+                onOpen={SemesterList}
+              >
+              {
+              Semester.map((Semester) => <MenuItem value = {Semester.id}> {Semester.name} </MenuItem>)
+              }
+              </Select>
+              </FormControl> */}
       </div>
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
@@ -131,7 +219,7 @@ function ProfList(){
           </div>
           <div><TextField className={classes.formControl}
             id="maxTeilnehmer"
-            label="Kapazität (Max. Teilnehmerzahl)"
+            label="Kapazität (max. Teilnehmerzahl)"
             type="number" 
             variant="outlined" 
             value={Kapazität}
@@ -140,7 +228,7 @@ function ProfList(){
             
           </div>
           <FormControl className={classes.formControl}>
-            <InputLabel id="artProjekt">weitere Betreuende(r) ProfessorInnen</InputLabel>
+            <InputLabel id="artProjekt">weitere betreuende Professoren</InputLabel>
               <Select
                 labelId="artProjekt"
                 id="ProjektArt"
@@ -149,13 +237,21 @@ function ProfList(){
                 onOpen={ProfList}
               >
               {
-              Professors.map((Professor) => <MenuItem value = {Professor.id}> {Professor.name} </MenuItem>)
+              Professors.map((Professor) => <MenuItem value = {Professor}> {Professor.name} </MenuItem>)
               }
               </Select>
-            </FormControl>
+              </FormControl>
+              <div><TextField className={classes.formControl}
+                      id="ext. Koop."
+                      label="externe Kooperationspartner"
+                      variant="outlined"
+                      value={extKoop}
+                      onInput={e=>setextKoop(e.target.value)}
+                      />
+                </div>
                 <div><TextField className={classes.formControl}
                     id="Inhalt"
-                    label="Inhalt(Kurzbeschreibung):"
+                    label="Inhalt (Kurzbeschreibung):"
                     multiline
                     rows={6} 
                     variant="outlined" 
@@ -163,17 +259,9 @@ function ProfList(){
                     onInput={e=>setInhalt(e.target.value)}
                     />
                 </div>
-                <div><TextField className={classes.formControl}
-                    id="Raum"
-                    label="Raum-/Ressourcenplanung" 
-                    variant="outlined" 
-                    value={Raum}
-                    onInput={e=>setRaum(e.target.value)}
-                    />
-               </div>
               <div>
               <FormControl component="fieldset" className={classes.formControl}>
-                  <FormLabel component="legend">Wöchentliche Termine</FormLabel>
+                  <FormLabel component="legend">wöchentliche Termine</FormLabel>
                   <RadioGroup aria-label="WT" name="WT" value={WT} onChange={handleWT}>
                     <FormControlLabel value="true" control={<Radio />} label="Ja" />
                     <FormControlLabel value="false" control={<Radio />} label="Nein" />
@@ -208,22 +296,40 @@ function ProfList(){
                     onInput={e=>setBTinVZ(e.target.value)}
                     />
                </div>
+               <div>
+                 <TextField className={classes.formControl}
+                    id="Blocktage"
+                    label="präferierte Blocktage"
+                    type="date" 
+                    variant="outlined" 
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onInput={e=>setBT(e.target.value)}
+                  />
+               </div>
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
-                    label="Besonderer Raum notwendig"
+                    label="besonderer Raum (falls notwendig)"
                     variant="outlined" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}
                     />
                </div>
             <div>
+              {/* <Link to={{
+              pathname: "/DozentView",
+              state: { person : props.location.state.linkState }
+              }}> */}
                 <Button
                  type="submit"
                  variant="contained"
                  color="primary" 
+                 startIcon={<SaveIcon />}
                 >
                   Speichern
                 </Button>
+              {/* </Link> */}
             </div>
           </form>
           </center>

@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Project import Project
 
@@ -134,11 +133,11 @@ class ProjectMapper(Mapper):
                 project.get_number_bd_lecturetime(),
                 project.get_preffered_bd(),
                 project.get_special_room(),
-                project.get_dozent()[0],
-                project.get_state(),
+                project.get_dozent(),
+                project.get_project_state(),
                 project.get_project_type(),
                 project.get_semester(),
-                project.get_dozent()[1]
+                project.get_dozent2()
                 )
         cursor.execute(command, data)
 
@@ -154,38 +153,17 @@ class ProjectMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name=%s, project_state=%s WHERE id=%s"
-        data = (project.get_project_state())
+        command = "UPDATE project SET name=%s, project_state_id=%s WHERE id=%s"
+        data = (
+            project.get_name(),
+            project.get_project_state(),
+            project.get_id())
+            
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-    
-    # def find_by_dozent_id(self, person_id):
-    #     """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
-
-    #     :param person_id Schlüssel des zugehörigen Dozenten.
-    #     :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
-    #             betreffenden Dozenten repräsentieren.
-    #     """
-    #     result = []
-    #     cursor = self._cnx.cursor()
-    #     command = "SELECT id, person_id FROM project WHERE person_id={} ORDER BY id".format(person_id)
-    #     cursor.execute(command)
-    #     tuples = cursor.fetchall()
-
-    #     for (id, person_id) in tuples:
-    #         p = Project()
-    #         p.set_id(id)
-    #         p.set_dozent_id(person_id)
-    #         result.append(p)
-    #     #hier fehlen warscheinlich noch die anderen attribute
-    #     self._cnx.commit()
-    #     cursor.close()
-
-    #     return result
-
-        
+           
     def find_by_dozent_id(self, person_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
 
@@ -195,16 +173,32 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id, project_state_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person_id={}".format(person_id) #zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id, project_state) in tuples:
+        for (id, name, person_id, project_state, person2_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
             p.set_dozent(person_id)
             p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
+            result.append(p)
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person2_id={}".format(
+            person_id)  # zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, name, person_id, project_state, person2_id) in tuples:
+            p = Project()
+            p.set_id(id)
+            p.set_name(name)
+            p.set_dozent(person_id)
+            p.set_project_state(project_state)
+            p.set_dozent2(person2_id)
             result.append(p)
         #hier fehlen warscheinlich noch die anderen attribute
         self._cnx.commit()
@@ -212,23 +206,23 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_project_by_project_state_id(self,project_state_id):
+    def find_project_by_project_state_id(self, project_state_id):
         """Auslesen aller Projekte eines durch Fremdschlüssel (ProjectStateID) gegebenen Projekte.
-
-        
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
+        command = "SELECT id, name, short_description, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, person_id, project_state) in tuples:
+        for (id, name, short_description, person_id, project_state_id) in tuples:
             p = Project()
             p.set_id(id)
             p.set_name(name)
+            p.set_short_description(short_description)
             p.set_dozent(person_id)
-            p.set_project_state(project_state)
+            p.set_project_state(project_state_id)
+
             result.append(p)
 
                
@@ -251,42 +245,10 @@ class ProjectMapper(Mapper):
         cursor.close()
 
 
-# if __name__ == "__main__":
-
-#       with ProjectMapper() as mapper:
-#         result = mapper.find_by_dozent_id(2)
-#         for p in result:
-#             print(p.get_id(), p.get_dozent())
-
-    #   with ProjectMapper() as mapper:
-    #     result = mapper.find_by_dozent_id(2)
-    #     for p in result:
-    #         print(p.get_id(), p.get_name(), p.get_dozent_id())
-
-'''if (__name__ == "__main__"):
-    project = Project()
-    project.set_name("SE")
-    project.set_capacity(123)
-    project.set_id(1)
-    project.set_dozent(12)
-    project.set_state(13)
-    project.set_project_type(1)
-    project.set_semester(2)'''
-
 if __name__ == "__main__":
 
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_by_dozent_id(1)
-    #     for p in result:
-    #         print(p.get_id(), p.get_name(), p.get_dozent())
 
-    '''with ProjectMapper() as mapper:
-        result = mapper.insert(project)'''
-
-    # with ProjectMapper() as mapper:
-    #     result = mapper.find_by_id(2)
-    #     print(result)
     with ProjectMapper() as mapper:
-        result = mapper.find_all()
+        result = mapper.find_project_by_project_state_id(1)
         for p in result:
-            print(p)
+            print(p.get_project_state())

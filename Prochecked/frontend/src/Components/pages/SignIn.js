@@ -6,7 +6,6 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core';
 
 class SignIn extends Component {
 
-
 	/** 
 	 * Handles the click event of the sign in button an calls the prop onSignIn handler
 	 */

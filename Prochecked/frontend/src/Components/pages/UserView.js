@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 // import { Link as RouterLink } from 'react-router-dom'
-// import './App.css';
 import React, { Component } from 'react';
 import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
@@ -39,7 +38,10 @@ render () {
           <center>
                 <h1>Bitte wählen Sie Ihre Rolle:</h1>
                 <div>
-                <Link to='/StudentView'>
+                <Link to={{
+                pathname: '/StudentLogin',
+                state: { person: this.props.person }
+                }}>
                 <Button
                     size="large"
                     variant="contained"
@@ -53,7 +55,10 @@ render () {
                 </Link>
                 </div>
                 <div>
-                <Link to='/DozentView'>
+                <Link to={{
+                pathname: '/DozentView',
+                state: { person: this.props.person }
+                }}>
                 <Button
                     size="large"
                     variant="contained"

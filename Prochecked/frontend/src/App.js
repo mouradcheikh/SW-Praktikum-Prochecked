@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -15,12 +15,21 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 // import PersonList from './Components/PersonList';
-import StudentenView from './Components/pages/StudentenView';
-import DozentView from './Components/pages/DozentView';
+import StudentLogin from './Components/pages/StudentView/StudentLogin';
+// import StudentView from './Components/pages/StudentView';
+import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
+import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
+import CreateSemester from './Components/pages/AdminView/CreateSemester';
+import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
+import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
+import StudentView from './Components/pages/StudentView/StudentView';
+import { StudentBO } from './AppApi';
+
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -45,6 +54,7 @@ class App extends React.Component {
     //Dann wird ein leeres state initalisiert 
 	    this.state = {
             person: null,
+            student: new StudentBO(),
             appError: null,
             authError: null,
             authLoading: false
@@ -75,12 +85,8 @@ class App extends React.Component {
                 //Person aus Datenbank auslesen; wird durch SecurityDecorater reingeschrieben, falls noch nicht vorhanden
                 
                 this.getPersonByGoogleId(person.uid)
-                this.ProfList()
-              
-                //this.createPerson(person.displayName, person.email, person.uid)
                 
-
-
+              
             }).catch(error =>{
                 this.setState({
                     authError:error,
@@ -105,8 +111,6 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider(); //Erstelle Instanz des Google-Provider-Objekts
 		firebase.auth().signInWithRedirect(provider); // Umleiten auf die signInWithRedirect ruft signInWithRedirect auf 
     }
-
-
 
     getPersons(){
         var api = AppAPI.getAPI()
@@ -138,8 +142,18 @@ class App extends React.Component {
             {
             this.setState({
                 person: person
+            }, () => this.getStudentByPersonId(this.state.person.getID()))
             })
-            })
+    }
+
+    getStudentByPersonId = (person_id) => {
+        var api = AppAPI.getAPI()
+        api.getStudentByPersonId(person_id).then((student) => {
+        this.setState({
+            student: student
+        })
+        console.log(this.state.student)
+    })
     }
 
     setRole = (aRole) => {
@@ -231,7 +245,6 @@ class App extends React.Component {
         })
       }
         
-    
     componentDidMount() {
         firebase.initializeApp(this.#firebaseConfig);
         firebase.auth().languageCode = 'en';
@@ -240,58 +253,32 @@ class App extends React.Component {
         
         };
     
-
     	/** Renders the whole app */
 	render() {
         const { person, appError, authError, authLoading } = this.state;
         
-        // let page
-        // let berechtigung = person.getBerechtigung()
-        // if (berechtigung === 1){
-        //     page = <> 
-        //             <Redirect from='/' to='StudentenView' />
-        //             <Route exact path='/StudentenView'>
-        //             <StudentenView/>
-        //             </Route>
-        //             </>
-        // }
-        // else if (berechtigung === 2){
-        //     page = <>	
-        //             <Redirect from='/' to='DozentView' />
-        //             <Route exact path='/DozentView'>
-        //             <DozentView/>
-        //             </Route> 
-        //             </>
-        // }
-        // else if (berechtigung === 3){
-        //     page = <>	
-        //             <Redirect from='/' to='AdminView' />
-        //             <Route exact path='/AdminView'>
-        //             <AdminView/>
-        //             </Route>
-        //            </>
-        // }
-        // else {
-        //     page = <>
-        //             <Redirect from='/' to='UserView' />
-        //             <Route exact path='/UserView'>
-        //             <UserView setRole={this.setRole}/>
-        //             </Route>
-        //             </>;
-        // }
-
 		return (
 			<ThemeProvider theme={Theme}>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
 						<Header/>
+                        <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
+                        <Route exact path = '/DozentView' component = {DozentenView}/>
+                        <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        
+                        <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
+                        <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?
-                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
+                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
 
                                 
 								:
@@ -313,55 +300,3 @@ class App extends React.Component {
 
 
 export default App;
-
-// person ={this.state.person} setRoleOfPerson = {this.setRoleOfPerson} kommt in Zeile 150
-
-
-
-// UserAbfrage(person) {
-//     const userType = person.getBerechtigung();
-//     console.log("UseerAbfrage")
-//     return (
-
-//     <div>
-//             {(() => {
-
-//             if (userType === 1) {
-//                 console.log("StudentenAbfrage")
-//             return (
-//                 <>	<Redirect from='/' to='StudentenView' />
-//                     <Route exact path='/StudentenView'>
-//                     <StudentenView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 2) {
-//             return (
-//                 <>	<Redirect from='/' to='DozentView' />
-//                     <Route exact path='/DozentView'>
-//                     <DozentView/>
-//                     </Route>
-//                 </>
-//             )
-//             } else if (userType === 3) {
-//                 return (
-//                 <>	<Redirect from='/' to='AdminView' />
-//                     <Route exact path='/AdminView'>
-//                     <AdminView/>
-//                     </Route>
-//                 </>
-//                 )
-//             } else {
-//                 return (
-//                 <>
-//                     <Redirect from='/' to='UserView' />
-//                     <Route exact path='/UserView'>
-//                         <UserView setRole={this.setRole}/>
-//                     </Route>
-//                 </>
-//             )
-//             }
-//         })()}
-//     <div/>
-// );
-// }

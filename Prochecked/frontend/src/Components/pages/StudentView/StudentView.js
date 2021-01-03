@@ -6,33 +6,32 @@ import React, { Component } from 'react';
 // import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import ProjectList from './ProjectList';
-import ProjektFormular from './ProjektErstellen'
-import UserView from './UserView'
-import { AppApi } from '../../AppApi';
+import ProjectList from '../ProjectList';
+import ProjektFormular from '../ProjektErstellen'
+import UserView from '../UserView'
+import StudentLogin from './StudentLogin'
+import { AppApi } from '../../../AppApi/AppApi'
 
 
-// function DozentenView(props) {
-class DozentenView extends Component{
+// function StudentView(props) {
+class StudentView extends Component{
   constructor(props){
     super(props);
-    this.state = {
-      DozentList : null
-  };
+    
   }
 
   render() {
     const { classes } = this.props;
     const person = this.props.location.state.person
-    console.log(this.props.location.state.prof)
+    const student = this.props.location.state.student
 
     return(<div>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
             <Link to={{
-            pathname: '/CreateProject',
-            state: { linkState: person},
+            pathname: '',
+            state: { linkState: person, student: student}
             }}>
             <Button
                 size="large"
@@ -40,15 +39,16 @@ class DozentenView extends Component{
                 color="primary"
                 className={classes.button}
             >
-                        Projekt erstellen
+                        Für Projekte registrieren
+                        /abmelden
                 
             </Button>
             </Link>
   </div>
             <div>            
             <Link to={{
-            pathname: '/ProjectList',
-            state: { linkState: person},
+            pathname: '/Semesterbericht',
+            state: { linkState: person, student: student }
             }}>
            <Button
                 size="large"
@@ -57,7 +57,7 @@ class DozentenView extends Component{
                 algin="center"
                 className={classes.button}
                 > 
-                    Bewertung und Teilnehmerpflege
+                    Semesterbericht einsehen
             </Button>
             </Link>
             </div>
@@ -76,5 +76,5 @@ const styles = (theme) => ({
   },
 })
 
-  export default withStyles(styles)(DozentenView);
+  export default withStyles(styles)(StudentView);
 
