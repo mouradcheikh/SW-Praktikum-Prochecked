@@ -82,7 +82,7 @@ class CreateSemester extends React.Component {
            <Paper className={classes.paper}>
           <div>
             {semesters.map(s => <ListItem>{s.name}</ListItem >)}
-            </div>
+          </div>
            </Paper>
          </Grid>
       </Grid>

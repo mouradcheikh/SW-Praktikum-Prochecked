@@ -26,6 +26,7 @@ import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
 import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
 import { StudentBO } from './AppApi';
@@ -272,7 +273,7 @@ class App extends React.Component {
                         <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
-                        
+                        <Route exact path = '/SelectStudent' component = {SelectStudent}/>
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
                         <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
 						{

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton,Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { AppApi} from '../../AppApi';
 import ParticipationBO from '../../AppApi/ParticipationBO';
@@ -119,8 +119,17 @@ class ParticipationForm extends Component {
 
     if(value.length === 5){
       this.getStudentByMatrikelNummer(event.target.value)
-    }
     
+      this.setState({
+        matr_nrValidationFailed: false,
+      })
+    }
+
+    else if(value.length <5) {
+      this.setState({
+        matr_nrValidationFailed: true,
+      })
+    }
   }
 
   /** Handles the close / cancel button click event */
@@ -154,9 +163,15 @@ class ParticipationForm extends Component {
             <form className={classes.root} noValidate autoComplete='off'>
               <TextField autoFocus type='text' required fullWidth margin='normal' id='matr_nr' label='Matrikelnummer:' value={matr_nr} 
                 onChange={this.textFieldValueChange} error={matr_nrValidationFailed} 
-                helperText={matr_nrValidationFailed ? 'The matr_nr must contain at least one character' : ' '} />
-
+                helperText={matr_nrValidationFailed ? 'Bitte geben Sie 5 Zeichen ein' : ' '} />
             </form>
+            <div>
+          <Typography className={classes.participationEntry}>      
+      
+             {"Ausgewählter Student:" +" "} {this.state.student.name}
+      
+          </Typography>
+             </div>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
               // Show error message in dependency of participation prop
