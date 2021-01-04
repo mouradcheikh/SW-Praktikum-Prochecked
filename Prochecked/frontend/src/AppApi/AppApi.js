@@ -60,11 +60,12 @@ export default class AppAPI {
   
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
+    #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
-
-  
+    
+    
 
     
 
@@ -565,7 +566,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
    * 
@@ -595,6 +595,24 @@ getStudentByMatrikelNummer(matr_nr) {
       let responseGradingBO =GradingBO.fromJSON(responseJSON)[0];
       // console.log(responseGradingBO);
       return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
+  updateGrading(gradingBO){
+  // console.log(gradingBO)
+    return this.#fetchAdvanced(this.#updateGradingURL(), { 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(gradingBO)
+      }).then((responseJSON) => {
+      // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+        let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
         resolve(responseGradingBO);
       })
     })

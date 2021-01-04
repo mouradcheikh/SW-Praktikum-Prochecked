@@ -676,6 +676,21 @@ class GradingListOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+            
+    @prochecked.marshal_with(grading, code=200)
+    @prochecked.expect(grading)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Grading-Objekts."""
+
+        adm = ProjectAdministration()
+        g = Grading.from_dict(api.payload)
+
+        if g is not None:
+            adm.save_grading(g)
+            return '', 200
+        else:
+            return '', 500
 
 @prochecked.route('/participation/<int:participation_id>/grading')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -711,8 +726,7 @@ class GradingOperations(Resource):
         gra = adm.get_grading_by_id(id)
         
         return gra
-
-
+    
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('project_id', 'matr_nr')

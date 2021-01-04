@@ -24,7 +24,6 @@ class DozentenView extends Component{
   render() {
     const { classes } = this.props;
     const person = this.props.location.state.person
-    console.log(this.props.location.state.prof)
 
     return(<div>
       <center>
