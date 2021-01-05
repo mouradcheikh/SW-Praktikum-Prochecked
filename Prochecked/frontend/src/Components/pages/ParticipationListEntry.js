@@ -105,7 +105,7 @@ class ParticipationListEntry extends Component {
     // console.log(api)
     api.gradingStudent(grade, participation_id).then((grade) =>
         {
-          console.log("createGrading",grade)
+          // console.log("createGrading",grade)
         this.setState({
             grade: grade
         })}
@@ -113,15 +113,15 @@ class ParticipationListEntry extends Component {
       }
 
   /** Updates the grading */
-  updateGrading = () => {
+  updateGrading = (newGrade) => {
     // console.log()
     // clone the original grading, in case the backend call fails
     let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
-    
+    // console.log(this.state.grade)
     // set the new attributes from our dialog
     // console.log(this.state.student.id)
-    updatedGrading.setGrade(this.state.grade);
-    console.log(updatedGrading)
+    updatedGrading.setGrade(newGrade);
+    // console.log(updatedGrading)
     
     AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
       this.setState({
@@ -250,10 +250,11 @@ setStudent = (student) => {
     e.preventDefault();
     this.setState({ grade:
       this.textInput.current.value})
-      // console.log(this.textInput.current.value)
-      if (this.props.participation.grading_id === null) {
+      console.log(this.props.participation)
+      if (this.props.participation.grading_id === 0) {
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
-      this.getGrading() }
+      this.getGrading() 
+    }
       else {
         this.updateGrading(this.textInput.current.value)
       }

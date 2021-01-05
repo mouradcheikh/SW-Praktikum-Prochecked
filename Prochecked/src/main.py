@@ -684,8 +684,8 @@ class GradingListOperations(Resource):
         """Update eines bestimmten Grading-Objekts."""
 
         adm = ProjectAdministration()
+        print(api.payload)
         g = Grading.from_dict(api.payload)
-
         if g is not None:
             adm.save_grading(g)
             return '', 200

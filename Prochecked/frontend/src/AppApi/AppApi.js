@@ -341,7 +341,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -362,7 +362,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -414,13 +414,13 @@ getStudentByMatrikelNummer(matr_nr) {
   
 
   getProjectsByState(project_state) {
-    console.log(project_state)
+    // console.log(project_state)
     return this.#fetchAdvanced(this.#getProjectsByStateURL(project_state))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -494,7 +494,7 @@ getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getStudentByPersonIdURL(person_id)).then((responseJSON) => { //URL LEER LASSEN????
       // We always get an array of StudentBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      console.info(responseStudentBO);
+      // console.info(responseStudentBO);
       return new Promise(function (resolve) {
         resolve(responseStudentBO);
       })
@@ -661,10 +661,10 @@ getStudentByMatrikelNummer(matr_nr) {
   getProjectsByStudent(matr_nr){
     return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
