@@ -498,6 +498,37 @@ class ParticipationOperations(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationPutOperation(Resource):
     @prochecked.marshal_with(participation, code=200)
+    @prochecked.expect(participation)  
+    @secured
+    def post(self):
+        """Anlegen eines neuen Projekt-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        #print(api.payload)
+        adm = ProjectAdministration()
+
+        proposal = Participation.from_dict(api.payload)
+
+        print("part von Frontend", proposal)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_participation(proposal)
+            print("return Participation", p)
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+            
+    @prochecked.marshal_with(participation, code=200)
     @prochecked.expect(participation)  # Wir erwarten ein participation-Objekt von Client-Seite.
     @secured
     def put(self):

@@ -71,19 +71,6 @@ function StudentLogin(props) {
 
     }
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
     return (
         <React.Fragment>
             <center>

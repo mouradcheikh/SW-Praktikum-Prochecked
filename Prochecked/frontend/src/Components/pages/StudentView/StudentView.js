@@ -10,6 +10,7 @@ import ProjectList from '../ProjectList';
 import ProjektFormular from '../ProjektErstellen'
 import UserView from '../UserView'
 import StudentLogin from './StudentLogin'
+import ProjectListStudent from './ProjectListStudent'
 import { AppApi } from '../../../AppApi/AppApi'
 
 
@@ -24,13 +25,14 @@ class StudentView extends Component{
     const { classes } = this.props;
     const person = this.props.location.state.person
     const student = this.props.location.state.student
+    console.log(this.props.location.state.student)
 
     return(<div>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
             <Link to={{
-            pathname: '',
+            pathname: '/ProjectListStudent',
             state: { linkState: person, student: student}
             }}>
             <Button
