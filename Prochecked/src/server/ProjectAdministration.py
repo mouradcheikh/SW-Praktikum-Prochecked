@@ -16,12 +16,10 @@ from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
 
-from .db.RoleMapper import RoleMapper
-from .db.GradingMapper import GradingMapper
-from .db.ModuleMapper import ModuleMapper
-from .db.ProjectTypeMapper import ProjectTypeMapper
-from .db.ProjectStateMapper import ProjectStateMapper
-from .db.AutomatMapper import AutomatMapper
+from server.db.RoleMapper import RoleMapper
+from server.db.GradingMapper import GradingMapper
+from server.db.ModuleMapper import ModuleMapper
+
 
 
 
@@ -325,8 +323,9 @@ class ProjectAdministration (object):
 
   
 
-    def get_all_projects(self, ):
-        pass
+    def get_all_projects(self):
+        with ProjectMapper() as mapper:
+            return mapper.find_all()
 
     def get_projects_by_person(self, person):
         pass
@@ -489,6 +488,29 @@ class ProjectAdministration (object):
         pass
 
 
+#Module Related
+    def get_all_free_modules(self):
+        with ModuleMapper() as mapper:
+            all_modules = mapper.find_all()
+
+        adm = ProjectAdministration()
+        all_projects = adm.get_all_projects()
+
+        free_modules = []
+        found = False
+
+        for m in all_modules:
+            module_id = m.get_id()
+            for p in all_projects:
+                # print(p.get_name(), p.get_module(), "modul:", module_id)
+                if p.get_module() == module_id:
+                    found = True
+            if found == False:
+                free_modules.append(m)
+            found = False
+
+        return free_modules
+                
 
 
 
@@ -507,9 +529,8 @@ if __name__ == '__main__':
 
 
     adm = ProjectAdministration()
-    projects = adm.get_projects_by_student(12345)
-    for p in projects:
-        print(p)
+    modules = adm.get_all_free_modules()
+    print(modules, modules[0], modules[0].get_edv_nr())
 
     # p = adm.create_grading(2, 1)
     # print(p)

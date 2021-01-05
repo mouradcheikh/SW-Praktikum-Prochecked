@@ -34,6 +34,7 @@ class ProjectListNew extends Component {
       projectsDeclined: [],
       error: null,
       loadingInProgress: false,
+
       // expandedProjectID: expandedID,
     };
   }
@@ -109,7 +110,6 @@ class ProjectListNew extends Component {
       error: null
     });
   }
-
 
   // /**
   //  * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of

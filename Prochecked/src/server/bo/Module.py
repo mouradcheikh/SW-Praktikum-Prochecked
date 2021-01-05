@@ -7,13 +7,13 @@ from server.bo.NamedBusinessObjects import NamedBusinessObjects
 class Module(NamedBusinessObjects):
     def __init__(self):
         super().__init__()
-        self.__edv_nr = None
+        self._edv_nr = None
 
-    def get_edv_nr(self, ):
-        return self.__edv_nr
+    def get_edv_nr(self):
+        return self._edv_nr
 
     def set_edv_nr (self, edv_nr):
-        self.__edv_nr = edv_nr
+        self._edv_nr = edv_nr
 
     def __str__(self):
         return "Module: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_edv_nr())

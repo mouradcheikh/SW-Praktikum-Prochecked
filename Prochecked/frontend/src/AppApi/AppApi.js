@@ -4,6 +4,7 @@ import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
+import ModuleBO from './ModuleBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -64,7 +65,8 @@ export default class AppAPI {
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
 
-  
+    //Module Related
+    #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
 
     
 
@@ -654,7 +656,17 @@ getStudentByMatrikelNummer(matr_nr) {
   }
 
   
-  
+  getAllModules(){
+    return this.#fetchAdvanced(this.#getModulesURL())
+    .then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
 
 
 

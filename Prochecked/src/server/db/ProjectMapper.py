@@ -20,7 +20,7 @@ class ProjectMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) in tuples:
+        for (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id, module_id) in tuples:
             project = Project()
             project.set_id(id),
             project.set_name(name),
@@ -39,6 +39,7 @@ class ProjectMapper(Mapper):
             project.set_project_type(project_type_id),
             project.set_semester(semester_id),
             project.set_dozent(person2_id)
+            project.set_module(module_id)
             result.append(project)
 
         self._cnx.commit()
@@ -153,10 +154,11 @@ class ProjectMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name=%s, project_state_id=%s WHERE id=%s"
+        command = "UPDATE project SET name=%s, project_state_id=%s, module_id=%s WHERE id=%s"
         data = (
             project.get_name(),
             project.get_project_state(),
+            project.get_module(),
             project.get_id())
             
         cursor.execute(command, data)

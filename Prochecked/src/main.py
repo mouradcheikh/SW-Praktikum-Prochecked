@@ -82,7 +82,7 @@ student = api.inherit('Student', person, {
 })
 
 module = api.inherit('Module', nbo, {
-    'edv_nr': fields.Integer(attribute='__edv_nr',
+    'edv_nr': fields.Integer(attribute='_edv_nr',
                              description='EDV-Nummer eines Moduls')
 })
 
@@ -120,7 +120,8 @@ project = api.inherit('Project', nbo, {
                                     description='Jetziger Status des Projekts'),
     'project_type': fields.Integer(attribute='_project_type',
                                   description='Art des Projekts'),
-    'semester': fields.Integer(attribute='_semester', description='semester des Projekts')
+    'semester': fields.Integer(attribute='_semester', description='semester des Projekts'),
+    'module': fields.Integer(attribute='_module', description='semester des Projekts')
 })
 
 participation = api.inherit('Participation', bo, {
@@ -729,6 +730,18 @@ class GradingByProjectandStudentOperations(Resource):
         
         return gra
 
+
+@prochecked.route('/modules')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ModuleOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self):
+        """Auslesen aller Module-Objekte, die noch frei sind.
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_all_free_modules()
+        return mod
 
 if __name__ == '__main__':
     app.run(debug=True)

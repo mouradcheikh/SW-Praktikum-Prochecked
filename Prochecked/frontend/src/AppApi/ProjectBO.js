@@ -28,6 +28,7 @@ export default class ProjectBO extends BusinessObject {
        this.project_state = null
        this.project_type = null
        this.semester = null
+       this.module = null 
     }
   
     setName(aname){
@@ -124,6 +125,14 @@ export default class ProjectBO extends BusinessObject {
 
     getProjectState(){
         return this.project_state
+    }
+
+    setModule(moduleid){
+        this.module = moduleid
+    }
+
+    getModule(){
+        return this.module
     }
 
 /** 

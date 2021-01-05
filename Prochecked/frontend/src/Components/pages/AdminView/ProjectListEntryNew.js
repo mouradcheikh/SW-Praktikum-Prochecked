@@ -8,6 +8,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
+import ModuleForm from'../../dialogs/DropdownModule'
 
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import List from '@material-ui/core/List';
@@ -33,14 +34,14 @@ class ProjectListEntryNew extends Component {
       project: props.project,
       showProjectForm: false,
       showProjectDeleteDialog: false,
-      updatedProject: null
+      updatedProject: null,
     };
   }
 
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
     console.log(new_state)
-    let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+    let updatedProject = Object.assign(new ProjectBO(), this.state.project);
     // set the new attributes from our dialog
     updatedProject.setProjectState(new_state);
    
@@ -68,6 +69,18 @@ class ProjectListEntryNew extends Component {
     });
   }
 
+  FreigabeButtonClicked = (event) => {
+    this.setState({
+      showProjectForm: true
+    });
+  }
+
+  updateModuleOfProject = (project) => {
+    this.setState({
+      project: project
+    }, () => console.log(this.state.project))
+    
+  }
 
   updateParentComponent = (() => {
     this.props.getProjectsByStateNew()
@@ -76,6 +89,19 @@ class ProjectListEntryNew extends Component {
     console.log("else if state 3")
 })
 
+ProjectFormClosed = (project) => {
+  // participation is not null and therefor changed
+  if (project) {
+    this.setState({
+      project: project,
+      showProjectForm: false
+    });
+  } else {
+    this.setState({
+      showProjectForm: false
+    });
+  }
+}
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
 //     this.props.onExpandedStateChange(this.props.project);
@@ -114,9 +140,10 @@ class ProjectListEntryNew extends Component {
                           color="secondary"
                           className={classes.buttonFreigeben}
                           startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
+                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
                   Freigeben
                   </Button>
+                  
                   <Button variant="contained"
                           color="secondary"
                           className={classes.buttonAblehnen}
@@ -125,6 +152,7 @@ class ProjectListEntryNew extends Component {
                   Ablehnen
                   </Button>
                 </Typography>
+                <ModuleForm show={showProjectForm} project={project} onClose={this.ProjectFormClosed} updateProject ={this.updateProject} updateModuleOfProject={this.updateModuleOfProject}/>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
               </Grid>
