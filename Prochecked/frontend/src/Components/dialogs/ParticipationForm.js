@@ -72,12 +72,13 @@ class ParticipationForm extends Component {
     });
   }
 
-  // setStudent = (student) => {
-  //   this.props.setStudent(student)  
-  // }
+  setStudent = (student) => {
+    this.props.setStud(student)  
+  }
 
   /** Updates the participation */
   updateParticipation = () => {
+    this.setStudent(this.state.student)
     console.log(this.props.participation)
     // clone the original participation, in case the backend call fails
     let updatedParticipation = Object.assign(new ParticipationBO(), this.props.participation);
