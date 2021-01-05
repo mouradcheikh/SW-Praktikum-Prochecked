@@ -134,7 +134,7 @@ class ProjectMapper(Mapper):
                 project.get_preffered_bd(),
                 project.get_special_room(),
                 project.get_dozent(),
-                project.get_state(),
+                project.get_project_state(),
                 project.get_project_type(),
                 project.get_semester(),
                 project.get_dozent2()
@@ -211,13 +211,14 @@ class ProjectMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, short_description, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
+        command = "SELECT id, name, capacity, short_description, person_id, project_state_id from project WHERE project_state_id={}".format(project_state_id) 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, short_description, person_id, project_state_id) in tuples:
+        for (id, name, capacity, short_description, person_id, project_state_id) in tuples:
             p = Project()
             p.set_id(id)
+            p.set_capacity(capacity)
             p.set_name(name)
             p.set_short_description(short_description)
             p.set_dozent(person_id)

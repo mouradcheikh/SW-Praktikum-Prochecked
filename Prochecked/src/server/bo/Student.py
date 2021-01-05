@@ -37,10 +37,6 @@ class Student(Person):
         """Umwandeln eines Python dict() in ein Person()-Objekt."""
         obj = Student()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_name(dictionary["name"])
-        obj.set_berechtigung(dictionary["berechtigung"])
-        obj.set_email(dictionary["email"])
-        obj.set_google_id(dictionary["google_id"])
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
         obj.set_creation_date(Person.date_format(dictionary["creation_date"]))

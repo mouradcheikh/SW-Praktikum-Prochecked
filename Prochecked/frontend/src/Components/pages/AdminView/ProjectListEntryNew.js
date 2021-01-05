@@ -33,6 +33,7 @@ class ProjectListEntryNew extends Component {
       project: props.project,
       showProjectForm: false,
       showProjectDeleteDialog: false,
+      updatedProject: null
     };
   }
 
@@ -47,8 +48,9 @@ class ProjectListEntryNew extends Component {
       this.setState({
         // project: project,
         updatingInProgress: false,              // disable loading indicator  
-        updatingError: null                     // no error message
-      });
+        updatingError: null,
+        updatedProject: updatedProject,                 // no error message
+      }, () => this.updateParentComponent());
       // keep the new state as base state
       this.baseState.project = this.state.project;
       this.props.onClose(updatedProject);      // call the parent with the new project
@@ -66,6 +68,13 @@ class ProjectListEntryNew extends Component {
     });
   }
 
+
+  updateParentComponent = (() => {
+    this.props.getProjectsByStateNew()
+    this.props.getProjectsByStateDeclined()
+    this.props.getProjectsByStateAccepted()
+    console.log("else if state 3")
+})
 
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
@@ -15,13 +14,23 @@ import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 // import PersonList from './Components/PersonList';
-import StudentView from './Components/pages/StudentView';
+import StudentLogin from './Components/pages/StudentView/StudentLogin';
+// import StudentView from './Components/pages/StudentView';
 import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
+import CreateSemester from './Components/pages/AdminView/CreateSemester';
+import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
+import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import SelectStudent from './Components/pages/AdminView/SelectStudent';
+import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
+import StudentView from './Components/pages/StudentView/StudentView';
+import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
+import { StudentBO } from './AppApi';
+
 
 // import firebaseconfig from './firebaseconfig';
 
@@ -46,6 +55,7 @@ class App extends React.Component {
     //Dann wird ein leeres state initalisiert 
 	    this.state = {
             person: null,
+            student: new StudentBO(),
             appError: null,
             authError: null,
             authLoading: false
@@ -133,8 +143,18 @@ class App extends React.Component {
             {
             this.setState({
                 person: person
+            }, () => this.getStudentByPersonId(this.state.person.getID()))
             })
-            })
+    }
+
+    getStudentByPersonId = (person_id) => {
+        var api = AppAPI.getAPI()
+        api.getStudentByPersonId(person_id).then((student) => {
+        this.setState({
+            student: student
+        })
+        // console.log(this.state.student)
+    })
     }
 
     setRole = (aRole) => {
@@ -245,15 +265,23 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        <Route exact path = '/SelectStudent' component = {SelectStudent}/>
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
+                        <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?
-                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole}></PersonLoggedIn>
+                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
 
                                 
 								:

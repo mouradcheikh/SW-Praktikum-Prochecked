@@ -6,6 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../AppApi';
+import {GradingBO} from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
@@ -43,6 +44,7 @@ class ParticipationListEntry extends Component {
       deletingError: null,
       grade: '',
       showParticipationForm: false,
+      participation: props.participation,
     }
   }
 
@@ -104,12 +106,46 @@ class ParticipationListEntry extends Component {
     // console.log(api)
     api.gradingStudent(grade, participation_id).then((grade) =>
         {
-          // console.log(grade)
+          // console.log("createGrading",grade)
         this.setState({
             grade: grade
         })}
         )
       }
+
+  /** Updates the grading */
+  updateGrading = (newGrade) => {
+    // console.log()
+    // clone the original grading, in case the backend call fails
+    let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
+    // console.log(this.state.grade)
+    // set the new attributes from our dialog
+    // console.log(this.state.student.id)
+    updatedGrading.setGrade(newGrade);
+    // console.log(updatedGrading)
+    
+    AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
+      this.setState({
+        grade: grading, 
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.grade = this.state.grade;
+      this.props.onClose(updatedGrading);      // call the parent with the new participation
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
+    });
+  }
   
 getGrading = () => {
   let grade = this.props.participation.grading_id
@@ -137,6 +173,42 @@ getGrading = () => {
   });
   }
 }
+
+setStudent = (student) => {
+  this.setState({
+    student: student
+  })
+}
+
+// updateProject = (new_state) => {
+//   // clone the original cutomer, in case the backend call fails
+//   console.log(new_state)
+//   let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+//   // set the new attributes from our dialog
+//   updatedProject.setProjectState(new_state);
+ 
+//   AppApi.getAPI().updateProject(updatedProject).then(project => {
+//     this.setState({
+//       // project: project,
+//       updatingInProgress: false,              // disable loading indicator  
+//       updatingError: null                     // no error message
+//     });
+//     // keep the new state as base state
+//     this.baseState.project = this.state.project;
+//     this.props.onClose(updatedProject);      // call the parent with the new project
+//   }).catch(e =>
+//     this.setState({
+//       updatingInProgress: false,              // disable loading indicator 
+//       updatingError: e                        // show error message
+//     })
+//   );
+
+//   // set loading to true
+//   this.setState({
+//     updatingInProgress: true,                 // show loading indicator
+//     updatingError: null                       // disable error message
+//   });
+// }
   
     passed(){
       let passed = this.state.grade.passed
@@ -162,7 +234,7 @@ getGrading = () => {
   /** Handles the onClose event of the ParticipationForm */
   participationFormClosed = (participation) => {
     // participation is not null and therefor changed
-    if (participation) {
+    if (participation) {console.log(participation)
       this.setState({
         participation: participation,
         showParticipationForm: false
@@ -179,9 +251,15 @@ getGrading = () => {
     e.preventDefault();
     this.setState({ grade:
       this.textInput.current.value})
-      // console.log(this.textInput.current.value)
+      console.log(this.props.participation)
+      if (this.props.participation.grading_id === 0) {
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
-      this.getGrading()
+      this.getGrading() 
+    }
+      else {
+        this.updateGrading(this.textInput.current.value)
+      }
+      // this.updateProject(5)
     }
      
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
@@ -189,7 +267,6 @@ getGrading = () => {
     // load initial balance
     // debugger;
     this.getGrading();
-    // console.log("nach aufruf von Grading")
     this.getStudent();
       
     }
@@ -209,6 +286,39 @@ getGrading = () => {
     
 
     return (
+      
+      project.project_state === 3?
+      <div>
+        <ListItem>
+          <Typography className={classes.participationEntry}>
+       
+            <div>
+            {student.matr_nr + " - " + student.name}
+            </div>
+      
+            <Button color='primary' onClick={this.editParticipationButtonClicked}>
+              edit
+            </Button>
+
+          </Typography>
+
+          <ListItemSecondaryAction>          
+            <Button color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={this.deleteParticipation}>
+             Löschen
+            </Button>
+          </ListItemSecondaryAction>
+
+        </ListItem>
+        <ListItem>
+          <LoadingProgress show={loadingInProgress || deletingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
+        </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud={this.setStudent}/>
+      </div>
+
+      :project.project_state ===4?
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
@@ -224,7 +334,7 @@ getGrading = () => {
        
             <div>
 
-            {student.matr_nr + " - " + student.name}
+            {this.state.student.matr_nr + " - " + this.state.student.name}
             </div>
            
 
@@ -243,10 +353,9 @@ getGrading = () => {
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
-            <div>
-
-            Bewertet: {grade.grade + " - " + this.passed()}
-            </div>
+            <Typography variant='body2' color={'textSecondary'}>
+              Bewertet: {grade.grade + " - " + this.passed()}
+          </Typography>
             </div>
 
           <ListItemSecondaryAction>          
@@ -262,7 +371,29 @@ getGrading = () => {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed}/>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/>
+      </div>
+
+      :
+      <div>
+        <ListItem>
+          <Typography className={classes.participationEntry}>      
+            <div>
+              {student.matr_nr + " - " + student.name}
+            </div>
+          </Typography>
+          <Typography variant='body2' color={'textSecondary'}>
+              Bewertet: {grade.grade + " - " + this.passed()}
+          </Typography>
+
+        </ListItem>
+        <ListItem>
+          <LoadingProgress show={loadingInProgress || deletingInProgress} />
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
+          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
+          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
+        </ListItem>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/>
       </div>
     );
   }
