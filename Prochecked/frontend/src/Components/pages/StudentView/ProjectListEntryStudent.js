@@ -27,7 +27,7 @@ class ProjectListEntryNew extends Component {
 
   constructor(props) {
     super(props);
-
+    
     // Init the state
     this.state = {
       project: this.props.project,
@@ -83,7 +83,7 @@ class ProjectListEntryNew extends Component {
           loadingInProgress: false,   // disable loading indicator
           error: null,
 
-        }, () => this.countParticipations()
+        }, () => { this.countParticipations(); this.identPar()}
         
         )).catch(e =>
           this.setState({             // Reset state with error from catch
@@ -95,6 +95,7 @@ class ProjectListEntryNew extends Component {
     // set loading to true
     // let capacity = this.state.project.capacity
     // let amountPart = this.state.participations.length
+  
     this.setState({
       loadingInProgress: true,
       error: null,
@@ -103,10 +104,42 @@ class ProjectListEntryNew extends Component {
    );
   }
 
+   /** Deletes this participation */
+   deleteParticipation = () => { console.log(this.state.participation)
+    var api = AppApi.getAPI()
+    api.deleteParticipation(this.state.participation.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+      // console.log(participation);
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
+
+  identPar(){
+    this.state.participations.map(par =>  { console.log(par)
+      if(par.student_id === this.props.student.id){
+        this.setState({
+          participation: par,
+        })
+    }
+  }) 
+}
+
   countParticipations(){
     let capacity = this.state.project.capacity
     let amountPart = this.state.participations.length
-    console.log( capacity, amountPart)
+    // console.log( capacity, amountPart)
     this.setState({
       participationsCounter: capacity-amountPart,
     })
@@ -116,6 +149,7 @@ class ProjectListEntryNew extends Component {
   componentDidMount() {
     // console.log("gerendert")
     this.getParticipationsByProject();
+    
   
   }
 
@@ -141,8 +175,11 @@ class ProjectListEntryNew extends Component {
     const { project, showProjectForm, showProjectDeleteDialog, participations, participationsCounter, participation } = this.state;
 
     // console.log(this.state);
+    // console.log(participation)
     return (
-    //   project.project_state ===1?
+      
+      participation !==null?
+
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
@@ -154,20 +191,14 @@ class ProjectListEntryNew extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
                   
-                  <Button                
-                          color="secondary"
-                          className={classes.buttonFreigeben}
-                          startIcon={<CheckIcon/>}
-                          variant="contained" color='primary' size='small'  onClick={this.addParticipation}>
-                  Anmelden
-                  </Button>
-                  {/* <Button variant="contained"
+                 
+                  <Button variant="contained"
                           color="secondary"
                           className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
-                          variant='outlined' color='primary' size='small' onClick={() => this.deleteParticipation}>
+                          variant='outlined' color='primary' size='small' onClick={this.deleteParticipation}>
                   Abmelden
-                  </Button> */}
+                  </Button>
                 </Typography>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
@@ -183,76 +214,51 @@ class ProjectListEntryNew extends Component {
           </AccordionDetails> */}
         </Accordion> 
       </div>
-//       : project.project_state ===2?
-//       <div>
-//       <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-//         <AccordionSummary
-//           // expandIcon={<ExpandMoreIcon />}
-//           id={`project${project.getID()}accountpanel-header`}
-//         >
+
+      
+     
+      :
+      <div>
+      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        <AccordionSummary
+          // expandIcon={<ExpandMoreIcon />}
+          id={`project${project.getID()}accountpanel-header`}
+        >
           
-//           <Grid container spacing={1} justify='flex-start' alignItems='center'>
-//             <Grid item>
-//               <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-//                 <Button variant="contained"
-//                         color="secondary"
-//                         className={classes.button}
-//                         startIcon={<CheckIcon/>}
-//                 className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
-//                 Freigeben
-//                 </Button>
-//                 <Button variant="contained"
-//                         color="secondary"
-//                         className={classes.button}
-//                         startIcon={<ReplyRoundedIcon/>}
-//                 className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
-//                 Rückgängig
-//                 </Button>
-//               </Typography>
-//               <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-//               </Typography>
-//             </Grid>
-//           </Grid>
-//         </AccordionSummary>
-//        <AccordionDetails> 
-//         </AccordionDetails>
-//       </Accordion> 
-//     </div>
-//     : 
-//     <div>
-//     <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-//       <AccordionSummary
-//         // expandIcon={<ExpandMoreIcon />}
-//         id={`project${project.getID()}accountpanel-header`}
-//       >
-        
-//         <Grid container spacing={1} justify='flex-start' alignItems='center'>
-//           <Grid item>
-//             <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-//               <Button variant="contained"
-//                       color="secondary"
-//                       className={classes.button}
-//                       startIcon={<HighlightOffIcon/>}
-//               className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
-//               Ablehnen
-//               </Button>
-//               <Button variant="contained"
-//                       color="secondary"
-//                       className={classes.button}
-//                       startIcon={<ReplyRoundedIcon/>}
-//               className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(1)}>
-//               Rückgängig
-//               </Button>
-//             </Typography>
-//             <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-//             </Typography>
-//           </Grid>
-//         </Grid>
-//       </AccordionSummary>
-//      <AccordionDetails> 
-//       </AccordionDetails>
-//     </Accordion> 
-//   </div>
+          <Grid container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item>
+              <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+                
+                <Button                
+                        color="secondary"
+                        className={classes.buttonFreigeben}
+                        startIcon={<CheckIcon/>}
+                        variant="contained" color='primary' size='small'  onClick={this.addParticipation}>
+                Anmelden
+                </Button>
+                {/* <Button variant="contained"
+                        color="secondary"
+                        className={classes.buttonAblehnen}
+                        startIcon={<HighlightOffIcon/>}
+                        variant='outlined' color='primary' size='small' onClick={() => this.deleteParticipation}>
+                Abmelden
+                </Button> */}
+              </Typography>
+              <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+              </Typography>
+              
+              <Typography variant='body1' className={classes.heading}>{"verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
+              </Typography>
+
+            
+            </Grid>
+          </Grid>
+        </AccordionSummary>
+       {/* <AccordionDetails> 
+        </AccordionDetails> */}
+      </Accordion> 
+    </div>
+      
     );
   }
 }

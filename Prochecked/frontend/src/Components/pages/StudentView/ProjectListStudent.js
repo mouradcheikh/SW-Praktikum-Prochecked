@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, ListItem, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
@@ -33,6 +33,7 @@ class ProjectListStudent extends Component {
       projectsSignedIn: [],
       error: null,
       loadingInProgress: false,
+      // student: this.props.location.state.student,
       // expandedProjectID: expandedID,
     };
   }
@@ -87,6 +88,7 @@ class ProjectListStudent extends Component {
         error: null
       });
     }
+    
 
 
   // /**
@@ -111,6 +113,10 @@ class ProjectListStudent extends Component {
   //   });
   // }
 
+  // parentCall(){
+  //   this.getProjectsByStudent(this.state.student.matr_nr);
+  // }
+
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // console.log("gerendert")
@@ -131,7 +137,7 @@ class ProjectListStudent extends Component {
     const { classes } = this.props;
     const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
     const student = this.props.location.state.student
-    console.log(this.props.location.state.student)
+  
     
     return (
         <div className={classes.root}>
@@ -152,7 +158,19 @@ class ProjectListStudent extends Component {
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+
+         <Grid item xs={6}>
+
+         <h1>Angemeldete Projekte</h1>
+           <Paper className={classes.paper}>
+           <div>
+            {projectsSignedIn.map(s => <ListItem>{s.name}</ListItem >)}
+            </div>
+           </Paper>
+         </Grid>
+        </Grid>
+        
+        {/* <Grid item xs={6}>
         <h1>Angemeldete Projekte</h1>
           <Paper className={classes.paper}>
           {
@@ -167,8 +185,8 @@ class ProjectListStudent extends Component {
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStudent} /> 
           </Paper>
-        </Grid>
-      </Grid>
+        </Grid> */}
+      
         </div>
         
     );
