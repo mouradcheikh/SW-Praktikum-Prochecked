@@ -45,7 +45,8 @@ export default class AppAPI {
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
     #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
-
+    #addParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
+    
     // Project related
     #getProjectsByDozentAcceptedURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
     #getProjectsByDozentInReviewURL = (person_id) => `${this.#AppServerBaseURL}/dozent/${person_id}/project`;
@@ -228,6 +229,30 @@ getStudentByMatrikelNummer(matr_nr) {
 
 //Participation related
 
+/**
+   * Returns a Promise, which resolves to an ParticipationBOs
+   * 
+   */
+  createParticipation(participation){
+    return this.#fetchAdvanced(this.#addParticipationURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(participation)
+      }).then((responseJSON) => {console.log(responseJSON)
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+      // console.info(accountBOs);
+        return new Promise(function (resolve) {
+        resolve(responseParticipationBO);
+      })
+    })
+  }
+  
+  
+
  /**
    * Returns a Promise, which resolves to an Array of ParticipationBOs
    * 
@@ -237,7 +262,7 @@ getStudentByMatrikelNummer(matr_nr) {
   getParticipationsByProject(project_id){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
-        //console.log(responseJSON)
+        console.log(responseJSON)
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.log(participationBOs);
         return new Promise(function (resolve) {
@@ -383,7 +408,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -404,7 +429,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -438,7 +463,7 @@ getStudentByMatrikelNummer(matr_nr) {
       },
       body: JSON.stringify(projectBo)
       }).then((responseJSON) => { 
-        console.log(responseJSON)
+        // console.log(responseJSON)
       // We always get an array of ProjectBO.fromJSON, but only need one object 
         let responseProjectBo = ProjectBO.fromJSON(responseJSON)[0];
       // console.info(participationBOs);
@@ -505,7 +530,7 @@ getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      console.info(responseDozentBOs);
+      // console.info(responseDozentBOs);
       return new Promise(function (resolve) {
         resolve(responseDozentBOs);
       })
@@ -573,11 +598,11 @@ getStudentByMatrikelNummer(matr_nr) {
    * @public
    */
   getGradingByParticipation(participation_id) {
-    console.log(participation_id)
+    // console.log(participation_id)
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
       .then((responseJSON) => { 
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let GradingBOs = GradingBO.fromJSON(responseJSON);
         // console.log(projectBOs);

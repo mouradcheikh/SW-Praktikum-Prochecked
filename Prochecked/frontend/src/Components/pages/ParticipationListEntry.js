@@ -44,6 +44,7 @@ class ParticipationListEntry extends Component {
       deletingError: null,
       grade: '',
       showParticipationForm: false,
+      participation: props.participation,
     }
   }
 
@@ -233,7 +234,7 @@ setStudent = (student) => {
   /** Handles the onClose event of the ParticipationForm */
   participationFormClosed = (participation) => {
     // participation is not null and therefor changed
-    if (participation) {
+    if (participation) {console.log(participation)
       this.setState({
         participation: participation,
         showParticipationForm: false
@@ -266,7 +267,6 @@ setStudent = (student) => {
     // load initial balance
     // debugger;
     this.getGrading();
-    // console.log("nach aufruf von Grading")
     this.getStudent();
       
     }
@@ -286,26 +286,16 @@ setStudent = (student) => {
     
 
     return (
+      
       project.project_state === 3?
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
-            {/* <Link component={RouterLink} to={{
-              pathname: '/StudentZuordnung',
-              owner: {
-                project: project,
-                participation: participation
-              }
-            }} >
-              Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
-            </Link> */}
        
             <div>
-
-            {this.state.student.matr_nr + " - " + this.state.student.name}
+            {student.matr_nr + " - " + student.name}
             </div>
-           
-
+      
             <Button color='primary' onClick={this.editParticipationButtonClicked}>
               edit
             </Button>
