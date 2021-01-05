@@ -29,6 +29,35 @@ class CreateSemester extends React.Component {
         )}
         )
       }
+    
+  //  /** Deletes this semester */
+  //  deleteSemester = () => {
+  //   const { participation } = this.props;
+  //   var api = AppApi.getAPI()
+  //   api.deleteParticipation(participation.getID()).then(() => {
+  //     this.setState({  // Set new state when ParticipationBOs have been fetched
+  //       deletingInProgress: false, // loading indicator 
+  //       deletingError: null
+  //     })
+  //     // console.log(participation);
+  //     this.props.onParticipationDeleted(participation);
+  //   }).catch(e =>
+  //     this.setState({ // Reset state with error from catch 
+  //       deletingInProgress: false,
+  //       deletingError: e
+  //     })
+  //   );
+  //   // set loading to true
+  //   this.setState({
+  //     deletingInProgress: true,
+  //     deletingError: null
+  //   });
+  // }
+
+
+  
+
+  
 
     SemesterList(){
       var api = AppApi.getAPI()
@@ -81,7 +110,9 @@ class CreateSemester extends React.Component {
             <h1>Bestehende Semester</h1>
            <Paper className={classes.paper}>
           <div>
+            <List>
             {semesters.map(s => <ListItem>{s.name}</ListItem >)}
+            </List>
           </div>
            </Paper>
          </Grid>
@@ -141,5 +172,5 @@ const styles = theme => ({
  
   export default withStyles(styles)(CreateSemester); 
 
-//endIcon={<SendIcon/>}
+
 
