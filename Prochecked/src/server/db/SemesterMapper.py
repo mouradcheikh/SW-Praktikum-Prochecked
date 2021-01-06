@@ -96,3 +96,8 @@ class SemesterMapper(Mapper):
 
         return result
 
+
+if __name__ == "__main__":
+    with SemesterMapper() as mapper:
+        mapper.delete(1)
+

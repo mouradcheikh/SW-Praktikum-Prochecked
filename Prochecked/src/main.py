@@ -653,7 +653,7 @@ class SemestersOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
-
+        print(api.payload)
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
         #print(api.payload)
@@ -682,9 +682,10 @@ class SemesterOperations(Resource):
 
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
+
         adm = ProjectAdministration()
         s = adm.get_semester_by_id(id)
-
+        print(s.get_name(), s.get_id())
         if s is not None:
             adm.delete_semester(s)
             return '', 200
@@ -797,6 +798,9 @@ class GradingByProjectandStudentOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    #adm = ProjectAdministration()
+    #adm.delete_semester(1)
 
     '''project = Project()
     project.set_id(1)

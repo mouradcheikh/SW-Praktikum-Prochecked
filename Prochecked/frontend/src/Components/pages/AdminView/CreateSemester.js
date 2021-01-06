@@ -3,6 +3,7 @@ import {makeStyles, withStyles, IconButton, Button, List, ListItem, ListItemSeco
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -33,9 +34,9 @@ class CreateSemester extends React.Component {
       }
     
    /** Delete semester */
-   deleteSemester = () => { console.log(this.state.semesters) 
+   deleteSemester = (s) => { console.log(s.getID()) 
     var api = AppApi.getAPI()
-    api.deleteSemester(this.state.semesters.getID()).then(() => {
+    api.deleteSemester(s.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
@@ -64,15 +65,17 @@ class CreateSemester extends React.Component {
           )
         }
       
-    handleSubmit = e => { console.log(this.textInput.current.value)
-        e.preventDefault();
-        this.setState({ 
-          semester: this.textInput.current.value},
-          () => {this.createSemester(this.textInput.current.value)})
+        handleSubmit = e => { console.log(this.textInput.current.value)
+          e.preventDefault();
+          this.setState({ 
+            semester: this.textInput.current.value},
+            () => {this.createSemester(this.textInput.current.value)})
           // console.log(this.textInput.current.value)
           // this.createSemester(this.textInput.current.value),
           // this.SemesterList()
         }
+
+
     
       /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -90,11 +93,11 @@ class CreateSemester extends React.Component {
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
             <Paper className={classes.paper}>
-            <form >
-              <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
-              <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit} >
-              Eintragen
-              </Button>
+              <form className={classes.root} noValidate autoComplete='off'>
+          <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
+           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
+           Eintragen
+           </Button>
               <Typography variant='body2' color={'textSecondary'}>
               Semester erfolgreich eingetragen!
               </Typography>
@@ -104,45 +107,43 @@ class CreateSemester extends React.Component {
             <Grid item xs={6}>
             <h1>Bestehende Semester</h1>
            <Paper className={classes.paper}>
-          <div>
-            <List>
-            {semesters.map(s => <ListItem>{s.name}</ListItem >)}
-            </List>
+           <div>
+             {semesters.map(s => <ListItem>
+              {s.name}
+             <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+              <DeleteIcon />
+             </IconButton>
+              </ListItem >)}
           </div>
            </Paper>
          </Grid>
       </Grid>
         </div>
+
         :
+
         <div>
         <Grid container spacing={3}>
           <Grid item xs={6}>
         <h1>Neues Semester eintragen</h1>
          <Paper className={classes.paper}>
-         <form >
+         <form className={classes.root} noValidate autoComplete='off'>
            <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
-           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit} >
+           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
            Eintragen
            </Button>
-           {/* <Typography variant='body2' color={'textSecondary'}>
-           Semester noch nicht eingetragen
-           </Typography> */}
          </form>
          </Paper>
          </Grid>
          <Grid item xs={6}>
          <h1>Bestehende Semester</h1>
            <Paper className={classes.paper}>
-           <div>
-
             {semesters.map(s => <ListItem>
               {s.name}
-          <IconButton aria-label="delete" onClick= {this.deleteSemester}>
+          <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
             <DeleteIcon />
           </IconButton>
             </ListItem >)}
-
-            </div>
            </Paper>
          </Grid>
         </Grid>

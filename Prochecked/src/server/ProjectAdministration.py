@@ -477,8 +477,8 @@ class ProjectAdministration (object):
     
     def delete_semester(self, semester):
         """Ein Semester löschen"""
-        with ParticipationMapper() as mapper:
-            mapper.delete_semester(semester)
+        with SemesterMapper() as mapper:
+            mapper.delete(semester)
 
     
   
