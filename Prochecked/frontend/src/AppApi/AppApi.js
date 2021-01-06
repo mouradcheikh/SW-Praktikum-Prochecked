@@ -630,7 +630,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
     let s = new SemesterBO();
     s.setName(semester)
-    // console.log(s)
+    // console.log("semester:", s)
 
     return this.#fetchAdvanced(this.#addSemesterURL(), {
       method: 'POST',
@@ -668,7 +668,7 @@ getStudentByMatrikelNummer(matr_nr) {
   getProjectsByStudent(matr_nr){
     return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
         console.log(projectBOs);

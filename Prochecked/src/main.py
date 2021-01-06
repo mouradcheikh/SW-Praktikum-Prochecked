@@ -653,10 +653,11 @@ class SemesterOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
+        print("Semester", api.payload)
 
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
-        #print(api.payload)
+
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
