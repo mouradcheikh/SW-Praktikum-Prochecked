@@ -32,8 +32,8 @@ export default class AppAPI {
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
+    #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
-
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
@@ -667,25 +667,25 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  //   /**
-  //  * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
-  //  * 
-  //  * @param semester to be deleted
-  //  * @public
-  //  */
-  // deleteSemester(id) {
-  //   return this.#fetchAdvanced(this.#deleteSemesterURL(id), {
-  //     method: 'DELETE'
-  //   })
-  //     .then((responseJSON) => {
-  //       // We always get an array of ParticipationBO.fromJSON, but only need one object
-  //       let semesterBOs = SemesterBO.fromJSON(responseJSON)[0];
-  //       // console.info(participationBOs);
-  //       return new Promise(function (resolve) {
-  //         resolve(semesterBOs);
-  //       })
-  //     })
-  // }
+    /**
+   * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
+   * 
+   * @param semester to be deleted
+   * @public
+   */
+  deleteSemester(id) {
+    return this.#fetchAdvanced(this.#deleteSemesterURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let semesterBOs = SemesterBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(semesterBOs);
+        })
+      })
+  }
 
 
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import {makeStyles, withStyles, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
+import {makeStyles, withStyles, IconButton, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
@@ -16,6 +17,7 @@ class CreateSemester extends React.Component {
         }
     }
 
+    /** Create semester */
     createSemester(semester){
     var api = AppApi.getAPI()
     // console.log(api)
@@ -30,35 +32,28 @@ class CreateSemester extends React.Component {
         )
       }
     
-  //  /** Deletes this semester */
-  //  deleteSemester = () => {
-  //   const { participation } = this.props;
-  //   var api = AppApi.getAPI()
-  //   api.deleteParticipation(participation.getID()).then(() => {
-  //     this.setState({  // Set new state when ParticipationBOs have been fetched
-  //       deletingInProgress: false, // loading indicator 
-  //       deletingError: null
-  //     })
-  //     // console.log(participation);
-  //     this.props.onParticipationDeleted(participation);
-  //   }).catch(e =>
-  //     this.setState({ // Reset state with error from catch 
-  //       deletingInProgress: false,
-  //       deletingError: e
-  //     })
-  //   );
-  //   // set loading to true
-  //   this.setState({
-  //     deletingInProgress: true,
-  //     deletingError: null
-  //   });
-  // }
-
+   /** Delete semester */
+   deleteSemester = () => { console.log(this.state.semesters) 
+    var api = AppApi.getAPI()
+    api.deleteSemester(this.state.semesters.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
 
   
-
-  
-
     SemesterList(){
       var api = AppApi.getAPI()
       api.getSemesters().then((semesters) =>
@@ -139,7 +134,14 @@ class CreateSemester extends React.Component {
          <h1>Bestehende Semester</h1>
            <Paper className={classes.paper}>
            <div>
-            {semesters.map(s => <ListItem>{s.name}</ListItem >)}
+
+            {semesters.map(s => <ListItem>
+              {s.name}
+          <IconButton aria-label="delete" onClick= {this.deleteSemester}>
+            <DeleteIcon />
+          </IconButton>
+            </ListItem >)}
+
             </div>
            </Paper>
          </Grid>
@@ -156,7 +158,8 @@ const styles = theme => ({
       width: '100%'
     }, 
     buttonMargin: {
-      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(11),
+      size: 'small',
     },
     participationEntry: {
       fontSize: theme.typography.pxToRem(15),

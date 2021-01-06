@@ -630,7 +630,7 @@ class StudentLogInOperations(Resource):
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class SemesterOperations(Resource):
+class SemestersOperations(Resource):
     @prochecked.marshal_with(semester)
     @secured
     def get(self):
@@ -669,7 +669,27 @@ class SemesterOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
     
+
+@prochecked.route('/semester/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class SemesterOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        s = adm.get_semester_by_id(id)
+
+        if s is not None:
+            adm.delete_semester(s)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Semester existiert.'''
     
 
 #Grading related 
