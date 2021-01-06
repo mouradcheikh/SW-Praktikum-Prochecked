@@ -79,7 +79,6 @@ CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `grading_id` int DEFAULT '0',
-  `module_id` int DEFAULT '0',
   `project_id` int DEFAULT '0',
   `student_id` int DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -148,6 +147,7 @@ CREATE TABLE `project` (
   `project_type_id` int DEFAULT '0',
   `semester_id` int DEFAULT '0',
   `person2_id` int DEFAULT NULL,
+  `module_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
