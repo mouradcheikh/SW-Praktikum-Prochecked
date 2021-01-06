@@ -336,8 +336,8 @@ class ProjectsByStateOperation(Resource):
         print(project_state)
         adm = ProjectAdministration()
         project_list = adm.get_projects_by_state(project_state)
-        #for p in project_list:
-            #print(p.get_project_state())
+        for p in project_list:
+            print(p.get_name(), p.get_semester())
         return project_list
 
 
@@ -731,16 +731,17 @@ class GradingByProjectandStudentOperations(Resource):
         return gra
 
 
-@prochecked.route('/modules')
+@prochecked.route('/modules/<int:semester>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('semester')
 class ModuleOperations(Resource):
     @prochecked.marshal_list_with(module)
     @secured
-    def get(self):
+    def get(self, semester):
         """Auslesen aller Module-Objekte, die noch frei sind.
         """
         adm = ProjectAdministration()
-        mod = adm.get_all_free_modules()
+        mod = adm.get_free_modules_by_semester(semester)
         return mod
 
 if __name__ == '__main__':

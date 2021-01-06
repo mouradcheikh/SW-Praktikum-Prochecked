@@ -66,7 +66,7 @@ export default class AppAPI {
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
 
     //Module Related
-    #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
+    #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/modules/${semester}`;
 
     
 
@@ -656,8 +656,8 @@ getStudentByMatrikelNummer(matr_nr) {
   }
 
   
-  getAllModules(){
-    return this.#fetchAdvanced(this.#getModulesURL())
+  getFreeModulesBySemester(semester){
+    return this.#fetchAdvanced(this.#getFreeModulesBySemesterURL(semester))
     .then((responseJSON) => {
       console.log(responseJSON)
       let moduleBOs = ModuleBO.fromJSON(responseJSON);

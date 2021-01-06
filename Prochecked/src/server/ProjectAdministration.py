@@ -489,12 +489,14 @@ class ProjectAdministration (object):
 
 
 #Module Related
-    def get_all_free_modules(self):
+    def get_free_modules_by_semester(self, semester_id):
         with ModuleMapper() as mapper:
             all_modules = mapper.find_all()
 
         adm = ProjectAdministration()
         all_projects = adm.get_all_projects()
+
+        semester_id = semester_id
 
         free_modules = []
         found = False
@@ -503,7 +505,7 @@ class ProjectAdministration (object):
             module_id = m.get_id()
             for p in all_projects:
                 # print(p.get_name(), p.get_module(), "modul:", module_id)
-                if p.get_module() == module_id:
+                if p.get_module() == module_id and p.get_semester() == semester_id:
                     found = True
             if found == False:
                 free_modules.append(m)
@@ -529,7 +531,7 @@ if __name__ == '__main__':
 
 
     adm = ProjectAdministration()
-    modules = adm.get_all_free_modules()
+    modules = adm.get_free_modules_by_semester(1)
     print(modules, modules[0], modules[0].get_edv_nr())
 
     # p = adm.create_grading(2, 1)

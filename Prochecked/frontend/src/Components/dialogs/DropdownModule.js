@@ -115,8 +115,10 @@ class ModuleForm extends Component {
     }
 
     getModuleList(){
+        console.log("getmodulelist")
+        console.log(this.props.project)
         var api = AppApi.getAPI()
-        api.getAllModules().then(modules =>
+        api.getFreeModulesBySemester(this.props.project.getSemester()).then(modules =>
             this.setState({
                 modules: modules,
                 loadingInProgress: false, // loading indicator 

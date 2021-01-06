@@ -155,6 +155,8 @@ ProjectFormClosed = (project) => {
                 <ModuleForm show={showProjectForm} project={project} onClose={this.ProjectFormClosed} updateProject ={this.updateProject} updateModuleOfProject={this.updateModuleOfProject}/>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
+                <Typography variant='body1' className={classes.heading}>{"Projektart:"+ " "+ project.getProjectType()} 
+                </Typography>
               </Grid>
             </Grid>
           </AccordionSummary>

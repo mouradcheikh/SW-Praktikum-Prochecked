@@ -23,7 +23,7 @@ export default class ProjectBO extends BusinessObject {
        this.special_room = null
        this.dozent = null
        this.dozent2 = null
-    //    this.semester = null 
+       this.semester = null 
     //    this.current_state = null
        this.project_state = null
        this.project_type = null
@@ -133,6 +133,10 @@ export default class ProjectBO extends BusinessObject {
 
     getModule(){
         return this.module
+    }
+
+    getProjectType(){
+        return this.project_type
     }
 
 /** 
