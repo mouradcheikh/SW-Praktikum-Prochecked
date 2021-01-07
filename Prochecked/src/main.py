@@ -489,6 +489,8 @@ class ParticipationOperations(Resource):
 
 
         if par is not None:
+            gra = adm.get_grading_by_id(par.get_grading())
+            adm.delete_grading(gra)
             adm.delete_participation(par)
             return '', 200
         else:

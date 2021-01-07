@@ -19,13 +19,6 @@ class ProjectListStudent extends Component {
   constructor(props) {
     super(props);
 
-    // // console.log(props);
-    // let expandedID = null;
-
-    // if (this.props.location.expandProject) {
-    //   expandedID = this.props.location.expandProject.getID();
-    // }
-
     // Init an empty state
     this.state = {
       // projectNew: [],
@@ -65,7 +58,6 @@ class ProjectListStudent extends Component {
 
    /** Fetches ProjectBOsbyMatrNr from the backend */
    getProjectsByStudent = (matr_nr) => {
-    // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByStudent(matr_nr) //evtl. Objekt von API vorher anlegen
         .then(projectBOs =>
@@ -88,30 +80,19 @@ class ProjectListStudent extends Component {
         error: null
       });
     }
+
+    stateAsString(s){ //wandelt zahl des projektstatus in einen string um
+      if (s ===3){
+        return "freigegeben"
+      }
+      else if (s ===4){
+        return "in Bewertung"
+      }
+      else{
+        return "Bewertung abgeschlossen"
+      }
+    }
     
-
-
-  // /**
-  //  * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
-  //  * the ProjectListEntry of the given ProjectBO.
-  //  *
-  //  * @param {project} ProjectBO of the ProjectListEntry to be toggeled
-  //  */
-  // onExpandedStateChange = project => {
-  //   // console.log(projectID);
-  //   // Set expandend project entry to null by default
-  //   let newID = null;
-
-  //   // If same project entry is clicked, collapse it else expand a new one
-  //   if (project.getID() !== this.state.expandedProjectID) {
-  //     // Expand the project entry with projectID
-  //     newID = project.getID();
-  //   }
-  //   // console.log(newID);
-  //   this.setState({
-  //     expandedProjectID: newID,
-  //   });
-  // }
 
   // parentCall(){
   //   this.getProjectsByStudent(this.state.student.matr_nr);
@@ -135,60 +116,43 @@ class ProjectListStudent extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error} = this.state;
     const student = this.props.location.state.student
   
     
     return (
         <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
-        <h1>Verfügbare Projekte</h1>
-          <Paper className={classes.paper}>
-          {
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          projectsAvailable.map(project =>
-            <ProjectListEntryStudent key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-              onExpandedStateChange={this.onExpandedStateChange} student = {student}
-              onProjectDeleted={this.projectDeleted}
-            />)
-        }
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
-          </Paper>
-        </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <h1>Verfügbare Projekte</h1>
+              <Paper className={classes.paper}>
+                {
+                  projectsAvailable.map(project =>
+                  <ProjectListEntryStudent 
+                    key={project.getID()} 
+                    project={project} 
+                    expandedState={expandedProjectID === project.getID()}
+                    onExpandedStateChange={this.onExpandedStateChange} 
+                    student = {student}
+                    onProjectDeleted={this.projectDeleted}
+                  />)
+                }
+                <LoadingProgress show={loadingInProgress} />
+                <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
+              </Paper>
+            </Grid>
 
-         <Grid item xs={6}>
+            <Grid item xs={6}>
 
-         <h1>Angemeldete Projekte</h1>
-           <Paper className={classes.paper}>
-           <div>
-            {projectsSignedIn.map(s => <ListItem>{s.name}</ListItem >)}
-            </div>
-           </Paper>
-         </Grid>
-        </Grid>
-        
-        {/* <Grid item xs={6}>
-        <h1>Angemeldete Projekte</h1>
-          <Paper className={classes.paper}>
-          {
-          // Show the list of ProjectListEntry components
-          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-          projectsSignedIn.map(project =>
-            <ProjectListEntryStudent key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-              onExpandedStateChange={this.onExpandedStateChange} student = {student}
-              onProjectDeleted={this.projectDeleted}
-            />)
-        }
-        <LoadingProgress show={loadingInProgress} />
-        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStudent} /> 
-          </Paper>
-        </Grid> */}
-      
-        </div>
-        
+              <h1>Angemeldete Projekte</h1>
+              <Paper className={classes.paper}>
+                <div>
+                  {projectsSignedIn.map(p => <ListItem>{"Projektname:" + " " + p.name + " - " + "Projektstatus:" + " " + this.stateAsString(p.project_state)}</ListItem >)}
+                </div>
+              </Paper>
+            </Grid>
+          </Grid>   
+        </div> 
     );
   }
 }

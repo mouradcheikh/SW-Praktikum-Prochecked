@@ -60,6 +60,7 @@ class CreateSemester extends React.Component {
         {if(s.name === value){ //r:prüft ob semester bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
         this.setState({
           semesterValidationFailed: true,
+          
       })
     }        
       })
