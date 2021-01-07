@@ -23,26 +23,21 @@ from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
-
-
 class ProjectAdministration (object):
     def __init__(self):
         pass 
 
-
-        
-
 #Person related
-    def create_person(self, name, google_id, email):
+    def create_person(self, name, google_id, email, berechtigung):
         #berechtigung?
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
+        person.set_berechtigung(berechtigung)
         #person.set_berechtigung(berechtigung)
         person.set_id(1)
         
-
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
 

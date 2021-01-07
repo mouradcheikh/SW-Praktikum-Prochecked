@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import  {AppApi}  from '../../../AppApi';
+import  {AppApi, PersonBO}  from '../../../AppApi';
 
 class CreatePerson extends Component {
     constructor(props) {
@@ -18,22 +18,22 @@ class CreatePerson extends Component {
             googleid: '',
             email:'',
             role: '',
+            person: null,
             
     };
     this.handleChange = this.handleChange.bind(this);
     }
 
      /** Create Person */
-     createPerson(semester){
+     createPerson(name, googleid, email, role){
         var api = AppApi.getAPI()
         // console.log(api)
-        api.createSemester(semester).then((semester) =>
+        api.createPerson(name, googleid, email, role).then((person) =>
             {
               // console.log(semester)
             this.setState({
-                semester: semester
+                person: person
             },
-            this.SemesterList()
             )}
             )
           }
@@ -42,24 +42,45 @@ class CreatePerson extends Component {
     this.setState({ [e.target.name]: e.target.value });
     // console.log({ [e.target.name]: e.target.value })
     }
+
+    handleSubmit = (event) => {
+        event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+        
+        this.createPerson(
+            this.state.name, 
+            this.state.email, 
+            this.state.googleid, 
+            this.state.role,
+          )
+        }
+      
    
     render() {
         const { classes  } = this.props;
+        const { person } = this.state; 
         console.log(this.state)
 
         return (
-
+        
         <div>
             <div>
                 <h1>Eine neue Person erstellen</h1>
             </div>
             
             <div>
-                <form className={classes.root} noValidate autoComplete="off">
+                <form className={classes.root} noValidate autoComplete="off" onSubmit= {this.handleSubmit}>
                     <TextField id="outlined-basic" label="Name" variant="outlined" name='name' onChange={this.handleChange} />
                     <TextField id="outlined-basic" label="Google-ID" variant="outlined" name='googleid' onChange={this.handleChange} />
                     <TextField id="outlined-basic" label="E-Mail" variant="outlined" name='email'onChange={this.handleChange}/>
                     {/* <TextField id="outlined-basic" label="Rolle" variant="outlined" ref={this.textInput} /> */}
+
+                    {/* {person.berechtigung===1?
+                    <div>
+                    <TextField id="outlined-basic" label="Google-ID" variant="outlined" name='xxx'  />
+                    <TextField id="outlined-basic" label="E-Mail" variant="outlined" name='xxx'/>
+                    </div>:
+                    <div></div>
+                          } */}
 
                     <FormControl className={classes.formControl}>
                     <InputLabel id="artProjekt">Rolle der Person</InputLabel>
@@ -77,17 +98,18 @@ class CreatePerson extends Component {
                      </FormControl>
                 
              <Button
+                type = "submit"
                 variant="contained"
                 color="default"
                 size="large"
                 className={classes.button}
-                // onClick={this.handleChange.bind(this)}
                 startIcon={<SaveIcon />}>                
                     Person anlegen
             </Button>
             </form>
             </div>
         </div>
+        
         )
     }
 }
