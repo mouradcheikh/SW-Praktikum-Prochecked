@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextField, makeStyles, withStyles, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
+import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 
@@ -10,17 +10,17 @@ class CreateSemester extends React.Component {
         super(props);
 
         this.state = {
-            semester: null, //für CreateSemester das State 
-            semesters: [], // für SemesterList das State 
-            semesterValidationFailed: true,
-            success: false,
+            semester: null, //für CreateSemester
+            semesters: [], // für SemesterList 
+            semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
+            success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
            
         }
     }
 
-    createSemester(semester){
+    createSemester(semester){ //erstellt nach eingabe und bestätigung des buttons ein neues SemesterObjekt
     var api = AppApi.getAPI()
-    // console.log(api)
+    // console.log(api) 
     api.createSemester(semester).then((semester) =>
         {
           // console.log(semester)
@@ -45,26 +45,35 @@ class CreateSemester extends React.Component {
         
     textFieldValueChange = (event) => {
       const value = event.target.value;
+
       this.setState({
         [event.target.id]: value,
       });
 
-      if(value.length <= 5){
+      if(value.length > 5){ //eingabe des textfields muss mindestens 5 zeichen enthalten
       
         this.setState({
-          semesterValidationFailed: true,
+          semesterValidationFailed: false,
         })
-      }
+
+      this.state.semesters.map(s => 
+        {if(s.name === value){ //r:prüft ob semester bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
+        this.setState({
+          semesterValidationFailed: true,
+      })
+    }        
+      })
+    }
       else {
         this.setState({
-          semesterValidationFailed: false,
+          semesterValidationFailed: true,
         })
       }
     }
       
     handleSubmit = (event) => {
       event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-      if (this.state.semesterValidationFailed === false){
+      if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
         this.createSemester(this.state.semester)
         this.setState({
           success : true,
@@ -97,7 +106,7 @@ class CreateSemester extends React.Component {
                   value={semester} 
                   onChange={this.textFieldValueChange} 
                   error={semesterValidationFailed} 
-                  onInput={e=>this.setState({semester: (e.target.value)})}
+                  // onInput={e=>this.setState({semester: (e.target.value)})}
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
                 <Button 
