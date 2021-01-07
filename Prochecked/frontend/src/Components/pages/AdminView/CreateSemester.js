@@ -93,6 +93,8 @@ class CreateSemester extends React.Component {
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
             <Paper className={classes.paper}>
+
+
               <form className={classes.root} noValidate autoComplete='off'>
           <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
            <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
@@ -102,6 +104,7 @@ class CreateSemester extends React.Component {
               Semester erfolgreich eingetragen!
               </Typography>
             </form>
+            
             </Paper>
             </Grid>
             <Grid item xs={6}>
