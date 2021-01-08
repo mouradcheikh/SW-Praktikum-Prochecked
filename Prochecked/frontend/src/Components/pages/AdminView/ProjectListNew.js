@@ -28,7 +28,6 @@ class ProjectListNew extends Component {
 
     // Init an empty state
     this.state = {
-      // projectNew: [],
       projectsNew: [],
       projectsAccepted: [],
       projectsDeclined: [],
