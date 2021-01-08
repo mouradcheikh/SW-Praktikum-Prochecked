@@ -498,6 +498,37 @@ class ParticipationOperations(Resource):
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ParticipationPutOperation(Resource):
     @prochecked.marshal_with(participation, code=200)
+    @prochecked.expect(participation)  
+    @secured
+    def post(self):
+        """Anlegen eines neuen Projekt-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        #print(api.payload)
+        adm = ProjectAdministration()
+
+        proposal = Participation.from_dict(api.payload)
+
+        print("part von Frontend", proposal)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_participation(proposal)
+            print("return Participation", p)
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+            
+    @prochecked.marshal_with(participation, code=200)
     @prochecked.expect(participation)  # Wir erwarten ein participation-Objekt von Client-Seite.
     @secured
     def put(self):
@@ -599,7 +630,7 @@ class StudentLogInOperations(Resource):
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class SemesterOperations(Resource):
+class SemestersOperations(Resource):
     @prochecked.marshal_with(semester)
     @secured
     def get(self):
@@ -622,7 +653,7 @@ class SemesterOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
-
+        print(api.payload)
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
         #print(api.payload)
@@ -638,7 +669,28 @@ class SemesterOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
     
+
+@prochecked.route('/semester/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class SemesterOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        s = adm.get_semester_by_id(id)
+        print(s.get_name(), s.get_id())
+        if s is not None:
+            adm.delete_semester(s)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Semester existiert.'''
     
 
 #Grading related 
@@ -676,6 +728,21 @@ class GradingListOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+            
+    @prochecked.marshal_with(grading, code=200)
+    @prochecked.expect(grading)  # Wir erwarten ein Grading-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Grading-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        g = Grading.from_dict(api.payload)
+        if g is not None:
+            adm.save_grading(g)
+            return '', 200
+        else:
+            return '', 500
 
 @prochecked.route('/participation/<int:participation_id>/grading')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -711,8 +778,7 @@ class GradingOperations(Resource):
         gra = adm.get_grading_by_id(id)
         
         return gra
-
-
+    
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('project_id', 'matr_nr')
@@ -732,6 +798,9 @@ class GradingByProjectandStudentOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    #adm = ProjectAdministration()
+    #adm.delete_semester(1)
 
     '''project = Project()
     project.set_id(1)

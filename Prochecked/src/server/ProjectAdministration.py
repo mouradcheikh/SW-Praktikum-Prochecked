@@ -431,6 +431,10 @@ class ProjectAdministration (object):
                 return mapper.insert(participation)
             else:
                 return None
+                
+    def create_participation(self, participation):
+        with ParticipationMapper() as mapper:
+            return mapper.insert(participation)
     
     def get_participation_by_id(self, id):
         """Das Participation mit der gegebenen ID auslesen."""
@@ -465,6 +469,18 @@ class ProjectAdministration (object):
    
         with SemesterMapper() as mapper:
             mapper.insert(semester)
+
+    def get_semester_by_id(self, id):
+        """Das Semester mit der gegebenen ID auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_id(id)
+    
+    def delete_semester(self, semester):
+        """Ein Semester löschen"""
+        with SemesterMapper() as mapper:
+            mapper.delete(semester)
+
+    
   
     def get_semester_by_name(self, ):
         pass

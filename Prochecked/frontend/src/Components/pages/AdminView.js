@@ -79,10 +79,9 @@ export default function MenuListComposition() {
           <Grid item xs={12}>
           <h3>Student-Aktionen</h3>
           <Paper className={classes.paper}>
-          {/* <Link to='/CreateProject' > */}
-          <MenuItem>Student für Projekte registieren</MenuItem>
-          {/* <Link to='/CreateProject' > */}
-          <MenuItem>Semesterbericht von Student einsehen</MenuItem>
+          <Link to='SelectStudent'>
+          <MenuItem>Student für Projekte registieren/Semesterbericht einsehen</MenuItem>
+          </Link>
           </Paper>
           </Grid>
         </MenuList>

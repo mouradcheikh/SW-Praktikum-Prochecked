@@ -200,12 +200,21 @@ class ProjectList extends Component {
   }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    let adminProf = this.props.location.state.adminProf
+    let person = this.props.location.state.linkState  
+    if (person === undefined){
+      this.getProjectsByDozentNew(adminProf.id);
+      this.getProjectsByDozentAccepted(adminProf.id);
+      this.getProjectsByDozentInReview(adminProf.id);
+      this.getProjectsByDozentReviewed(adminProf.id);
+    }
+    else{
     // console.log("gerendert")
-    let person = this.props.location.state.linkState
     this.getProjectsByDozentNew(person.id);
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
     this.getProjectsByDozentReviewed(person.id);
+    } 
   }
 
   /** Renders the component */
@@ -216,7 +225,7 @@ class ProjectList extends Component {
     return (
       <div>
       <div className={classes.root}>
-        <h1>Pflegen Sie ihre Projekte und bewerten Sie die Teilnehmer:</h1>
+        <h1>Pflegen Sie Ihre Projekte und bewerten Sie die Teilnehmer:</h1>
         <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
           <Grid item>
             <Typography>
@@ -246,7 +255,7 @@ class ProjectList extends Component {
 
       <div>
 
-      <h1>Projekte zur Freigabe übergeben</h1>
+      <h2>Projekte zur Freigabe übergeben</h2>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -260,7 +269,7 @@ class ProjectList extends Component {
             />)
         }
         
-        <h1>Akzeptierte Projekte</h1>
+        <h2>Akzeptierte Projekte</h2>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -277,7 +286,7 @@ class ProjectList extends Component {
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentAccepted} />
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
         
-        <h1>Projekte in Bewertung</h1>
+        <h2>Projekte in Bewertung</h2>
         {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -293,7 +302,7 @@ class ProjectList extends Component {
       </div>
       
       <div>
-        <h1> Bewertete Projekte</h1>
+        <h2> Bewertete Projekte</h2>
           {
             // Show the list of ProjectListEntry components
             // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters

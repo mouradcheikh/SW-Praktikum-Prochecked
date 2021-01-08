@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
@@ -26,8 +25,10 @@ import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
 import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
+import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
+import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 import { StudentBO } from './AppApi';
 
 
@@ -152,7 +153,7 @@ class App extends React.Component {
         this.setState({
             student: student
         })
-        console.log(this.state.student)
+        // console.log(this.state.student)
     })
     }
 
@@ -264,6 +265,8 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
                         <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
@@ -272,7 +275,7 @@ class App extends React.Component {
                         <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
-                        
+                        <Route exact path = '/SelectStudent' component = {SelectStudent}/>
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
                         <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
 						{

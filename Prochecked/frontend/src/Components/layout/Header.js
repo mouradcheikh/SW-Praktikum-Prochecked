@@ -5,47 +5,60 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import HomeIcon from '@material-ui/icons/Home';
+
+import { Link } from 'react-router-dom';
+import ProfileDropDown from '../dialogs/ProfileDropDown.js';
 
 
 class Header extends React.Component {
-    constructor (props) {
-        super (props)
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+
+    const person = this.props;
+    const classes = this.props
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+        
+          <Toolbar>
+            
+            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+              {/* <Link to=''> */}
+                <HomeIcon fontSize="large" />
+              {/* </Link> */}
+            </IconButton>
+            
+            <Typography variant="h5" className={classes.title}>
+              <div>ProChecked - Hochschule der Medien</div>
+                       
+            </Typography>
+            
+            <Button color="inherit"></Button>
+            
+          </Toolbar>
+          <ProfileDropDown person={person} />
+        </AppBar>
+      </div>
+    );
+  }
 }
 
-render () {
-
-    const {person,classes} = this.props;
-
-    return (
-        <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton}  aria-label="menu">
-            <MenuIcon fontSize= "large"/>
-          </IconButton>
-          <Typography variant="h5" className={classes.title}>
-              <div>ProChecked - Hochschule der Medien</div>
-          </Typography>
-          <Button color="inherit"></Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-}}
-
 const styles = (theme) => ({
-    root: {
-      flexGrow: 1,
-      width: "100%"
-    },
-    menuButton: {
-      marginRight: theme.spacing(25),
-    },
-    title: {
-      flexGrow: 1,
-    },
-  })
+  root: {
+    flexGrow: 1,
+    width: "100%"
+  },
+  menuButton: {
+    marginRight: theme.spacing(25),
+  },
+  title: {
+    flexGrow: 1,
+  },
+})
+
 
 export default withStyles(styles)(Header);
