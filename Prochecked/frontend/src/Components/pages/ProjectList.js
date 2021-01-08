@@ -32,6 +32,7 @@ class ProjectList extends Component {
 
     // Init an empty state
     this.state = {
+      person: null,
       projects: [],
       newProjects: [],
       projectsInReview: [],
@@ -202,6 +203,9 @@ class ProjectList extends Component {
   componentDidMount() {
     // console.log("gerendert")
     let person = this.props.location.state.linkState
+    this.setState({
+      person: person
+    })
     this.getProjectsByDozentNew(person.id);
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
@@ -257,6 +261,10 @@ class ProjectList extends Component {
               // projectsFromEntry={this.projectsFromEntry}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
+              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              person = {this.state.person}
             />)
         }
         
@@ -271,6 +279,10 @@ class ProjectList extends Component {
               // projectsFromEntry={this.projectsFromEntry}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
+              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              person = {this.state.person}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -285,6 +297,10 @@ class ProjectList extends Component {
             <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
+              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              person = {this.state.person}
             />)
         }
         <LoadingProgress show={loadingInProgress} />

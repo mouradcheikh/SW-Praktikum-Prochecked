@@ -37,13 +37,14 @@ class ProjectListEntry extends Component {
     let updatedProject = Object.assign(new ProjectBO(), this.props.project);
     // set the new attributes from our dialog
     updatedProject.setProjectState(new_state);
+    
    
     AppApi.getAPI().updateProject(updatedProject).then(project => {
       this.setState({
         project: project,
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
-      });
+      }, () => this.updateParentComponent());
       // keep the new state as base state
       this.baseState.project = this.state.project;
       this.props.onClose(updatedProject);      // call the parent with the new project
@@ -72,6 +73,13 @@ class ProjectListEntry extends Component {
     this.setState({
       accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
     })
+  }
+
+  // aktualisieren des status der elternkomponente, damit diese gerendert wird
+  updateParentComponent = () => {
+    this.props.getProjectsByDozentAccepted(this.props.person.id)
+    this.props.getProjectsByDozentInReview(this.props.person.id)
+    this.props.getProjectsByDozentReviewed(this.props.person.id)
   }
 
   evaluate(){
