@@ -1,216 +1,189 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button,ButtonGroup } from '@material-ui/core';
+import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../../AppApi';
-import {PersonBO} from '../../../AppApi';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import AddIcon from '@material-ui/icons/Add';
-import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
-import CheckIcon from '@material-ui/icons/Check';
-import App from '../../../App';
+import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
+import LoadingProgress from '../../dialogs/LoadingProgress';
+import ChangeRoleEntry from './ChangeRoleEntry';
+import Paper from '@material-ui/core/Paper';
 
-
+/**
+ * Controlls a list of ProjectListEntrys to create a accordion for each project.
+ *
+ * @see See [ProjectListEntry](#projectlistentry)
+ *
+ */
 class ChangeRole extends Component {
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-            role: props.role,
-            updateRole: null
-        };
-    }
 
-updateRole = (new_role) => {
-    console.log(new_role)
-    let updateRole = Object.assign(new PersonBO(), this.props.role);
-    updateRole.setRole(new_role);
+  constructor(props) {
+    super(props);
 
-    AppApi.getAPI().updateRole(updateRole).then(role => {
-        this.setRole({
-        updatingInProgress: false,              // disable loading indicator  
-        updatingError: null,
-        updatedRole: updatedRole,                 // no error message
-      }, () => this.updateParentComponent());
-      // keep the new state as base state
-      this.baseState.role = this.state.role;
-      this.props.onClose(updatedRole);      // call the parent with the new project
-    }).catch(e =>
-      this.setRole({
-        updatingInProgress: false,              // disable loading indicator 
-        updatingError: e                        // show error message
-      })
-    );
+    // // console.log(props);
+    // let expandedID = null;
 
-    // set loading to true
-    this.setRole({
-      updatingInProgress: true,                 // show loading indicator
-      updatingError: null                       // disable error message
-    });
+    // if (this.props.location.expandProject) {
+    //   expandedID = this.props.location.expandProject.getID();
+    // }
+
+    // Init an empty state
+    this.state = {
+      persons: [],
+      students: [],
+      dozents: [],
+      admins: [],
+      error: null,
+      loadingInProgress: false,
+    };
   }
 
-  updateParentComponent = (() => {
-    this.props.getPersonByRole(role_id);
-})
+  getPersons(){
+    var api = AppApi.getAPI()
+    console.log(api)
+    api.getPersons().then((person) =>
+        {console.log(person)
+        this.setState({
+            persons: persons
+        })
+      })
+    }
+      
+    filterPersons(){
+  
+      let students = []
+      let dozents = []
+      let admins = []
+      
+      this.state.persons.map.map(p =>  
+      {
+        if(p.role_id === 1){ 
+          students.append(p)
+        }
+        else if(p.role_id === 2){ 
+          dozents.append(p)
+        }
+        else{
+          admins.append(p)
+        }
 
+    // set loading to true
+    this.setState({
+      students: students,
+      dozents: dozents,
+      admins: admins,
+      loadingInProgress: true,
+      error: null
+    });
+  }
+}
 
-render() {
-    const { classes, expandedState } = this.props;
-    // Use the states project
-    const { role } = this.state;
+ 
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log("gerendert")
+    this.getPersons();
+  }
 
-    // console.log(this.state);
+   /** Lifecycle method, which is called when the component was updated */
+   componentDidUpdate(prevProps) {
+    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
+    if ((this.props.show !== prevProps.show)) { 
+      this.getPersonsByRole();
+    }
+  }
+
+  /** Renders the component */
+  render() {
+    const { classes } = this.props;
+    const { Admins, Students, Dozents, expandedPersonID, loadingInProgress, error,} = this.state;
+
     return (
-      role.role_id ===1?
-      <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-          <AccordionSummary
-            // expandIcon={<ExpandMoreIcon />}
-            id={`role${role.getPersonByRole(role_id)}accountpanel-header`}
-          >
-            
-            <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{"Role:" + " " + role.getName()} 
-                  <Button variant="contained"
-                          color="secondary"
-                          className={classes.buttonFreigeben}
-                          startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateRole(2)}>
-                  Dozent
-                  </Button>
-                  <Button variant="contained"
-                          color="secondary"
-                          className={classes.buttonAblehnen}
-                          startIcon={<HighlightOffIcon/>}
-                          variant='outlined' color='primary' size='small' onClick={() => this.updateRole(3)}>
-                  Admin
-                  </Button>
-                </Typography>
-                <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "()} 
-                </Typography>
-              </Grid>
-            </Grid>
-          </AccordionSummary>
-         <AccordionDetails> 
-          </AccordionDetails>
-        </Accordion> 
-      </div>
-      : role.role_id ===2?
-      <div>
-      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-        <AccordionSummary
-          // expandIcon={<ExpandMoreIcon />}
-          id={`role${role.getPersonByRole(role_id)}accountpanel-header`}
-        >
-          
-          <Grid container spacing={1} justify='flex-start' alignItems='center'>
-            <Grid item>
-              <Typography variant='body1' className={classes.heading}>{"Role:" + " " + role.getName()} 
-                <Button variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<CheckIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateRole(1)}>
-                Student
-                </Button>
-                <Button variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<ReplyRoundedIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateRole(3)}>
-                Admin
-                </Button>
-              </Typography>
-              <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "} 
-              </Typography>
-            </Grid>
-          </Grid>
-        </AccordionSummary>
-       <AccordionDetails> 
-        </AccordionDetails>
-      </Accordion> 
-    </div>
-    : 
-    <div>
-    <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-      <AccordionSummary
-        // expandIcon={<ExpandMoreIcon />}
-        id={`role${role.getPersonByRole(role_id)}accountpanel-header`}
-      >
-        
-        <Grid container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography variant='body1' className={classes.heading}>{"Role:" + " " + role.getName()} 
-              <Button variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                      startIcon={<HighlightOffIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateRole(1)}>
-              Student
-              </Button>
-              <Button variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                      startIcon={<ReplyRoundedIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateRole(2)}>
-              Dozent
-              </Button>
-            </Typography>
-            <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "} 
-            </Typography>
-          </Grid>
+      <div className={classes.root}>
+        <h1>Studenten</h1>
+        {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          Students.map(person => 
+            <ChangeRoleEntry key={person.getID()} person={person} expandedState={expandedPersonID === person.getID()}
+              onExpandedStateChange={this.onExpandedStateChange}
+              getStudents={this.getPersonsByRole(1)} 
+              getDozents={this.getPersonsByRole(2)}
+              getAdmins={this.getPersonsByRole(3)}
+            />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of Studendts could not be loaded.`} onReload={this.getStudents} />
+        <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+        <h1>Dozenten</h1>
+          <Paper className={classes.paper}>
+          {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          Dozents.map(project =>
+              <ChangeRoleEntry key={person.getID()} person={person} expandedState={expandedPersonID === project.getID()}
+                onExpandedStateChange={this.onExpandedStateChange}
+                getStudents={this.getPersonsByRole(1)} 
+                getDozents={this.getPersonsByRole(2)}
+                getAdmins={this.getPersonsByRole(3)}
+              />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of Dozents could not be loaded.`} onReload={this.getDozents} />
+          </Paper>
         </Grid>
-      </AccordionSummary>
-     <AccordionDetails> 
-      </AccordionDetails>
-    </Accordion> 
-  </div>
+        <Grid item xs={6}>
+        <h1>Admins</h1>
+          <Paper className={classes.paper}>
+          {
+          // Show the list of ProjectListEntry components
+          // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+          Admins.map(person =>
+            <ChangeRoleEntry key={person.getID()} person={person} expandedState={expandedPersonID === project.getID()}
+            onExpandedStateChange={this.onExpandedStateChange}
+            getStudents={this.getPersonsByRole(1)} 
+            getDozents={this.getPersonsByRole(2)}
+            getAdmins={this.getPersonsByRole(3)}
+          />)
+        }
+        <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of Admins could not be loaded.`} onReload={this.getAdmins} /> 
+          </Paper>
+        </Grid>
+      </Grid>
+        </div>
+        
+        {/* <LoadingProgress show={loadingInProgress} />
+        <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByState} /> */}
+        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+      </div>
     );
   }
 }
+
 
 /** Component specific styles */
 const styles = theme => ({
   root: {
     width: '100%',
   },
-  buttonFreigeben: {
-    marginRight: theme.spacing(0),
-    marginLeft: theme.spacing(65)
+  root: {
+    flexGrow: 1,
   },
-  buttonAblehnen:{
-    marginRight: theme.spacing(0),
-  }
-
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+  },
 });
-
 
 /** PropTypes */
 ChangeRole.propTypes = {
-    /** @ignore */
-    classes: PropTypes.object.isRequired,
-    /** The ProjectBO to be rendered */
-    project: PropTypes.object.isRequired,
-    /** The state of this ProjectListEntryNew. If true the project is shown with its accounts */
-    expandedState: PropTypes.bool.isRequired,
-    /** The handler responsible for handle expanded state changes (exanding/collapsing) of this ProjectListEntryNew 
-     * 
-     * Signature: onExpandedStateChange(ProjectBO project)
-     */
-    onExpandedStateChange: PropTypes.func.isRequired,
-    /** 
-     *  Event Handler function which is called after a sucessfull delete of this project.
-     * 
-     * Signature: onProjectDelete(ProjectBO project)
-     */
-    onProjectDeleted: PropTypes.func.isRequired
-  }
-  
-  export default withStyles(styles)(ChangeRole);
+  /** @ignore */
+  classes: PropTypes.object.isRequired,
+  /** @ignore */
+  location: PropTypes.object.isRequired,
+}
 
-
-
-
-
-
+export default withRouter(withStyles(styles)(ChangeRole));
