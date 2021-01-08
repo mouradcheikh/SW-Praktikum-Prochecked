@@ -6,6 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../AppApi';
+import {GradingBO} from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
@@ -105,12 +106,46 @@ class ParticipationListEntry extends Component {
     // console.log(api)
     api.gradingStudent(grade, participation_id).then((grade) =>
         {
-          // console.log(grade)
+          // console.log("createGrading",grade)
         this.setState({
             grade: grade
         })}
         )
       }
+
+  /** Updates the grading */
+  updateGrading = (newGrade) => {
+    // console.log()
+    // clone the original grading, in case the backend call fails
+    let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
+    // console.log(this.state.grade)
+    // set the new attributes from our dialog
+    // console.log(this.state.student.id)
+    updatedGrading.setGrade(newGrade);
+    // console.log(updatedGrading)
+    
+    AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
+      this.setState({
+        grade: grading, 
+        updatingInProgress: false,              // disable loading indicator  
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.grade = this.state.grade;
+      this.props.onClose(updatedGrading);      // call the parent with the new participation
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator 
+        updatingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      updatingInProgress: true,                 // show loading indicator
+      updatingError: null                       // disable error message
+    });
+  }
   
 getGrading = () => {
   let grade = this.props.participation.grading_id
@@ -216,9 +251,14 @@ setStudent = (student) => {
     e.preventDefault();
     this.setState({ grade:
       this.textInput.current.value})
-      // console.log(this.textInput.current.value)
+      console.log(this.props.participation)
+      if (this.props.participation.grading_id === 0) {
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
-      this.getGrading()
+      this.getGrading() 
+    }
+      else {
+        this.updateGrading(this.textInput.current.value)
+      }
       // this.updateProject(5)
     }
      

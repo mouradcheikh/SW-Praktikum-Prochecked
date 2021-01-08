@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
@@ -154,7 +153,7 @@ class App extends React.Component {
         this.setState({
             student: student
         })
-        console.log(this.state.student)
+        // console.log(this.state.student)
     })
     }
 

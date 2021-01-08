@@ -470,6 +470,18 @@ class ProjectAdministration (object):
    
         with SemesterMapper() as mapper:
             mapper.insert(semester)
+
+    def get_semester_by_id(self, id):
+        """Das Semester mit der gegebenen ID auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_id(id)
+    
+    def delete_semester(self, semester):
+        """Ein Semester löschen"""
+        with SemesterMapper() as mapper:
+            mapper.delete(semester)
+
+    
   
     def get_semester_by_name(self, ):
         pass

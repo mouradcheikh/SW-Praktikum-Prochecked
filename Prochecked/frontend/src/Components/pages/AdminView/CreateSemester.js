@@ -2,6 +2,8 @@ import React from 'react';
 import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -18,7 +20,8 @@ class CreateSemester extends React.Component {
         }
     }
 
-    createSemester(semester){ //erstellt nach eingabe und bestätigung des buttons ein neues SemesterObjekt
+    /** Create semester */
+    createSemester(semester){
     var api = AppApi.getAPI()
     // console.log(api) 
     api.createSemester(semester).then((semester) =>
@@ -31,7 +34,29 @@ class CreateSemester extends React.Component {
         )}
         )
       }
+    
+   /** Delete semester */
+   deleteSemester = (s) => { console.log(s.getID()) 
+    var api = AppApi.getAPI()
+    api.deleteSemester(s.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
 
+  
     SemesterList(){
       var api = AppApi.getAPI()
       api.getSemesters().then((semesters) =>
@@ -142,7 +167,8 @@ const styles = theme => ({
       width: '100%'
     }, 
     buttonMargin: {
-      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(11),
+      size: 'small',
     },
     participationEntry: {
       fontSize: theme.typography.pxToRem(15),
@@ -158,5 +184,5 @@ const styles = theme => ({
  
   export default withStyles(styles)(CreateSemester); 
 
-//endIcon={<SendIcon/>}
+
 
