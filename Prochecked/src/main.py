@@ -603,7 +603,7 @@ class StudentLogInOperations(Resource):
     @prochecked.expect(student)  
     @secured
     def post(self):
-        """Anlegen eines neuen Projekt-Objekts.
+        """Anlegen eines neuen Student-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
@@ -613,7 +613,7 @@ class StudentLogInOperations(Resource):
         """
         print(api.payload)
         adm = ProjectAdministration()
-
+        print('student:', api.payload)
         proposal = Student.from_dict(api.payload)
         print(proposal.get_matr_nr())
 
