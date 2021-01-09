@@ -79,6 +79,10 @@ export default class ProjectBO extends BusinessObject {
         this.dozent = aDozent
     }
 
+    getDozent(){
+        return this.dozent
+    }
+
     setDozent2(aDozent){
         this.dozent2 = aDozent
     }

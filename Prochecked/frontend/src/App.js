@@ -29,6 +29,7 @@ import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
+import GradeList from './Components/pages/DozentView/GradeList'
 import { StudentBO } from './AppApi';
 
 
@@ -276,6 +277,7 @@ class App extends React.Component {
                         <Route exact path = '/SelectStudent' component = {SelectStudent}/>
                         <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
                         <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
+                        <Route exact path = '/GradeList' component = {GradeList}/>
 						{
 							// Ist eine Person eingeloggt?
                            person ?

@@ -44,7 +44,7 @@ class DozentenView extends Component{
                 
             </Button>
             </Link>
-  </div>
+        </div>
             <div>            
             <Link to={{
             pathname: '/ProjectList',
@@ -58,6 +58,22 @@ class DozentenView extends Component{
                 className={classes.button}
                 > 
                     Bewertung und Teilnehmerpflege
+            </Button>
+            </Link>
+            </div>
+            <div>            
+            <Link to={{
+            pathname: '/GradeList',
+            state: { person: person},
+            }}>
+           <Button
+                size="large"
+                variant="contained"
+                color="primary"
+                algin="center"
+                className={classes.button}
+                > 
+                    Notenliste
             </Button>
             </Link>
             </div>
