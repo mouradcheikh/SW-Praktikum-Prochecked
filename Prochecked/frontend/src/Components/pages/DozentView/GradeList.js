@@ -144,8 +144,6 @@ class GradeList extends Component {
     this.semesterList()
   }
 
-  componentDidUpdate(){
-  }
 
   /** Renders the component */
   render() {
@@ -186,7 +184,7 @@ class GradeList extends Component {
         {
           // Show the list of SemesterListEntry components
           this.state.filteredProjects.map((project) =>
-            <GradeListEntry project_id={project.id} project={project} person={this.state.person}
+            <GradeListEntry project_id={project.id} project={project} person={this.state.person} 
             />)
         }
         <LoadingProgress show={loadingInProgress} />

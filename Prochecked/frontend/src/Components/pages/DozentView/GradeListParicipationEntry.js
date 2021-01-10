@@ -35,7 +35,7 @@ class GradeListEntry extends Component {
             {console.log(grading)
             this.setState({
                 grading: grading
-            })}
+            }, () => {this.props.addGrade(grading.getGrade())})}
             )
   }
 

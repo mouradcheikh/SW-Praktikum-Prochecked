@@ -20,6 +20,9 @@ class GradeListEntry extends Component {
     // Init the state
     this.state = {
       participations: [],
+      sumOfGrades: 0,
+      numberOfGrades: 0,
+      average: 0,
     };
   }
 
@@ -51,6 +54,22 @@ class GradeListEntry extends Component {
       });
     }
 
+  
+    /** adds a grade to build the sum of all grades of the chosen project. It is called in the child component*/
+    addGrade = (grade) => {
+      console.log(grade)
+      let sumOfGrades = this.state.sumOfGrades
+      let numberOfGrades = this.state.numberOfGrades
+      let newSum = sumOfGrades + grade
+      let newNumber = numberOfGrades + 1
+      let average = newSum/newNumber
+      this.setState({
+        sumOfGrades: newSum,
+        numberOfGrades: newNumber,
+        average: average
+      })
+    }
+
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -77,8 +96,10 @@ class GradeListEntry extends Component {
       <div className={classes.root}>
         <List className={classes.participationList}>
           {
-            participations.map(participation => <GradeListParticipationEntry key={participation.getID()} project={project} participation={participation}/>)
+            participations.map(participation => <GradeListParticipationEntry key={participation.getID()} project={project} participation={participation} addGrade={this.addGrade}/>)
           }
+        <br></br>
+        <div>Durchschnitt: {this.state.average}</div>
         </List>
       </div>
     );
