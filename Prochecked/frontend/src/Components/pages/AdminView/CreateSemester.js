@@ -1,27 +1,29 @@
 import React from 'react';
-import {makeStyles, withStyles, IconButton, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
+import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextField from '@material-ui/core/TextField';
+
 
 
 
 class CreateSemester extends React.Component {
     constructor(props) {
         super(props);
-        this.textInput = React.createRef();
 
         this.state = {
-            semester: null, //für CreateSemester das State 
-            semesters: [], // für SemesterList das State 
+            semester: null, //für CreateSemester
+            semesters: [], // für SemesterList 
+            semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
+            success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
+           
         }
     }
 
     /** Create semester */
     createSemester(semester){
     var api = AppApi.getAPI()
-    // console.log(api)
+    // console.log(api) 
     api.createSemester(semester).then((semester) =>
         {
           // console.log(semester)
@@ -64,95 +66,98 @@ class CreateSemester extends React.Component {
           })}
           )
         }
+
+        
+    textFieldValueChange = (event) => {
+      const value = event.target.value;
+
+      this.setState({
+        [event.target.id]: value,
+      });
+
+      if(value.length > 5){ //eingabe des textfields muss mindestens 5 zeichen enthalten
       
-        handleSubmit = e => { console.log(this.textInput.current.value)
-          e.preventDefault();
-          this.setState({ 
-            semester: this.textInput.current.value},
-            () => {this.createSemester(this.textInput.current.value)})
-          // console.log(this.textInput.current.value)
-          // this.createSemester(this.textInput.current.value),
-          // this.SemesterList()
-        }
+        this.setState({
+          semesterValidationFailed: false,
+        })
 
-
-    
-      /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+      this.state.semesters.map(s => 
+        {if(s.name === value){ //r:prüft ob semester bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
+        this.setState({
+          semesterValidationFailed: true,
+          
+      })
+    }        
+      })
+    }
+      else {
+        this.setState({
+          semesterValidationFailed: true,
+        })
+      }
+    }
+      
+    handleSubmit = (event) => {
+      event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+      if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+        this.createSemester(this.state.semester)
+        this.setState({
+          success : true,
+        })
+      }
+    }
+      
   componentDidMount() {
-    // console.log("gerendert")
     this.SemesterList();
   }
          
-    render() { 
+  render() { 
         const { classes  } = this.props;
-        const { semester, semesters } = this.state; 
-        return (
-        semester !== null? 
-        <div>
+        const { semester, semesters, semesterValidationFailed, success} = this.state; 
+  return( 
+    <div>
       <Grid container spacing={3}>
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
             <Paper className={classes.paper}>
-
-
-              <form className={classes.root} noValidate autoComplete='off'>
-          <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
-           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
-           Eintragen
-           </Button>
-              <Typography variant='body2' color={'textSecondary'}>
-              Semester erfolgreich eingetragen!
-              </Typography>
-            </form>
-            
+              <form onSubmit={this.handleSubmit}>
+                <TextField 
+                  className={classes.formControl}
+                  autoFocus type='text' 
+                  required 
+                  fullWidth 
+                  margin='normal' 
+                  id='semester' 
+                  label='semester:' 
+                  // value={semester} 
+                  onChange={this.textFieldValueChange} 
+                  error={semesterValidationFailed} 
+                  // onInput={e=>this.setState({semester: (e.target.value)})}
+                  helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
+                  />
+                <Button 
+                  type = "submit" 
+                  className={classes.buttonMargin} 
+                  variant='outlined' 
+                  color='primary' 
+                  size='small'
+                >
+                Eintragen
+                </Button>
+              </form>
             </Paper>
             </Grid>
             <Grid item xs={6}>
             <h1>Bestehende Semester</h1>
-           <Paper className={classes.paper}>
-           <div>
-             {semesters.map(s => <ListItem>
-              {s.name}
-             <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
-              <DeleteIcon />
-             </IconButton>
-              </ListItem >)}
-          </div>
-           </Paper>
+            <Paper className={classes.paper}>
+                <div>
+                  {semesters.map(s => <ListItem>{s.name}</ListItem >)}
+                </div>
+            </Paper>
          </Grid>
       </Grid>
-        </div>
-
-        :
-
-        <div>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-        <h1>Neues Semester eintragen</h1>
-         <Paper className={classes.paper}>
-         <form className={classes.root} noValidate autoComplete='off'>
-           <input placeholder= "Semester" type="text" ref={this.textInput} className= "form-control"/>
-           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
-           Eintragen
-           </Button>
-         </form>
-         </Paper>
-         </Grid>
-         <Grid item xs={6}>
-         <h1>Bestehende Semester</h1>
-           <Paper className={classes.paper}>
-            {semesters.map(s => <ListItem>
-              {s.name}
-          <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
-            <DeleteIcon />
-          </IconButton>
-            </ListItem >)}
-           </Paper>
-         </Grid>
-        </Grid>
-        </div>
-         );
-        }
+    </div>         
+    )}
 }
 
 

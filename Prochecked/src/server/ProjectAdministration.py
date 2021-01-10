@@ -388,7 +388,8 @@ class ProjectAdministration (object):
             return gra
 
     def delete_grading(self, grading):
-        pass
+         with GradingMapper() as mapper:
+            mapper.delete(grading)
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:

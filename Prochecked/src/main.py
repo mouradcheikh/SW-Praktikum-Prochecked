@@ -489,6 +489,8 @@ class ParticipationOperations(Resource):
 
 
         if par is not None:
+            gra = adm.get_grading_by_id(par.get_grading())
+            adm.delete_grading(gra)
             adm.delete_participation(par)
             return '', 200
         else:
@@ -653,10 +655,11 @@ class SemestersOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
-        print(api.payload)
+        print("Semester", api.payload)
+
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
-        #print(api.payload)
+
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:

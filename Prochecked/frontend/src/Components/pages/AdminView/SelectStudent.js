@@ -76,6 +76,14 @@ class SelectStudent extends React.Component {
     }
   }
 
+  // handleClick(){
+  //   console.log(this.state.student)
+  //   // event.preventDefault();
+  //   if (this.state.student === null){
+  //     alert("Sorry, diesen Studenten kennen wir nicht")
+  //   }
+  // }
+
   
     render() { 
         const { classes  } = this.props;
@@ -87,10 +95,27 @@ class SelectStudent extends React.Component {
             <h1> Wählen Sie den Studenten </h1>
         </div>
       <div>
-        <form className={classes.root} noValidate autoComplete='off'>
+        <form className={classes.root} 
+        // Validate ={this.handleClick} // validation funktioniert noch nicht.. nöchste seite kann ohne student aufgerufen werden
+        autoComplete='off' >
+
+            <Link to={{
+                    pathname: "/StudentView",
+                    state: { student: student }
+                    }}>
               <TextField autoFocus type='text' required fullWidth margin='normal' id='matr_nr' label='Matrikelnummer:' value={matr_nr} 
                 onChange={this.textFieldValueChange} error={matr_nrValidationFailed} 
                 helperText={matr_nrValidationFailed ? 'Bitte geben Sie 5 Zeichen ein' : ' '} />
+              
+              <Button
+                 type="submit"
+                 variant="contained"
+                 color="primary" 
+              >
+                Auswählen
+              </Button>
+            </Link>
+
         </form>
       </div>
       <div>
@@ -100,21 +125,6 @@ class SelectStudent extends React.Component {
       
           </Typography>
       </div>
-
-          <div>
-              <Link to={{
-              pathname: "/StudentView",
-              state: { student: student }
-              }}>
-                <Button
-                 type="submit"
-                 variant="contained"
-                 color="primary" 
-                >
-                  Auswählen
-                </Button>
-              </Link>
-            </div>
     </div>
          );
 }}

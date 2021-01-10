@@ -649,7 +649,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
     let s = new SemesterBO();
     s.setName(semester)
-    // console.log(s)
+    // console.log("semester:", s)
 
     return this.#fetchAdvanced(this.#addSemesterURL(), {
       method: 'POST',
