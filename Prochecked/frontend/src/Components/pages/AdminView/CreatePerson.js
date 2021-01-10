@@ -21,6 +21,10 @@ class CreatePerson extends Component {
             role: '',
             person: '',
             student: '',
+            matrNr: '',
+            studiengang: '',
+            validationSuccedPerson: true, 
+            validationSuccedStudent: true, 
     };
     this.handleChange = this.handleChange.bind(this);
     }
@@ -76,19 +80,30 @@ class CreatePerson extends Component {
             this.state.email, 
             this.state.googleid, 
             this.state.role,
+            this.state.validationSuccedPerson = false,
           )
-          if (this.state.role===1){
-          this.createStudent(this.state.matrNr, this.state.studiengang, this.state.person.id)
-          this.setState({
+          // if (this.state.role===1){
+          // // this.createStudent(this.state.matrNr, this.state.studiengang, this.state.person.id)
+          // this.setState({
             
-          })
+          // })
+        // }
         }
-        }
+
+    handleSubmitStudent = (event) => { console.log("handleSubmitStudent")
+      event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+      
+      this.createStudent(
+          this.state.matrNr, 
+          this.state.studiengang, 
+          this.state.person.id, 
+          this.state.validationSuccedStudent = false,
+        )}
       
    
     render() {
         const { classes } = this.props;
-        const { person } = this.state; 
+        const { person, student, validationSuccedPerson, validationSuccedStudent} = this.state; 
         console.log(this.state)
 
         return (
@@ -99,17 +114,11 @@ class CreatePerson extends Component {
             </div>
             
             <div>
-                <form className={classes.root} noValidate autoComplete="off" onSubmit= {this.handleSubmit}>
-                    <TextField id="outlined-basic" label="Name" variant="outlined" name='name' required  onChange={this.handleChange} />
-                    <TextField id="outlined-basic" label="Google-ID" variant="outlined" name='googleid' required onChange={this.handleChange} />
+                <form className={classes.root}  onSubmit= {this.handleSubmit}>
+                    <TextField id="outlined-basic" label="Name" variant="outlined" name='name' required  onChange={this.handleChange}
+                    helperText={ validationSuccedPerson? '' : person !==null ? 'Person ' + person.name+ ' ' + 'erfolgreich eingetragen!' :''} /> {/*neuer State wird gesetzt welcher identisch ist mit den name-Tag, über onChange + bind.this unter dem Konstruktor   */  }
+                    <TextField id="outlined-basic" label="Google-ID" variant="outlined" name='googleid' required onChange={this.handleChange}  />
                     <TextField id="outlined-basic" label="E-Mail" variant="outlined" name='email' required onChange={this.handleChange}/>
-                    {person.berechtigung===1?
-                    <div>
-                    <TextField id="outlined-basic" label="MatrikelNummer" variant="outlined" name='xxx'  />
-                    <TextField id="outlined-basic" label="Studiengang" variant="outlined" name='xxx'/>
-                    </div>:
-                    <div></div>
-                          }
                     <FormControl className={classes.formControl}>
                     <InputLabel id="artProjekt">Rolle der Person</InputLabel>
                         <Select
@@ -123,7 +132,7 @@ class CreatePerson extends Component {
                     <MenuItem value={3}>Admin</MenuItem>
                          </Select>
                      </FormControl>
-                {person.berechtigung!==1?
+                
              <Button
                 type = "submit"
                 variant="contained"
@@ -133,7 +142,18 @@ class CreatePerson extends Component {
                 startIcon={<SaveIcon />}>                
                     Person anlegen
             </Button>
-            :
+            </form>
+            </div>
+            <div>
+            
+            {person.berechtigung ===1?
+            <form className={classes.root}  onSubmit= {this.handleSubmitStudent}>
+                <div>
+                    <h3>Matrikelnummer und Studiengang bitte noch angeben</h3>
+                    <TextField id="outlined-basic" label="MatrikelNummer" variant="outlined" name='matrNr' required onChange={this.handleChange} />
+                    <TextField id="outlined-basic" label="Studiengang" variant="outlined" name='studiengang' required onChange={this.handleChange}
+                    helperText={ validationSuccedStudent? '' : person !==null ? 'Student ' + person.name+ ' '+ 'mit der Matrikelnummer'+ ' '+ this.state.matrNr + ' '+ 'erfolgreich eingetragen!' :''}/>
+                </div>
             <Button
             type = "submit"
             variant="contained"
@@ -143,9 +163,11 @@ class CreatePerson extends Component {
             startIcon={<SaveIcon />}>                
                 Student anlegen
               </Button>
+              </form>
+              : <div></div>
+             
               }
             
-            </form>
             </div>
         </div>
         
