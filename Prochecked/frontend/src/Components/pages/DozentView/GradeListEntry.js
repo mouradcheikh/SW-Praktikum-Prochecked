@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Grid } from '@material-ui/core';
-import { Button, ButtonGroup } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GradeList from './GradeList'
-import AppAPI from '../../../AppApi/AppApi'
-import Paper from '@material-ui/core/Paper';
-import LoadingProgress from '../../dialogs/LoadingProgress';
-
+import { withStyles, ListItem } from '@material-ui/core';
+import { Button, List } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import AppAPI from '../../../AppApi/AppApi';
+import GradeListParticipationEntry from './GradeListParicipationEntry'
 
 /**
- * Renders a ProjectBO object in the GradeList by selected filter (semester filter)
+ * Renders a list of GradeListParticipationEntry objects.
  * 
- * @see See [GradeList](#GradeList)
+ * @see See [GradeListParticipationEntry](#GradeListParticipationEntry)
  * 
  */
 class GradeListEntry extends Component {
@@ -22,57 +19,67 @@ class GradeListEntry extends Component {
 
     // Init the state
     this.state = {
-      project: this.props.project,
-      student: this.props.student,
-      grading: null
+      participations: [],
     };
   }
 
-  getGrade = () => {
-    var api = AppAPI.getAPI()
-    api.getGradingByProjectandMatr(this.props.project.getID(), this.props.student.getMatrNr()).then((grading) =>
-            {console.log(grading)
-            this.setState({
-                grading: grading
-            })}
-            )
-  }
+  /** Fetches ParticipationBOs for the current customer */
+  getParticipationsByProject = () => {
+    // console.log("vor fetch")
 
-  getGradeofGrading = () => {
-    if(this.props.project.getProjectState() != 5){
-      console.log(this.props.project)
-      return "In Bewertung"
-    }
-    else if (this.state.grading === null){
-      return "loading"
-    }
-    else {
-      console.log(this.props.project)
-      return this.state.grading.grade
-    }
-  }
-
-  componentDidMount(){
-    this.getGrade()
-  }
+      var api = AppAPI.getAPI()
+      api.getParticipationsByProject(this.props.project.getID())
+        .then(participationBOs => 
+          this.setState({               // Set new state when ParticipationBOs have been fetched
+            participations: participationBOs,
+            filteredParticipations: [...participationBOs], // store a copy
+            loadingInProgress: false,   // disable loading indicator
+            error: null
+          })).catch(e =>
+            this.setState({             // Reset state with error from catch
+              participations: [],
+              loadingInProgress: false, // disable loading indicator
+              error: e
+            }) 
+          ); 
+          // console.log(this.state.participations)
   
+      // set loading to true
+      this.setState({
+        loadingInProgress: true,
+        error: null
+      });
+    }
+
+
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount() {
+    // console.log(this.props.participation.getStudent_id)
+    this.getParticipationsByProject(); //props richtig ??
+    }
+  
+  /** Lifecycle method, which is called when the component was updated */
+  componentDidUpdate(prevProps) {
+    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
+    if ((this.props.show !== prevProps.show)) { 
+      this.getParticipationsByProject();
+      }
+    }
+
   /** Renders the component */
   render() {
-    const { classes } = this.props;
+    const { classes, project } = this.props;
+    // Use the states project
+    const { participations } = this.state;
 
+    // console.log(this.props);
     return (
- 
-      <div>
-        <Grid container spacing={1} justify='flex-start' alignItems='center'>
-        <Grid item xs={8}>
-            <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
-            </Typography>
-        </Grid>
-        <Grid item xs={4}>
-            <Typography variant='body1' className={classes.heading}>Note: {this.getGradeofGrading()}
-            </Typography>
-        </Grid>
-        </Grid>
+      <div className={classes.root}>
+        <List className={classes.participationList}>
+          {
+            participations.map(participation => <GradeListParticipationEntry key={participation.getID()} project={project} participation={participation}/>)
+          }
+        </List>
       </div>
     );
   }
@@ -82,17 +89,18 @@ class GradeListEntry extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
-  }
+  },
+  participationList: {
+    marginBottom: theme.spacing(2),
+  },
 });
 
 /** PropTypes */
 GradeListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The ProjectBO to be rendered */
+  /** The ProjectBO of this ParticipationList */
   project: PropTypes.object.isRequired,
-  /** The state of this SemesterberichtEntry. If true the project is shown with its accounts */
-  student: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(GradeListEntry);

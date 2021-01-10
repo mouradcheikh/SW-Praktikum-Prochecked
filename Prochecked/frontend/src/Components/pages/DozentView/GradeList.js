@@ -41,11 +41,11 @@ class GradeList extends Component {
     };
   }
 
-  /** Fetches ProjectBOsbyMatrNr from the backend */
+  /** Fetches ProjectBOsbyState from the backend */
   getProjectsByState = (state) => {
     console.log(this.props.location.state.person)
     var api = AppAPI.getAPI()
-    api.getProjectsByState(state) //evtl. Objekt von API vorher anlegen
+    api.getProjectsByState(state) 
       .then((projectBOs) => {
         let projectsOfPersonLoggedIn = []
         projectBOs.forEach((p) => {
@@ -57,7 +57,7 @@ class GradeList extends Component {
           projects: projectsOfPersonLoggedIn,
           loadingInProgress: false,   // disable loading indicator
           error: null
-        })}).catch(e =>
+        }, () => console.log(this.state.projects))}).catch(e =>
           this.setState({             // Reset state with error from catch
             projects: [],
             loadingInProgress: false, // disable loading indicator
@@ -72,38 +72,43 @@ class GradeList extends Component {
     });
   }
 
-
+  /** Ruft eine Methode aus der AppAPI auf, um Semester aus dem Backend zu fetchen*/
   semesterList = () => {
     var api = AppAPI.getAPI()
     api.getSemesters().then((semesters) =>
     
     this.setState({
-        semesters : semesters
-    })
+        semesters : semesters,
+        semester: semesters[0]
+    }, () => this.moduleList())
   )
   }
 
+  /** Ruft eine Methode aus der AppAPI auf, um Module aus dem Backend zu fetchen*/
   moduleList = () => {
     var api = AppAPI.getAPI()
-    api.getFreeModulesBySemester(this.state.semester.id).then((modules) =>
-    
+    api.getBoundModulesBySemester(this.state.semester.id).then((modules) => {
+    console.log(modules)
     this.setState({
-        modules : modules
+        modules : modules,
+        module: modules[0],
+    }, () => this.updateFilteredProjects())
     })
-  )
   }
 
   handleSemFilter = (event) => {
+      event.preventDefault();
       console.log(event.target.value)
       this.setState({
         semester : event.target.value,
         semesterId : event.target.value.id
-      }, () => {this.updateFilteredProjects()})
+      }, () => {this.updateFilteredProjects(); this.moduleList()})
     
   }
 
   handleModFilter = (event) => {
-    console.log(event.target.value)
+    event.preventDefault();
+    console.info("handlemod")
     this.setState({
       module : event.target.value,
       moduleId : event.target.value.id
@@ -115,6 +120,7 @@ class GradeList extends Component {
       let semester_id = this.state.semesterId
       let module_id = this.state.moduleId
       let filtered_projects = []
+      console.log(this.state.projects)
       this.state.projects.forEach((project) => {
         if (project.getSemester() === semester_id && project.getModule() === module_id) {
             console.log(project)
@@ -124,7 +130,7 @@ class GradeList extends Component {
       )
       this.setState({
           filteredProjects: filtered_projects
-      }, () => {console.log(this.state.filteredProjects)})  
+      }, () => console.log(this.state.filteredProjects))  
   }
 
 
@@ -133,6 +139,10 @@ class GradeList extends Component {
     this.setState({
         person: this.props.location.state.person
     }, () => {this.getProjectsByState(5)})
+    this.semesterList()
+  }
+
+  componentDidUpdate(){
   }
 
   /** Renders the component */
@@ -144,7 +154,7 @@ class GradeList extends Component {
       <div className={classes.root}>
         <h1>Notenliste:</h1>
         <FormControl className={classes.formControl} fullWidth margin='normal'>
-            <InputLabel id="semester">Semester</InputLabel>
+            <InputLabel shrink id="semester">Semester</InputLabel>
               <Select
                 labelId="semester"
                 id="semester"
@@ -158,7 +168,7 @@ class GradeList extends Component {
               </Select>
         </FormControl>
         <FormControl className={classes.formControl} fullWidth margin='normal'>
-            <InputLabel id="module">Modul (Edv Nummer)</InputLabel>
+            <InputLabel shrink id="module">Modul (Edv Nummer)</InputLabel>
               <Select
                 labelId="module"
                 id="module"

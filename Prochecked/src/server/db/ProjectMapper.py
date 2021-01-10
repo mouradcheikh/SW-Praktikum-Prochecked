@@ -235,7 +235,7 @@ class ProjectMapper(Mapper):
             project.set_project_state(project_state_id),
             project.set_project_type(project_type_id),
             project.set_semester(semester_id),
-            project.set_dozent(person2_id),
+            project.set_dozent2(person2_id),
 
             result.append(project)
 

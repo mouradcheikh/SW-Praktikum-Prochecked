@@ -345,6 +345,7 @@ class ProjectAdministration (object):
 #Grading Related
 
     def create_grading(self, grade, passed, participation_id):
+        "Erstelen eines Gradings (Bewertung) mit gegebener Note(grade), Teilnahme ID (participation_id) und dem passed flag"
         print(grade)
         grading = Grading()
         grading.set_grade(grade)
@@ -378,6 +379,7 @@ class ProjectAdministration (object):
             return mapper.find_by_participation_id(participation_id) 
 
     def get_grading_by_project_id_and_matr_nr(self, project_id, matr_nr):
+        "Ein Grading Objekt nach gegebener project id und Matrikelnummer auslesen"
         adm = ProjectAdministration()
         student = adm.get_student_by_matr_nr(matr_nr)
         student_id = student.get_id()
@@ -490,6 +492,7 @@ class ProjectAdministration (object):
 
 #Module Related
     def get_free_modules_by_semester(self, semester_id):
+        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester noch nicht mit einem projekt belegt wurden, also noch frei sind"""
         with ModuleMapper() as mapper:
             all_modules = mapper.find_all()
 
@@ -512,6 +515,32 @@ class ProjectAdministration (object):
             found = False
 
         return free_modules
+
+
+    def get_bound_modules_by_semester(self, semester_id):
+        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester mit einem projekt belegt wurden, also nicht mehr frei sind"""
+        with ModuleMapper() as mapper:
+            all_modules = mapper.find_all()
+
+        adm = ProjectAdministration()
+        all_projects = adm.get_all_projects()
+
+        semester_id = semester_id
+
+        bound_modules = []
+        found = False
+
+        for m in all_modules:
+            module_id = m.get_id()
+            for p in all_projects:
+                # print(p.get_name(), p.get_module(), "modul:", module_id)
+                if p.get_module() == module_id and p.get_semester() == semester_id:
+                    found = True
+            if found == True:
+                bound_modules.append(m)
+            found = False
+
+        return bound_modules
                 
 
 

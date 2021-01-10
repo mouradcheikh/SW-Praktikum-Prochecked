@@ -731,18 +731,34 @@ class GradingByProjectandStudentOperations(Resource):
         return gra
 
 
-@prochecked.route('/modules/<int:semester>')
+@prochecked.route('/free-modules/<int:semester>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('semester')
-class ModuleOperations(Resource):
+class FreeModuleOperations(Resource):
     @prochecked.marshal_list_with(module)
     @secured
     def get(self, semester):
-        """Auslesen aller Module-Objekte, die noch frei sind.
+        """Auslesen aller Module-Objekte, die in gegebenem Semester noch frei sind.
         """
         adm = ProjectAdministration()
         mod = adm.get_free_modules_by_semester(semester)
         return mod
+
+
+@prochecked.route('/bound-modules/<int:semester>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('semester')
+class BoundModuleOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self, semester):
+        """Auslesen aller Module-Objekte, die in gegebenem Semester nicht mehr frei sind.
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_bound_modules_by_semester(semester)
+        return mod
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

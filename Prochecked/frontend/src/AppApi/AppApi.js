@@ -66,8 +66,8 @@ export default class AppAPI {
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
 
     //Module Related
-    #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/modules/${semester}`;
-
+    #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
+    #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
     
 
       /** 
@@ -556,6 +556,17 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  getGradingById(id){
+    return this.#fetchAdvanced(this.#getGradingURL(id)).then((responseJSON) => { 
+      // We always get an array of GradingBOs.fromJSON, but only need one object
+      let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+      console.info(responseGradingBO);
+      return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
   getSemesters(){
     return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
       // We always get an array of SemBOs.fromJSON, but only need one object
@@ -668,8 +679,17 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-
-
+  getBoundModulesBySemester(semester){
+    return this.#fetchAdvanced(this.#getBoundModulesBySemesterURL(semester))
+    .then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
 
 
 
