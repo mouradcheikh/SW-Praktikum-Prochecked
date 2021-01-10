@@ -32,8 +32,10 @@ export default class AppAPI {
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
+    #updateSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
     #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
+     
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
@@ -474,6 +476,20 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  
+  getProjectsByStudent(matr_nr){
+    return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
+      .then((responseJSON) => {
+        // console.log(responseJSON)
+        // console.log("gefetched")
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        // console.log(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
+  }
+
   //Student Relation
   getStudent(id) {
     return this.#fetchAdvanced(this.#getStudentURL(id))
@@ -644,6 +660,18 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  getGradingByProjectandMatr(project_id, matr_nr){
+    return this.#fetchAdvanced(this.#getGradingbyProjectAndMatrURL(project_id, matr_nr))
+    .then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+      // console.log(responseGradingBO);
+      return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
   //Semester Related 
   createSemester(semester) {
 
@@ -688,35 +716,30 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-
-
-
-  getGradingByProjectandMatr(project_id, matr_nr){
-    return this.#fetchAdvanced(this.#getGradingbyProjectAndMatrURL(project_id, matr_nr))
-    .then((responseJSON) => {
-      // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
-      // console.log(responseGradingBO);
-      return new Promise(function (resolve) {
-        resolve(responseGradingBO);
-      })
-    })
-  }
-
-
-
-  getProjectsByStudent(matr_nr){
-    return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
-      .then((responseJSON) => {
-        // console.log(responseJSON)
-        // console.log("gefetched")
-        let projectBOs = ProjectBO.fromJSON(responseJSON);
-        // console.log(projectBOs);
-        return new Promise(function (resolve) {
-          resolve(projectBOs);
+  updateSemster(s) {
+    // console.log(gradingBO)
+      return this.#fetchAdvanced(this.#updateSemesterURL(), { 
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(s)
+        }).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+          let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
+          return new Promise(function (resolve) {
+          resolve(responseSemesterBO);
         })
       })
-  }
+    }
+
+
+
+ 
+
+
+
 
   
   

@@ -673,6 +673,21 @@ class SemestersOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+    
+    @prochecked.marshal_with(semester, code=200)
+    @prochecked.expect(semester)  # Wir erwarten ein Semester-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Semester-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        s = Semester.from_dict(api.payload)
+        if s is not None:
+            adm.save_semester(s)
+            return '', 200
+        else:
+            return '', 500
 
     
 
@@ -819,4 +834,10 @@ if __name__ == '__main__':
     # p = adm.get_projects_by_state(2)
     # for i in p:
     #     print(i.get_name(), i.get_project_state())
+
+    '''s = Semester()
+    s.set_id(4)
+    s.set_name("Peter")
+    
+    adm.save_semester(s)'''
    

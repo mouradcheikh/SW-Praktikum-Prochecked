@@ -476,6 +476,13 @@ class ProjectAdministration (object):
         with SemesterMapper() as mapper:
             mapper.delete(semester)
 
+    def save_semester(self, semester):
+        """Ein Semester updaten"""
+        with SemesterMapper() as mapper:
+            mapper.update(semester)
+
+         
+
     
   
     def get_semester_by_name(self, ):
