@@ -117,8 +117,9 @@ class GradeList extends Component {
 }
 
   updateFilteredProjects = () => {
-      let semester_id = this.state.semesterId
-      let module_id = this.state.moduleId
+      let semester_id = this.state.semester.id
+      let module_id = this.state.module.id
+      console.log("modul:", module_id, "semester:", semester_id)
       let filtered_projects = []
       console.log(this.state.projects)
       this.state.projects.forEach((project) => {
