@@ -3,7 +3,7 @@ import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, 
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import IconButton from '@material-ui/core/IconButton';
 
 
 
@@ -16,7 +16,6 @@ class CreateSemester extends React.Component {
             semesters: [], // für SemesterList 
             semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
             success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
-           
         }
     }
 
@@ -41,7 +40,7 @@ class CreateSemester extends React.Component {
     api.deleteSemester(s.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
-        deletingError: null
+        deletingError: null,
       })
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
@@ -150,9 +149,17 @@ class CreateSemester extends React.Component {
             <Grid item xs={6}>
             <h1>Bestehende Semester</h1>
             <Paper className={classes.paper}>
-                <div>
-                  {semesters.map(s => <ListItem>{s.name}</ListItem >)}
-                </div>
+            <div>
+
+               {semesters.map(s => <ListItem>
+                {s.name}
+
+              <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+              <DeleteIcon />
+              </IconButton>
+              </ListItem >)}
+
+</div>
             </Paper>
          </Grid>
       </Grid>
