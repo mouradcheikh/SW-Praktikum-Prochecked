@@ -145,12 +145,13 @@ getPersonByGoogleId(google_id) {
         })
       }
 
-createPerson(name, email, google_id) {
+createPerson(name, email, google_id, berechtigung) {
 
         let p = new PersonBO();
         p.setName(name)
         p.setEmail(email)
         p.setGoogleId(google_id)
+        p.setBerechtigung(berechtigung)
         // console.log(p)
 
         return this.#fetchAdvanced(this.#addPersonURL(), {
