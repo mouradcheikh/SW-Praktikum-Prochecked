@@ -3,7 +3,7 @@ import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, 
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextField from '@material-ui/core/TextField';
+
 
 
 
@@ -129,7 +129,7 @@ class CreateSemester extends React.Component {
                   margin='normal' 
                   id='semester' 
                   label='semester:' 
-                  value={semester} 
+                  // value={semester} 
                   onChange={this.textFieldValueChange} 
                   error={semesterValidationFailed} 
                   // onInput={e=>this.setState({semester: (e.target.value)})}
