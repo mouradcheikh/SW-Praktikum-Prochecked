@@ -10,6 +10,9 @@ import {GradingBO} from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
+import IconButton from '@material-ui/core/IconButton';
+
+
 
 /**
  * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links participations 
@@ -318,7 +321,7 @@ setStudent = (student) => {
         <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud={this.setStudent}/>
       </div>
 
-      :project.project_state ===4?
+      :project.project_state >=4?
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
@@ -353,9 +356,17 @@ setStudent = (student) => {
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
+            {project.project_state ===4?
             <Typography variant='body2' color={'textSecondary'}>
-              Bewertet: {grade.grade + " - " + this.passed()}
-          </Typography>
+            Bewertet: {grade.grade + " - " + this.passed()}
+            <IconButton aria-label="delete" onClick={() => this.deleteGrading()}
+ >
+              <DeleteIcon />
+            </IconButton>
+
+            </Typography>
+            :<div></div>
+            }
             </div>
 
           <ListItemSecondaryAction>          
@@ -376,7 +387,7 @@ setStudent = (student) => {
 
       :
       <div>
-        <ListItem>
+        {/* <ListItem>
           <Typography className={classes.participationEntry}>      
             <div>
               {student.matr_nr + " - " + student.name}
@@ -393,7 +404,7 @@ setStudent = (student) => {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/> */}
       </div>
     );
   }

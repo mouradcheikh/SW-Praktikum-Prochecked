@@ -164,7 +164,7 @@ class GradingMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete_participation(self, grading):
+    def delete(self, grading):
         """Löschen der Daten eines grading-Objekts aus der Datenbank.
 
         :param grading das aus der DB zu löschende "Objekt"
