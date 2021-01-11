@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,6 +7,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import  {AppApi, PersonBO}  from '../../../AppApi';
 import StudentBO from '../../../AppApi/StudentBO';
+import {TextField, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 class CreatePerson extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class CreatePerson extends Component {
             email:'',
             role: '',
             person: '',
+            persons: [],
             student: '',
             matrNr: '',
             studiengang: '',
@@ -64,9 +66,38 @@ class CreatePerson extends Component {
           )
           console.log(this.state.student)
         }
+
+    PersonList(){
+      var api = AppApi.getAPI()
+      api.getPersons().then((persons) =>
+        {
+            this.setState({
+              persons:persons
+              })}
+              )
+            }
+
+   /** Delete Persons */
+   deletePersons = (p) => { console.log(p.getID()) 
+    var api = AppApi.getAPI()
+    api.deletePerson(p.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null,
+      })
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
       
-    
-    
     handleChange(e) { 
     this.setState({ [e.target.name]: e.target.value });
     // console.log({ [e.target.name]: e.target.value })
@@ -99,11 +130,15 @@ class CreatePerson extends Component {
           this.state.person.id, 
           this.state.validationSuccedStudent = false,
         )}
+  
+        componentDidMount() {
+          this.PersonList();
+        }
       
    
     render() {
         const { classes } = this.props;
-        const { person, student, validationSuccedPerson, validationSuccedStudent} = this.state; 
+        const { person, persons, student, validationSuccedPerson, validationSuccedStudent} = this.state; 
         console.log(this.state)
 
         return (
@@ -145,7 +180,15 @@ class CreatePerson extends Component {
             </form>
             </div>
             <div>
-            
+            {persons.map(p => 
+               <ListItem>
+                {p.name}
+                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                 <DeleteIcon />
+                </IconButton>
+                </ListItem>)}
+            </div>
+            <div>
             {person.berechtigung ===1?
             <form className={classes.root}  onSubmit= {this.handleSubmitStudent}>
                 <div>
