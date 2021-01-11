@@ -96,13 +96,13 @@ class ProjectAdministration (object):
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""
         adm = ProjectAdministration()
-        stu = adm.get_student_by_id(person.get_id())
+        stu = adm.get_student_by_person_id(person.get_id())
         if stu is not None:
             with StudentMapper() as mapper:
                 mapper.delete(stu)
 
         with PersonMapper() as mapper:
-            mapper.delete(person)
+            mapper.delete_by_id(person)
 
         
     def get_dozent_by_id(self, id): #Person_by_id???
@@ -169,7 +169,7 @@ class ProjectAdministration (object):
             print("Student", stud) 
 
         with PersonMapper() as mapper:
-            
+
             pers = mapper.find_by_id(stud.get_person())
             print("Person:", pers)
 

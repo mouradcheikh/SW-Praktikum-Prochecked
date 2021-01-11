@@ -236,6 +236,22 @@ class PersonOperations(Resource):
         else:
             return '', 500
 
+@prochecked.route('/persons/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'id des Person-Objekts')
+class PersonDeleteOperation(Resource):
+    @prochecked.marshal_with(person)
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Person-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pers = adm.get_person_by_id(id)
+        adm.delete_person(pers)
+        return '', 200
+
 @prochecked.route('/persons-by-name/<string:name>')  
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('name', 'Der Nachname des Kunden')

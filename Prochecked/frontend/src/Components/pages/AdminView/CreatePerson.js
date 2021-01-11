@@ -10,6 +10,8 @@ import StudentBO from '../../../AppApi/StudentBO';
 import {TextField, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+
 
 class CreatePerson extends Component {
     constructor(props) {
@@ -143,11 +145,15 @@ class CreatePerson extends Component {
 
         return (
         
-        <div>
-            <div>
+        
+
+      <div className={classes.roott}>
+      <Grid container spacing={3}>
+          <Grid item xs={12}>
+          <Paper className={classes.paper}>
+          <div>
                 <h1>Eine neue Person erstellen</h1>
             </div>
-            
             <div>
                 <form className={classes.root}  onSubmit= {this.handleSubmit}>
                     <TextField id="outlined-basic" label="Name" variant="outlined" name='name' required  onChange={this.handleChange}
@@ -168,7 +174,7 @@ class CreatePerson extends Component {
                          </Select>
                      </FormControl>
                 
-             <Button
+               <Button
                 type = "submit"
                 variant="contained"
                 color="default"
@@ -176,18 +182,14 @@ class CreatePerson extends Component {
                 className={classes.button}
                 startIcon={<SaveIcon />}>                
                     Person anlegen
-            </Button>
-            </form>
+              </Button>
+                    </form>
             </div>
-            <div>
-            {persons.map(p => 
-               <ListItem>
-                {p.name}
-                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
-                 <DeleteIcon />
-                </IconButton>
-                </ListItem>)}
-            </div>
+            </Paper>
+            </Grid>
+
+            <Grid item xs={6}>
+          <Paper className={classes.paper}>
             <div>
             {person.berechtigung ===1?
             <form className={classes.root}  onSubmit= {this.handleSubmitStudent}>
@@ -208,10 +210,27 @@ class CreatePerson extends Component {
               </Button>
               </form>
               : <div></div>
-             
               }
-            
             </div>
+            </Paper>
+            </Grid>
+
+            <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <div>
+            <h1>Angelegte Personen</h1>
+            {persons.map(p => 
+               <ListItem>
+                {p.name}
+                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                 <DeleteIcon />
+                </IconButton>
+                </ListItem>)}
+            </div>
+            </Paper>
+            </Grid>
+            </Grid>
+    
         </div>
         
         )
@@ -224,8 +243,16 @@ const styles = theme => ({
         margin: theme.spacing(1),
         width: '25ch',
       },
+      roott: {
+        flexGrow: 1,
+      },
       button: {
         margin: theme.spacing(1),
+      },
+      paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
       },
     }, 
   });
