@@ -32,8 +32,8 @@ export default class AppAPI {
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
+    #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
-
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
@@ -145,12 +145,13 @@ getPersonByGoogleId(google_id) {
         })
       }
 
-createPerson(name, email, google_id) {
+createPerson(name, email, google_id, berechtigung) {
 
         let p = new PersonBO();
         p.setName(name)
         p.setEmail(email)
         p.setGoogleId(google_id)
+        p.setBerechtigung(berechtigung)
         // console.log(p)
 
         return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -648,7 +649,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
     let s = new SemesterBO();
     s.setName(semester)
-    // console.log(s)
+    // console.log("semester:", s)
 
     return this.#fetchAdvanced(this.#addSemesterURL(), {
       method: 'POST',
@@ -667,25 +668,25 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  //   /**
-  //  * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
-  //  * 
-  //  * @param semester to be deleted
-  //  * @public
-  //  */
-  // deleteSemester(id) {
-  //   return this.#fetchAdvanced(this.#deleteSemesterURL(id), {
-  //     method: 'DELETE'
-  //   })
-  //     .then((responseJSON) => {
-  //       // We always get an array of ParticipationBO.fromJSON, but only need one object
-  //       let semesterBOs = SemesterBO.fromJSON(responseJSON)[0];
-  //       // console.info(participationBOs);
-  //       return new Promise(function (resolve) {
-  //         resolve(semesterBOs);
-  //       })
-  //     })
-  // }
+    /**
+   * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
+   * 
+   * @param semester to be deleted
+   * @public
+   */
+  deleteSemester(id) {
+    return this.#fetchAdvanced(this.#deleteSemesterURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let semesterBOs = SemesterBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(semesterBOs);
+        })
+      })
+  }
 
 
 

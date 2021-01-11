@@ -179,7 +179,7 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -489,6 +489,8 @@ class ParticipationOperations(Resource):
 
 
         if par is not None:
+            gra = adm.get_grading_by_id(par.get_grading())
+            adm.delete_grading(gra)
             adm.delete_participation(par)
             return '', 200
         else:
@@ -603,7 +605,7 @@ class StudentLogInOperations(Resource):
     @prochecked.expect(student)  
     @secured
     def post(self):
-        """Anlegen eines neuen Projekt-Objekts.
+        """Anlegen eines neuen Student-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
@@ -613,7 +615,7 @@ class StudentLogInOperations(Resource):
         """
         print(api.payload)
         adm = ProjectAdministration()
-
+        print('student:', api.payload)
         proposal = Student.from_dict(api.payload)
         print(proposal.get_matr_nr())
 
@@ -630,7 +632,7 @@ class StudentLogInOperations(Resource):
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class SemesterOperations(Resource):
+class SemestersOperations(Resource):
     @prochecked.marshal_with(semester)
     @secured
     def get(self):
@@ -653,10 +655,11 @@ class SemesterOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
+        print("Semester", api.payload)
 
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
-        #print(api.payload)
+
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -669,7 +672,28 @@ class SemesterOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
     
+
+@prochecked.route('/semester/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class SemesterOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        s = adm.get_semester_by_id(id)
+        print(s.get_name(), s.get_id())
+        if s is not None:
+            adm.delete_semester(s)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Semester existiert.'''
     
 
 #Grading related 
@@ -777,6 +801,9 @@ class GradingByProjectandStudentOperations(Resource):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    #adm = ProjectAdministration()
+    #adm.delete_semester(1)
 
     '''project = Project()
     project.set_id(1)

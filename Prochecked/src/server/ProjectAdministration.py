@@ -23,26 +23,21 @@ from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
-
-
 class ProjectAdministration (object):
     def __init__(self):
         pass 
 
-
-        
-
 #Person related
-    def create_person(self, name, google_id, email):
+    def create_person(self, name, google_id, email, berechtigung):
         #berechtigung?
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
+        person.set_berechtigung(berechtigung)
         #person.set_berechtigung(berechtigung)
         person.set_id(1)
         
-
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
 
@@ -393,7 +388,8 @@ class ProjectAdministration (object):
             return gra
 
     def delete_grading(self, grading):
-        pass
+         with GradingMapper() as mapper:
+            mapper.delete(grading)
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:
@@ -469,6 +465,18 @@ class ProjectAdministration (object):
    
         with SemesterMapper() as mapper:
             mapper.insert(semester)
+
+    def get_semester_by_id(self, id):
+        """Das Semester mit der gegebenen ID auslesen."""
+        with SemesterMapper() as mapper:
+            return mapper.find_by_id(id)
+    
+    def delete_semester(self, semester):
+        """Ein Semester löschen"""
+        with SemesterMapper() as mapper:
+            mapper.delete(semester)
+
+    
   
     def get_semester_by_name(self, ):
         pass

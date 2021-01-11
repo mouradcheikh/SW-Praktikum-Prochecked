@@ -42,6 +42,8 @@ class ProjectListEntryNew extends Component {
 
   /** Adds an participation for the current customer */
   addParticipation = () => {
+
+    if(this.state.participationsCounter > 0){
       const participation = new ParticipationBO
     //   participation.setModule(this.state.project.getModule())
       console.log(this.props.student.id)
@@ -69,6 +71,11 @@ class ProjectListEntryNew extends Component {
       addingParticipationError: null
     });
   }
+  else{
+    alert("Sorry, Projekt ist bereits voll belegt");
+  }
+    }
+      
 
 /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
@@ -126,7 +133,7 @@ class ProjectListEntryNew extends Component {
     });
   }
 
-  identPar(){
+  identPar(){ //identifiziert die Teilnahme des angemeldetetn studenten innerhalb der particiationListe(state) und setzt sie in das eigene state
     this.state.participations.map(par =>  { console.log(par)
       if(par.student_id === this.props.student.id){
         this.setState({
@@ -136,10 +143,9 @@ class ProjectListEntryNew extends Component {
   }) 
 }
 
-  countParticipations(){
+  countParticipations(){ //zählt die Teilnahmen und subtrahiert das Ergebnis mit der Kapazität des Projekts
     let capacity = this.state.project.capacity
     let amountPart = this.state.participations.length
-    // console.log( capacity, amountPart)
     this.setState({
       participationsCounter: capacity-amountPart,
     })
@@ -152,22 +158,6 @@ class ProjectListEntryNew extends Component {
     
   
   }
-
-//   /** Handles onChange events of the underlying ExpansionPanel */
-//   expansionPanelStateChanged = () => {
-//     this.props.onExpandedStateChange(this.props.project);
-//   }
-
-//   /** Handles onAccountDelete events from an AccountListEntry  */
-//   deleteAccountHandler = (deletedAccount) => {
-//     // console.log(deletedAccount.getID());
-//     this.setState({
-//       accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
-//     })
-//   }
-
-/** Handles click events from the transfer money button */
-
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;

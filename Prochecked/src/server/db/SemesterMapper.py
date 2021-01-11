@@ -6,7 +6,7 @@ from server.bo.Semester import Semester
 
 class SemesterMapper(Mapper):
     def __init__(self):
-        pass
+        super().__init__()
 
     def find_all(self):
         result = []
@@ -56,6 +56,48 @@ class SemesterMapper(Mapper):
 
         return semester
 
-    def find_by_id(self, ):
-        pass
+    def delete(self, semester):
+        """Löschen der Daten eines Semester-Objekts aus der Datenbank.
+
+        :param semester das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM semester WHERE id={}".format(semester.get_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def find_by_id(self, id):
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, name FROM semester WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, name) = tuples[0]
+            semester = Semester()
+            semester.set_id(id),
+            semester.set_creation_date(creation_date),
+            semester.set_name(name),
+            result = semester
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+
+if __name__ == "__main__":
+    with SemesterMapper() as mapper:
+        mapper.delete(1)
 
