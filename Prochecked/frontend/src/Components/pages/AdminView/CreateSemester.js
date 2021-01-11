@@ -159,7 +159,7 @@ class CreateSemester extends React.Component {
               </IconButton>
               </ListItem >)}
 
-</div>
+            </div>
             </Paper>
          </Grid>
       </Grid>
