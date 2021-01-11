@@ -27,6 +27,8 @@ class CreatePerson extends Component {
             student: '',
             matrNr: '',
             studiengang: '',
+            updateP:'',
+            editButton: false,
             validationSuccedPerson: true, 
             validationSuccedStudent: true, 
     };
@@ -99,6 +101,24 @@ class CreatePerson extends Component {
       deletingError: null
     });
   }
+
+    /** Updates the semester */
+    updatePerson = () => {
+      // clone the original PersonBO, in case the backend call fails
+      let updatedPerson = Object.assign(new PersonBO(), this.state.updateP);
+      updatedPerson.setName(this.state.name)
+      updatedPerson.setGoogleId(this.state.googleid)
+      updatedPerson.setEmail(this.state.email)
+      updatedPerson.setBerechtigung(this.state.role)
+      console.log(updatedPerson)
+      
+      AppApi.getAPI().updatePersonAdmin(updatedPerson).then(person => {
+        this.setState({
+          person: person,
+          success: true
+        });      
+      });
+    }
       
     handleChange(e) { 
     this.setState({ [e.target.name]: e.target.value });
@@ -107,7 +127,7 @@ class CreatePerson extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-        
+        if (this.state.editButton === false){
         this.createPerson(
             this.state.name, 
             this.state.email, 
@@ -115,24 +135,27 @@ class CreatePerson extends Component {
             this.state.role,
             this.state.validationSuccedPerson = false,
           )
-          // if (this.state.role===1){
-          // // this.createStudent(this.state.matrNr, this.state.studiengang, this.state.person.id)
-          // this.setState({
-            
-          // })
-        // }
-        }
+        }else {
+          this.updatePerson()
+        }}
+        
 
     handleSubmitStudent = (event) => { console.log("handleSubmitStudent")
       event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-      
       this.createStudent(
           this.state.matrNr, 
           this.state.studiengang, 
           this.state.person.id, 
           this.state.validationSuccedStudent = false,
         )}
-  
+
+        
+        // handleUpdateButton() {
+        //   this.setState({
+        //     editButton: true,
+        //   })}
+        
+
         componentDidMount() {
           this.PersonList();
         }
@@ -140,9 +163,9 @@ class CreatePerson extends Component {
    
     render() {
         const { classes } = this.props;
-        const { person, persons, student, validationSuccedPerson, validationSuccedStudent} = this.state; 
+        const { person, persons, student, editButton, validationSuccedPerson, validationSuccedStudent} = this.state; 
         console.log(this.state)
-
+      
         return (
         
         
@@ -183,6 +206,17 @@ class CreatePerson extends Component {
                 startIcon={<SaveIcon />}>                
                     Person anlegen
               </Button>
+            { editButton? 
+              <Button 
+                type = "submit"
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveIcon />}>                
+                    Person Updaten
+              </Button>
+              :<div></div> }
                     </form>
             </div>
             </Paper>
@@ -208,6 +242,17 @@ class CreatePerson extends Component {
             startIcon={<SaveIcon />}>                
                 Student anlegen
               </Button>
+              { editButton? 
+              <Button
+            type = "submit"
+            variant="contained"
+            color="default"
+            size="large"
+            className={classes.button}
+            startIcon={<SaveIcon />}>                
+                Student Updaten
+              </Button>
+              :<div></div>}
               </form>
               : <div></div>
               }
@@ -221,18 +266,20 @@ class CreatePerson extends Component {
             <h1>Angelegte Personen</h1>
             {persons.map(p => 
                <ListItem>
-                {p.name}
+                {p.name +'     '+
+                'Rolle:'+ ' '+ p.berechtigung}
                 <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
+                <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                   edit
+                </Button>
                 </ListItem>)}
             </div>
             </Paper>
             </Grid>
             </Grid>
-    
         </div>
-        
         )
     }
 }

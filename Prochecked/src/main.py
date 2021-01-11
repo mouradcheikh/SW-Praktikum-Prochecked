@@ -184,6 +184,21 @@ class PersonListOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+    
+    @prochecked.marshal_with(person, code=200)
+    @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Person-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        p = Person.from_dict(api.payload)
+        if p is not None:
+            adm.save_person_by_id(p)
+            return '', 200
+        else:
+            return '', 500
 
 @prochecked.route('/persons/<string:google_id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -834,7 +849,7 @@ class GradingByProjectandStudentOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    #adm = ProjectAdministration()
+    
     #adm.delete_semester(1)
 
     '''project = Project()

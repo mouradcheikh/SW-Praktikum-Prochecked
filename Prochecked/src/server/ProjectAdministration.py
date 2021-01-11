@@ -91,6 +91,12 @@ class ProjectAdministration (object):
         
         with PersonMapper() as mapper:
             mapper.update(person)
+
+    def save_person_by_id(self, person):
+        """Die gegebene Person speichern."""
+        """Methode mir Rollentabelle"""
+        with PersonMapper() as mapper:
+            mapper.update_by_id(person)
         
     
     def delete_person(self, person):

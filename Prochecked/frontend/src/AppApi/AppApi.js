@@ -23,6 +23,7 @@ export default class AppAPI {
     // Person related
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
+    #updatePersonAdminURL = () => `${this.#AppServerBaseURL}/persons`; //url in der Admin Sicht zu updatePerson
     #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
@@ -194,6 +195,24 @@ updatePerson(personBO){
     })
   })
 }
+
+updatePersonAdmin(p) {
+  // console.log(gradingBO)
+    return this.#fetchAdvanced(this.#updatePersonAdminURL(), { 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(p)
+      }).then((responseJSON) => {
+      // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+        let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responsePersonBO);
+      })
+    })
+  }
 
 getPersonByRole(role_id){
   return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {

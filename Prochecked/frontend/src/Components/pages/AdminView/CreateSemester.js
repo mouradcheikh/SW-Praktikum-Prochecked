@@ -58,7 +58,7 @@ class CreateSemester extends React.Component {
   }
 
 
-  /** Updates the participation */
+  /** Updates the semester */
   updateSemester = (s) => {
     s.preventDefault();
     // clone the original participation, in case the backend call fails
