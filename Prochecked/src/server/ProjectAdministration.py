@@ -95,6 +95,12 @@ class ProjectAdministration (object):
     
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""
+        adm = ProjectAdministration()
+        stu = adm.get_student_by_id(person.get_id())
+        if stu is not None:
+            with StudentMapper() as mapper:
+                mapper.delete(stu)
+
         with PersonMapper() as mapper:
             mapper.delete(person)
 
