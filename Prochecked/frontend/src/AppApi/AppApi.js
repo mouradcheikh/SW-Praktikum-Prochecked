@@ -206,6 +206,27 @@ getPersonByRole(role_id){
   })
 }
 
+  /**
+   * Deletes the given participation and returns a Promise, which resolves to an ParticipationBO
+   * 
+   * @param id to be deleted
+   * @public
+   */
+  deletePerson(id) {
+    return this.#fetchAdvanced(this.#deletePersonURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let personBOs = PersonBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(personBOs);
+        })
+      })
+  }
+
+
 //Student related
 getStudent(id) {
   return this.#fetchAdvanced(this.#getStudentURL(id))

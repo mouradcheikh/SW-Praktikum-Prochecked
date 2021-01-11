@@ -167,6 +167,19 @@ class StudentMapper(Mapper):
         cursor.close()
 
         return student
+        
+    def delete(self, student):
+        """Löschen der Daten eines Person-Objekts aus der Datenbank.
+
+        :param user das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM student WHERE id={}".format(student.get_google_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
 
 
 
