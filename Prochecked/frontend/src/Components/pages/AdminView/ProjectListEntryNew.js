@@ -38,11 +38,21 @@ class ProjectListEntryNew extends Component {
     };
   }
 
+  updateModule = (new_module, new_state) => {
+    console.log("updatemodule")
+    let updated_project = this.state.project
+    updated_project.setModule(new_module)
+    this.setState({
+      project: updated_project
+    }, () => {this.updateProject(new_state); console.log(this.state.project)})
+  }
+
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
     console.log(new_state)
     let updatedProject = Object.assign(new ProjectBO(), this.state.project);
     // set the new attributes from our dialog
+    
     updatedProject.setProjectState(new_state);
    
     AppApi.getAPI().updateProject(updatedProject).then(project => {
@@ -186,7 +196,7 @@ ProjectFormClosed = (project) => {
                         color="secondary"
                         className={classes.button}
                         startIcon={<ReplyRoundedIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
+                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 1)}>
                 Rückgängig
                 </Button>
               </Typography>
@@ -214,14 +224,14 @@ ProjectFormClosed = (project) => {
                       color="secondary"
                       className={classes.button}
                       startIcon={<HighlightOffIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
+              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 2)}>
               Ablehnen
               </Button>
               <Button variant="contained"
                       color="secondary"
                       className={classes.button}
                       startIcon={<ReplyRoundedIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(1)}>
+              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
             </Typography>
