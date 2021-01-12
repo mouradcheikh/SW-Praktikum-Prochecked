@@ -185,7 +185,10 @@ class ProjectListEntryNew extends Component {
                 className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
                 Rückgängig
                 </Button>
-                       
+                 
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.updateProject(0)}>
+             Löschen
+            </Button>        
               
               </Typography>
               <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
