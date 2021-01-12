@@ -127,7 +127,7 @@ class CreateSemester extends React.Component {
                   fullWidth 
                   margin='normal' 
                   id='semester' 
-                  label='semester:' 
+                  label='Semester:' 
                   // value={semester} 
                   onChange={this.textFieldValueChange} 
                   error={semesterValidationFailed} 
