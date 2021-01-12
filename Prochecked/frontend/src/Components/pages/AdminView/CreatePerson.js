@@ -52,7 +52,7 @@ class CreatePerson extends Component {
 
         /** Create Student */
      createStudent(matrNr, studiengang, person){
-       
+
        var student = new StudentBO
        student.setMatrNr(matrNr)
        student.setStudiengang(studiengang)
@@ -102,7 +102,7 @@ class CreatePerson extends Component {
     });
   }
 
-    /** Updates the semester */
+    /** Updates the person */
     updatePerson = () => {
       // clone the original PersonBO, in case the backend call fails
       let updatedPerson = Object.assign(new PersonBO(), this.state.updateP);
@@ -115,6 +115,22 @@ class CreatePerson extends Component {
       AppApi.getAPI().updatePersonAdmin(updatedPerson).then(person => {
         this.setState({
           person: person,
+          success: true
+        });      
+      });
+    }
+
+    /** Updates the student */
+    updateStudent = () => {
+      // clone the original StudentBO, in case the backend call fails
+      let updatedStudent = Object.assign(new StudentBO(), this.state.updateP);
+      updatedStudent.setMatrNr(this.state.matrNr)
+      updatedStudent.setStudiengang(this.state.studiengang)
+      console.log(updatedStudent)
+      
+      AppApi.getAPI().updateStudentAdmin(updatedStudent).then(student => {
+        this.setState({
+          student: student,
           success: true
         });      
       });
@@ -137,9 +153,10 @@ class CreatePerson extends Component {
           )
         }else {
           this.updatePerson()
+         
+          
         }}
         
-
     handleSubmitStudent = (event) => { console.log("handleSubmitStudent")
       event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
       this.createStudent(
@@ -149,27 +166,15 @@ class CreatePerson extends Component {
           this.state.validationSuccedStudent = false,
         )}
 
-        
-        // handleUpdateButton() {
-        //   this.setState({
-        //     editButton: true,
-        //   })}
-        
-
-        componentDidMount() {
-          this.PersonList();
-        }
+    componentDidMount() {
+      this.PersonList();}
       
-   
     render() {
         const { classes } = this.props;
         const { person, persons, student, editButton, validationSuccedPerson, validationSuccedStudent} = this.state; 
         console.log(this.state)
       
         return (
-        
-        
-
       <div className={classes.roott}>
       <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -196,7 +201,6 @@ class CreatePerson extends Component {
                     <MenuItem value={3}>Admin</MenuItem>
                          </Select>
                      </FormControl>
-                
                <Button
                 type = "submit"
                 variant="contained"

@@ -23,7 +23,7 @@ export default class AppAPI {
     // Person related
     #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
     #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-    #updatePersonAdminURL = () => `${this.#AppServerBaseURL}/persons`; //url in der Admin Sicht zu updatePerson
+    #updatePersonAdminURL = () => `${this.#AppServerBaseURL}/persons`; 
     #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #updatePersonURL = (google_id) => `${this.#AppServerBaseURL}/persons/${google_id}`;
     #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
@@ -35,14 +35,14 @@ export default class AppAPI {
     #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
     #updateSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
     #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
-    
      
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
     #createStudentURL = () => `${this.#AppServerBaseURL}/student`;
+    #updateStudentAdminURL = () => `${this.#AppServerBaseURL}/student`; 
     #getStudentByPersonIdURL = (id) => `${this.#AppServerBaseURL}/student-by-person-id/${id}`;
-
+    
     // Participation related
     #getParticipationsByProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
@@ -69,10 +69,6 @@ export default class AppAPI {
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
     
-    
-
-    
-
       /** 
    * Get the Singelton instance 
    * 
@@ -582,6 +578,24 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
+
+  updateStudentAdmin(s) {
+    // console.log(gradingBO)
+      return this.#fetchAdvanced(this.#updateStudentAdminURL(), { 
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(s)
+        }).then((responseJSON) => {
+        // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+          let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+          return new Promise(function (resolve) {
+          resolve(responseStudentBO);
+        })
+      })
+    }
 
   getPersonByRole(role_id){
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {

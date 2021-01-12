@@ -662,6 +662,21 @@ class StudentLogInOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+    @prochecked.marshal_with(student, code=200)
+    @prochecked.expect(student)  # Wir erwarten ein Student-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Student-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        s = Student.from_dict(api.payload)
+        if s is not None:
+            adm.save_student(s)
+            return '', 200
+        else:
+            return '', 500
+
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemestersOperations(Resource):

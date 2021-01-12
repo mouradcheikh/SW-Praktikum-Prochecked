@@ -152,7 +152,6 @@ class ProjectAdministration (object):
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
 
-
     def get_student_by_person_id(self, person_id):
         with StudentMapper() as mapper:
             stud = mapper.find_by_person_id(person_id) 
@@ -168,7 +167,6 @@ class ProjectAdministration (object):
             stud.set_berechtigung(pers.get_berechtigung())
         return stud
         
-
     def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             stud = mapper.find_by_id(id)
@@ -185,7 +183,6 @@ class ProjectAdministration (object):
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
 
-
     def create_student(self,matr_nr,studiengang,person_id):
         
         student = Student()
@@ -197,6 +194,10 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.insert(student)
     
+    def save_student(self, student):
+        with StudentMapper() as mapper:
+            mapper.update(student)
+    
 
     '''# def get_student_by_name(self, name):
     #     with StudentMapper() as mapper:
@@ -206,9 +207,7 @@ class ProjectAdministration (object):
     #     with StudentMapper() as mapper:
     #         return mapper.find_by_student_id(project.get_id())
 
-    # def save_student(self, student):
-    #     with StudentMapper() as mapper:
-    #         mapper.update(student)
+  
 
     # def delete_student(self, student):
     #     with StudentMapper() as mapper:

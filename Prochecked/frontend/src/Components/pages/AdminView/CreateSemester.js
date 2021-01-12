@@ -75,8 +75,6 @@ class CreateSemester extends React.Component {
     });
   }
 
-
-  
     SemesterList(){
       var api = AppApi.getAPI()
       api.getSemesters().then((semesters) =>
