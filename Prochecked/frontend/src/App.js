@@ -35,8 +35,7 @@ import SelectStudent from "./Components/pages/AdminView/SelectStudent";
 import Semesterbericht from "./Components/pages/StudentView/Semesterbericht";
 import StudentView from "./Components/pages/StudentView/StudentView";
 import ProjectListStudent from "./Components/pages/StudentView/ProjectListStudent";
-import CreateRoles from "./Components/pages/AdminView/CreateRoles";
-
+import CreateProjectType from "./Components/pages/AdminView/CreateProjectType";
 import { StudentBO } from "./AppApi";
 
 // import firebaseconfig from './firebaseconfig';
@@ -285,7 +284,11 @@ class App extends React.Component {
             <Route exact path="/SelectStudent" component={SelectStudent} />
             <Route exact path="/ProjectListNew" component={ProjectListNew} />
             <Route exact path="/DropDown_Dozent" component={DropDown_Dozent} />
-            <Route exact path="/CreateRoles" component={CreateRoles} />
+            <Route
+              exact
+              path="/CreateProjectType"
+              component={CreateProjectType}
+            />
 
             {
               // Ist eine Person eingeloggt?

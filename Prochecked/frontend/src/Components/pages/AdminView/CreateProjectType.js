@@ -16,39 +16,39 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import { ProjectBO } from "../../../AppApi";
 
-class CreateRoles extends React.Component {
+class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      role: null, //für CreateRole
-      allRoles: [], // für Rollenliste
+      type: null, //für CreateRole
+      allTypes: [], // für Rollenliste
       roleValidationFailed: false, //prüft eingabe des semsters im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
     };
   }
 
   /** Create role */
-  createRole(role) {
+  CreateProjectType(type) {
     var api = AppApi.getAPI();
     // console.log(api)
-    api.setBerechtigungen(role).then((role) => {
+    api.setProjectType(type).then((type) => {
       // console.log(role)
       this.setState(
         {
-          role: role,
+          type: type,
         },
-        this.RoleList()
+        this.ProjectTypeList()
       );
     });
   }
 
-  /** Delete Role */
-  deleteRole = (r) => {
-    console.log(r.getID());
+  /** Delete Type */
+  deleteType = (t) => {
+    console.log(t.getID());
     var api = AppApi.getAPI();
     api
-      .deleteRole(r.getID())
+      .deleteRole(t.getID())
       .then(() => {
         this.setState({
           // Set new state when ParticipationBOs have been fetched
@@ -70,11 +70,11 @@ class CreateRoles extends React.Component {
     });
   };
 
-  RoleList() {
+  TypeList() {
     var api = AppApi.getAPI();
-    api.getBerechtigungen().then((allRoles) => {
+    api.getBerechtigungen().then((allTypes) => {
       this.setState({
-        allRoles: allRoles,
+        allTypes: allTypes,
       });
     });
   }
@@ -93,8 +93,8 @@ class CreateRoles extends React.Component {
         roleValidationFailed: false,
       });
 
-      this.state.allRoles.map((r) => {
-        if (r.name === value) {
+      this.state.allTypes.map((t) => {
+        if (t.name === value) {
           //r:prüft ob role bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
           this.setState({
             roleValidationFailed: true,
@@ -110,9 +110,9 @@ class CreateRoles extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    if (this.state.roleValidationFailed === false) {
+    if (this.state.typeValidationFailed === false) {
       //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.createRole(this.state.role);
+      this.createRole(this.state.type);
       this.setState({
         success: true,
       });
@@ -120,17 +120,17 @@ class CreateRoles extends React.Component {
   };
 
   componentDidMount() {
-    this.RoleList();
+    //  this.TypeList();
   }
 
   render() {
     const { classes } = this.props;
-    const { role, allRoles, roleValidationFailed, success } = this.state;
+    const { type, allTypes, roleValidationFailed, success } = this.state;
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <h1>Neues Role eingetragen: </h1>
+            <h1>Neue Projektart eingetragen: </h1>
             <Paper className={classes.paper}>
               <form onSubmit={this.handleSubmit}>
                 <TextField
@@ -140,17 +140,17 @@ class CreateRoles extends React.Component {
                   required
                   fullWidth
                   margin="normal"
-                  id="rolle"
-                  label="rolle:"
-                  //value={role}
+                  id="projektart"
+                  label="Projektart"
+                  //value={type}
                   onChange={this.textFieldValueChange}
                   error={roleValidationFailed}
                   // onInput={e=>this.setState({role: (e.target.value)})}
                   helperText={
                     roleValidationFailed
-                      ? "Bitte geben Sie eine Rolle ein (z.B. Admin, Dozent, Zuschauer...)"
+                      ? "Bitte geben Sie eine Projektart ein (z.B. Admin, Dozent, Zuschauer...)"
                       : success === true
-                      ? "Rolle erfolgreich eingetragen!"
+                      ? "Projektart erfolgreich eingetragen!"
                       : ""
                   }
                 />
@@ -167,16 +167,16 @@ class CreateRoles extends React.Component {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <h1>Bestehende Rollen</h1>
+            <h1>Bestehende Projektarten</h1>
             <Paper className={classes.paper}>
               <div>
-                {allRoles.map((r) => (
+                {allTypes.map((t) => (
                   <ListItem>
-                    {r.name}
+                    {t.name}
 
                     <IconButton
                       aria-label="delete"
-                      onClick={() => this.deleteRole(r)}
+                      onClick={() => this.deleteType(t)}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -211,4 +211,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(CreateRoles);
+export default withStyles(styles)(CreateProjectType);

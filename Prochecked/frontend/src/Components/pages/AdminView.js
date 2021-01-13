@@ -55,8 +55,8 @@ export default function MenuListComposition() {
               <Link to="/ProjectListNew">
                 <MenuItem>Projekte freigeben</MenuItem>
               </Link>
-              <Link to="/CreateRoles">
-                <MenuItem>Rollen pflegen</MenuItem>
+              <Link to="/CreateProjectType">
+                <MenuItem>Projektarten pflegen</MenuItem>
               </Link>
             </Paper>
           </Grid>

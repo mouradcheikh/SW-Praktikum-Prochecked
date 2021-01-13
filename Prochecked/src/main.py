@@ -798,6 +798,7 @@ class GradingByProjectandStudentOperations(Resource):
         
         return gra
 
+# Role related
 
 if __name__ == '__main__':
     app.run(debug=True)
