@@ -14,34 +14,40 @@ import { AppApi } from "../../../AppApi";
 import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import { ProjectBO } from "../../../AppApi";
+import { ProjectTypeBO } from "../../../AppApi";
 
 class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      type: null, //für CreateRole
+      name: '', //für CreateRole
+      ects:'',
+      sws:'',
+      type:'',
       allTypes: [], // für Rollenliste
       roleValidationFailed: false, //prüft eingabe des semsters im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
     };
   }
 
-  /** Create role */
-  CreateProjectType(type) {
-    var api = AppApi.getAPI();
-    // console.log(api)
-    api.setProjectType(type).then((type) => {
-      // console.log(role)
-      this.setState(
-        {
-          type: type,
-        },
-        this.ProjectTypeList()
-      );
-    });
-  }
+
+
+  /** Create person */
+     createProjecType(name, ects, sws){
+      var api = AppApi.getAPI()
+      // console.log(api)
+      api.createPerson(name, ects, sws).then((type) =>
+          {
+            // console.log(person)
+          this.setState({
+              type: type
+          },
+          )}
+          )
+          console.log(this.state.person)
+        }
+
 
   /** Delete Type */
   deleteType = (t) => {
@@ -70,14 +76,15 @@ class CreateProjectType extends React.Component {
     });
   };
 
-  TypeList() {
-    var api = AppApi.getAPI();
-    api.getBerechtigungen().then((allTypes) => {
-      this.setState({
-        allTypes: allTypes,
-      });
-    });
-  }
+  PersonList(){
+    var api = AppApi.getAPI()
+    api.getProjectTpe().then((allTypes) =>
+      {
+          this.setState({
+            allTypes: allTypes
+            })}
+            )
+          }
 
   textFieldValueChange = (event) => {
     const value = event.target.value;
@@ -87,7 +94,7 @@ class CreateProjectType extends React.Component {
     });
 
     if (value.length > 3) {
-      //eingabe des textfields muss mindestens 5 zeichen enthalten
+      //eingabe des textfields muss mindestens 3 zeichen enthalten
 
       this.setState({
         roleValidationFailed: false,
@@ -108,11 +115,32 @@ class CreateProjectType extends React.Component {
     }
   };
 
+/** Delete Persons */
+deleteProjectType = (t) => { console.log(t.getID()) 
+  var api = AppApi.getAPI()
+  api.deleteProjectType(t.getID()).then(() => {
+    this.setState({  // Set new state when ParticipationBOs have been fetched
+      deletingInProgress: false, // loading indicator 
+      deletingError: null,
+    })
+  }).catch(e =>
+    this.setState({ // Reset state with error from catch 
+      deletingInProgress: false,
+      deletingError: e
+    })
+  );
+  // set loading to true
+  this.setState({
+    deletingInProgress: true,
+    deletingError: null
+  });
+}
+
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     if (this.state.typeValidationFailed === false) {
-      //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.createRole(this.state.type);
+      //t: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+      this.CreateProjectType(this.state.type);
       this.setState({
         success: true,
       });
@@ -125,7 +153,7 @@ class CreateProjectType extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { type, allTypes, roleValidationFailed, success } = this.state;
+    const { name, type, sws, ects, allTypes, roleValidationFailed, success } = this.state;
     return (
       <div>
         <Grid container spacing={3}>
@@ -142,15 +170,57 @@ class CreateProjectType extends React.Component {
                   margin="normal"
                   id="projektart"
                   label="Projektart"
-                  //value={type}
+                  value={name}
                   onChange={this.textFieldValueChange}
                   error={roleValidationFailed}
-                  // onInput={e=>this.setState({role: (e.target.value)})}
+                  onInput={(e) => this.setState({ role: e.target.value })}
                   helperText={
                     roleValidationFailed
                       ? "Bitte geben Sie eine Projektart ein (z.B. Admin, Dozent, Zuschauer...)"
                       : success === true
                       ? "Projektart erfolgreich eingetragen!"
+                      : ""
+                  }
+                />
+                <TextField
+                  className={classes.formControl}
+                  autoFocus
+                  type="number"
+                  required
+                  fullWidth
+                  margin="normal"
+                  id="ECTS"
+                  label="ECTS"
+                  value={ects}
+                  onChange={this.textFieldValueChange}
+                  error={roleValidationFailed}
+                  onInput={(e) => this.setState({ role: e.target.value })}
+                  helperText={
+                    roleValidationFailed
+                      ? "Bitte geben Sie die Anzahl an ECTS ein:"
+                      : success === true
+                      ? "ECTS erfolgreich eingetragen!"
+                      : ""
+                  }
+                />
+                <TextField
+                  className={classes.formControl}
+                  autoFocus
+                  type="number"
+                  required
+                  fullWidth
+                  margin="normal"
+                  id="SWS"
+                  label="SWS"
+                  value={sws}
+                  onChange={this.textFieldValueChange}
+                  error={roleValidationFailed}
+                  onInput={(e) => this.setState({ role: e.target.value })}
+                  helperText={
+                    roleValidationFailed
+                      ? "Bitte geben Sie die Anzahl an SWS ein:"
+                      : success === true
+                      ? "SWS erfolgreich eingetragen!"
                       : ""
                   }
                 />
@@ -176,7 +246,7 @@ class CreateProjectType extends React.Component {
 
                     <IconButton
                       aria-label="delete"
-                      onClick={() => this.deleteType(t)}
+                      onClick={() => this.deleteProjectType(t)}
                     >
                       <DeleteIcon />
                     </IconButton>

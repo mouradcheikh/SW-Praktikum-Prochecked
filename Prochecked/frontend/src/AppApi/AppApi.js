@@ -4,6 +4,7 @@ import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
+import ProjectTypeBO from './ProjectTypeBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -62,6 +63,7 @@ export default class AppAPI {
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
     #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/projectd/${id}`;
+
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
@@ -69,6 +71,10 @@ export default class AppAPI {
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
     
+    //ProjectType related
+    #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
+    #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
+    #deleteProjectTypeURL = () => `${this.#AppServerBaseURL}/projectType/${id}`
       /** 
    * Get the Singelton instance 
    * 
@@ -800,6 +806,58 @@ getStudentByMatrikelNummer(matr_nr) {
         })
       })
     }
+  
+    //ProjectType related
+      getProjectType() {
+        // console.log("vorFetch in getPersons")
+              return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
+                let ProjectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                  
+                  resolve(ProjectTypeBOs);
+                })
+              })
+            }
+
+      createProjectType(aname, sws, ects) {
+
+              let t = new ProjectTypeBOs();
+              p.setName(aname)
+              p.setSWS(sws)
+              p.setECTS(ects)
+              // console.log(p)
+      
+              return this.#fetchAdvanced(this.#addProjectTypeURL(), {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json, text/plain',
+                  'Content-type': 'application/json',
+                },
+                body: JSON.stringify(p)
+                }).then((responseJSON) => {
+                // We always get an array of PersonBOs.fromJSON, but only need one object
+                  let responseProjectTypeBO = ProjectTypeBOs.fromJSON(responseJSON)[0];
+                // console.info(participationBOs);
+                  return new Promise(function (resolve) {
+                  resolve(responseProjectTypeBO);
+                })
+              })
+            }
+      deleteProjectType(id) {
+              return this.#fetchAdvanced(this.#deleteProjectTypeURL(id), {
+                method: 'DELETE'
+              })
+                .then((responseJSON) => {
+                  // We always get an array of ParticipationBO.fromJSON, but only need one object
+                  let ProjectTypesBOs = ProjectTypeBO.fromJSON(responseJSON)[0];
+                  // console.info(participationBOs);
+                  return new Promise(function (resolve) {
+                    resolve(ProjectTypeBOs);
+                  })
+                })
+            }
+
+    }
 
 
 
@@ -823,7 +881,6 @@ getStudentByMatrikelNummer(matr_nr) {
 
 
 
-}
 
 
 

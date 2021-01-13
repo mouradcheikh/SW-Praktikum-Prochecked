@@ -15,6 +15,7 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
+from server.db.ProjectType import ProjectType
 
 from .db.RoleMapper import RoleMapper
 from .db.GradingMapper import GradingMapper
@@ -520,11 +521,38 @@ class ProjectAdministration (object):
         pass
 
 
+#ProjectType Related
+   def create_projecttype(self, name, number_ects, number_sws):
+        projecttype = ProjectType()
+        projecttype.set_name(name)
+        projecttype.set_number_ects(number_ects)
+        projecttype.set_number_sws(number_sws)
+        projecttype.set_id(1)
+        
+        adm = ProjectAdministration()
+        person_exists = adm.get_projecttype_by_id(id)
+
+        if person_exists is not None:
+            adm.save_person(person)
+        else:
+            with ProjectTypeMapper() as mapper:
+                return mapper.insert(projecttype)
 
 
+    def get_projecttype_by_id(self, id):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_by_id(id)
 
-
-
+    def save_projecttype_by_id(self, person):
+            """Die gegebene Person speichern."""
+            """Methode mir Rollentabelle"""
+            with ProjectTypeMapper() as mapper:
+                mapper.update_by_id(projecttype)
+    
+    def delete_projecttype(self, participation):
+        """Eine Participation löschen"""
+        with ProjectTypeMapper() as mapper:
+            mapper.delete(ProjectType)
 
 
 
