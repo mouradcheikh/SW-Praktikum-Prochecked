@@ -67,7 +67,9 @@ export default class AppAPI {
     #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
+    #deleteGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
+   
     
     
 
@@ -633,16 +635,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  getSemesters(){
-    return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
-      // We always get an array of SemBOs.fromJSON, but only need one object
-      let responseSemBOs = SemesterBO.fromJSON(responseJSON);
-      console.info(responseSemBOs);
-      return new Promise(function (resolve) {
-        resolve(responseSemBOs);
-      })
-    })
-  }
 
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
@@ -696,6 +688,27 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+     /**
+   * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
+   * 
+   * @param semester to be deleted
+   * @public
+   */
+  deleteGrading(id) {
+    return this.#fetchAdvanced(this.#deleteGradingURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let gradingBOs =GradingBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(gradingBOs);
+        })
+      })
+  }
+
+
   getGradingByProjectandMatr(project_id, matr_nr){
     return this.#fetchAdvanced(this.#getGradingbyProjectAndMatrURL(project_id, matr_nr))
     .then((responseJSON) => {
@@ -708,7 +721,20 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+
   //Semester Related 
+
+  getSemesters(){
+    return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
+      // We always get an array of SemBOs.fromJSON, but only need one object
+      let responseSemBOs = SemesterBO.fromJSON(responseJSON);
+      console.info(responseSemBOs);
+      return new Promise(function (resolve) {
+        resolve(responseSemBOs);
+      })
+    })
+  }
+
   createSemester(semester) {
 
     let s = new SemesterBO();

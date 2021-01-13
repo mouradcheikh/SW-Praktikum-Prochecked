@@ -177,6 +177,31 @@ getGrading = () => {
   }
 }
 
+
+
+  /** Deletes this participation */
+  deleteGrading = () => {
+    var api = AppApi.getAPI()
+    api.deleteGrading(this.state.grade.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+      // console.log(participation);
+      // this.props.onParticipationDeleted(participation); //Elternkomponentenaufruf
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
+
 setStudent = (student) => {
   this.setState({
     student: student
@@ -356,17 +381,22 @@ setStudent = (student) => {
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
-            {project.project_state ===4?
+            {/* {project.project_state ===4? */}
             <Typography variant='body2' color={'textSecondary'}>
-            Bewertet: {grade.grade + " - " + this.passed()}
+              {grade.grade != null?  
+              <div>Bewertet: {grade.grade + " - " + this.passed()}
+              
+           
+
             <IconButton aria-label="delete" onClick={() => this.deleteGrading()}
- >
-              <DeleteIcon />
+ >             <DeleteIcon />
             </IconButton>
+            </div>
+            :'unbewertet'}
 
             </Typography>
-            :<div></div>
-            }
+           
+
             </div>
 
           <ListItemSecondaryAction>          
