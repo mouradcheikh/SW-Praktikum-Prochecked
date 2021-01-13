@@ -62,11 +62,11 @@ class CreateSemester extends React.Component {
 
 
   /** Updates the semester */
-  updateSemester = (s) => {
-    console.log(s)
+  updateSemester = () => {
+    // console.log(s)
     // s.preventDefault();
     // clone the original participation, in case the backend call fails
-    let updatedSemester = Object.assign(new SemesterBO(), s);
+    let updatedSemester = Object.assign(new SemesterBO(), this.state.updateS);
     updatedSemester.setName(this.state.semester)
     console.log(updatedSemester)
     
@@ -230,10 +230,6 @@ class CreateSemester extends React.Component {
                 <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
-
-
-
-
 
 
                 {/* <Button color='primary' onClick={this.handleStateTextField.bind(this)}>
