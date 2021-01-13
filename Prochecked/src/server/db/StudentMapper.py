@@ -185,9 +185,10 @@ class StudentMapper(Mapper):
 
         :param student das Objekt, das in die DB geschrieben werden soll
         """
+        print("StudentMapper:", student.get_matr_nr(), student.get_studiengang(), student.get_person())
         cursor = self._cnx.cursor()
 
-        command = "UPDATE student SET matr_nr=%s, studiengang=%s, student_id=%s WHERE id=%s"
+        command = "UPDATE student SET matr_nr=%s, studiengang=%s, person_id=%s WHERE id=%s"
         data = (student.get_matr_nr(),
                 student.get_studiengang(), 
                 student.get_person())
