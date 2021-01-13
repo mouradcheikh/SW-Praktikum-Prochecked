@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
 import SemesterBO from '../../../AppApi/SemesterBO';
-
+import AddIcon from '@material-ui/icons/Add';
 
 
 class CreateSemester extends React.Component {
@@ -191,6 +191,7 @@ class CreateSemester extends React.Component {
                   variant='contained' 
                   color='primary' 
                   size='small'
+                  startIcon = {< AddIcon/>}
                 >
                 Eintragen
                 </Button>
