@@ -35,7 +35,6 @@ export default class AppAPI {
     #updateSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
     #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
-     
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
@@ -55,12 +54,14 @@ export default class AppAPI {
     #getProjectsByDozentReviewedURL = (person_id) => `${this.#AppServerBaseURL}/dozente/${person_id}/projecte`;
     #getProjectsByDozentURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
     #getProjectsByStudentURL = (person_id) => `${this.#AppServerBaseURL}/students/${person_id}/projects`;
+
     // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
     #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
     #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/project/${id}`;
+
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
