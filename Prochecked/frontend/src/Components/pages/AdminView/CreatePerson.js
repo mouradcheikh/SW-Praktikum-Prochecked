@@ -263,11 +263,10 @@ class CreatePerson extends Component {
             </div>
             </Paper>
             </Grid>
-
             <Grid item xs={6}>
-          <Paper className={classes.paper}>
-            <div>
             <h1>Angelegte Personen</h1>
+          <Paper className={classes.paper} style={{maxHeight: 200, overflow: 'auto'}}>
+            <div>
             {persons.map(p => 
                <ListItem>
                 {p.name +'     '+
