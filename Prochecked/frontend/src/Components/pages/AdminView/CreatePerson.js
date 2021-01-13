@@ -23,7 +23,7 @@ class CreatePerson extends Component {
             email:'',
             role: '',
             person: '',
-            persons: [],
+            persons: [], //für get Persons, um alle Personen aus der Datenbank zu holen 
             student: '',
             matrNr: '',
             studiengang: '',
@@ -309,3 +309,4 @@ const styles = theme => ({
   });
 
 export default withStyles(styles)(CreatePerson);
+

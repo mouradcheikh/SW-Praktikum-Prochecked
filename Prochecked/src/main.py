@@ -338,6 +338,17 @@ class ProjectOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Project-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.get_project_by_id(id)
+        adm.delete_project(pro)
+        return '', 200
     
     # @prochecked.marshal_list_with(project)
     # @secured
