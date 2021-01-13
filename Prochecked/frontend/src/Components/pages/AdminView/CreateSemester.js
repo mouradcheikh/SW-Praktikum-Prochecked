@@ -3,8 +3,10 @@ import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, 
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
-
+import SemesterBO from '../../../AppApi/SemesterBO';
+import AddIcon from '@material-ui/icons/Add';
 
 
 class CreateSemester extends React.Component {
@@ -16,6 +18,9 @@ class CreateSemester extends React.Component {
             semesters: [], // für SemesterList 
             semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
             success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
+            textField: false,
+            updateS: '',
+            editButton: false
         }
     }
 
@@ -55,7 +60,25 @@ class CreateSemester extends React.Component {
     });
   }
 
-  
+
+  /** Updates the semester */
+  updateSemester = () => {
+    // console.log(s)
+    // s.preventDefault();
+    // clone the original participation, in case the backend call fails
+    let updatedSemester = Object.assign(new SemesterBO(), this.state.updateS);
+    updatedSemester.setName(this.state.semester)
+    console.log(updatedSemester)
+    
+    AppApi.getAPI().updateSemster(updatedSemester).then(semester => {
+      this.setState({
+        semester: semester,
+        success: true
+      });
+              
+    });
+  }
+
     SemesterList(){
       var api = AppApi.getAPI()
       api.getSemesters().then((semesters) =>
@@ -98,13 +121,40 @@ class CreateSemester extends React.Component {
       
     handleSubmit = (event) => {
       event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-      if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+      if (this.state.editButton === false){
+        if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
         this.createSemester(this.state.semester)
         this.setState({
           success : true,
         })
+        }
+      }
+      else {
+        if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+          this.updateSemester(this.state.semester)
+          this.setState({
+            success : true,
+          })
+        }
       }
     }
+
+    // handleSubmitTextfield = (event, s) => {
+    //   console.log(s)
+    //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+    //   if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+    //     this.updateSemester(s)
+    //     this.setState({
+    //       success : true,
+    //     })
+    //   }
+    // }
+
+    // handleStateTextField(){
+    //   this.setState({
+    //     textField: true
+    //   })
+    // }
       
   componentDidMount() {
     this.SemesterList();
@@ -112,7 +162,7 @@ class CreateSemester extends React.Component {
          
   render() { 
         const { classes  } = this.props;
-        const { semester, semesters, semesterValidationFailed, success} = this.state; 
+        const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField} = this.state; 
   return( 
     <div>
       <Grid container spacing={3}>
@@ -127,23 +177,41 @@ class CreateSemester extends React.Component {
                   fullWidth 
                   margin='normal' 
                   id='semester' 
-                  label='semester:' 
+                  label='Semester:' 
                   // value={semester} 
                   onChange={this.textFieldValueChange} 
                   error={semesterValidationFailed} 
                   // onInput={e=>this.setState({semester: (e.target.value)})}
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
+                <Grid>
                 <Button 
                   type = "submit" 
                   className={classes.buttonMargin} 
-                  variant='outlined' 
+                  variant='contained' 
                   color='primary' 
                   size='small'
+                  startIcon = {< AddIcon/>}
                 >
                 Eintragen
                 </Button>
+                </Grid>
+                <Grid>
+                { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                </Grid>
+                    
               </form>
+
             </Paper>
             </Grid>
             <Grid item xs={6}>
@@ -151,12 +219,52 @@ class CreateSemester extends React.Component {
             <Paper className={classes.paper}>
             <div>
 
-               {semesters.map(s => <ListItem>
+               {semesters.map(s => 
+               
+               <ListItem>
                 {s.name}
 
-              <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
-              <DeleteIcon />
-              </IconButton>
+                <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+                 <DeleteIcon />
+                </IconButton>
+
+                <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                   edit
+                </Button>
+
+
+                {/* <Button color='primary' onClick={this.handleStateTextField.bind(this)}>
+                   edit
+                </Button>
+                {textField? 
+                  <form onSubmit = {(event, s) => this.handleSubmitTextfield(event, s)}> 
+                      <TextField 
+                        className={classes.formControl}
+                        autoFocus type='text' 
+                        required 
+                        fullWidth 
+                        margin='normal' 
+                        id='semester' 
+                        label='semester:' 
+                        // value={semester} 
+                        onChange={this.textFieldValueChange} 
+                        error={semesterValidationFailed} 
+                        // onInput={e=>this.setState({semester: (e.target.value)})}
+                        helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
+                      />
+                      <Button 
+                        type = "submit" 
+                        className={classes.buttonMargin} 
+                        variant='outlined' 
+                        color='primary' 
+                        size='small'
+                      >
+                       Semester ändern
+                      </Button>
+                  </form>
+                :<div></div>} */}
+
+
               </ListItem >)}
 
             </div>

@@ -92,7 +92,6 @@ class StudentMapper(Mapper):
 
         return result
 
-
     def find_by_matr_nr(self, matr_nr):
         """Suchen eines Studentens mit vorgegebener matr_nr. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
@@ -167,6 +166,35 @@ class StudentMapper(Mapper):
         cursor.close()
 
         return student
+        
+    def delete(self, student):
+        """Löschen der Daten eines Person-Objekts aus der Datenbank.
+
+        :param user das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM student WHERE id={}".format(student.get_google_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update(self, student):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param student das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE student SET matr_nr=%s, studiengang=%s, student_id=%s WHERE id=%s"
+        data = (student.get_matr_nr(),
+                student.get_studiengang(), 
+                student.get_person())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
 
 
 

@@ -8,6 +8,8 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import List from '@material-ui/core/List';
@@ -65,6 +67,29 @@ class ProjectListEntryNew extends Component {
     this.setState({
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
+    });
+  }
+
+  /** Delete accepted Project */
+  deleteProject = (project) => {
+    var api = AppApi.getAPI()
+    api.deleteProject(project.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      }, () => this.updateParentComponent());
+      // console.log(participation);
+      this.props.onProjectDeleted(project);
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
     });
   }
 
@@ -159,6 +184,11 @@ class ProjectListEntryNew extends Component {
                 className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
                 Rückgängig
                 </Button>
+                 
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+             Löschen
+            </Button>        
+              
               </Typography>
               <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
               </Typography>
@@ -194,6 +224,9 @@ class ProjectListEntryNew extends Component {
               className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(1)}>
               Rückgängig
               </Button>
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+             Löschen
+            </Button> 
             </Typography>
             <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
             </Typography>
