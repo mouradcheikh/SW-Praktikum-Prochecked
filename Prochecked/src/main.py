@@ -339,6 +339,13 @@ class ProjectOperations(Resource):
         else:
             return '', 500
 
+
+
+@prochecked.route('/projectd/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ProjectDeleteOperations(Resource):
+
     @secured
     def delete(self, id):
         """Löschen eines bestimmten Project-Objekts.

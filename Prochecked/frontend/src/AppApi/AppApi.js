@@ -61,7 +61,7 @@ export default class AppAPI {
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
-    #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/project/${id}`;
+    #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/projectd/${id}`;
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
