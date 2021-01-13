@@ -79,7 +79,6 @@ CREATE TABLE `participation` (
   `id` int NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `grading_id` int DEFAULT '0',
-  `module_id` int DEFAULT '0',
   `project_id` int DEFAULT '0',
   `student_id` int DEFAULT '0',
   PRIMARY KEY (`id`)

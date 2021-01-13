@@ -9,6 +9,8 @@ import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
 import ModuleForm from'../../dialogs/DropdownModule'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import List from '@material-ui/core/List';
@@ -91,6 +93,30 @@ class ProjectListEntryNew extends Component {
     }, () => console.log(this.state.project))
     
   }
+  /** Delete accepted Project */
+  deleteProject = () => {
+    const { project } = this.props;
+    var api = AppApi.getAPI()
+    api.deleteProject(project.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+      // console.log(participation);
+      this.props.onProjectDeleted(project);
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    });
+  }
+
 
   updateParentComponent = (() => {
     this.props.getProjectsByStateNew()
@@ -199,6 +225,11 @@ ProjectFormClosed = (project) => {
                 className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 1)}>
                 Rückgängig
                 </Button>
+                 
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.updateProject(0)}>
+             Löschen
+            </Button>        
+              
               </Typography>
               <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
               </Typography>
@@ -234,6 +265,9 @@ ProjectFormClosed = (project) => {
               className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.updateProject(0)}>
+             Löschen
+            </Button> 
             </Typography>
             <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
             </Typography>

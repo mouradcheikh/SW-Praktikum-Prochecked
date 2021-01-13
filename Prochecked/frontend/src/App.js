@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
 import firebase from 'firebase/app';
@@ -23,6 +22,7 @@ import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
+import CreatePerson from './Components/pages/AdminView/CreatePerson';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
 import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
 import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
@@ -30,6 +30,7 @@ import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
 import GradeList from './Components/pages/DozentView/GradeList'
+import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 import { StudentBO } from './AppApi';
 
 
@@ -154,7 +155,7 @@ class App extends React.Component {
         this.setState({
             student: student
         })
-        console.log(this.state.student)
+        // console.log(this.state.student)
     })
     }
 
@@ -266,11 +267,14 @@ class App extends React.Component {
 					<Container maxWidth='md'>
 						<Header/>
                         <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
                         <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/CreatePerson' component = {CreatePerson}/>
                         <Route exact path = '/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>

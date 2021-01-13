@@ -201,6 +201,15 @@ class ProjectList extends Component {
   }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
+    let adminProf = this.props.location.state.adminProf
+    let person = this.props.location.state.linkState  
+    if (person === undefined){
+      this.getProjectsByDozentNew(adminProf.id);
+      this.getProjectsByDozentAccepted(adminProf.id);
+      this.getProjectsByDozentInReview(adminProf.id);
+      this.getProjectsByDozentReviewed(adminProf.id);
+    }
+    else{
     // console.log("gerendert")
     let person = this.props.location.state.linkState
     this.setState({
@@ -210,6 +219,7 @@ class ProjectList extends Component {
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
     this.getProjectsByDozentReviewed(person.id);
+    } 
   }
 
   /** Renders the component */

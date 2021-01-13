@@ -33,8 +33,8 @@ export default class AppAPI {
     //Semester releated
     #getSemURL = () => `${this.#AppServerBaseURL}/semesters`;
     #addSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
+    #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
-
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
@@ -46,7 +46,8 @@ export default class AppAPI {
     #addParticipationsForProjectURL = (project_id) => `${this.#AppServerBaseURL}/projects/${project_id}/participations`;
     #deleteParticipationURL = (id) => `${this.#AppServerBaseURL}/participation/${id}`;
     #updateParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
-
+    #addParticipationURL = () => `${this.#AppServerBaseURL}/participation`;
+    
     // Project related
     #getProjectsByDozentAcceptedURL = (person_id) => `${this.#AppServerBaseURL}/dozents/${person_id}/projects`;
     #getProjectsByDozentInReviewURL = (person_id) => `${this.#AppServerBaseURL}/dozent/${person_id}/project`;
@@ -58,9 +59,10 @@ export default class AppAPI {
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
-  
+    #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/project/${id}`;
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
+    #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #getGradingByParticipationURL = (participation_id) => `${this.#AppServerBaseURL}/participation/${participation_id}/grading`;
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
@@ -145,12 +147,13 @@ getPersonByGoogleId(google_id) {
         })
       }
 
-createPerson(name, email, google_id) {
+createPerson(name, email, google_id, berechtigung) {
 
         let p = new PersonBO();
         p.setName(name)
         p.setEmail(email)
         p.setGoogleId(google_id)
+        p.setBerechtigung(berechtigung)
         // console.log(p)
 
         return this.#fetchAdvanced(this.#addPersonURL(), {
@@ -229,6 +232,30 @@ getStudentByMatrikelNummer(matr_nr) {
 
 //Participation related
 
+/**
+   * Returns a Promise, which resolves to an ParticipationBOs
+   * 
+   */
+  createParticipation(participation){
+    return this.#fetchAdvanced(this.#addParticipationURL(), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(participation)
+      }).then((responseJSON) => {console.log(responseJSON)
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+        let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
+      // console.info(accountBOs);
+        return new Promise(function (resolve) {
+        resolve(responseParticipationBO);
+      })
+    })
+  }
+  
+  
+
  /**
    * Returns a Promise, which resolves to an Array of ParticipationBOs
    * 
@@ -238,7 +265,7 @@ getStudentByMatrikelNummer(matr_nr) {
   getParticipationsByProject(project_id){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
-        //console.log(responseJSON)
+        console.log(responseJSON)
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.log(participationBOs);
         return new Promise(function (resolve) {
@@ -342,7 +369,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -363,7 +390,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -384,7 +411,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -405,7 +432,7 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -415,13 +442,13 @@ getStudentByMatrikelNummer(matr_nr) {
   
 
   getProjectsByState(project_state) {
-    console.log(project_state)
+    // console.log(project_state)
     return this.#fetchAdvanced(this.#getProjectsByStateURL(project_state))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
@@ -439,7 +466,7 @@ getStudentByMatrikelNummer(matr_nr) {
       },
       body: JSON.stringify(projectBo)
       }).then((responseJSON) => { 
-        console.log(responseJSON)
+        // console.log(responseJSON)
       // We always get an array of ProjectBO.fromJSON, but only need one object 
         let responseProjectBo = ProjectBO.fromJSON(responseJSON)[0];
       // console.info(participationBOs);
@@ -447,6 +474,20 @@ getStudentByMatrikelNummer(matr_nr) {
         resolve(responseProjectBo);
       })
     })
+  }
+
+  deleteProject(id) {
+    return this.#fetchAdvanced(this.#deleteProjectURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ProjectBO.fromJSON, but only need one object
+        let projectBOs = ProjectBO.fromJSON(responseJSON)[0];
+        // console.info(projectBOs);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+        })
+      })
   }
 
   //Student Relation
@@ -495,7 +536,7 @@ getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getStudentByPersonIdURL(person_id)).then((responseJSON) => { //URL LEER LASSEN????
       // We always get an array of StudentBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
-      console.info(responseStudentBO);
+      // console.info(responseStudentBO);
       return new Promise(function (resolve) {
         resolve(responseStudentBO);
       })
@@ -506,7 +547,7 @@ getStudentByMatrikelNummer(matr_nr) {
     return this.#fetchAdvanced(this.#getProfsURL(role_id)).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseDozentBOs = PersonBO.fromJSON(responseJSON);
-      console.info(responseDozentBOs);
+      // console.info(responseDozentBOs);
       return new Promise(function (resolve) {
         resolve(responseDozentBOs);
       })
@@ -578,7 +619,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-  
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
    * 
@@ -586,11 +626,11 @@ getStudentByMatrikelNummer(matr_nr) {
    * @public
    */
   getGradingByParticipation(participation_id) {
-    console.log(participation_id)
+    // console.log(participation_id)
     // console.log("vor fetch in appapi")
     return this.#fetchAdvanced(this.#getGradingByParticipationURL(participation_id))
       .then((responseJSON) => { 
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let GradingBOs = GradingBO.fromJSON(responseJSON);
         // console.log(projectBOs);
@@ -613,12 +653,30 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  updateGrading(gradingBO){
+  // console.log(gradingBO)
+    return this.#fetchAdvanced(this.#updateGradingURL(), { 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(gradingBO)
+      }).then((responseJSON) => {
+      // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+        let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
   //Semester Related 
   createSemester(semester) {
 
     let s = new SemesterBO();
     s.setName(semester)
-    // console.log(s)
+    // console.log("semester:", s)
 
     return this.#fetchAdvanced(this.#addSemesterURL(), {
       method: 'POST',
@@ -636,6 +694,27 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
+
+    /**
+   * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
+   * 
+   * @param semester to be deleted
+   * @public
+   */
+  deleteSemester(id) {
+    return this.#fetchAdvanced(this.#deleteSemesterURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ParticipationBO.fromJSON, but only need one object
+        let semesterBOs = SemesterBO.fromJSON(responseJSON)[0];
+        // console.info(participationBOs);
+        return new Promise(function (resolve) {
+          resolve(semesterBOs);
+        })
+      })
+  }
+
 
 
 
@@ -656,10 +735,10 @@ getStudentByMatrikelNummer(matr_nr) {
   getProjectsByStudent(matr_nr){
     return this.#fetchAdvanced(this.#getProjectsByStudentURL(matr_nr))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        // console.log(responseJSON)
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
-        console.log(projectBOs);
+        // console.log(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
