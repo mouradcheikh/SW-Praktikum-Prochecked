@@ -322,7 +322,7 @@ class ProjectAdministration (object):
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_id(id) 
+            return mapper.find_by_id(id)
 
   
 
@@ -333,7 +333,8 @@ class ProjectAdministration (object):
         pass
 
     def delete_project(self, project):
-        pass
+        with ProjectMapper() as mapper:
+            mapper.delete(project)
 
     def create_project(self, project):
         with ProjectMapper() as mapper:

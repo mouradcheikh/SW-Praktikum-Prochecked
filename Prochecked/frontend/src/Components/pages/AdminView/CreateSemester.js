@@ -164,7 +164,7 @@ class CreateSemester extends React.Component {
                   fullWidth 
                   margin='normal' 
                   id='semester' 
-                  label='semester:' 
+                  label='Semester:' 
                   // value={semester} 
                   onChange={this.textFieldValueChange} 
                   error={semesterValidationFailed} 
@@ -232,7 +232,7 @@ class CreateSemester extends React.Component {
 
               </ListItem >)}
 
-</div>
+            </div>
             </Paper>
          </Grid>
       </Grid>

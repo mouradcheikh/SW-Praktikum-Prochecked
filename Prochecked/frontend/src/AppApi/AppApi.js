@@ -60,7 +60,7 @@ export default class AppAPI {
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
-  
+    #deleteProjectURL = (id) => `${this.#AppServerBaseURL}/project/${id}`;
     //Grading related 
     #addGradingStudentURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
     #updateGradingURL = () => `${this.#AppServerBaseURL}/studentsGrading`;
@@ -505,6 +505,20 @@ getStudentByMatrikelNummer(matr_nr) {
         // console.log("gefetched")
         let projectBOs = ProjectBO.fromJSON(responseJSON);
         // console.log(projectBOs);
+      })
+  }
+
+
+
+
+  deleteProject(id) {
+    return this.#fetchAdvanced(this.#deleteProjectURL(id), {
+      method: 'DELETE'
+    })
+      .then((responseJSON) => {
+        // We always get an array of ProjectBO.fromJSON, but only need one object
+        let projectBOs = ProjectBO.fromJSON(responseJSON)[0];
+        // console.info(projectBOs);
         return new Promise(function (resolve) {
           resolve(projectBOs);
         })
