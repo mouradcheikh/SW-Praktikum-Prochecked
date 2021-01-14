@@ -148,6 +148,13 @@ class CreatePerson extends Component {
       let updatedStudent = Object.assign(new StudentBO(), this.state.updateS);
       updatedStudent.setMatrNr(this.state.matrNr)
       updatedStudent.setStudiengang(this.state.studiengang)
+      updatedStudent.setName(null)
+      updatedStudent.setBerechtigung(null)
+      updatedStudent.setEmail(null)
+      updatedStudent.setGoogleId(null)
+      updatedStudent.setStudent(null)
+      updatedStudent.setLastUpdated(null)
+      updatedStudent.setCreationDate(null)
       console.log(updatedStudent)
       
       AppApi.getAPI().updateStudentAdmin(updatedStudent).then(student => {
