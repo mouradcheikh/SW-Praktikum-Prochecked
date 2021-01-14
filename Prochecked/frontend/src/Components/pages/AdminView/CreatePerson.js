@@ -137,25 +137,12 @@ class CreatePerson extends Component {
     }
 
     /** Updates the student */
-    updateStudent = () => { //FEHLER IM BACKEND, mysql.connector.errors.ProgrammingError: Not enough parameters for the SQL statement??? siehe print in der main
+    updateStudent = () => { 
       // clone the original StudentBO, in case the backend call fails
-      console.log("updateS:", this.state.updateS)
-      // let updatedStudent = new StudentBO()
-      // updatedStudent.setMatrNr(this.state.matrNr)
-      // updatedStudent.setStudiengang(this.state.studiengang)
-      // updatedStudent.setPerson(this.state.updateP.getID())
-      // updatedStudent.setName(this.state.updateP.getName())
+         
       let updatedStudent = Object.assign(new StudentBO(), this.state.updateS);
       updatedStudent.setMatrNr(this.state.matrNr)
-      updatedStudent.setStudiengang(this.state.studiengang)
-      updatedStudent.setName(null)
-      updatedStudent.setBerechtigung(null)
-      updatedStudent.setEmail(null)
-      updatedStudent.setGoogleId(null)
-      updatedStudent.setStudent(null)
-      updatedStudent.setLastUpdated(null)
-      updatedStudent.setCreationDate(null)
-      console.log(updatedStudent)
+      updatedStudent.setStudiengang(this.state.studiengang)     
       
       AppApi.getAPI().updateStudentAdmin(updatedStudent).then(student => {
         this.setState({
