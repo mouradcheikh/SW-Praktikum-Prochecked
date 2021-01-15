@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -6,9 +7,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import  {AppApi, PersonBO}  from '../../../AppApi';
 import StudentBO from '../../../AppApi/StudentBO';
-import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
+import {TextField, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 
 
 class CreatePerson extends Component {
@@ -25,6 +27,8 @@ class CreatePerson extends Component {
             student: '',
             matrNr: '',
             studiengang: '',
+            updateP:'',
+            editButton: false,
             validationSuccedPerson: true, 
             validationSuccedStudent: true, 
     };
@@ -48,7 +52,7 @@ class CreatePerson extends Component {
 
         /** Create Student */
      createStudent(matrNr, studiengang, person){
-       
+
        var student = new StudentBO
        student.setMatrNr(matrNr)
        student.setStudiengang(studiengang)
@@ -67,20 +71,20 @@ class CreatePerson extends Component {
           console.log(this.state.student)
         }
 
-      PersonList(){
-        var api = AppApi.getAPI()
-        api.getPersons().then((persons) =>
+    PersonList(){
+      var api = AppApi.getAPI()
+      api.getPersons().then((persons) =>
         {
             this.setState({
               persons:persons
-             })}
-             )
-           }
-      
-  /** Delete Persons */
+              })}
+              )
+            }
+
+   /** Delete Persons */
    deletePersons = (p) => { console.log(p.getID()) 
     var api = AppApi.getAPI()
-    api.deletePersons(p.getID()).then(() => {
+    api.deletePerson(p.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null,
@@ -97,9 +101,41 @@ class CreatePerson extends Component {
       deletingError: null
     });
   }
+
+    /** Updates the person */
+    updatePerson = () => {
+      // clone the original PersonBO, in case the backend call fails
+      let updatedPerson = Object.assign(new PersonBO(), this.state.updateP);
+      updatedPerson.setName(this.state.name)
+      updatedPerson.setGoogleId(this.state.googleid)
+      updatedPerson.setEmail(this.state.email)
+      updatedPerson.setBerechtigung(this.state.role)
+      console.log(updatedPerson)
       
-    
-    
+      AppApi.getAPI().updatePersonAdmin(updatedPerson).then(person => {
+        this.setState({
+          person: person,
+          success: true
+        });      
+      });
+    }
+
+    /** Updates the student */
+    updateStudent = () => {
+      // clone the original StudentBO, in case the backend call fails
+      let updatedStudent = Object.assign(new StudentBO(), this.state.updateP);
+      updatedStudent.setMatrNr(this.state.matrNr)
+      updatedStudent.setStudiengang(this.state.studiengang)
+      console.log(updatedStudent)
+      
+      AppApi.getAPI().updateStudentAdmin(updatedStudent).then(student => {
+        this.setState({
+          student: student,
+          success: true
+        });      
+      });
+    }
+      
     handleChange(e) { 
     this.setState({ [e.target.name]: e.target.value });
     // console.log({ [e.target.name]: e.target.value })
@@ -107,7 +143,7 @@ class CreatePerson extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-        
+        if (this.state.editButton === false){
         this.createPerson(
             this.state.name, 
             this.state.email, 
@@ -115,17 +151,14 @@ class CreatePerson extends Component {
             this.state.role,
             this.state.validationSuccedPerson = false,
           )
-          // if (this.state.role===1){
-          // // this.createStudent(this.state.matrNr, this.state.studiengang, this.state.person.id)
-          // this.setState({
-            
-          // })
-        // }
-        }
-
+        }else {
+          this.updatePerson()
+         
+          
+        }}
+        
     handleSubmitStudent = (event) => { console.log("handleSubmitStudent")
       event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-      
       this.createStudent(
           this.state.matrNr, 
           this.state.studiengang, 
@@ -134,22 +167,21 @@ class CreatePerson extends Component {
         )}
 
     componentDidMount() {
-      this.PersonList();
-        }
+      this.PersonList();}
       
-   
     render() {
         const { classes } = this.props;
-        const { person, persons, student, validationSuccedPerson, validationSuccedStudent} = this.state; 
+        const { person, persons, student, editButton, validationSuccedPerson, validationSuccedStudent} = this.state; 
         console.log(this.state)
-
+      
         return (
-        
-        <div>
-            <div>
+      <div className={classes.roott}>
+      <Grid container spacing={3}>
+          <Grid item xs={12}>
+          <Paper className={classes.paper}>
+          <div>
                 <h1>Eine neue Person erstellen</h1>
             </div>
-            
             <div>
                 <form className={classes.root}  onSubmit= {this.handleSubmit}>
                     <TextField id="outlined-basic" label="Name" variant="outlined" name='name' required  onChange={this.handleChange}
@@ -169,8 +201,7 @@ class CreatePerson extends Component {
                     <MenuItem value={3}>Admin</MenuItem>
                          </Select>
                      </FormControl>
-                
-             <Button
+               <Button
                 type = "submit"
                 variant="contained"
                 color="default"
@@ -178,11 +209,26 @@ class CreatePerson extends Component {
                 className={classes.button}
                 startIcon={<SaveIcon />}>                
                     Person anlegen
-            </Button>
-            </form>
+              </Button>
+            { editButton? 
+              <Button 
+                type = "submit"
+                variant="contained"
+                color="default"
+                size="large"
+                className={classes.button}
+                startIcon={<SaveIcon />}>                
+                    Person Updaten
+              </Button>
+              :<div></div> }
+                    </form>
             </div>
+            </Paper>
+            </Grid>
+
+            <Grid item xs={6}>
+          <Paper className={classes.paper}>
             <div>
-            
             {person.berechtigung ===1?
             <form className={classes.root}  onSubmit= {this.handleSubmitStudent}>
                 <div>
@@ -200,31 +246,44 @@ class CreatePerson extends Component {
             startIcon={<SaveIcon />}>                
                 Student anlegen
               </Button>
+              { editButton? 
+              <Button
+            type = "submit"
+            variant="contained"
+            color="default"
+            size="large"
+            className={classes.button}
+            startIcon={<SaveIcon />}>                
+                Student Updaten
+              </Button>
+              :<div></div>}
               </form>
               : <div></div>
               }
             </div>
-        <div >
-            <List>
+            </Paper>
+            </Grid>
+
+            <Grid item xs={6}>
+          <Paper className={classes.paper}>
             <div>
-
-          {persons.map(p => <ListItem>
-          {p.name}
-
-          <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
-          <DeleteIcon />
-          </IconButton>
-          </ListItem >)}
-
-          </div>
-              
-
-
-            </List>
-
-     </div>
+            <h1>Angelegte Personen</h1>
+            {persons.map(p => 
+               <ListItem>
+                {p.name +'     '+
+                'Rolle:'+ ' '+ p.berechtigung}
+                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                 <DeleteIcon />
+                </IconButton>
+                <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                   edit
+                </Button>
+                </ListItem>)}
+            </div>
+            </Paper>
+            </Grid>
+            </Grid>
         </div>
-        
         )
     }
 }
@@ -235,8 +294,16 @@ const styles = theme => ({
         margin: theme.spacing(1),
         width: '25ch',
       },
+      roott: {
+        flexGrow: 1,
+      },
       button: {
         margin: theme.spacing(1),
+      },
+      paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
       },
     }, 
   });

@@ -153,6 +153,25 @@ class PersonMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def update_by_id(self, person):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param person das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE person SET name=%s,google_id=%s, email=%s, role_id=%s, student_id=%s WHERE id=%s"
+        data = (person.get_name(),
+                person.get_google_id(),
+                person.get_email(),
+                person.get_berechtigung(),
+                person.get_student(), 
+                person.get_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
 
     def delete(self, person):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
@@ -162,6 +181,19 @@ class PersonMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "DELETE FROM person WHERE id={}".format(person.get_google_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
+    
+    def delete_by_id(self, person):
+        """Löschen der Daten eines Person-Objekts aus der Datenbank.
+
+        :param user das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM person WHERE id={}".format(person.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -202,7 +234,13 @@ if (__name__ == "__main__"):
 #     person.set_berechtigung("Student")'''
 
   with PersonMapper() as mapper:
-        result = mapper.find_by_id(1)
-        print(result)
-        # for p in result:
-        #     print(p)
+
+        person = Person()
+        person.set_id(3)
+        person.set_name("Marius")
+        person.set_google_id(1234567)
+        person.set_berechtigung(1)
+
+        mapper.update_by_id(person)
+
+
