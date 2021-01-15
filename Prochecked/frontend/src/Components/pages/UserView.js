@@ -50,7 +50,8 @@ render () {
                   <Link to={{
                   pathname: '/StudentLogin',
                   state: { person: this.props.person }
-                  }}>
+                  }} style={{ textDecoration: 'none' }}
+                  >
                   <Button
                       size="large"
                       variant="contained"
@@ -65,9 +66,9 @@ render () {
                   </div>
                   <div>
                   <Link to={{
-                  pathname: '/DozentView',
+                  pathname: '/DozentView' ,
                   state: { person: this.props.person }
-                  }}>
+                  }} style={{ textDecoration: 'none'}}>
                   <Button
                       size="large"
                       variant="contained"
@@ -83,10 +84,11 @@ render () {
                   </Link>
                   </div>
                   <div>
-                  <Link to='/AdminView'>
+                  <Link to='/AdminView' style={{ textDecoration: 'none' }}
+>
                   <Button
                       size="large"
-                      variant="outlined"
+                      variant="contained"
                       color="primary"
                       className={classes.button}
                       onClick = {this.handleAdminButtonClicked}
@@ -102,22 +104,28 @@ render () {
       </div>
     );
   }
-}
+} 
+
 
 const styles = (theme) => ({
   button: {
+
     margin: theme.spacing(2),
     width: 170,
     fontSize: 25,
     padding: "15x 0",
-    backgroundColor: red[900],
+    backgroundColor: blueGrey[600],
+    borderColor: blueGrey[500],
+
+    
+   
     // blueGrey[700],
   },
   paper:{
     height: '100vh',   
 
-    // backgroundColor: blueGrey[800],
-    backgroundColor: grey[900]
+    backgroundColor: blueGrey[900],
+    // backgroundColor: grey[800],
    
     
   }
