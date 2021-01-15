@@ -33,13 +33,13 @@ export default function MenuListComposition() {
         <Grid item xs={12}>
         <h3>Admin-Aktionen</h3>
           <Paper className={classes.paper}>
-          <Link to='/CreatePerson'>
+          <Link to='/CreatePerson' style={{ textDecoration: 'none' }}>
           <MenuItem>Personen anlegen</MenuItem>
           </Link >
-          <Link to='/CreateSemester'>
+          <Link to='/CreateSemester' style={{ textDecoration: 'none' }}>
           <MenuItem>Semester erstellen</MenuItem>
           </Link >
-          <Link to='/ProjectListNew'>
+          <Link to='/ProjectListNew' style={{ textDecoration: 'none' }}>
           <MenuItem>Projekte freigeben</MenuItem>
           </Link>
           </Paper>
@@ -47,7 +47,7 @@ export default function MenuListComposition() {
           <Grid item xs={12}>
           <h3>Dozent-Aktionen</h3>
           <Paper className={classes.paper}>
-          <Link to='/DropDown_Dozent' >
+          <Link to='/DropDown_Dozent' style={{ textDecoration: 'none' }}>
           <MenuItem>Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten </MenuItem>
           </Link>
           </Paper>
@@ -55,7 +55,7 @@ export default function MenuListComposition() {
           <Grid item xs={12}>
           <h3>Student-Aktionen</h3>
           <Paper className={classes.paper}>
-          <Link to='SelectStudent'>
+          <Link to='SelectStudent' style={{ textDecoration: 'none' }}>
           <MenuItem>Student für Projekte registieren/Semesterbericht einsehen</MenuItem>
           </Link>
           </Paper>
