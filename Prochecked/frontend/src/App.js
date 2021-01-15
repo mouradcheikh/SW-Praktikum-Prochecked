@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
-import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
+import { Container, ThemeProvider, CssBaseline, Paper } from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -31,6 +31,9 @@ import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
 import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 import { StudentBO } from './AppApi';
+
+import grey from '@material-ui/core/colors/grey'
+import blueGrey from '@material-ui/core/colors/blueGrey'
 
 
 // import firebaseconfig from './firebaseconfig';
@@ -264,38 +267,40 @@ class App extends React.Component {
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
-						<Header/>
-                        <Route exact path = '/StudentView' component = {StudentView}/>
-                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
-                        
-                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
-                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
-                        <Route exact path = '/DozentView' component = {DozentenView}/>
-                        <Route exact path = '/AdminView' component = {AdminView}/>
-                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
-                        <Route exact path = '/CreatePerson' component = {CreatePerson}/>
-                        <Route exact path = '/CreateSemester' component = {CreateSemester}/>
-                        <Route exact path = '/ProjectList' component = {ProjectList}/>
-                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
-                        <Route exact path = '/SelectStudent' component = {SelectStudent}/>
-                        <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
-                        <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
-						{
-							// Ist eine Person eingeloggt?
-                           person ?
-                                <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
+                        <Paper style={{backgroundColor: blueGrey[900]}}>
+                            <Header/>
+                            <Route exact path = '/StudentView' component = {StudentView}/>
+                            <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                            
+                            <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                            <Route exact path = '/StudentLogin' component = {StudentLogin}/>
+                            <Route exact path = '/DozentView' component = {DozentenView}/>
+                            <Route exact path = '/AdminView' component = {AdminView}/>
+                            <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                            <Route exact path = '/CreatePerson' component = {CreatePerson}/>
+                            <Route exact path = '/CreateSemester' component = {CreateSemester}/>
+                            <Route exact path = '/ProjectList' component = {ProjectList}/>
+                            <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                            <Route exact path = '/SelectStudent' component = {SelectStudent}/>
+                            <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
+                            <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
+                            {
+                                // Ist eine Person eingeloggt?
+                            person ?
+                                    <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
 
-                                
-								:
-								// sonst zeige die SignIn Seite 
-								<>
-									<Redirect to='/SignIn' />
-									<SignIn onSignIn={this.handleSignIn} />
-								</>
-						}
-						<LoadingProgress show={authLoading} />
-						<ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
-						<ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
+                                    
+                                    :
+                                    // sonst zeige die SignIn Seite 
+                                    <>
+                                        <Redirect to='/SignIn' />
+                                        <SignIn onSignIn={this.handleSignIn} />
+                                    </>
+                            }
+                            <LoadingProgress show={authLoading} />
+                            <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
+                            <ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
+                        </Paper>
 					</Container>
 				</Router>
 			</ThemeProvider>

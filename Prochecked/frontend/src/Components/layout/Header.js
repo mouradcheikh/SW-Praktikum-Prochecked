@@ -13,7 +13,7 @@ import ProfileDropDown from '../dialogs/ProfileDropDown.js';
 // import blueGrey from '@material-ui/core/colors/blueGrey'
 
 import grey from '@material-ui/core/colors/grey'
-
+import blueGrey from '@material-ui/core/colors/blueGrey'
 
 
 class Header extends React.Component {
@@ -36,7 +36,7 @@ class Header extends React.Component {
             
             <IconButton edge="start" className={classes.menuButton} aria-label="menu">
               {/* <Link to=''> */}
-                <HomeIcon fontSize="large" />
+                <HomeIcon fontSize="large" style={{color: blueGrey[400]}} />
               {/* </Link> */}
             </IconButton>
             
