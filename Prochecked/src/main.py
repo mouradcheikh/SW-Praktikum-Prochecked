@@ -876,11 +876,7 @@ class GradingOperations(Resource):
         p = adm.get_participation_by_id(g.get_participation())
         if p is not None:
             p.set_grading(0)
-            adm.save_participation(p)
-            return '', 200
-        else:
-            return '', 500  # Wenn unter id keine Participation existiert.'''
-        
+            adm.save_participation(p)       
         # print(g.get_name(), g.get_id())
         if g is not None:
             adm.delete_grading(g)
