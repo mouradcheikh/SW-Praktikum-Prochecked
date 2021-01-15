@@ -268,7 +268,8 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
                         <Paper style={{backgroundColor: blueGrey[900]}}>
-                            <Header/>
+                            <Header person = {person}/>
+                           
                             <Route exact path = '/StudentView' component = {StudentView}/>
                             <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
                             
@@ -297,6 +298,8 @@ class App extends React.Component {
                                         <SignIn onSignIn={this.handleSignIn} />
                                     </>
                             }
+
+                                               
                             <LoadingProgress show={authLoading} />
                             <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
                             <ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
