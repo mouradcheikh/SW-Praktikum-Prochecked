@@ -122,7 +122,7 @@ const styles = (theme) => ({
     // blueGrey[700],
   },
   paper:{
-    height: '100vh',   
+    height: '80vh',   
 
     backgroundColor: blueGrey[900],
     // backgroundColor: grey[800],

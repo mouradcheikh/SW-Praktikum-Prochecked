@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { Grid, Paper } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -25,6 +26,7 @@ class Header extends React.Component {
 
     const person = this.props;
     const classes = this.props
+    // console.log(this.props)
     return (
       <div className={classes.root}>
         <AppBar style={{backgroundColor: 
@@ -34,21 +36,46 @@ class Header extends React.Component {
         
           <Toolbar>
             
-            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-              {/* <Link to=''> */}
-                <HomeIcon fontSize="large" style={{color: blueGrey[400]}} />
-              {/* </Link> */}
-            </IconButton>
+            <Grid container item xs={12} spacing={1} 
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                  >
+
+              <Grid item xs={3} justify="flex-start" >
+
+                
+                  <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+                    {/* <Link to=''> */}
+                      <HomeIcon fontSize="large" style={{color: blueGrey[400]}} />
+                    {/* </Link> */}
+                  </IconButton>
+                            
+                
+
+              </Grid>
+              
+              <Grid  item xs={6} justify="center">
+                
+                  <Typography variant="h5" className={classes.title}>
+                    <div>ProChecked - Hochschule der Medien </div>
+                            
+                  </Typography>
+                
+              </Grid>
+
+              <Grid item xs={3} justify="flex-end">                 
+                
+                  <ProfileDropDown className = {classes.profil} person={person} />
+                
             
-            <Typography variant="h5" className={classes.title}>
-              <div>ProChecked - Hochschule der Medien</div>
-                       
-            </Typography>
-            
-            <Button color="inherit"></Button>
-            
+              </Grid>
+
+            </Grid>
+              
+             
           </Toolbar>
-          <ProfileDropDown person={person} />
+          
         </AppBar>
       </div>
     );
@@ -63,6 +90,7 @@ const styles = (theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(25),
+
   },
   title: {
     flexGrow: 1,
