@@ -43,10 +43,12 @@ class ProjectListEntry extends Component {
         project: project,
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
-      });
+      }
+      );
+      // this.parentCall();
       // keep the new state as base state
-      this.baseState.project = this.state.project;
-      this.props.onClose(updatedProject);      // call the parent with the new project
+      // this.baseState.project = this.state.project;
+      // this.props.onClose(updatedProject);      // call the parent with the new project
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // disable loading indicator 
@@ -58,7 +60,9 @@ class ProjectListEntry extends Component {
     this.setState({
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
-    });
+    }, 
+    () => this.parentCall()
+    );
   }
 
   /** Handles onChange events of the underlying ExpansionPanel */
@@ -87,6 +91,26 @@ class ProjectListEntry extends Component {
       
     // }
   }
+
+  parentCall = (() => {
+    if (this.props.adminProf === undefined){
+     
+      this.props.getProjectsByDozentNew(this.props.person.id)
+      this.props.getProjectsByDozentAccepted(this.props.person.id)
+      this.props.getProjectsByDozentInReview(this.props.person.id)
+      this.props.getProjectsByDozentReviewed(this.props.person.id)
+     
+    }
+    else{
+      
+      this.props.getProjectsByDozentNew(this.props.adminProf.id)
+      this.props.getProjectsByDozentAccepted(this.props.adminProf.id)
+      this.props.getProjectsByDozentInReview(this.props.adminProf.id)
+      this.props.getProjectsByDozentReviewed(this.props.adminProf.id)
+    }
+
+    
+  });
 
   /** Renders the component */
   render() {

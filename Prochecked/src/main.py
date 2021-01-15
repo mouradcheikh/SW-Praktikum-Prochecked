@@ -820,6 +820,7 @@ class GradingOperations(Resource):
 
         adm = ProjectAdministration()
         g = adm.get_grading_by_id(id)
+        
         # print(g.get_name(), g.get_id())
         if g is not None:
             adm.delete_grading(g)

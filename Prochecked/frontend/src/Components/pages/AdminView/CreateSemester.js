@@ -18,6 +18,7 @@ class CreateSemester extends React.Component {
             semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
             success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
             textField: false
+            
         }
     }
 
@@ -27,7 +28,7 @@ class CreateSemester extends React.Component {
     // console.log(api) 
     api.createSemester(semester).then((semester) =>
         {
-          // console.log(semester)
+        console.log(semester)
         this.setState({
             semester: semester
         },
@@ -43,18 +44,19 @@ class CreateSemester extends React.Component {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null,
-      })
+      }, () => this.SemesterList()
+      )
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
         deletingError: e
       })
     );
-    // set loading to true
-    this.setState({
-      deletingInProgress: true,
-      deletingError: null
-    });
+    // // set loading to true
+    // this.setState({
+    //   deletingInProgress: true,
+    //   deletingError: null
+    // });
   }
 
 
@@ -70,13 +72,12 @@ class CreateSemester extends React.Component {
       this.setState({
         semester: semester,
         success: true
-      });
+      },() => this.SemesterList()
+      );
               
     });
   }
 
-
-  
     SemesterList(){
       var api = AppApi.getAPI()
       api.getSemesters().then((semesters) =>

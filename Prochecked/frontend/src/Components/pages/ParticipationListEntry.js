@@ -101,7 +101,9 @@ class ParticipationListEntry extends Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null
-    });
+    }, () => this.parentCall()
+    
+    );
   }
 
   createGrading(grade, participation_id){
@@ -207,6 +209,9 @@ setStudent = (student) => {
     student: student
   })
 }
+parentCall = () => {
+  this.props.getParticipationsByProject()
+}
 
 // updateProject = (new_state) => {
 //   // clone the original cutomer, in case the backend call fails
@@ -274,7 +279,7 @@ setStudent = (student) => {
     }
   }
 
-  /** Handles click events from the !!!!!!!!!!!!!!!!!!!!transfer money button */
+ 
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ grade:
