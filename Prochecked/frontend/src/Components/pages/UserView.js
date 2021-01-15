@@ -4,6 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
+import { Paper } from '@material-ui/core';
+import blueGrey from '@material-ui/core/colors/blueGrey'
+import lightGreen from '@material-ui/core/colors/lightGreen'
+import indigo from '@material-ui/core/colors/indigo'
+import red from '@material-ui/core/colors/red'
+import grey from '@material-ui/core/colors/grey'
+
+
 
 class UserView extends Component {
 
@@ -35,60 +43,62 @@ render () {
 
 	return(
         <div>
-          <center>
-                <h1>Bitte wählen Sie Ihre Rolle:</h1>
-                <div>
-                <Link to={{
-                pathname: '/StudentLogin',
-                state: { person: this.props.person }
-                }}>
-                <Button
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick = {this.handleStudentButtonClicked}
-                >
-                            Student
+          <Paper className={classes.paper}>
+            <center>
+                  <h1 style ={{color: "white"}} >Bitte wählen Sie Ihre Rolle:</h1>
+                  <div>
+                  <Link to={{
+                  pathname: '/StudentLogin',
+                  state: { person: this.props.person }
+                  }}>
+                  <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      onClick = {this.handleStudentButtonClicked}
+                  >
+                              Student
+                      
+                  </Button>
+                  </Link>
+                  </div>
+                  <div>
+                  <Link to={{
+                  pathname: '/DozentView',
+                  state: { person: this.props.person }
+                  }}>
+                  <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      algin="center"
+                      className={classes.button}
+                      onClick = {this.handleDozentButtonClicked}
+                      
+                  >
+                              Dozent
+                      
+                  </Button>
+                  </Link>
+                  </div>
+                  <div>
+                  <Link to='/AdminView'>
+                  <Button
+                      size="large"
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      onClick = {this.handleAdminButtonClicked}
+                      
+                  >
+                              Admin
                     
-                </Button>
-                </Link>
-                </div>
-                <div>
-                <Link to={{
-                pathname: '/DozentView',
-                state: { person: this.props.person }
-                }}>
-                <Button
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    algin="center"
-                    className={classes.button}
-                    onClick = {this.handleDozentButtonClicked}
-                    
-                >
-                            Dozent
-                    
-                </Button>
-                </Link>
-                </div>
-                <div>
-                <Link to='/AdminView'>
-                <Button
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick = {this.handleAdminButtonClicked}
-                    
-                 >
-                            Admin
-                  
-                </Button>
-                </Link>
-                </div>
-        </center>
+                  </Button>
+                  </Link>
+                  </div>
+          </center>
+        </Paper>
       </div>
     );
   }
@@ -99,8 +109,19 @@ const styles = (theme) => ({
     margin: theme.spacing(2),
     width: 170,
     fontSize: 25,
-    padding: "15x 0"
+    padding: "15x 0",
+    backgroundColor: red[900],
+    // blueGrey[700],
   },
+  paper:{
+    height: '100vh',   
+
+    // backgroundColor: blueGrey[800],
+    backgroundColor: grey[900]
+   
+    
+  }
+
 })
 
   export default  withStyles(styles)(UserView);

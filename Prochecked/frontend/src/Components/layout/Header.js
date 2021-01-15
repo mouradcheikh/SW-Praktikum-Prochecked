@@ -10,6 +10,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown.js';
 
+// import blueGrey from '@material-ui/core/colors/blueGrey'
+
+import grey from '@material-ui/core/colors/grey'
+
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -22,7 +27,10 @@ class Header extends React.Component {
     const classes = this.props
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar style={{backgroundColor: 
+          grey[900]
+      }}
+           className={classes.appBarDesign} position="static">
         
           <Toolbar>
             
@@ -50,7 +58,8 @@ class Header extends React.Component {
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    width: "100%"
+    width: "100%",
+    type: "dark"
   },
   menuButton: {
     marginRight: theme.spacing(25),
@@ -58,6 +67,7 @@ const styles = (theme) => ({
   title: {
     flexGrow: 1,
   },
+ 
 })
 
 
