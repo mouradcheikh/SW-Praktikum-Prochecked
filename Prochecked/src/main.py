@@ -820,13 +820,20 @@ class GradingOperations(Resource):
 
         adm = ProjectAdministration()
         g = adm.get_grading_by_id(id)
+        p = adm.get_participation_by_id(g.get_participation())
+        if p is not None:
+            p.set_grading(0)
+            adm.save_participation(p)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id keine Participation existiert.'''
         
         # print(g.get_name(), g.get_id())
         if g is not None:
             adm.delete_grading(g)
             return '', 200
         else:
-            return '', 500  # Wenn unter id kein Semester existiert.'''
+            return '', 500  # Wenn unter id kein Grading existiert.'''
     
     
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')

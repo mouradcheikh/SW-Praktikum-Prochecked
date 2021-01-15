@@ -119,7 +119,7 @@ class ParticipationListEntry extends Component {
       }
 
   /** Updates the grading */
-  updateGrading = (newGrade) => {
+  updateGrading = (newGrade, participation_id) => {
     // console.log()
     // clone the original grading, in case the backend call fails
     let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
@@ -127,6 +127,7 @@ class ParticipationListEntry extends Component {
     // set the new attributes from our dialog
     // console.log(this.state.student.id)
     updatedGrading.setGrade(newGrade);
+    updatedGrading.setParticipation(participation_id)
     // console.log(updatedGrading)
     
     AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
@@ -149,7 +150,8 @@ class ParticipationListEntry extends Component {
     this.setState({
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
-    });
+    }, () => this.parentCall()
+    );
   }
   
 getGrading = () => {
@@ -201,7 +203,8 @@ getGrading = () => {
     this.setState({
       deletingInProgress: true,
       deletingError: null
-    });
+    }, () => this.parentCall()
+    );
   }
 
 setStudent = (student) => {
@@ -290,7 +293,8 @@ parentCall = () => {
       this.getGrading() 
     }
       else {
-        this.updateGrading(this.textInput.current.value)
+        this.updateGrading(this.textInput.current.value, this.props.participation.getID())
+     
       }
       // this.updateProject(5)
     }
