@@ -5,6 +5,7 @@ import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
 import ModuleBO from './ModuleBO';
+import ProjectTypeBO from './ProjectTypeBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -70,8 +71,10 @@ export default class AppAPI {
     //Module Related
     #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
     #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
-    
+    #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
 
+    //Projecttype Related
+    #getProjectTypesURL = () => `${this.#AppServerBaseURL}/projecttypes`;
       /** 
    * Get the Singelton instance 
    * 
@@ -771,10 +774,28 @@ getStudentByMatrikelNummer(matr_nr) {
   }
 
 
+  getAllModules(){
+    return this.#fetchAdvanced(this.#getModulesURL()).then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
 
 
-
-
+  getAllProjectTypes(){
+    return this.#fetchAdvanced(this.#getProjectTypesURL()).then((responseJSON) => {
+      console.log(responseJSON)
+      let projectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
+      console.log(projectTypeBOs);
+      return new Promise(function (resolve) {
+        resolve(projectTypeBOs);
+      })
+    })
+  }
   
 
 

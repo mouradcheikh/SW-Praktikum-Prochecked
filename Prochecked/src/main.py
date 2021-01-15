@@ -144,6 +144,13 @@ grading = api.inherit('Grading', bo, {
                             description ='ID der Teilnahme für die Note')
 })
 
+projecttype = api.inherit('projecttype', nbo, {
+    'number_ects': fields.Integer(attribute='_number_ects',
+                            description= 'ECTS der Projectart'),
+    'number_sws': fields.Integer(attribute='_number_sws',
+                            description= 'SWS der Projektart'),
+})
+
 # Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -811,6 +818,22 @@ class GradingByProjectandStudentOperations(Resource):
         return gra
 
 
+#Module related 
+
+@prochecked.route('/modules')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ModuleListOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self):
+        # """Auslesen aller Module-Objekte.
+
+        # Sollten keine Module-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        modules = adm.get_all_modules()
+        return modules
+
+
 @prochecked.route('/free-modules/<int:semester>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('semester')
@@ -837,6 +860,22 @@ class BoundModuleOperations(Resource):
         adm = ProjectAdministration()
         mod = adm.get_bound_modules_by_semester(semester)
         return mod
+
+
+#Projecttype related 
+
+@prochecked.route('/projecttypes')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProjectTypeOperations(Resource):
+    @prochecked.marshal_list_with(projecttype)
+    @secured
+    def get(self):
+        """Auslesen aller Module-Objekte, die in gegebenem Semester noch frei sind.
+        """
+        adm = ProjectAdministration()
+        types = adm.get_all_project_types()
+        return types
+
 
 
 

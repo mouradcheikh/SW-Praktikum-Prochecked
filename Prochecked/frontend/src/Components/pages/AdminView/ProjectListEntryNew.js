@@ -34,6 +34,8 @@ class ProjectListEntryNew extends Component {
     // Init the state
     this.state = {
       project: props.project,
+      projecttypes: [],
+      projecttype: null,
       showProjectForm: false,
       showProjectDeleteDialog: false,
       updatedProject: null,
@@ -125,6 +127,32 @@ class ProjectListEntryNew extends Component {
     console.log("else if state 3")
 })
 
+// retrns the name of the projecttypeid of the current project
+  getProjectType = () => {
+    let projecttype = null
+    let projecttypes = this.state.projecttypes
+    projecttypes.forEach(p => {
+      console.log(p.id)
+      if(p.id == this.state.project.getProjectType()){
+        projecttype = p.getName()
+        console.log(p)
+      }
+    })
+    this.setState({
+      projecttype: projecttype
+    }, () => this.state.projecttype)
+  }
+
+
+getAllProjectTypes = () => {
+  var api = AppApi.getAPI()
+    api.getAllProjectTypes().then(projecttypes => {
+      this.setState({
+        projecttypes: projecttypes
+      }, () => this.getProjectType())
+    })
+}
+
 ProjectFormClosed = (project) => {
   // participation is not null and therefor changed
   if (project) {
@@ -137,6 +165,11 @@ ProjectFormClosed = (project) => {
       showProjectForm: false
     });
   }
+}
+
+
+componentDidMount(){
+  this.getAllProjectTypes()
 }
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
@@ -191,7 +224,7 @@ ProjectFormClosed = (project) => {
                 <ModuleForm show={showProjectForm} project={project} onClose={this.ProjectFormClosed} updateProject ={this.updateProject} updateModuleOfProject={this.updateModuleOfProject}/>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
-                <Typography variant='body1' className={classes.heading}>{"Projektart:"+ " "+ project.getProjectType()} 
+                <Typography variant='body1' className={classes.heading}>{"Projektart:"+ " "+ this.state.projecttype} 
                 </Typography>
               </Grid>
             </Grid>

@@ -116,9 +116,8 @@ class ModuleForm extends Component {
 
     getModuleList(){
         console.log("getmodulelist")
-        console.log(this.props.project)
         var api = AppApi.getAPI()
-        api.getFreeModulesBySemester(this.props.project.getSemester()).then(modules =>
+        api.getAllModules().then(modules => 
             this.setState({
                 modules: modules,
                 loadingInProgress: false, // loading indicator 
@@ -130,7 +129,7 @@ class ModuleForm extends Component {
                     loadingError: e,
                 })
             );
-
+            
         // set loading to true
         this.setState({
             balance: 'loading',
@@ -138,6 +137,21 @@ class ModuleForm extends Component {
             loadingError: null
         });
     }
+
+    // getModulesByProjectType = (modules) => {
+    //     let allprojecttypes = []
+    //     var api = AppApi.getAPI()
+    //     api.getAllProjectTypes().then((projecttypes) =>
+    //     {projecttypes.forEach((p) => {allprojecttypes.push(p)})})
+
+    //     let updated_modules = []
+    //     modules.forEach(m => {
+    //         if (this.state.project.getProjectType() === m.getProjectType()){
+    //             updated_modules.push(m)
+    //         }
+    //     });
+    //     return updated_modules
+    // }
 
     updateProjects = () => {
         this.handleClose()

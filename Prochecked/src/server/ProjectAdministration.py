@@ -15,6 +15,7 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
+from server.db.ProjectTypeMapper import ProjectTypeMapper
 
 from server.db.RoleMapper import RoleMapper
 from server.db.GradingMapper import GradingMapper
@@ -530,6 +531,11 @@ class ProjectAdministration (object):
         return free_modules
 
 
+    def get_all_modules(self):
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+
     def get_bound_modules_by_semester(self, semester_id):
         """Alle Module auslesen, welche in einem bestimmten gegebenen Semester mit einem projekt belegt wurden, also nicht mehr frei sind"""
         with ModuleMapper() as mapper:
@@ -557,6 +563,10 @@ class ProjectAdministration (object):
                 
 
 
+#ProjectType Related
+    def get_all_project_types(self):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_all()
 
 
 

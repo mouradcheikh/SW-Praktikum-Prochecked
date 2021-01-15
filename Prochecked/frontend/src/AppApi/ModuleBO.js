@@ -44,7 +44,7 @@ export default class ModuleBO extends BusinessObject {
   }
 
   getedv(){
-      return this.edv_nr
+    return this.edv_nr
   }
 
 
