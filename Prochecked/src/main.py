@@ -143,6 +143,7 @@ grading = api.inherit('Grading', bo, {
                             description ='ID der Teilnahme für die Note')
 })
 
+
 # Person related
 @prochecked.route('/persons')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

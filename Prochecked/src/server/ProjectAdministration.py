@@ -530,10 +530,10 @@ class ProjectAdministration (object):
         projecttype.set_id(1)
         
         adm = ProjectAdministration()
-        person_exists = adm.get_projecttype_by_id(id)
+        projecttype_exists = adm.get_projecttype_by_id(id)
 
-        if person_exists is not None:
-            adm.save_person(person)
+        if projecttype_exists is not None:
+            adm.save_projecttype(person)
         else:
             with ProjectTypeMapper() as mapper:
                 return mapper.insert(projecttype)

@@ -37,7 +37,7 @@ class CreateProjectType extends React.Component {
      createProjecType(name, ects, sws){
       var api = AppApi.getAPI()
       // console.log(api)
-      api.createPerson(name, ects, sws).then((type) =>
+      api.createProjecType(name, ects, sws).then((type) =>
           {
             // console.log(person)
           this.setState({
@@ -54,7 +54,7 @@ class CreateProjectType extends React.Component {
     console.log(t.getID());
     var api = AppApi.getAPI();
     api
-      .deleteRole(t.getID())
+      .deleteProjectType(t.getID())
       .then(() => {
         this.setState({
           // Set new state when ParticipationBOs have been fetched
@@ -76,9 +76,9 @@ class CreateProjectType extends React.Component {
     });
   };
 
-  PersonList(){
+  ProjectTypeList(){
     var api = AppApi.getAPI()
-    api.getProjectTpe().then((allTypes) =>
+    api.getProjectType().then((allTypes) =>
       {
           this.setState({
             allTypes: allTypes

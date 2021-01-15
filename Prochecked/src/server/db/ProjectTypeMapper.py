@@ -9,9 +9,9 @@ class ProjectTypeMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-         """Auslesen aller Kunde.
+         """Auslesen aller ProjectTypes.
 
-        :return Eine Sammlung mit ProjecType-Objekten, die sämtliche Kunden
+        :return Eine Sammlung mit ProjecType-Objekten, die sämtliche Projektarten
                 repräsentieren.
         """
         result = []
@@ -25,7 +25,6 @@ class ProjectTypeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return result
-            pass
 
     def find_by_id(self, id):
         """Suchen eines ProjectType mit vorgegebener ID. Da diese eindeutig ist,
@@ -62,7 +61,7 @@ class ProjectTypeMapper(Mapper):
         cursor.close()
 
         return result
-        pass
+        
 
     def insert(self, projecttype):
         """Einfügen eines ProjectType-Objekts in die Datenbank.
@@ -96,7 +95,7 @@ class ProjectTypeMapper(Mapper):
         cursor.close()
 
         return projecttype
-            pass
+          
 
         def update_by_id(self, projecttype):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -114,7 +113,7 @@ class ProjectTypeMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-        pass
+        
 
         def delete(self, projecttype):
         """Löschen der Daten eines projecttype-Objekts aus der Datenbank.
