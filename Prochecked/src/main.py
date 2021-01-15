@@ -196,7 +196,7 @@ class PersonListOperations(Resource):
         p = Person.from_dict(api.payload)
         if p is not None:
             adm.save_person_by_id(p)
-            return '', 200
+            return p, 200
         else:
             return '', 500
 
@@ -665,7 +665,7 @@ class StudentLogInOperations(Resource):
         """
         print(api.payload)
         adm = ProjectAdministration()
-        print('student:', api.payload)
+        print('studentPost:', api.payload)
         proposal = Student.from_dict(api.payload)
         print(proposal.get_matr_nr())
 
@@ -687,7 +687,7 @@ class StudentLogInOperations(Resource):
         """Update eines bestimmten Student-Objekts."""
 
         adm = ProjectAdministration()
-        print(api.payload)
+        print("Student:", api.payload)
         s = Student.from_dict(api.payload)
         if s is not None:
             adm.save_student(s)
