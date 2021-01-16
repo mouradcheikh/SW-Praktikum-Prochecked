@@ -268,7 +268,7 @@ getStudentByMatrikelNummer(matr_nr) {
   getParticipationsByProject(project_id){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        console.log("Teilnahmen:", responseJSON)
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.log(participationBOs);
         return new Promise(function (resolve) {

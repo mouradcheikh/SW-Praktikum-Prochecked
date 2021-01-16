@@ -35,7 +35,7 @@ class GradeListEntry extends Component {
             {console.log(grading)
             this.setState({
                 grading: grading
-            }, () => {this.props.addGrade(grading.getGrade())})}
+            }, )}
             )
   }
 
@@ -67,6 +67,8 @@ class GradeListEntry extends Component {
     this.getGrading()
     this.getStudent()
   }
+
+
   
   /** Renders the component */
   render() {
@@ -76,10 +78,6 @@ class GradeListEntry extends Component {
     this.state.student != null?
       <div>
         <Grid container spacing={1} justify='flex-start' alignItems='center'>
-        <Grid item xs={12} fullwidth>
-            <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
-            </Typography>
-        </Grid>
             <Grid item xs={6}>{this.state.student.matr_nr + " - " + this.state.student.name}</Grid>
             <Grid item xs={6}>Note: {this.getGradeofGrading()}</Grid>
         </Grid>

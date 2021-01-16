@@ -5,6 +5,7 @@ import { Button, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import AppAPI from '../../../AppApi/AppApi';
 import GradeListParticipationEntry from './GradeListParicipationEntry'
+import { Typography, Grid } from '@material-ui/core';
 
 /**
  * Renders a list of GradeListParticipationEntry objects.
@@ -31,6 +32,7 @@ class GradeListEntry extends Component {
     // console.log("vor fetch")
 
       var api = AppAPI.getAPI()
+      console.log("getParticipations", this.props.project)
       api.getParticipationsByProject(this.props.project.getID())
         .then(participationBOs => 
           this.setState({               // Set new state when ParticipationBOs have been fetched
@@ -38,7 +40,7 @@ class GradeListEntry extends Component {
             filteredParticipations: [...participationBOs], // store a copy
             loadingInProgress: false,   // disable loading indicator
             error: null
-          })).catch(e =>
+          }, () => this.getAverage())).catch(e =>
             this.setState({             // Reset state with error from catch
               participations: [],
               loadingInProgress: false, // disable loading indicator
@@ -55,35 +57,50 @@ class GradeListEntry extends Component {
     }
 
   
-    /** adds a grade to build the sum of all grades of the chosen project. It is called in the child component*/
-    addGrade = (grade) => {
-      console.log(grade)
-      let sumOfGrades = this.state.sumOfGrades
-      let numberOfGrades = this.state.numberOfGrades
-      let newSum = sumOfGrades + grade
-      let newNumber = numberOfGrades + 1
-      let average = newSum/newNumber
-      this.setState({
-        sumOfGrades: newSum,
-        numberOfGrades: newNumber,
-        average: average
+    getAverage = () => {
+      console.log(this.state.participations)
+      var number_grades = 0
+      var sum = 0
+      var average = 0
+      var api = AppAPI.getAPI()
+      this.state.participations.forEach((p)=> {
+        api.getGradingById(p.getGrading()).then((grading) => {
+          console.log(grading)
+          let grade = grading.getGrade()
+          let updated_grade = parseFloat(grade)
+          console.log(updated_grade)
+          number_grades += 1
+          sum += updated_grade
+          average = sum/number_grades
+          console.log(average)
+          this.setState({
+            average: average
+          })})
       })
+      
     }
 
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // console.log(this.props.participation.getStudent_id)
-    this.getParticipationsByProject(); //props richtig ??
+    this.getParticipationsByProject(); 
+    console.log("Component GradeListEntryDidMount")
     }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.project !== this.props.project)
+    this.getParticipationsByProject(); 
+    console.log("Component GradeListEntryDidUpdate")
+  }
   
   /** Lifecycle method, which is called when the component was updated */
-  componentDidUpdate(prevProps) {
-    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
-    if ((this.props.show !== prevProps.show)) { 
-      this.getParticipationsByProject();
-      }
-    }
+  // componentDidUpdate(prevProps) {
+  //   // reload participations if shown state changed. 
+  //   if ((this.props.show !== prevProps.show)) { 
+  //     this.getParticipationsByProject();
+  //     }
+  //   }
 
   /** Renders the component */
   render() {
@@ -95,6 +112,10 @@ class GradeListEntry extends Component {
     return (
       <div className={classes.root}>
         <List className={classes.participationList}>
+        <Grid item xs={12} fullwidth>
+            <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
+            </Typography>
+        </Grid>
           {
             participations.map(participation => <GradeListParticipationEntry key={participation.getID()} project={project} participation={participation} addGrade={this.addGrade}/>)
           }

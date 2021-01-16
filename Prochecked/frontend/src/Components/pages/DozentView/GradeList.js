@@ -79,20 +79,18 @@ class GradeList extends Component {
     
     this.setState({
         semesters : semesters,
-        semester: semesters[0]
-    }, () => this.moduleList())
+    })
   )
   }
 
   /** Ruft eine Methode aus der AppAPI auf, um Module aus dem Backend zu fetchen*/
   moduleList = () => {
     var api = AppAPI.getAPI()
-    api.getBoundModulesBySemester(this.state.semester.id).then((modules) => {
+    api.getAllModules().then((modules) => {
     console.log(modules)
     this.setState({
         modules : modules,
-        module: modules[0],
-    }, () => this.updateFilteredProjects())
+    })
     })
   }
 
@@ -102,7 +100,7 @@ class GradeList extends Component {
       this.setState({
         semester : event.target.value,
         semesterId : event.target.value.id
-      }, () => {this.updateFilteredProjects(); this.moduleList()})
+      }, () => {this.updateFilteredProjects()})
     
   }
 
@@ -131,7 +129,7 @@ class GradeList extends Component {
       )
       this.setState({
           filteredProjects: filtered_projects
-      }, () => console.log(this.state.filteredProjects)) 
+      }) 
     } 
   }
 
