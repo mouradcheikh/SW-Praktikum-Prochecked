@@ -10,6 +10,8 @@ import AppAPI from './AppApi/AppApi'
 import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
 import UserView from './Components/pages/UserView';
 import Header from './Components/layout/Header';
+
+
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
@@ -269,6 +271,7 @@ class App extends React.Component {
 					<Container maxWidth='md'>
                         <Paper style={{backgroundColor: blueGrey[900]}}>
                             <Header person = {person}/>
+                            
                            
                             <Route exact path = '/StudentView' component = {StudentView}/>
                             <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
