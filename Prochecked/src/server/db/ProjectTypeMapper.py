@@ -92,10 +92,11 @@ class ProjectTypeMapper(Mapper):
         return projecttype
           
 
-        def update_by_id(self, projecttype):
+    def update_by_id(self, projecttype):
+            
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person SET name=%s,number_ects=%s, number_sws=%s WHERE id=%s"
+        command = "UPDATE projecttype SET name=%s,number_ects=%s, number_sws=%s WHERE id=%s"
         data = (projecttype.get_name(),
                 projecttype.get_number_ects(),
                 projecttype.get_number_sws(), 
@@ -106,7 +107,7 @@ class ProjectTypeMapper(Mapper):
         cursor.close()
         
 
-        def delete(self, projecttype):
+    def delete(self, projecttype):
         """Löschen der Daten eines projecttype-Objekts aus der Datenbank.
 
         :param user das aus der DB zu löschende "Objekt"
@@ -118,3 +119,7 @@ class ProjectTypeMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+    
+
+if __name__ == "__main__":
+    pass

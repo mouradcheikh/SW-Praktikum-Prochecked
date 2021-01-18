@@ -15,12 +15,12 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
-from server.db.ProjectType import ProjectType
+from .db.ProjectTypeMapper import ProjectTypeMapper
 
 from .db.RoleMapper import RoleMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
-from .db.ProjectTypeMapper import ProjectTypeMapper
+
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
@@ -522,15 +522,15 @@ class ProjectAdministration (object):
 
 
 #ProjectType Related
-   def create_projecttype(self, name, number_ects, number_sws):
+    def create_projecttype(self, name, number_ects, number_sws):
         projecttype = ProjectType()
         projecttype.set_name(name)
-        projecttype.set_number_ects(number_ects)
-        projecttype.set_number_sws(number_sws)
+        projecttype.number_ects(number_ects)
+        projecttype.number_sws(number_sws)
         projecttype.set_id(1)
-        
+   
         with ProjectTypeMapper() as mapper:
-            return mapper.insert(projecttype)
+            mapper.insert(projecttype)
 
 
     def get_projecttype_by_id(self, id):
