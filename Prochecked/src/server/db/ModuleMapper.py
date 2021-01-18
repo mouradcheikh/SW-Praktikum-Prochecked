@@ -56,7 +56,7 @@ class ModuleMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 module.set_id(1)
 
-        command = "INSERT INTO module (id, creation_date, name, edv_nr) VALUES (%s,%s,%s)"
+        command = "INSERT INTO module (id, creation_date, name, edv_nr) VALUES (%s,%s,%s,%s)"
         data = (module.get_id(), 
                 module.get_creation_date(), 
                 module.get_name(),

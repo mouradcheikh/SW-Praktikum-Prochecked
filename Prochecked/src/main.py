@@ -82,7 +82,7 @@ student = api.inherit('Student', person, {
 })
 
 module = api.inherit('Module', nbo, {
-    'edv_nr': fields.Integer(attribute='__edv_nr',
+    'edv_nr': fields.String(attribute='__edv_nr',
                              description='EDV-Nummer eines Moduls')
 })
 
@@ -944,7 +944,7 @@ class ModuleOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            m = adm.create_module(proposal.get_name())
+            m = adm.create_module(proposal)
             print(m)
             return m, 200
         else:

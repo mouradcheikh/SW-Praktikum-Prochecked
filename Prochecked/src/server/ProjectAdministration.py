@@ -526,10 +526,10 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             return mapper.find_all()
 
-    def create_Module(self, name):
+    def create_module(self, module):
         module = Module()
-        module.set_name(name)
-        module.set_edv_nr(edv_nr)
+        module.set_name(module.get_name())
+        module.set_edv_nr(module.get_name())
    
         with ModuleMapper() as mapper:
             mapper.insert(module)

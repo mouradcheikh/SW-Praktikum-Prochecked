@@ -77,7 +77,7 @@ export default class AppAPI {
     
     //Module releated
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
-    #addModuleURL = () => `${this.#AppServerBaseURL}/modul`;
+    #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
 
     
