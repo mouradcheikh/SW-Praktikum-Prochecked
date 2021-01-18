@@ -529,30 +529,28 @@ class ProjectAdministration (object):
         projecttype.set_number_sws(number_sws)
         projecttype.set_id(1)
         
-        adm = ProjectAdministration()
-        projecttype_exists = adm.get_projecttype_by_id(id)
-
-        if projecttype_exists is not None:
-            adm.save_projecttype(person)
-        else:
-            with ProjectTypeMapper() as mapper:
-                return mapper.insert(projecttype)
+        with ProjectTypeMapper() as mapper:
+            return mapper.insert(projecttype)
 
 
     def get_projecttype_by_id(self, id):
         with ProjectTypeMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def save_projecttype_by_id(self, person):
+    def save_projecttype_by_id(self, projecttype):
             """Die gegebene Person speichern."""
             """Methode mir Rollentabelle"""
             with ProjectTypeMapper() as mapper:
                 mapper.update_by_id(projecttype)
     
-    def delete_projecttype(self, participation):
+    def delete_projecttype(self, projecttype):
         """Eine Participation löschen"""
         with ProjectTypeMapper() as mapper:
-            mapper.delete(ProjectType)
+            mapper.delete(projecttype)
+
+    def get_all_projecttype(self):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_all()
 
 
 
