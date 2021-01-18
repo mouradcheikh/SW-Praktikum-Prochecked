@@ -505,6 +505,28 @@ class ProjectAdministration (object):
         pass
 
 
+#Module related
+
+    def get_all_module(self):
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def create_Module(self, name):
+        module = Module()
+        module.set_name(name)
+   
+        with ModuleMapper() as mapper:
+            mapper.insert(module)
+
+    def get_module_by_id(self, id):
+        """Das Module mit der gegebenen ID auslesen."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_id(id)
+    
+    def delete_module(self, module):
+        """Ein Module löschen"""
+        with ModuleMapper() as mapper:
+            mapper.delete(module)
 
 
 

@@ -628,6 +628,8 @@ class StudentLogInOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+#Semester related
+
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemestersOperations(Resource):
@@ -674,11 +676,11 @@ class SemestersOperations(Resource):
 
 @prochecked.route('/semester/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Participation-Objekts.')
+@prochecked.param('id', 'Die ID des Semester-Objekts.')
 class SemesterOperations(Resource):
 
     def delete(self, id):
-        """Löschen eines bestimmten Participation-Objekts.
+        """Löschen eines bestimmten Semester-Objekts.
 
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
@@ -794,6 +796,75 @@ class GradingByProjectandStudentOperations(Resource):
         gra = adm.get_grading_by_project_id_and_matr_nr(project_id, matr_nr)
         
         return gra
+
+
+#Module related
+
+@prochecked.route('/module')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ModuleOperations(Resource):
+    @prochecked.marshal_with(module)
+    @secured
+    def get(self):
+        """Auslesen aller Module Objekte
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_all_module()
+        return mod
+
+    @prochecked.marshal_list_with(module, code=200)
+    @prochecked.expect(module)
+    @secured
+    def post(self):
+        """Anlegen eines neuen Modul-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ProjectAdministration()
+        print(api.payload)
+        proposal = Module.from_dict(api.payload)
+        #print(proposal.get_grade(), proposal.get_passed())
+        #print(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            m = adm.create_module(proposal.get_name())
+            print(m)
+            return m, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
+    
+
+@prochecked.route('/module/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ModuleOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten Module-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        m = adm.get_module_by_id(id)
+        print(m.get_name(), m.get_id())
+        if m is not None:
+            adm.delete_module(m)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Module existiert.'''
+    
+
 
 
 if __name__ == '__main__':

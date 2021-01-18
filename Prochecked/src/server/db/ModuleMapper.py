@@ -34,7 +34,45 @@ class ModuleMapper(Mapper):
         return result
 
     def find_by_id(self, ):
-        pass
+
+        result = None
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_date, name, edv_nr FROM module WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_date, name, edv_nr) = tuples[0]
+            module = Module()
+            module.set_id(id),
+            module.set_creation_date(creation_date),
+            module.set_name(name),
+            module.set_edv_nr(edv_nr),
+            result = module
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def delete(self, module):
+        """Löschen der Daten eines Moudle-Objekts aus der Datenbank.
+
+        :param module das aus der DB zu löschende "Objekt"
+        """
+        cursor = self._cnx.cursor()
+
+        command = "DELETE FROM module WHERE id={}".format(module.get_id())
+        cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
 
 if (__name__ == "__main__"):
     with ModuleMapper() as mapper:

@@ -63,6 +63,9 @@ export default function MenuListComposition() {
           <Link to='/CreateSemester'>
           <MenuItem>Semester erstellen</MenuItem>
           </Link >
+          <Link to='/CreateModule'>
+          <MenuItem>Modul erstellen</MenuItem>
+          </Link >
           <Link to='/ProjectListNew'>
           <MenuItem>Projekte freigeben</MenuItem>
           </Link>

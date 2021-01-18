@@ -4,6 +4,7 @@ import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
+import ModuleBO from './ModuleBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -66,7 +67,10 @@ export default class AppAPI {
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
     
-    
+    //Module releated
+    #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
+    #addModuleURL = () => `${this.#AppServerBaseURL}/modul`;
+    #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
 
     
 
@@ -719,6 +723,62 @@ getStudentByMatrikelNummer(matr_nr) {
 
   
   
+ //Module Related 
+
+ getModule(){
+  return this.#fetchAdvanced(this.#getModuleURL()).then((responseJSON) => {
+    // We always get an array of ModuleBOs.fromJSON, but only need one object
+    let responseModuleBOs = ModuleBO.fromJSON(responseJSON);
+    console.info(responseModuleBOs);
+    return new Promise(function (resolve) {
+      resolve(responseModuleBOs);
+    })
+  })
+}
+
+
+ createModule(module) {
+
+  let m = new ModuleBO();
+  m.setName(module)
+  // console.log(m)
+
+  return this.#fetchAdvanced(this.#addModuleURL(), {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain',
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(m)
+    }).then((responseJSON) => {
+      let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
+    // console.info(responseJSON);
+      return new Promise(function (resolve) {
+      resolve(responseModuleBO);
+    })
+  })
+}
+
+  /**
+ * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO
+ * 
+ * @param semester to be deleted
+ * @public
+ */
+deleteModule(id) {
+  return this.#fetchAdvanced(this.#deleteModuleURL(id), {
+    method: 'DELETE'
+  })
+    .then((responseJSON) => {
+      // We always get an array of ParticipationBO.fromJSON, but only need one object
+      let ModuleBOs = ModuleBO.fromJSON(responseJSON)[0];
+      // console.info(participationBOs);
+      return new Promise(function (resolve) {
+        resolve(ModuleBOs);
+      })
+    })
+}
+
 
 
 

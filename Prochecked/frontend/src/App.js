@@ -30,6 +30,7 @@ import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
 import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 import { StudentBO } from './AppApi';
+import CreateModule from './Components/pages/AdminView/CreateModule';
 
 
 // import firebaseconfig from './firebaseconfig';
@@ -273,6 +274,7 @@ class App extends React.Component {
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
                         <Route exact path = '/CreateSemester' component = {CreateSemester}/>
+                        <Route exact path = '/CreateModule' component = {CreateModule}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
                         <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
                         <Route exact path = '/SelectStudent' component = {SelectStudent}/>
