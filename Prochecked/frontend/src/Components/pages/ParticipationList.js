@@ -110,7 +110,7 @@ class ParticipationList extends Component {
 
     // console.log(this.props);
     return (
-      project.project_state === 5?
+      project.project_state >= 4?
       <div className={classes.root}>
         <List className={classes.participationList}>
           {
