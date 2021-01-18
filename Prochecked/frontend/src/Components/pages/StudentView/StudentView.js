@@ -19,14 +19,20 @@ import { AppApi } from '../../../AppApi/AppApi'
 class StudentView extends Component{
   constructor(props){
     super(props);
+
+    this.state = {
+      person: this.props.location.state.person,
+      student: this.props.location.state.student
+    }
     
   }
 
   render() {
     const { classes } = this.props;
-    const person = this.props.location.state.person
-    const student = this.props.location.state.student
-    console.log(this.props.location.state.student)
+    // const person = this.props.location.state.person
+    // const student = this.props.location.state.student
+    const{ person, student} = this.state;
+    console.log(this.state)
 
     return(
     <div>

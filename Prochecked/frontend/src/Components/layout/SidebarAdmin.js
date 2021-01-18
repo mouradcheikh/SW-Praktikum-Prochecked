@@ -6,6 +6,8 @@ import * as AiIcons from 'react-icons/ai';
 import { SidebarDataAdmin } from './SidebarDataAdmin';
 import { SidebarDataDozent } from './SidebarDataDozent';
 import { SidebarDataStudent } from './SidebarDataStudent';
+import { SidebarDataUserView } from './SidebarDataUserView';
+
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
 
@@ -81,11 +83,15 @@ const Sidebar = (props) => {
               return <SubMenu item={item} key={index} />;
             })
 
-            :
+            :props.person.berechtigung ===1?
             SidebarDataStudent.map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })
+            :
+            SidebarDataUserView.map((item, index) => {
+              return <SubMenu item={item} key={index} />;
 
+          })
           }
 
             {/* {(() =>
@@ -110,16 +116,7 @@ const Sidebar = (props) => {
             }
             
            }) */}
-          
-           
-            
-
-            
-
-
-            
-            
-
+       
 
           </SidebarWrap>
         </SidebarNav>
