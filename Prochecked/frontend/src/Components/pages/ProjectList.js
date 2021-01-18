@@ -286,13 +286,8 @@ class ProjectList extends Component {
               project={project}
               expandedState={expandedProjectID === project.getID()}
               // projectsFromEntry={this.projectsFromEntry}
-              // onExpandedStateChange={this.onExpandedStateChange}
-              // onProjectDeleted={this.projectDeleted}
-              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              // person = {this.state.person}
-              
+              onProjectDeleted={this.projectDeleted}
+              onExpandedStateChange={this.onExpandedStateChange}
               person ={person} adminProf ={adminProf}
               getProjectsByDozentNew = {this.getProjectsByDozentNew}
               getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
@@ -312,10 +307,6 @@ class ProjectList extends Component {
               // projectsFromEntry={this.projectsFromEntry}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
-              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              // person = {this.state.person}
               person ={person} adminProf ={adminProf}
               getProjectsByDozentNew = {this.getProjectsByDozentNew}
               getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
@@ -335,10 +326,6 @@ class ProjectList extends Component {
             <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
-              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              // person = {this.state.person}
               person ={person} adminProf ={adminProf}
               getProjectsByDozentNew = {this.getProjectsByDozentNew}
               getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
