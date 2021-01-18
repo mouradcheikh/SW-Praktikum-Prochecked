@@ -14,7 +14,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, Prompt} from 'react-router-dom';
 
 
 class SelectStudent extends React.Component {
@@ -47,7 +47,7 @@ class SelectStudent extends React.Component {
   
       // set loading to true
       this.setState({
-        balance: 'loading',
+        // balance: 'loading',
         loadingInProgress: true,
         loadingError: null
       });
@@ -76,18 +76,20 @@ class SelectStudent extends React.Component {
     }
   }
 
-  // handleClick(){
-  //   console.log(this.state.student)
-  //   // event.preventDefault();
-  //   if (this.state.student === null){
-  //     alert("Sorry, diesen Studenten kennen wir nicht")
-  //   }
-  // }
+  handleSubmit(event){
+    event.preventDefault();
+    if (this.state.matr_nrValidationFailed === false){
+      throw "Sorry, diesen Studenten kennen wir nicht";
+    }
+      
+  }
+
+
 
   
     render() { 
         const { classes  } = this.props;
-        const { student,matr_nr, matr_nrValidationFailed } = this.state; 
+        const { student, matr_nr, matr_nrValidationFailed } = this.state; 
 
         return ( 
     <div>
@@ -95,39 +97,51 @@ class SelectStudent extends React.Component {
             <h1> Wählen Sie den Studenten </h1>
         </div>
       <div>
-        <form className={classes.root} 
-        // Validate ={this.handleClick} // validation funktioniert noch nicht.. nöchste seite kann ohne student aufgerufen werden
-        autoComplete='off' >
+        <form className={classes.root} >
+          <Prompt when={matr_nrValidationFailed == true || student === '' }
+         ></Prompt>
 
-            <Link to={{
-                    pathname: "/StudentView",
-                    state: { student: student }
-                    }}>
-              <TextField autoFocus type='text' required fullWidth margin='normal' id='matr_nr' label='Matrikelnummer:' value={matr_nr} 
+              <TextField 
+                autoFocus type='text'
+                required 
+                fullWidth 
+                margin='normal' 
+                id='matr_nr' 
+                label='Matrikelnummer:' 
+                value={matr_nr} 
                 onChange={this.textFieldValueChange} error={matr_nrValidationFailed} 
-                helperText={matr_nrValidationFailed ? 'Bitte geben Sie 5 Zeichen ein' : ' '} />
-              
-              <Button
-                 type="submit"
-                 variant="contained"
-                 color="primary" 
-              >
-                Auswählen
-              </Button>
-            </Link>
+                helperText={matr_nrValidationFailed ? 'Bitte geben Sie 5 Zeichen ein' : ' '} 
+              />
+              <Link onAbort to={{
+                pathname: "/StudentView",
+                state: { student: student }
+                }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary" 
+                >
+                  Auswählen
+                </Button>
+              </Link>
+           
+            
 
         </form>
       </div>
       <div>
-      <Typography className={classes.participationEntry}>      
+        <Typography className={classes.participationEntry}>      
       
-        {"Ausgewählter Student:" +" "} {this.state.student.name}
+        {"Ausgewählter Student:" +" "} {student != null? this.state.student.name:'Student ist nicht bekannt'}
       
-          </Typography>
+        </Typography>
       </div>
     </div>
          );
 }}
+
+
+
 
 const styles = theme => ({
     root: {

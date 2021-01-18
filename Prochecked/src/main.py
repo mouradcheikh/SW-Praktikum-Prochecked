@@ -204,7 +204,7 @@ class PersonListOperations(Resource):
         p = Person.from_dict(api.payload)
         if p is not None:
             adm.save_person_by_id(p)
-            return '', 200
+            return p, 200
         else:
             return '', 500
 
@@ -346,6 +346,13 @@ class ProjectOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+
+
+@prochecked.route('/projectd/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ProjectDeleteOperations(Resource):
 
     @secured
     def delete(self, id):
@@ -666,7 +673,7 @@ class StudentLogInOperations(Resource):
         """
         print(api.payload)
         adm = ProjectAdministration()
-        print('student:', api.payload)
+        print('studentPost:', api.payload)
         proposal = Student.from_dict(api.payload)
         print(proposal.get_matr_nr())
 
@@ -688,7 +695,7 @@ class StudentLogInOperations(Resource):
         """Update eines bestimmten Student-Objekts."""
 
         adm = ProjectAdministration()
-        print(api.payload)
+        print("Student:", api.payload)
         s = Student.from_dict(api.payload)
         if s is not None:
             adm.save_student(s)
@@ -761,6 +768,7 @@ class SemestersOperations(Resource):
 @prochecked.param('id', 'Die ID des Participation-Objekts.')
 class SemesterOperations(Resource):
 
+    @secured
     def delete(self, id):
         """Löschen eines bestimmten Participation-Objekts.
 
@@ -846,6 +854,7 @@ class GradingByParticipationOperation(Resource):
         #     print(p)'
         return gra
 
+
 @prochecked.route('/gradings/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die id des Grading-Objekts')
@@ -862,6 +871,31 @@ class GradingOperations(Resource):
         gra = adm.get_grading_by_id(id)
         
         return gra
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        g = adm.get_grading_by_id(id)
+        p = adm.get_participation_by_id(g.get_participation())
+        if p is not None:
+            p.set_grading(0)
+            adm.save_participation(p)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id keine Participation existiert.'''
+        
+        # print(g.get_name(), g.get_id())
+        if g is not None:
+            adm.delete_grading(g)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Grading existiert.'''
+    
     
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

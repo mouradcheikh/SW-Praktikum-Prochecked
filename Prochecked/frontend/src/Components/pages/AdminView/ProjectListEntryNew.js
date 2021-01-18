@@ -96,14 +96,13 @@ class ProjectListEntryNew extends Component {
     
   }
   /** Delete accepted Project */
-  deleteProject = () => {
-    const { project } = this.props;
+  deleteProject = (project) => {
     var api = AppApi.getAPI()
     api.deleteProject(project.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
-      })
+      }, () => this.updateParentComponent());
       // console.log(participation);
       this.props.onProjectDeleted(project);
     }).catch(e =>
@@ -259,7 +258,7 @@ componentDidMount(){
                 Rückgängig
                 </Button>
                  
-              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.updateProject(0)}>
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
              Löschen
             </Button>        
               
@@ -298,7 +297,7 @@ componentDidMount(){
               className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
-              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.updateProject(0)}>
+              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
              Löschen
             </Button> 
             </Typography>

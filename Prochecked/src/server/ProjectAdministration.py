@@ -89,7 +89,7 @@ class ProjectAdministration (object):
         #     person.set_berechtigung(updated_role)   
         
         with PersonMapper() as mapper:
-            mapper.update(person)
+            return mapper.update(person)
 
     def save_person_by_id(self, person):
         """Die gegebene Person speichern."""

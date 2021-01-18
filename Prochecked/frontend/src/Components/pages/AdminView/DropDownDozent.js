@@ -14,7 +14,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, Prompt} from 'react-router-dom';
 
 
 class DropDownDozent extends React.Component {
@@ -53,8 +53,13 @@ class DropDownDozent extends React.Component {
         <div>
             <h1> Wählen Sie den Dozenten </h1>
         </div>
+        <form>
+        <Prompt when={prof === null}//dozent muss angegeben werden damit weitergeleitet werden kann
+        /> 
         <div>
+        
         <FormControl className={classes.formControl}>
+        
         <InputLabel id="artProjekt">Professor</InputLabel>
           <Select
             labelId="artProjekt"
@@ -80,7 +85,9 @@ class DropDownDozent extends React.Component {
                   Auswählen
                 </Button>
               </Link>
+              
             </div>
+            </form>
     </div>
          );
 }}

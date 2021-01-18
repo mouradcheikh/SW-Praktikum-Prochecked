@@ -30,6 +30,17 @@ class ProjectList extends Component {
       expandedID = this.props.location.expandProject.getID();
     }
 
+    // let adminProf = null;
+
+    // if (this.props.location.state.adminProf) {
+    //   adminProf = this.props.location.state.adminProf
+    //   console.log(adminProf)
+    // }
+
+
+   
+   
+
     // Init an empty state
     this.state = {
       person: null,
@@ -42,7 +53,10 @@ class ProjectList extends Component {
       error: null,
       loadingInProgress: false,
       expandedProjectID: expandedID,
-      showProjectForm: false //evtl.nicht 
+      showProjectForm: false, //evtl.nicht 
+      
+      adminProf:  this.props.location.state.adminProf, 
+      person: this.props.location.state.linkState   
     };
   }
 
@@ -105,6 +119,7 @@ class ProjectList extends Component {
 
    /** Fetches all ProjectBOs from the backend */
    getProjectsByDozentInReview = (person_id) => {
+     console.log(person_id)
     // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByDozentInReview(person_id) //evtl. Objekt von API vorher anlegen
@@ -155,6 +170,7 @@ class ProjectList extends Component {
         error: null
       });
     }
+ 
 
   /**
    * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
@@ -224,8 +240,8 @@ class ProjectList extends Component {
 
   /** Renders the component */
   render() {
-    const { classes, projectsFromEntry} = this.props;
-    const { newProjects, filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
+    const { classes, } = this.props;
+    const { adminProf, person, newProjects, filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
 
     return (
       <div>
@@ -265,16 +281,23 @@ class ProjectList extends Component {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
           newProjects.map(project =>
-            <ProjectListEntry key={project.getID()}
+            <ProjectListEntry 
+              key={project.getID()}
               project={project}
               expandedState={expandedProjectID === project.getID()}
               // projectsFromEntry={this.projectsFromEntry}
-              onExpandedStateChange={this.onExpandedStateChange}
-              onProjectDeleted={this.projectDeleted}
-              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              person = {this.state.person}
+              // onExpandedStateChange={this.onExpandedStateChange}
+              // onProjectDeleted={this.projectDeleted}
+              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              // person = {this.state.person}
+              
+              person ={person} adminProf ={adminProf}
+              getProjectsByDozentNew = {this.getProjectsByDozentNew}
+              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
             />)
         }
         
@@ -289,10 +312,15 @@ class ProjectList extends Component {
               // projectsFromEntry={this.projectsFromEntry}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
-              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              person = {this.state.person}
+              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              // person = {this.state.person}
+              person ={person} adminProf ={adminProf}
+              getProjectsByDozentNew = {this.getProjectsByDozentNew}
+              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -307,10 +335,15 @@ class ProjectList extends Component {
             <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
-              getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
-              getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
-              person = {this.state.person}
+              // getProjectsByDozentAccepted ={this.getProjectsByDozentAccepted}
+              // getProjectsByDozentInReview ={this.getProjectsByDozentInReview}
+              // getProjectsByDozentReviewed ={this.getProjectsByDozentReviewed}
+              // person = {this.state.person}
+              person ={person} adminProf ={adminProf}
+              getProjectsByDozentNew = {this.getProjectsByDozentNew}
+              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -327,6 +360,11 @@ class ProjectList extends Component {
               <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
                 onExpandedStateChange={this.onExpandedStateChange}
                 onProjectDeleted={this.projectDeleted}
+                person ={person} adminProf ={adminProf}
+                getProjectsByDozentNew = {this.getProjectsByDozentNew}
+                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
               />)
           }
           <LoadingProgress show={loadingInProgress} />
