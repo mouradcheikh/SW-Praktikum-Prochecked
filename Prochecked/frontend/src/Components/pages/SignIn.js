@@ -20,13 +20,13 @@ class SignIn extends Component {
 
 		return (
 			<div className= {classes.paper}>
-				<Typography className={classes.root} align='center' style ={{color: "white"}} variant='h6'>Welcome to the HdM ProChecked Showcase</Typography>
-				<Typography className={classes.root} align='center' style ={{color: "white"}}>It appears, that you are not signed in.</Typography>
-				<Typography className={classes.root} align='center' style ={{color: "white"}}>To use the services of the HdM ProChecked</Typography>
+				<Typography className={classes.root} align='center' style ={{color: "white"}} variant='h6'>Willkomen auf der Projekt-Management Seite der HdM</Typography>
+				<Typography className={classes.root} align='center' style ={{color: "white"}}>Bisher sind Sie nicht eingeloggt.</Typography>
+				<Typography className={classes.root} align='center' style ={{color: "white"}}>Melden Sie sich bitte an um "ProChecked" mit all seinen Funktionen nutzen zu können </Typography>
 				<Grid container justify='center'>
 					<Grid item>
 						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-							Sign in with Google
+							Login via Google
       			</Button>
 					</Grid>
 				</Grid>
