@@ -31,7 +31,7 @@ class SemesterberichtEntry extends Component {
   getGrade = () => {
     var api = AppAPI.getAPI()
     api.getGradingByProjectandMatr(this.props.project.getID(), this.props.student.getMatrNr()).then((grading) =>
-            {console.log(grading)
+            {console.log(this.props.project, grading)
             this.setState({
                 grading: grading
             })}
@@ -44,7 +44,7 @@ class SemesterberichtEntry extends Component {
       return "In Bewertung"
     }
     else if (this.state.grading === null){
-      return "loading"
+      return "loading..."
     }
     else {
       console.log(this.props.project)
@@ -54,6 +54,11 @@ class SemesterberichtEntry extends Component {
 
   componentDidMount(){
     this.getGrade()
+  }
+
+  componentDidUpdate(prevProps){
+    if (prevProps.project !== this.props.project)
+    this.getGrade(); 
   }
   
   /** Renders the component */

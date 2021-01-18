@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid, ListItem } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GradeList from './GradeList'
@@ -25,7 +25,7 @@ class GradeListEntry extends Component {
       project: this.props.project,
       grading: null,
       participation: this.props.participation,
-      student: null
+      student: null,
     };
   }
 
@@ -34,7 +34,8 @@ class GradeListEntry extends Component {
     api.getGradingById(this.props.participation.getGrading()).then((grading) =>
             {console.log(grading)
             this.setState({
-                grading: grading
+                grading: grading,
+
             }, )}
             )
   }
@@ -44,7 +45,8 @@ class GradeListEntry extends Component {
     api.getStudent(this.props.participation.getStudent()).then((student) =>
             {console.log(student)
             this.setState({
-                student: student
+                student: student,
+
             })}
             )
   }
@@ -55,7 +57,7 @@ class GradeListEntry extends Component {
       return "In Bewertung"
     }
     else if (this.state.grading === null){
-      return "loading"
+      return "Loading..."
     }
     else {
       console.log(this.props.project)
@@ -73,10 +75,12 @@ class GradeListEntry extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
+    const {loadingInProgress} = this.state
 
     return (
     this.state.student != null?
       <div>
+        <LoadingProgress show={loadingInProgress}/>
         <Grid container spacing={1} justify='flex-start' alignItems='center'>
             <Grid item xs={6}>{this.state.student.matr_nr + " - " + this.state.student.name}</Grid>
             <Grid item xs={6}>Note: {this.getGradeofGrading()}</Grid>

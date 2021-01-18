@@ -6,6 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AppAPI from '../../../AppApi/AppApi';
 import GradeListParticipationEntry from './GradeListParicipationEntry'
 import { Typography, Grid } from '@material-ui/core';
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 /**
  * Renders a list of GradeListParticipationEntry objects.
@@ -24,6 +25,7 @@ class GradeListEntry extends Component {
       sumOfGrades: 0,
       numberOfGrades: 0,
       average: 0,
+      loadingInProgress: false
     };
   }
 
@@ -74,8 +76,12 @@ class GradeListEntry extends Component {
           average = sum/number_grades
           console.log(average)
           this.setState({
-            average: average
+            average: average,
+            loadingInProgress: false
           })})
+      })
+      this.setState({
+        loadingInProgress: true
       })
       
     }
@@ -116,6 +122,9 @@ class GradeListEntry extends Component {
             <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
             </Typography>
         </Grid>
+        <ListItem>
+        <LoadingProgress show={this.state.loadingInProgress}/>
+        </ListItem>
           {
             participations.map(participation => <GradeListParticipationEntry key={participation.getID()} project={project} participation={participation} addGrade={this.addGrade}/>)
           }
