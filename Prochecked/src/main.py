@@ -179,10 +179,25 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email())
+            p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+    
+    @prochecked.marshal_with(person, code=200)
+    @prochecked.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Person-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        p = Person.from_dict(api.payload)
+        if p is not None:
+            adm.save_person_by_id(p)
+            return p, 200
+        else:
             return '', 500
 
 @prochecked.route('/persons/<string:google_id>')
@@ -235,6 +250,22 @@ class PersonOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+@prochecked.route('/persons/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'id des Person-Objekts')
+class PersonDeleteOperation(Resource):
+    @prochecked.marshal_with(person)
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Person-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pers = adm.get_person_by_id(id)
+        adm.delete_person(pers)
+        return '', 200
 
 @prochecked.route('/persons-by-name/<string:name>')  
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -307,6 +338,24 @@ class ProjectOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+
+
+@prochecked.route('/projectd/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ProjectDeleteOperations(Resource):
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Project-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.get_project_by_id(id)
+        adm.delete_project(pro)
+        return '', 200
     
     # @prochecked.marshal_list_with(project)
     # @secured
@@ -489,6 +538,9 @@ class ParticipationOperations(Resource):
 
 
         if par is not None:
+            gra = adm.get_grading_by_id(par.get_grading())
+            print("Grading:", gra)
+            adm.delete_grading(gra)
             adm.delete_participation(par)
             return '', 200
         else:
@@ -603,7 +655,7 @@ class StudentLogInOperations(Resource):
     @prochecked.expect(student)  
     @secured
     def post(self):
-        """Anlegen eines neuen Projekt-Objekts.
+        """Anlegen eines neuen Student-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
@@ -613,7 +665,7 @@ class StudentLogInOperations(Resource):
         """
         print(api.payload)
         adm = ProjectAdministration()
-
+        print('studentPost:', api.payload)
         proposal = Student.from_dict(api.payload)
         print(proposal.get_matr_nr())
 
@@ -629,6 +681,20 @@ class StudentLogInOperations(Resource):
             return '', 500
 
 #Semester related
+    @prochecked.marshal_with(student, code=200)
+    @prochecked.expect(student)  # Wir erwarten ein Student-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Student-Objekts."""
+
+        adm = ProjectAdministration()
+        print("Student:", api.payload)
+        s = Student.from_dict(api.payload)
+        if s is not None:
+            adm.save_student(s)
+            return '', 200
+        else:
+            return '', 500
 
 @prochecked.route('/semesters')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -655,10 +721,11 @@ class SemestersOperations(Resource):
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
         adm = ProjectAdministration()
-        print(api.payload)
+        print("Semester", api.payload)
+
         proposal = Semester.from_dict(api.payload)
         #print(proposal.get_grade(), proposal.get_passed())
-        #print(api.payload)
+
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -671,6 +738,21 @@ class SemestersOperations(Resource):
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+    
+    @prochecked.marshal_with(semester, code=200)
+    @prochecked.expect(semester)  # Wir erwarten ein Semester-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Semester-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        s = Semester.from_dict(api.payload)
+        if s is not None:
+            adm.save_semester(s)
+            return '', 200
+        else:
+            return '', 500
 
     
 
@@ -679,6 +761,7 @@ class SemestersOperations(Resource):
 @prochecked.param('id', 'Die ID des Semester-Objekts.')
 class SemesterOperations(Resource):
 
+    @secured
     def delete(self, id):
         """Löschen eines bestimmten Semester-Objekts.
 
@@ -764,6 +847,7 @@ class GradingByParticipationOperation(Resource):
         #     print(p)'
         return gra
 
+
 @prochecked.route('/gradings/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die id des Grading-Objekts')
@@ -780,6 +864,31 @@ class GradingOperations(Resource):
         gra = adm.get_grading_by_id(id)
         
         return gra
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Participation-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        g = adm.get_grading_by_id(id)
+        p = adm.get_participation_by_id(g.get_participation())
+        if p is not None:
+            p.set_grading(0)
+            adm.save_participation(p)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id keine Participation existiert.'''
+        
+        # print(g.get_name(), g.get_id())
+        if g is not None:
+            adm.delete_grading(g)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Grading existiert.'''
+    
     
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -870,7 +979,7 @@ class ModuleOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    #adm = ProjectAdministration()
+    
     #adm.delete_semester(1)
 
     '''project = Project()
@@ -886,4 +995,10 @@ if __name__ == '__main__':
     # p = adm.get_projects_by_state(2)
     # for i in p:
     #     print(i.get_name(), i.get_project_state())
+
+    '''s = Semester()
+    s.set_id(4)
+    s.set_name("Peter")
+    
+    adm.save_semester(s)'''
    

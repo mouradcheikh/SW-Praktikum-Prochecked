@@ -23,26 +23,21 @@ from .db.ProjectTypeMapper import ProjectTypeMapper
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
-
-
 class ProjectAdministration (object):
     def __init__(self):
         pass 
 
-
-        
-
 #Person related
-    def create_person(self, name, google_id, email):
+    def create_person(self, name, google_id, email, berechtigung):
         #berechtigung?
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
+        person.set_berechtigung(berechtigung)
         #person.set_berechtigung(berechtigung)
         person.set_id(1)
         
-
         adm = ProjectAdministration()
         person_exists = adm.get_person_by_google_id(google_id)
 
@@ -95,13 +90,25 @@ class ProjectAdministration (object):
         #     person.set_berechtigung(updated_role)   
         
         with PersonMapper() as mapper:
-            mapper.update(person)
+            return mapper.update(person)
+
+    def save_person_by_id(self, person):
+        """Die gegebene Person speichern."""
+        """Methode mir Rollentabelle"""
+        with PersonMapper() as mapper:
+            mapper.update_by_id(person)
         
     
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""
+        adm = ProjectAdministration()
+        stu = adm.get_student_by_person_id(person.get_id())
+        if stu is not None:
+            with StudentMapper() as mapper:
+                mapper.delete(stu)
+
         with PersonMapper() as mapper:
-            mapper.delete(person)
+            mapper.delete_by_id(person)
 
         
     def get_dozent_by_id(self, id): #Person_by_id???
@@ -145,7 +152,6 @@ class ProjectAdministration (object):
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
 
-
     def get_student_by_person_id(self, person_id):
         with StudentMapper() as mapper:
             stud = mapper.find_by_person_id(person_id) 
@@ -161,14 +167,13 @@ class ProjectAdministration (object):
             stud.set_berechtigung(pers.get_berechtigung())
         return stud
         
-
     def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             stud = mapper.find_by_id(id)
             print("Student", stud) 
 
         with PersonMapper() as mapper:
-            
+
             pers = mapper.find_by_id(stud.get_person())
             print("Person:", pers)
 
@@ -177,7 +182,6 @@ class ProjectAdministration (object):
         stud.set_email(pers.get_email())
         stud.set_berechtigung(pers.get_berechtigung())
         return stud
-
 
     def create_student(self,matr_nr,studiengang,person_id):
         
@@ -190,6 +194,10 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             return mapper.insert(student)
     
+    def save_student(self, student):
+        with StudentMapper() as mapper:
+            mapper.update(student)
+    
 
     '''# def get_student_by_name(self, name):
     #     with StudentMapper() as mapper:
@@ -199,9 +207,7 @@ class ProjectAdministration (object):
     #     with StudentMapper() as mapper:
     #         return mapper.find_by_student_id(project.get_id())
 
-    # def save_student(self, student):
-    #     with StudentMapper() as mapper:
-    #         mapper.update(student)
+  
 
     # def delete_student(self, student):
     #     with StudentMapper() as mapper:
@@ -321,7 +327,7 @@ class ProjectAdministration (object):
     def get_project_by_id(self, id):
         """Das Project mit der gegebenen ID auslesen."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_id(id) 
+            return mapper.find_by_id(id)
 
   
 
@@ -332,7 +338,8 @@ class ProjectAdministration (object):
         pass
 
     def delete_project(self, project):
-        pass
+        with ProjectMapper() as mapper:
+            mapper.delete(project)
 
     def create_project(self, project):
         with ProjectMapper() as mapper:
@@ -393,7 +400,8 @@ class ProjectAdministration (object):
             return gra
 
     def delete_grading(self, grading):
-        pass
+         with GradingMapper() as mapper:
+            mapper.delete(grading)
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:
@@ -479,6 +487,13 @@ class ProjectAdministration (object):
         """Ein Semester löschen"""
         with SemesterMapper() as mapper:
             mapper.delete(semester)
+
+    def save_semester(self, semester):
+        """Ein Semester updaten"""
+        with SemesterMapper() as mapper:
+            mapper.update(semester)
+
+         
 
     
   

@@ -97,6 +97,26 @@ class SemesterMapper(Mapper):
         return result
 
 
+    def update(self, semester):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param semester das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE semester " + "SET creation_date=%s, name=%s WHERE id=%s"
+
+        data = (
+                semester.get_creation_date(),
+                semester.get_name(),
+                semester.get_id())
+
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
+
 if __name__ == "__main__":
     with SemesterMapper() as mapper:
         mapper.delete(1)

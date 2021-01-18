@@ -10,6 +10,9 @@ import {GradingBO} from '../../AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
+import IconButton from '@material-ui/core/IconButton';
+
+
 
 /**
  * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links participations 
@@ -100,7 +103,9 @@ class ParticipationListEntry extends Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null
-    });
+    }, () => this.parentCall()
+    
+    );
   }
 
   createGrading(grade, participation_id){
@@ -116,7 +121,7 @@ class ParticipationListEntry extends Component {
       }
 
   /** Updates the grading */
-  updateGrading = (newGrade) => {
+  updateGrading = (newGrade, participation_id) => {
     // console.log()
     // clone the original grading, in case the backend call fails
     let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
@@ -124,6 +129,7 @@ class ParticipationListEntry extends Component {
     // set the new attributes from our dialog
     // console.log(this.state.student.id)
     updatedGrading.setGrade(newGrade);
+    updatedGrading.setParticipation(participation_id)
     // console.log(updatedGrading)
     
     AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
@@ -146,7 +152,8 @@ class ParticipationListEntry extends Component {
     this.setState({
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
-    });
+    }, () => this.parentCall()
+    );
   }
   
 getGrading = () => {
@@ -176,10 +183,39 @@ getGrading = () => {
   }
 }
 
+
+
+  /** Deletes this participation */
+  deleteGrading = () => {
+    var api = AppApi.getAPI()
+    api.deleteGrading(this.state.grade.getID()).then(() => {
+      this.setState({  // Set new state when ParticipationBOs have been fetched
+        deletingInProgress: false, // loading indicator 
+        deletingError: null
+      })
+      // console.log(participation);
+      // this.props.onParticipationDeleted(participation); //Elternkomponentenaufruf
+    }).catch(e =>
+      this.setState({ // Reset state with error from catch 
+        deletingInProgress: false,
+        deletingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      deletingInProgress: true,
+      deletingError: null
+    }, () => this.parentCall()
+    );
+  }
+
 setStudent = (student) => {
   this.setState({
     student: student
   })
+}
+parentCall = () => {
+  this.props.getParticipationsByProject()
 }
 
 // updateProject = (new_state) => {
@@ -248,7 +284,7 @@ setStudent = (student) => {
     }
   }
 
-  /** Handles click events from the !!!!!!!!!!!!!!!!!!!!transfer money button */
+ 
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ grade:
@@ -259,7 +295,8 @@ setStudent = (student) => {
       this.getGrading() 
     }
       else {
-        this.updateGrading(this.textInput.current.value)
+        this.updateGrading(this.textInput.current.value, this.props.participation.getID())
+     
       }
       // this.updateProject(5)
     }
@@ -320,7 +357,7 @@ setStudent = (student) => {
         <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud={this.setStudent}/>
       </div>
 
-      :project.project_state ===4?
+      :project.project_state >=4?
       <div>
         <ListItem>
           <Typography className={classes.participationEntry}>
@@ -355,9 +392,22 @@ setStudent = (student) => {
               </Button>
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
+            {/* {project.project_state ===4? */}
             <Typography variant='body2' color={'textSecondary'}>
-              Bewertet: {grade.grade + " - " + this.passed()}
-          </Typography>
+              {grade.grade != null?  
+              <div>Bewertet: {grade.grade + " - " + this.passed()}
+              
+           
+
+            <IconButton aria-label="delete" onClick={() => this.deleteGrading()}
+ >             <DeleteIcon />
+            </IconButton>
+            </div>
+            :'unbewertet'}
+
+            </Typography>
+           
+
             </div>
 
           <ListItemSecondaryAction>          
@@ -378,7 +428,7 @@ setStudent = (student) => {
 
       :
       <div>
-        <ListItem>
+        {/* <ListItem>
           <Typography className={classes.participationEntry}>      
             <div>
               {student.matr_nr + " - " + student.name}
@@ -395,7 +445,7 @@ setStudent = (student) => {
           <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
           <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
         </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/>
+        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/> */}
       </div>
     );
   }
