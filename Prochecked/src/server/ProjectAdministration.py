@@ -527,9 +527,9 @@ class ProjectAdministration (object):
             return mapper.find_all()
 
     def create_module(self, module):
-        module = Module()
-        module.set_name(module.get_name())
-        module.set_edv_nr(module.get_name())
+        # module = Module()
+        # module.set_name(module.get_name())
+        # module.set_edv_nr(module.get_name())
    
         with ModuleMapper() as mapper:
             mapper.insert(module)
