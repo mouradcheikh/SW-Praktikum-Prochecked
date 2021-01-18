@@ -956,7 +956,7 @@ class ModuleOperations(Resource):
 @prochecked.route('/module/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @prochecked.param('id', 'Die ID des Participation-Objekts.')
-class ModuleOperations(Resource):
+class ModuleDeleteOperations(Resource):
 
     def delete(self, id):
         """Löschen eines bestimmten Module-Objekts.
@@ -979,8 +979,10 @@ class ModuleOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    
-    #adm.delete_semester(1)
+    ''' m = Module()
+    m.set_id(1)
+    adm = ProjectAdministration()
+    adm.delete_module(m)'''
 
     '''project = Project()
     project.set_id(1)

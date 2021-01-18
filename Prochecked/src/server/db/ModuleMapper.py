@@ -71,7 +71,7 @@ class ModuleMapper(Mapper):
         return module
     
 
-    def find_by_id(self, ):
+    def find_by_id(self, id ):
 
         result = None
 
@@ -113,7 +113,13 @@ class ModuleMapper(Mapper):
         cursor.close()
 
 if (__name__ == "__main__"):
+
+
+    m = Module()
+    m.set_id(1)
+
     with ModuleMapper() as mapper:
-        result = mapper.find_all()
-        for p in result:
-            print(p)
+        # result = mapper.find_all()
+        # for p in result:
+        #     print(p)
+        mapper.delete(m)
