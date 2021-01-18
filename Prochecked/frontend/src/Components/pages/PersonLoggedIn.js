@@ -4,6 +4,8 @@ import AdminView from './AdminView'
 import DozentView from './DozentView'
 import UserView from './UserView'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+// import SidebarAdmin from '../SidebarAdmin';
+import SidebarAdmin from '../layout/SidebarAdmin';
 
 class PersonLoggedIn extends Component {
     constructor(props) {
@@ -11,9 +13,11 @@ class PersonLoggedIn extends Component {
     }
     render() 
     { 
+
         let page
         let berechtigung = this.props.berechtigung
         let student = this.props.student
+        let person = this.props.person
         // if (berechtigung === 1 && student.getID() != null){
         //     page = <> 
         //             <Redirect to={{
@@ -84,6 +88,7 @@ class PersonLoggedIn extends Component {
         }
         return(
             <div>
+                <SidebarAdmin person ={person}/>
                 {page}
             </div>
             

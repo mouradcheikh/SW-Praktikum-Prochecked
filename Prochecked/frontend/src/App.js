@@ -11,6 +11,8 @@ import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignI
 import UserView from './Components/pages/UserView';
 import Header from './Components/layout/Header';
 
+import SidebarAdmin from './Components/layout/SidebarAdmin';
+
 
 import LoadingProgress from './Components/dialogs/LoadingProgress';
 import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
@@ -263,6 +265,7 @@ class App extends React.Component {
     	/** Renders the whole app */
 	render() {
         const { person, appError, authError, authLoading } = this.state;
+        console.log(this.state)
         
 		return (
 			<ThemeProvider theme={Theme}>
@@ -270,7 +273,13 @@ class App extends React.Component {
 				<Router basename={process.env.PUBLIC_URL}>
 					<Container maxWidth='md'>
                         <Paper style={{backgroundColor: blueGrey[900]}}>
+                            
                             <Header person = {person}/>
+
+
+                           
+                            
+                            
                             
                            
                             <Route exact path = '/StudentView' component = {StudentView}/>
@@ -291,6 +300,8 @@ class App extends React.Component {
                             {
                                 // Ist eine Person eingeloggt?
                             person ?
+                                    
+                                    
                                     <PersonLoggedIn berechtigung = {this.state.person.berechtigung} person = {this.state.person} setRole = {this.setRole} student = {this.state.student}></PersonLoggedIn>
 
                                     
@@ -300,12 +311,14 @@ class App extends React.Component {
                                         <Redirect to='/SignIn' />
                                         <SignIn onSignIn={this.handleSignIn} />
                                     </>
-                            }
 
+                            }       
                                                
                             <LoadingProgress show={authLoading} />
                             <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
                             <ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
+                            {/* </div>
+                            } */}
                         </Paper>
 					</Container>
 				</Router>

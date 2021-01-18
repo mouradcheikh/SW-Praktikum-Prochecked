@@ -12,7 +12,7 @@ import UserView from '../UserView'
 import StudentLogin from './StudentLogin'
 import ProjectListStudent from './ProjectListStudent'
 import { AppApi } from '../../../AppApi/AppApi'
-import Sidebar from '../../../Components/layout/Sidebar';
+// import Sidebar from '../../../Components/layout/Sidebar';
 
 
 // function StudentView(props) {
@@ -30,7 +30,7 @@ class StudentView extends Component{
 
     return(
     <div>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>

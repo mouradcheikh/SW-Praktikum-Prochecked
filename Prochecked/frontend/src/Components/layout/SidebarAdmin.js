@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { SidebarData } from './SidebarData';
+import { SidebarDataAdmin } from './SidebarDataAdmin';
+import { SidebarDataDozent } from './SidebarDataDozent';
+import { SidebarDataStudent } from './SidebarDataStudent';
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
 
@@ -41,12 +43,16 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  // const person = props.person;
+
+  console.log(props)
 
   return (
+    
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
@@ -59,9 +65,62 @@ const Sidebar = () => {
             <NavIcon to='#'>
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
-            {SidebarData.map((item, index) => {
+
+
+
+            {
+             props.person.berechtigung===3?
+            
+            SidebarDataAdmin.map((item, index) => {
               return <SubMenu item={item} key={index} />;
-            })}
+            })
+            
+
+            :props.person.berechtigung ===2?
+            SidebarDataDozent.map((item, index) => {
+              return <SubMenu item={item} key={index} />;
+            })
+
+            :
+            SidebarDataStudent.map((item, index) => {
+              return <SubMenu item={item} key={index} />;
+            })
+
+          }
+
+            {/* {(() =>
+            {
+            if (props.person.berechtigung===3){
+
+              SidebarDataAdmin.map((item, index) => {
+                return <SubMenu item={item} key={index} />;
+              })
+            }
+            else if(props.person.berechtigung ===2){
+              SidebarDataDozent.map((item, index) => {
+                return <SubMenu item={item} key={index} />;
+              })
+            }
+            else{
+              SidebarDataStudent.map((item, index) => {
+                console.log("fcsfdf")
+                return <SubMenu item={item} key={index} />;
+                
+                  })
+            }
+            
+           }) */}
+          
+           
+            
+
+            
+
+
+            
+            
+
+
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
