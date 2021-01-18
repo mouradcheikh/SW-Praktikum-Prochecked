@@ -4,7 +4,8 @@ import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
-
+import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 
 class CreateModule extends React.Component {
@@ -15,14 +16,20 @@ class CreateModule extends React.Component {
         this.state = {
             module: null, //für CreateModule das State 
             moduleList: [], // für ModuleList das State 
+            moduleValidationFailed: false, //prüft eingabe des module im Textfeld
+            success: false, //r:nach eingabe des Module wird state auf true gesetzt --> status erfolgreich wird angezeigt
+            textField: false,
+            updateS: '',
+            editButton: false,
+            edv_nr: ''
         }
     }
 
     /** Create module */
-    createModule(module){
+    createModule(module, edv_nr){
     var api = AppApi.getAPI()
     // console.log(api)
-    api.createModule(module).then((module) =>
+    api.createModule(module, edv_nr).then((module) =>
         {
           // console.log(modudle)
         this.setState({
@@ -65,13 +72,54 @@ class CreateModule extends React.Component {
           )
         }
       
-        handleSubmit = e => { console.log(this.textInput.current.value)
-          e.preventDefault();
-          this.setState({ 
-            module: this.textInput.current.value},
-            () => {this.createModule(this.textInput.current.value)})
+        textFieldValueChange = (event) => {
+          const value = event.target.value;
+    
+          this.setState({
+            [event.target.id]: value,
+          });
+    
+          if(value.length > 2){ //eingabe des textfields muss mindestens 2 zeichen enthalten
+          
+            this.setState({
+              moduleValidationFailed: false,
+            })
+    
+          this.state.module.map(s => 
+            {if(s.name === value){ //r:prüft ob modul bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
+            this.setState({
+              moduleValidationFailed: true,
+              
+          })
+        }        
+          })
         }
-
+          else {
+            this.setState({
+              moduleValidationFailed: true,
+            })
+          }
+        }
+          
+        handleSubmit = (event) => {
+          event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+          if (this.state.editButton === false){
+            if (this.state.module === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+            this.createModule(this.state.module)
+            this.setState({
+              success : true,
+            })
+            }
+          }
+          else {
+            if (this.state.moduleValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
+              this.updateModule(this.state.module)
+              this.setState({
+                success : true,
+              })
+            }
+          }
+        }
 
     
       /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
@@ -82,7 +130,7 @@ class CreateModule extends React.Component {
          
     render() { 
         const { classes  } = this.props;
-        const { module, moduleList } = this.state; 
+        const { module, moduleList, updateS, editButton, moduleValidationFailed, success, textField } = this.state; 
         return (
         module !== null? 
         <div>
@@ -90,15 +138,47 @@ class CreateModule extends React.Component {
             <Grid item xs={6}>
             <h1>Neues Modul eintragen</h1>
             <Paper className={classes.paper}>
-              <form className={classes.root} noValidate autoComplete='off'>
-          <input placeholder= "Module" type="text" ref={this.textInput} className= "form-control"/>
-           <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' onClick={this.handleSubmit}  >
-           Eintragen
-           </Button>
-              <Typography variant='body2' color={'textSecondary'}>
-              Modul erfolgreich eingetragen!
-              </Typography>
-            </form>
+            <form onSubmit={this.handleSubmit}>
+                <TextField 
+                  className={classes.formControl}
+                  autoFocus type='text' 
+                  required 
+                  fullWidth 
+                  margin='normal' 
+                  id='module' 
+                  label='module:' 
+                  onChange={this.textFieldValueChange} 
+                  error={moduleValidationFailed} 
+                  helperText={moduleValidationFailed ? 'Bitte geben Sie ein Module ein (z.B. ADS)' : success ===true ? 'Module erfolgreich eingetragen!' :''} 
+                  />
+                <TextField id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
+                <Grid>
+                <Button 
+                  type = "submit" 
+                  className={classes.buttonMargin} 
+                  variant='contained' 
+                  color='primary' 
+                  size='small'
+                  startIcon = {< AddIcon/>}
+                >
+                Eintragen
+                </Button>
+                </Grid>
+                <Grid>
+                { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                </Grid>
+                    
+              </form>
             </Paper>
             </Grid>
             <Grid item xs={6}>

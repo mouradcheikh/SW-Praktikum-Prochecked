@@ -861,10 +861,11 @@ getStudentByMatrikelNummer(matr_nr) {
 }
 
 
- createModule(module) {
+ createModule(name, edv_nr) {
 
   let m = new ModuleBO();
-  m.setName(module)
+    m.setName(name)
+    m.setEdv_nr(edv_nr)
   // console.log(m)
 
   return this.#fetchAdvanced(this.#addModuleURL(), {

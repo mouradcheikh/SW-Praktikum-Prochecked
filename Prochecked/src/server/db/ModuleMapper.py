@@ -33,6 +33,44 @@ class ModuleMapper(Mapper):
 
         return result
 
+    def insert(self, module):
+        """Einfügen eines Modul-Objekts in die Datenbank.
+
+        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+        berichtigt.
+
+        :param module das zu speichernde Objekt
+        :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
+        """
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM module ")
+        tuples = cursor.fetchall()
+
+        for (maxid) in tuples:
+            if maxid[0] is not None:
+                """Wenn wir eine maximale ID festellen konnten, zählen wir diese
+                um 1 hoch und weisen diesen Wert als ID dem Module-Objekt zu."""
+                module.set_id(maxid[0] + 1)
+            else:
+                """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
+                davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
+                module.set_id(1)
+
+        command = "INSERT INTO module (id, creation_date, name, edv_nr) VALUES (%s,%s,%s)"
+        data = (module.get_id(), 
+                module.get_creation_date(), 
+                module.get_name(),
+                module.get_edv_nr(),
+               )
+
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return module
+    
+
     def find_by_id(self, ):
 
         result = None

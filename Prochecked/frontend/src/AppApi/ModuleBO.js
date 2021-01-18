@@ -13,9 +13,10 @@ export default class ModuleBO extends BusinessObject {
    * 
 //    * @param {String} aname - the name of this PersonBO. ????
    */
-  constructor(aname) {
+  constructor(aname, aedv_nr) {
     super();
     this.name = aname
+    this.edv_nr = aedv_nr
    
   }
 
@@ -29,6 +30,12 @@ export default class ModuleBO extends BusinessObject {
   }
   getName() {
     return this.name
+  }
+  setEdv_nr(aedv_nr) {
+    this.edv_nr = aedv_nr
+  }
+  getEdv_nr() {
+    return this.edv_nr
   }
 
  

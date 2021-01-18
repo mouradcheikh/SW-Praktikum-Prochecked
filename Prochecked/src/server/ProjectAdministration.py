@@ -529,6 +529,7 @@ class ProjectAdministration (object):
     def create_Module(self, name):
         module = Module()
         module.set_name(name)
+        module.set_edv_nr(edv_nr)
    
         with ModuleMapper() as mapper:
             mapper.insert(module)
