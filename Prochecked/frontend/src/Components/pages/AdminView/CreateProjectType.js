@@ -140,11 +140,7 @@ deleteProjectType = (t) => { console.log(t.getID())
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     if (this.state.typeValidationFailed === false) {
       //t: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.CreateProjectType(
-        this.state.type,)
-        this.state.ects,
-        this.state.sws,
-
+      this.CreateProjectType(this.state.type);
       this.setState({
         success: true,
       });
