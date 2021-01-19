@@ -108,7 +108,7 @@ class Semesterbericht extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     let person = this.props.location.state.student
-    this.getProjectsByStudent(person.getMatrNr())
+    this.getProjectsByStudent(person.matr_nr)
     // Im backend wird dann zuerst die id des studenten objekts rausgefunden mithilfe der matrikelnummer, dann mit der id die participations rausgeholt und dann mit der projekt id in den participations die projekte hochgeholt
   }
 
