@@ -82,7 +82,7 @@ student = api.inherit('Student', person, {
 })
 
 module = api.inherit('Module', nbo, {
-    'edv_nr': fields.String(attribute='__edv_nr',
+    'edv_nr': fields.String(attribute='_edv_nr',
                              description='EDV-Nummer eines Moduls')
 })
 
@@ -953,7 +953,7 @@ class ProjectTypeOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_projecttype(proposal.get_name(), proposal.get_number_ects(), proposal.get_number_sws(), proposal.get_id())
+            p = adm.create_projecttype(proposal.get_name(), proposal.get_number_ects(), proposal.get_number_sws())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -1109,19 +1109,6 @@ class BoundModuleOperations(Resource):
         return mod
 
 
-#Projecttype related 
-
-@prochecked.route('/projecttypes')
-@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectTypeOperations(Resource):
-    @prochecked.marshal_list_with(projecttype)
-    @secured
-    def get(self):
-        """Auslesen aller Module-Objekte, die in gegebenem Semester noch frei sind.
-        """
-        adm = ProjectAdministration()
-        types = adm.get_all_project_types()
-        return types
 
 
 

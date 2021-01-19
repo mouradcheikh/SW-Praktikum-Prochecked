@@ -86,7 +86,6 @@ export default class AppAPI {
 
     
     //ProjectType related
-    #getProjectTypesURL = () => `${this.#AppServerBaseURL}/projecttypes`;
     #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
@@ -1023,7 +1022,7 @@ deleteModule(id) {
 
 
   getAllProjectTypes(){
-    return this.#fetchAdvanced(this.#getProjectTypesURL()).then((responseJSON) => {
+    return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
       console.log(responseJSON)
       let projectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
       console.log(projectTypeBOs);
