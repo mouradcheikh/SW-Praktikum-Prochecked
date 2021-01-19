@@ -144,9 +144,9 @@ grading = api.inherit('Grading', bo, {
 })
 
 projecttype = api.inherit('ProjectType', nbo, {
-    'nummber_ECTS': fields.Integer(attribute = '_number_ECTS',        
+    'number_ects': fields.Integer(attribute = '_number_ECTS',        
                                    description= 'Anzahl der ECTS des Projekts'),
-    'nummber_SWS': fields.Integer(attribute = '_number_SWS',        
+    'number_sws': fields.Integer(attribute = '_number_SWS',        
                                    description= 'Anzahl der SWS des Projekts')
 })
 
