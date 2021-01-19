@@ -5,6 +5,7 @@ import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
 import ModuleBO from './ModuleBO'
+import ProjectTypeBO from './ProjectTypeBO'
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -81,7 +82,10 @@ export default class AppAPI {
     #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
 
     
-
+    //ProjectType related
+    #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
+    #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
+    #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
       /** 
    * Get the Singelton instance 
    * 
@@ -837,6 +841,58 @@ getStudentByMatrikelNummer(matr_nr) {
         })
       })
     }
+  
+    //ProjectType related
+      getProjectType() {
+        // console.log("vorFetch in getPersons")
+              return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
+                let ProjectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
+                return new Promise(function (resolve) {
+                  
+                  resolve(ProjectTypeBOs);
+                })
+              })
+            }
+
+      createProjectType(aname, sws, ects) {
+
+              let p = new ProjectTypeBO();
+              p.setName(aname)
+              p.setSWS(sws)
+              p.setECTS(ects)
+              // console.log(p)
+      
+              return this.#fetchAdvanced(this.#addProjectTypeURL(), {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json, text/plain',
+                  'Content-type': 'application/json',
+                },
+                body: JSON.stringify(p)
+                }).then((responseJSON) => {
+                // We always get an array of PersonBOs.fromJSON, but only need one object
+                  let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+                // console.info(participationBOs);
+                  return new Promise(function (resolve) {
+                  resolve(responseProjectTypeBO);
+                })
+              })
+            }
+      deleteProjectType(id) {
+              return this.#fetchAdvanced(this.#deleteProjectTypeURL(id), {
+                method: 'DELETE'
+              })
+                .then((responseJSON) => {
+                  // We always get an array of ParticipationBO.fromJSON, but only need one object
+                  let ProjectTypesBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+                  // console.info(participationBOs);
+                  return new Promise(function (resolve) {
+                    resolve(ProjectTypeBO);
+                  })
+                })
+            }
+
+    
 
 
 
@@ -905,7 +961,7 @@ deleteModule(id) {
 }
 
 
-
+}
 
 
 
@@ -917,7 +973,6 @@ deleteModule(id) {
 
 
 
-}
 
 
 

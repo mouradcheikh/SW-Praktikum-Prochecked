@@ -15,11 +15,12 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
+from .db.ProjectTypeMapper import ProjectTypeMapper
 
 from .db.RoleMapper import RoleMapper
 from .db.GradingMapper import GradingMapper
 from .db.ModuleMapper import ModuleMapper
-from .db.ProjectTypeMapper import ProjectTypeMapper
+
 from .db.ProjectStateMapper import ProjectStateMapper
 from .db.AutomatMapper import AutomatMapper
 
@@ -544,10 +545,36 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             mapper.delete(module)
 
+#ProjectType Related
+    def create_projecttype(self, name, number_ects, number_sws):
+        projecttype = ProjectType()
+        projecttype.set_name(name)
+        projecttype.set_number_ects(number_ects)
+        projecttype.set_number_sws(number_sws)
+        projecttype.set_id(1)
+   
+        with ProjectTypeMapper() as mapper:
+            mapper.insert(projecttype)
 
 
+    def get_projecttype_by_id(self, id):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_by_id(id)
 
+    def save_projecttype_by_id(self, projecttype):
+            """Die gegebene Person speichern."""
+            """Methode mir Rollentabelle"""
+            with ProjectTypeMapper() as mapper:
+                mapper.update_by_id(projecttype)
+    
+    def delete_projecttype(self, projecttype):
+        """Eine Participation löschen"""
+        with ProjectTypeMapper() as mapper:
+            mapper.delete(projecttype)
 
+    def get_all_projecttype(self):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_all()
 
 
 
