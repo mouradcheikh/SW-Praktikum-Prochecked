@@ -956,7 +956,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
   let m = new ModuleBO();
     m.setName(name)
-    m.setEdv_nr(edv_nr)
+    m.setedv(edv_nr)
   // console.log(m)
 
   return this.#fetchAdvanced(this.#addModuleURL(), {
