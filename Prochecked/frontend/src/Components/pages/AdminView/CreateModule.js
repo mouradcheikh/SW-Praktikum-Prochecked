@@ -60,7 +60,8 @@ class CreateModule extends React.Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null
-    });
+    },()=> {this.ModuleList()}
+    );
   }
 
   

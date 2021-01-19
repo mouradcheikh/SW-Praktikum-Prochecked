@@ -966,7 +966,7 @@ class ModuleDeleteOperations(Resource):
 
         adm = ProjectAdministration()
         m = adm.get_module_by_id(id)
-        print(m.get_name(), m.get_id())
+        # print(m.get_name(), m.get_id())
         if m is not None:
             adm.delete_module(m)
             return '', 200
