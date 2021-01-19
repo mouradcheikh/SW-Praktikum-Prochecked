@@ -14,14 +14,14 @@ import { AppApi } from "../../../AppApi";
 import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import { ProjectTypeBO } from "../../../AppApi";
+import SaveIcon from '@material-ui/icons/Save';
 
 class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '', //für CreateProjectType
+      name: null, //für CreateProjectType
       ects:'',
       sws:'',
       type:'',
@@ -45,7 +45,7 @@ class CreateProjectType extends React.Component {
           },
           )}
           )
-          console.log(this.state.person)
+          console.log(this.state.type)
         }
 
 
@@ -140,7 +140,11 @@ deleteProjectType = (t) => { console.log(t.getID())
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     if (this.state.typeValidationFailed === false) {
       //t: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.CreateProjectType(this.state.type);
+      this.CreateProjectType(
+        this.state.type,)
+        this.state.ects,
+        this.state.sws,
+
       this.setState({
         success: true,
       });
