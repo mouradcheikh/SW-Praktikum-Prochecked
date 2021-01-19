@@ -21,12 +21,12 @@ class CreateProjectType extends React.Component {
     super(props);
 
     this.state = {
-      name: '', //für CreateRole
+      name: '', //für CreateProjectType
       ects:'',
       sws:'',
       type:'',
       allTypes: [], // für Rollenliste
-      roleValidationFailed: false, //prüft eingabe des semsters im Textfeld
+      typeValidationFailed: false, //prüft eingabe des projectType im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
     };
   }
@@ -93,24 +93,24 @@ class CreateProjectType extends React.Component {
       [event.target.id]: value,
     });
 
-    if (value.length > 3) {
-      //eingabe des textfields muss mindestens 3 zeichen enthalten
+    if (value.length > 1) {
+      //eingabe des textfields muss mindestens 1 zeichen enthalten
 
       this.setState({
-        roleValidationFailed: false,
+        typeValidationFailed: false,
       });
 
       this.state.allTypes.map((t) => {
         if (t.name === value) {
-          //r:prüft ob role bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
+          //t:prüft ob projectType bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
           this.setState({
-            roleValidationFailed: true,
+            typeValidationFailed: true,
           });
         }
       });
     } else {
       this.setState({
-        roleValidationFailed: true,
+        typeValidationFailed: true,
       });
     }
   };
@@ -153,7 +153,7 @@ deleteProjectType = (t) => { console.log(t.getID())
 
   render() {
     const { classes } = this.props;
-    const { name, type, sws, ects, allTypes, roleValidationFailed, success } = this.state;
+    const { name, type, sws, ects, allTypes, typeValidationFailed, success } = this.state;
     return (
       <div>
         <Grid container spacing={3}>
@@ -172,11 +172,11 @@ deleteProjectType = (t) => { console.log(t.getID())
                   label="Projektart"
                   value={name}
                   onChange={this.textFieldValueChange}
-                  error={roleValidationFailed}
-                  onInput={(e) => this.setState({ role: e.target.value })}
+                  error={typeValidationFailed}
+                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
-                    roleValidationFailed
-                      ? "Bitte geben Sie eine Projektart ein (z.B. Admin, Dozent, Zuschauer...)"
+                    typeValidationFailed
+                      ? "Bitte geben Sie einen Projektart ein"
                       : success === true
                       ? "Projektart erfolgreich eingetragen!"
                       : ""
@@ -193,10 +193,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   label="ECTS"
                   value={ects}
                   onChange={this.textFieldValueChange}
-                  error={roleValidationFailed}
-                  onInput={(e) => this.setState({ role: e.target.value })}
+                  error={typeValidationFailed}
+                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
-                    roleValidationFailed
+                    typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an ECTS ein:"
                       : success === true
                       ? "ECTS erfolgreich eingetragen!"
@@ -214,10 +214,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   label="SWS"
                   value={sws}
                   onChange={this.textFieldValueChange}
-                  error={roleValidationFailed}
-                  onInput={(e) => this.setState({ role: e.target.value })}
+                  error={typeValidationFailed}
+                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
-                    roleValidationFailed
+                    typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an SWS ein:"
                       : success === true
                       ? "SWS erfolgreich eingetragen!"

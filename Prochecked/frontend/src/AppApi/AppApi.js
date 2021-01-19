@@ -74,7 +74,7 @@ export default class AppAPI {
     //ProjectType related
     #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
-    #deleteProjectTypeURL = () => `${this.#AppServerBaseURL}/projectType/${id}`
+    #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
       /** 
    * Get the Singelton instance 
    * 
@@ -821,7 +821,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
       createProjectType(aname, sws, ects) {
 
-              let t = new ProjectTypeBOs();
+              let p = new ProjectTypeBO();
               p.setName(aname)
               p.setSWS(sws)
               p.setECTS(ects)
@@ -836,7 +836,7 @@ getStudentByMatrikelNummer(matr_nr) {
                 body: JSON.stringify(p)
                 }).then((responseJSON) => {
                 // We always get an array of PersonBOs.fromJSON, but only need one object
-                  let responseProjectTypeBO = ProjectTypeBOs.fromJSON(responseJSON)[0];
+                  let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
                 // console.info(participationBOs);
                   return new Promise(function (resolve) {
                   resolve(responseProjectTypeBO);
@@ -849,10 +849,10 @@ getStudentByMatrikelNummer(matr_nr) {
               })
                 .then((responseJSON) => {
                   // We always get an array of ParticipationBO.fromJSON, but only need one object
-                  let ProjectTypesBOs = ProjectTypeBO.fromJSON(responseJSON)[0];
+                  let ProjectTypesBO = ProjectTypeBO.fromJSON(responseJSON)[0];
                   // console.info(participationBOs);
                   return new Promise(function (resolve) {
-                    resolve(ProjectTypeBOs);
+                    resolve(ProjectTypeBO);
                   })
                 })
             }
