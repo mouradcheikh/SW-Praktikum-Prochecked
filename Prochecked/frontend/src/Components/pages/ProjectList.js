@@ -55,8 +55,10 @@ class ProjectList extends Component {
       showProjectForm: false, //evtl.nicht 
       
       adminProf:  this.props.location.state.adminProf, 
-      person: this.props.location.state.linkState   
+      person: this.props.location.state.linkState 
+    
     };
+    console.log(this.state, this.props)
   }
 
   

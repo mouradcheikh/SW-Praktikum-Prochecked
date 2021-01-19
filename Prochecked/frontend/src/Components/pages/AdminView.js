@@ -6,7 +6,7 @@ import { makeStyles, createStyles, createMuiTheme, Theme } from '@material-ui/co
 import {withStyles, Button, List, ListItem, ListItemSecondaryAction, Typography, Input, Grid } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex',
@@ -15,54 +15,56 @@ const useStyles = makeStyles((theme: Theme) =>
       // backgroundColor: 'gray'
     },
     paper: {
-      padding: theme.spacing(2),
+      // padding: theme.spacing(2),
       textAlign: 'left',
       color: theme.palette.text.secondary,
     },
   }),
 );
 
-export default function MenuListComposition() {
+export default function AdminView() {
   const classes = useStyles();
 
   return (
     
-    <div className={classes.root}>
-        <Grid container spacing={3}>
-        <MenuList>
-        <Grid item xs={12}>
-        <h3>Admin-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='/CreatePerson'>
-          <MenuItem>Personen anlegen</MenuItem>
-          </Link >
-          <Link to='/CreateSemester'>
-          <MenuItem>Semester erstellen</MenuItem>
-          </Link >
-          <Link to='/ProjectListNew'>
-          <MenuItem>Projekte freigeben</MenuItem>
-          </Link>
-          </Paper>
-          </Grid>
-          <Grid item xs={12}>
-          <h3>Dozent-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='/DropDown_Dozent' >
-          <MenuItem>Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten </MenuItem>
-          </Link>
-          </Paper>
-          </Grid>
-          <Grid item xs={12}>
-          <h3>Student-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='SelectStudent'>
-          <MenuItem>Student für Projekte registieren/Semesterbericht einsehen</MenuItem>
-          </Link>
-          </Paper>
-          </Grid>
-        </MenuList>
-      </Grid> 
-    </div>
+    // <div className={classes.root}>
+    //     <Grid container spacing={3}>
+    //     <MenuList>
+    //     <Grid item xs={12}>
+    //     <h3>Admin-Aktionen</h3>
+    //       <Paper className={classes.paper}>
+    //       <Link to='/CreatePerson'>
+    //       <MenuItem>Personen anlegen</MenuItem>
+    //       </Link >
+    //       <Link to='/CreateSemester'>
+    //       <MenuItem>Semester erstellen</MenuItem>
+    //       </Link >
+    //       <Link to='/ProjectListNew'>
+    //       <MenuItem>Projekte freigeben</MenuItem>
+    //       </Link>
+    //       </Paper>
+    //       </Grid>
+    //       <Grid item xs={12}>
+    //       <h3>Dozent-Aktionen</h3>
+    //       <Paper className={classes.paper}>
+    //       <Link to='/DropDown_Dozent' >
+    //       <MenuItem>Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten </MenuItem>
+    //       </Link>
+    //       </Paper>
+    //       </Grid>
+    //       <Grid item xs={12}>
+    //       <h3>Student-Aktionen</h3>
+    //       <Paper className={classes.paper}>
+    //       <Link to='SelectStudent'>
+    //       <MenuItem>Student für Projekte registieren/Semesterbericht einsehen</MenuItem>
+    //       </Link>
+    //       </Paper>
+    //       </Grid>
+    //     </MenuList>
+    //   </Grid> 
+    // </div>
+    <div><h1>
+      dwefefwefwefwe</h1></div>
   );
 }
 

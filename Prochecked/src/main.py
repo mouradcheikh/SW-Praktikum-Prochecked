@@ -513,6 +513,7 @@ class ParticipationsByProjectOperation(Resource):
         Dies ist aus Gründen der referentiellen Integrität sinnvoll!
         """
         pro = adm.get_project_by_id(project_id) 
+        
 
         if pro is not None:
             result = adm.create_participation_for_project(pro)

@@ -295,7 +295,7 @@ class App extends React.Component {
                             <Route exact path = '/ProjectList' component = {ProjectList}/>
                             <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
                             <Route exact path = '/SelectStudent' component = {SelectStudent}/>
-                            <Route exact path = '/ProjectListNew' component = {ProjectListNew}/>
+                            <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
                             <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
                             {
                                 // Ist eine Person eingeloggt?

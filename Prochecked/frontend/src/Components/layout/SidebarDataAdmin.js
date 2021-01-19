@@ -10,7 +10,7 @@ import * as MdIcons from 'react-icons/md';
 export const SidebarDataAdmin = [
   {
     title: 'Home',
-    path: '/home',
+    path: '/AdminView',
     icon: <AiIcons.AiFillHome />,
   },
 
@@ -26,7 +26,7 @@ export const SidebarDataAdmin = [
     
       {
         title: 'Projekte freigeben',
-        path: '/admin/projekteFreigeben',
+        path: '/admin/ProjectListNew',
         icon: <AiIcons.AiOutlineProject />,
         cName: 'sub-nav'
       },

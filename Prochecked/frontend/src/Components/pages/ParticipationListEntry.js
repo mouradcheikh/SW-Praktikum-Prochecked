@@ -54,6 +54,7 @@ class ParticipationListEntry extends Component {
   /** gets the students for this participation */
 
   getStudent = () => {
+    console.log("Participationlist", this.state, this.props)
     let stud = this.props.participation.student_id
     if (stud !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
       var api = AppApi.getAPI()

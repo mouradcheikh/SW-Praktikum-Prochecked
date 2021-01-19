@@ -88,7 +88,11 @@ class PersonLoggedIn extends Component {
         }
         return(
             <div>
-                <SidebarAdmin person ={person}/>
+                <div>
+                <SidebarAdmin person ={this.props.person}/>
+                </div>
+               
+                
                 {page}
             </div>
             

@@ -164,6 +164,7 @@ class ProjectListEntryNew extends Component {
     // Use the states project
     const { project, showProjectForm, showProjectDeleteDialog, participations, participationsCounter, participation } = this.state;
 
+    console.log(this.state)
     // console.log(this.state);
     // console.log(participation)
     return (

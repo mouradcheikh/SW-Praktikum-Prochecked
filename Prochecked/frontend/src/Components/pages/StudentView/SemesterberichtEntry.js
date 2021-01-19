@@ -30,7 +30,7 @@ class SemesterberichtEntry extends Component {
 
   getGrade = () => {
     var api = AppAPI.getAPI()
-    api.getGradingByProjectandMatr(this.props.project.getID(), this.props.student.getMatrNr()).then((grading) =>
+    api.getGradingByProjectandMatr(this.props.project.getID(), this.props.student.matr_nr).then((grading) =>
             {console.log(grading)
             this.setState({
                 grading: grading

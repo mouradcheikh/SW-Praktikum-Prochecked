@@ -20,9 +20,22 @@ class StudentView extends Component{
   constructor(props){
     super(props);
 
+    
+    let student = '';
+    let person = '';
+
+    if (this.props.location.state.person){ //ohne .state. evtl?
+      person = this.props.location.state.person
+    }
+    if (this.props.location.state.student){ //evtl state wieder rain ???
+      student = this.props.location.state.student
+    }
+
     this.state = {
-      person: this.props.location.state.person,
-      student: this.props.location.state.student
+      // person: this.props.location.state.person,
+      // student: this.props.location.state.student
+      person: person,
+      student:student,
     }
     
   }
@@ -36,7 +49,6 @@ class StudentView extends Component{
 
     return(
     <div>
-      {/* <Sidebar /> */}
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>

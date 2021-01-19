@@ -20,10 +20,10 @@ class DozentenView extends Component{
     let person = '';
     let adminProf = '';
 
-    if (this.props.location.person){
+    if (this.props.location.state.person){
       person = this.props.location.state.person
     }
-    if (this.props.location.adminProf){
+    if (this.props.location.state.adminProf){
       person = this.props.location.state.adminProf
     }
 

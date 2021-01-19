@@ -53,6 +53,25 @@ const Sidebar = (props) => {
 
   console.log(props)
 
+  
+
+    
+    let berechtigung = props.person.berechtigung
+    let result
+
+    if (berechtigung === 3){
+      result = SidebarDataAdmin
+    }
+    else if (berechtigung ===2){
+      result = SidebarDataDozent
+    }
+    else if (berechtigung ===1){
+      result = SidebarDataStudent
+    }
+    else{
+      result = SidebarDataUserView
+    }
+  
   return (
     
     <>
@@ -70,28 +89,35 @@ const Sidebar = (props) => {
 
 
 
+
+
             {
-             props.person.berechtigung===3?
+
+              result.map((item, index) => {
+                    return <SubMenu item={item} key={index} />;
+                  })
+
+          //    props.person.berechtigung===3?
             
-            SidebarDataAdmin.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
-            })
+          //   SidebarDataAdmin.map((item, index) => {
+          //     return <SubMenu item={item} key={index} />;
+          //   })
             
 
-            :props.person.berechtigung ===2?
-            SidebarDataDozent.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
-            })
+          //   :props.person.berechtigung ===2?
+          //   SidebarDataDozent.map((item, index) => {
+          //     return <SubMenu item={item} key={index} />;
+          //   })
 
-            :props.person.berechtigung ===1?
-            SidebarDataStudent.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
-            })
-            :
-            SidebarDataUserView.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
+          //   :props.person.berechtigung ===1?
+          //   SidebarDataStudent.map((item, index) => {
+          //     return <SubMenu item={item} key={index} />;
+          //   })
+          //   :
+          //   SidebarDataUserView.map((item, index) => {
+          //     return <SubMenu item={item} key={index} />;
 
-          })
+          // })
           }
 
             {/* {(() =>

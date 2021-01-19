@@ -19,6 +19,12 @@ class ProjectListStudent extends Component {
   constructor(props) {
     super(props);
 
+    let student = '';
+
+    if(this.props.location.state.student){
+      student = this.props.location.state.student
+    }
+
     // Init an empty state
     this.state = {
       // projectNew: [],
@@ -26,7 +32,7 @@ class ProjectListStudent extends Component {
       projectsSignedIn: [],
       error: null,
       loadingInProgress: false,
-      // student: this.props.location.state.student,
+      student: student,
       // expandedProjectID: expandedID,
     };
   }
@@ -53,7 +59,8 @@ class ProjectListStudent extends Component {
     this.setState({
       loadingInProgress: true,
       error: null
-    });
+    }, () =>{this.getProjectsByStudent(this.state.student.matr_nr)}
+    );
   }
 
    /** Fetches ProjectBOsbyMatrNr from the backend */
@@ -102,7 +109,17 @@ class ProjectListStudent extends Component {
   componentDidMount() {
     // console.log("gerendert")
     this.getProjectsByStateAccepted();
-    this.getProjectsByStudent(this.props.location.state.student.matr_nr);
+    // this.getProjectsByStudent(this.props.location.state.student.matr_nr);
+    // console.log(this.state.student)
+    // this.setState({
+    //   student: this.props.location.state.student
+    // }, () =>{this.getProjectsByStudent(this.state.student.matr_nr);
+
+    // }
+    // )
+    
+    // this.getProjectsByStudent(this.props.location.state.student.matr_nr)
+   
   }
 
    /** Lifecycle method, which is called when the component was updated */
@@ -116,8 +133,9 @@ class ProjectListStudent extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error} = this.state;
-    const student = this.props.location.state.student
+    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error, student} = this.state;
+    // const student = this.props.location.state.student
+    console.log(this.state)
   
     
     return (
