@@ -20,6 +20,8 @@ from server.db.ProjectTypeMapper import ProjectTypeMapper
 from server.db.RoleMapper import RoleMapper
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
+from server.db.ProjectStateMapper import ProjectStateMapper
+from server.db.AutomatMapper import AutomatMapper
 
 
 class ProjectAdministration (object):
@@ -580,14 +582,65 @@ class ProjectAdministration (object):
         return bound_modules
                 
 
+#Module related
+
+    def get_all_module(self):
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def create_module(self, module):
+        # module = Module()
+        # module.set_name(module.get_name())
+        # module.set_edv_nr(module.get_name())
+   
+        with ModuleMapper() as mapper:
+            mapper.insert(module)
+
+    def get_module_by_id(self, id):
+        """Das Module mit der gegebenen ID auslesen."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_id(id)
+    
+    def delete_module(self, module):
+        """Ein Module löschen"""
+        with ModuleMapper() as mapper:
+            mapper.delete(module)
 
 #ProjectType Related
+
     def get_all_project_types(self):
         with ProjectTypeMapper() as mapper:
             return mapper.find_all()
 
+    def create_projecttype(self, name, number_ects, number_sws):
+        projecttype = ProjectType()
+        projecttype.set_name(name)
+        projecttype.set_number_ects(number_ects)
+        projecttype.set_number_sws(number_sws)
+        projecttype.set_id(1)
+   
+        with ProjectTypeMapper() as mapper:
+            mapper.insert(projecttype)
 
 
+    def get_projecttype_by_id(self, id):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def save_projecttype_by_id(self, projecttype):
+            """Die gegebene Person speichern."""
+            """Methode mir Rollentabelle"""
+            with ProjectTypeMapper() as mapper:
+                mapper.update_by_id(projecttype)
+    
+    def delete_projecttype(self, projecttype):
+        """Eine Participation löschen"""
+        with ProjectTypeMapper() as mapper:
+            mapper.delete(projecttype)
+
+    def get_all_projecttype(self):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_all()
 
 
 

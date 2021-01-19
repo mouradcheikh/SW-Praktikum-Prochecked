@@ -97,6 +97,8 @@ class ParticipationListEntry extends Component {
         deletingError: e
       })
     );
+
+
     // set loading to true
     this.setState({
       deletingInProgress: true,

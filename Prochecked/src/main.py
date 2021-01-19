@@ -82,7 +82,7 @@ student = api.inherit('Student', person, {
 })
 
 module = api.inherit('Module', nbo, {
-    'edv_nr': fields.Integer(attribute='_edv_nr',
+    'edv_nr': fields.String(attribute='__edv_nr',
                              description='EDV-Nummer eines Moduls')
 })
 
@@ -691,6 +691,7 @@ class StudentLogInOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+#Semester related
     @prochecked.marshal_with(student, code=200)
     @prochecked.expect(student)  # Wir erwarten ein Student-Objekt von Client-Seite.
     @secured
@@ -768,12 +769,12 @@ class SemestersOperations(Resource):
 
 @prochecked.route('/semester/<int:id>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@prochecked.param('id', 'Die ID des Participation-Objekts.')
+@prochecked.param('id', 'Die ID des Semester-Objekts.')
 class SemesterOperations(Resource):
 
     @secured
     def delete(self, id):
-        """Löschen eines bestimmten Participation-Objekts.
+        """Löschen eines bestimmten Semester-Objekts.
 
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
@@ -916,6 +917,153 @@ class GradingByProjectandStudentOperations(Resource):
         
         return gra
 
+# ProjectType related
+@prochecked.route('/projectTypes')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProjectTypeOperations(Resource):
+    @prochecked.marshal_list_with(projecttype)
+    @secured
+    def get(self):
+        # """Auslesen aller ProjectType-Objekte.
+
+        # Sollten keine ProjectType-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        projectType = adm.get_all_projecttype()
+        return projectType
+
+    @prochecked.marshal_with(projecttype, code=200)
+    @prochecked.expect(projecttype)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Person-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ProjectAdministration()
+
+        proposal = ProjectType.from_dict(api.payload)
+        #print(proposal)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_projecttype(proposal.get_name(), proposal.get_number_ects(), proposal.get_number_sws(), proposal.get_id())
+            return p, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+    
+    @prochecked.marshal_with(projecttype, code=200)
+    @prochecked.expect(projecttype)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Person-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        p = ProjectType.from_dict(api.payload)
+        if p is not None:
+            adm.save_projecttype_by_id(p)
+            return '', 200
+        else:
+            return '', 500
+
+
+@prochecked.route('/projectType/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des ProjectType-Objekts.')
+class ProjectTypesOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten ProjectType-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        p = adm.get_projecttype_by_id(id)
+        print(p.get_name(), p.get_id())
+        if p is not None:
+            adm.delete_projecttype(p)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Semester existiert.'''
+
+
+#Module related
+
+@prochecked.route('/module')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ModuleOperations(Resource):
+    @prochecked.marshal_with(module)
+    @secured
+    def get(self):
+        """Auslesen aller Module Objekte
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_all_module()
+        return mod
+
+    @prochecked.marshal_list_with(module, code=200)
+    @prochecked.expect(module)
+    @secured
+    def post(self):
+        """Anlegen eines neuen Modul-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ProjectAdministration()
+        print(api.payload)
+        proposal = Module.from_dict(api.payload)
+        #print(proposal.get_grade(), proposal.get_passed())
+        #print(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            m = adm.create_module(proposal)
+            print(m)
+            return m, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
+    
+
+@prochecked.route('/module/<int:id>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('id', 'Die ID des Participation-Objekts.')
+class ModuleDeleteOperations(Resource):
+
+    def delete(self, id):
+        """Löschen eines bestimmten Module-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+
+        adm = ProjectAdministration()
+        m = adm.get_module_by_id(id)
+        # print(m.get_name(), m.get_id())
+        if m is not None:
+            adm.delete_module(m)
+            return '', 200
+        else:
+            return '', 500  # Wenn unter id kein Module existiert.'''
+    
+
+
 
 #Module related 
 
@@ -981,8 +1129,10 @@ class ProjectTypeOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    
-    #adm.delete_semester(1)
+    ''' m = Module()
+    m.set_id(1)
+    adm = ProjectAdministration()
+    adm.delete_module(m)'''
 
     '''project = Project()
     project.set_id(1)

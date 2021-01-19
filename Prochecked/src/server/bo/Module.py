@@ -9,7 +9,7 @@ class Module(NamedBusinessObjects):
         super().__init__()
         self._edv_nr = None
 
-    def get_edv_nr(self):
+    def get_edv_nr(self, ):
         return self._edv_nr
 
     def set_edv_nr (self, edv_nr):

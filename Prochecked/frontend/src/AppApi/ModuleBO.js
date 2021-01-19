@@ -1,8 +1,9 @@
 import BusinessObject from './BusinessObject';
 
 
+
 /**
- * Represents a person of the system
+ * Represents a Module of the system
  */
 export default class ModuleBO extends BusinessObject {
 
@@ -52,15 +53,15 @@ export default class ModuleBO extends BusinessObject {
     let result = [];
 
     if (Array.isArray(module)) {
-      module.forEach((p) => {
-        Object.setPrototypeOf(p, ModuleBO.prototype);
-        result.push(p);
+      module.forEach((m) => {
+        Object.setPrototypeOf(m, ModuleBO.prototype);
+        result.push(m);
       })
     } else {
       // Es handelt sich offenbar um ein singuläres Objekt
-      let p = module;
-      Object.setPrototypeOf(p, ModuleBO.prototype);
-      result.push(p);
+      let m = module;
+      Object.setPrototypeOf(m, ModuleBO.prototype);
+      result.push(m);
     }
 
     return result;
