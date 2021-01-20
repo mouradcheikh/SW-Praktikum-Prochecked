@@ -8,6 +8,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
+import ModuleForm from'../../dialogs/DropdownModule'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -33,17 +34,29 @@ class ProjectListEntryNew extends Component {
     // Init the state
     this.state = {
       project: props.project,
+      projecttypes: [],
+      projecttype: null,
       showProjectForm: false,
       showProjectDeleteDialog: false,
-      updatedProject: null
+      updatedProject: null,
     };
+  }
+
+  updateModule = (new_module, new_state) => {
+    console.log("updatemodule")
+    let updated_project = this.state.project
+    updated_project.setModule(new_module)
+    this.setState({
+      project: updated_project
+    }, () => {this.updateProject(new_state); console.log(this.state.project)})
   }
 
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
     console.log(new_state)
-    let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+    let updatedProject = Object.assign(new ProjectBO(), this.state.project);
     // set the new attributes from our dialog
+    
     updatedProject.setProjectState(new_state);
    
     AppApi.getAPI().updateProject(updatedProject).then(project => {
@@ -70,6 +83,18 @@ class ProjectListEntryNew extends Component {
     });
   }
 
+  FreigabeButtonClicked = (event) => {
+    this.setState({
+      showProjectForm: true
+    });
+  }
+
+  updateModuleOfProject = (project) => {
+    this.setState({
+      project: project
+    }, () => console.log(this.state.project))
+    
+  }
   /** Delete accepted Project */
   deleteProject = (project) => {
     var api = AppApi.getAPI()
@@ -101,6 +126,50 @@ class ProjectListEntryNew extends Component {
     console.log("else if state 3")
 })
 
+// retrns the name of the projecttypeid of the current project
+  getProjectType = () => {
+    let projecttype = null
+    let projecttypes = this.state.projecttypes
+    projecttypes.forEach(p => {
+      console.log(p.id)
+      if(p.id == this.state.project.getProjectType()){
+        projecttype = p.getName()
+        console.log(p)
+      }
+    })
+    this.setState({
+      projecttype: projecttype
+    }, () => this.state.projecttype)
+  }
+
+
+getAllProjectTypes = () => {
+  var api = AppApi.getAPI()
+    api.getAllProjectTypes().then(projecttypes => {
+      this.setState({
+        projecttypes: projecttypes
+      }, () => this.getProjectType())
+    })
+}
+
+ProjectFormClosed = (project) => {
+  // participation is not null and therefor changed
+  if (project) {
+    this.setState({
+      project: project,
+      showProjectForm: false
+    });
+  } else {
+    this.setState({
+      showProjectForm: false
+    });
+  }
+}
+
+
+componentDidMount(){
+  this.getAllProjectTypes()
+}
 //   /** Handles onChange events of the underlying ExpansionPanel */
 //   expansionPanelStateChanged = () => {
 //     this.props.onExpandedStateChange(this.props.project);
@@ -139,9 +208,10 @@ class ProjectListEntryNew extends Component {
                           color="secondary"
                           className={classes.buttonFreigeben}
                           startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
+                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
                   Freigeben
                   </Button>
+                  
                   <Button variant="contained"
                           color="secondary"
                           className={classes.buttonAblehnen}
@@ -150,7 +220,10 @@ class ProjectListEntryNew extends Component {
                   Ablehnen
                   </Button>
                 </Typography>
+                <ModuleForm show={showProjectForm} project={project} onClose={this.ProjectFormClosed} updateProject ={this.updateProject} updateModuleOfProject={this.updateModuleOfProject}/>
                 <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+                </Typography>
+                <Typography variant='body1' className={classes.heading}>{"Projektart:"+ " "+ this.state.projecttype} 
                 </Typography>
               </Grid>
             </Grid>
@@ -181,7 +254,7 @@ class ProjectListEntryNew extends Component {
                         color="secondary"
                         className={classes.button}
                         startIcon={<ReplyRoundedIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(1)}>
+                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 1)}>
                 Rückgängig
                 </Button>
                  
@@ -214,14 +287,14 @@ class ProjectListEntryNew extends Component {
                       color="secondary"
                       className={classes.button}
                       startIcon={<HighlightOffIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
+              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 2)}>
               Ablehnen
               </Button>
               <Button variant="contained"
                       color="secondary"
                       className={classes.button}
                       startIcon={<ReplyRoundedIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(1)}>
+              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
               <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>

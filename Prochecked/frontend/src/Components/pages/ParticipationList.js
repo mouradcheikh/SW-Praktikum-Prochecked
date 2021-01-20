@@ -128,7 +128,7 @@ class ParticipationList extends Component {
       <div className={classes.root}>
         <List className={classes.participationList}>
           {
-            participations.map(participation => <ParticipationListEntry key={participation.getID()} project={project} participation={participation} onParticipationDeleted={this.deleteParticipationHandler}
+            participations.map(participation => <ParticipationListEntry key={participation.getID()} project={project} participation={participation} onParticipationDeleted={this.deleteParticipationHandler} getParticipationsByProject={this.getParticipationsByProject}
               show={this.props.show}/>)
           }
           <ListItem>

@@ -6,20 +6,21 @@ import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-import SemesterberichtEntry from './SemesterberichtEntry'
+import GradeListEntry from './GradeListEntry'
 import AppAPI from '../../../AppApi/AppApi';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
+import ModuleBO from '../../../AppApi/ModuleBO'
 /**
- * Controlls a list of SemesterberichtEntrys 
+ * Controlls a list of GradeListEntrys
  *
- * @see See [SemesterberichtEntrys](#Semesterbericht)
+ * @see See [GradeListEntrys](#gradeList)
  *
  */
-class Semesterbericht extends Component {
+class GradeList extends Component {
 
   constructor(props) {
     super(props);
@@ -32,22 +33,31 @@ class Semesterbericht extends Component {
       loadingInProgress: false,
       semesters: [],
       semester: null,
-      student: null
+      semesterId: null,
+      person: null,
+      modules: [],
+      module: null,
+      moduleId: null,
     };
   }
 
-  /** Fetches ProjectBOsbyMatrNr from the backend */
-  getProjectsByStudent = (person_id) => {
-  // console.log("vor fetch")
+  /** Fetches ProjectBOsbyState from the backend */
+  getProjectsByState = (state) => {
+    console.log(this.props.location.state.person)
     var api = AppAPI.getAPI()
-    api.getProjectsByStudent(person_id) //evtl. Objekt von API vorher anlegen
-      .then(projectBOs =>
+    api.getProjectsByState(state) 
+      .then((projectBOs) => {
+        let projectsOfPersonLoggedIn = []
+        projectBOs.forEach((p) => {
+            if (p.getDozent() === this.state.person.id){
+                projectsOfPersonLoggedIn.push(p)
+            }
+        })
         this.setState({               // Set new state when ProjectBOs have been fetched
-          projects: projectBOs,
-          filteredProjects: [...projectBOs], // store a copy
+          projects: projectsOfPersonLoggedIn,
           loadingInProgress: false,   // disable loading indicator
           error: null
-        })).catch(e =>
+        }, () => console.log(this.state.projects))}).catch(e =>
           this.setState({             // Reset state with error from catch
             projects: [],
             loadingInProgress: false, // disable loading indicator
@@ -62,38 +72,56 @@ class Semesterbericht extends Component {
     });
   }
 
-
+  /** Ruft eine Methode aus der AppAPI auf, um Semester aus dem Backend zu fetchen*/
   semesterList = () => {
     var api = AppAPI.getAPI()
     api.getSemesters().then((semesters) =>
     
     this.setState({
-        semesters : semesters
+        semesters : semesters,
     })
   )
   }
 
-  handleSemFilter = (event) => {
-      console.log(event.target.value)
-      if (event.target.value === "all"){
-        this.setState({
-          semester : "all",
-          filteredProjects : this.state.projects,
-        })
-      }
-      else{
-      this.setState({
-        semester : event.target.value
-      }, () => {this.updateFilteredSemesters()})
-    }
+  /** Ruft eine Methode aus der AppAPI auf, um Module aus dem Backend zu fetchen*/
+  moduleList = () => {
+    var api = AppAPI.getAPI()
+    api.getAllModules().then((modules) => {
+    console.log(modules)
+    this.setState({
+        modules : modules,
+    })
+    })
   }
 
-  updateFilteredSemesters = () => {
-      let semester = this.state.semester
-      let semester_id = semester.id
+  handleSemFilter = (event) => {
+      event.preventDefault();
+      console.log(event.target.value)
+      this.setState({
+        semester : event.target.value,
+        semesterId : event.target.value.id
+      }, () => {this.updateFilteredProjects()})
+    
+  }
+
+  handleModFilter = (event) => {
+    event.preventDefault();
+    console.info("handlemod")
+    this.setState({
+      module : event.target.value,
+      moduleId : event.target.value.id
+    }, () => {this.updateFilteredProjects()})
+  
+}
+
+  updateFilteredProjects = () => {
+    if (this.state.semester != null && this.state.module != null){
+      let semester_id = this.state.semester.id
+      let module_id = this.state.module.id
       let filtered_projects = []
+      console.log(this.state.projects)
       this.state.projects.forEach((project) => {
-        if (project.getSemester() === semester_id) {
+        if (project.getSemester() === semester_id && project.getModule() === module_id) {
             console.log(project)
             filtered_projects.push(project)
         }
@@ -101,16 +129,19 @@ class Semesterbericht extends Component {
       )
       this.setState({
           filteredProjects: filtered_projects
-      }, () => {console.log(this.state.filteredProjects)})  
+      }) 
+    } 
   }
 
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    let person = this.props.location.state.student
-    this.getProjectsByStudent(person.matr_nr)
-    // Im backend wird dann zuerst die id des studenten objekts rausgefunden mithilfe der matrikelnummer, dann mit der id die participations rausgeholt und dann mit der projekt id in den participations die projekte hochgeholt
+    this.setState({
+        person: this.props.location.state.person
+    }, () => {this.getProjectsByState(5)})
+    this.semesterList()
   }
+
 
   /** Renders the component */
   render() {
@@ -119,9 +150,9 @@ class Semesterbericht extends Component {
 
     return (
       <div className={classes.root}>
-        <h1>Sehen Sie ihren Semesterbericht ein:</h1>
+        <h1>Notenliste:</h1>
         <FormControl className={classes.formControl} fullWidth margin='normal'>
-            <InputLabel id="semester">Semester</InputLabel>
+            <InputLabel shrink id="semester">Semester</InputLabel>
               <Select
                 labelId="semester"
                 id="semester"
@@ -129,16 +160,29 @@ class Semesterbericht extends Component {
                 onChange={this.handleSemFilter} 
                 onOpen={this.semesterList}
               >
-              <MenuItem value = "all">alle Projekte</MenuItem>
               {
               this.state.semesters.map((semester) => <MenuItem value = {semester}> {semester.name} </MenuItem>)
+              }
+              </Select>
+        </FormControl>
+        <FormControl className={classes.formControl} fullWidth margin='normal'>
+            <InputLabel shrink id="module">Modul (Edv Nummer)</InputLabel>
+              <Select
+                labelId="module"
+                id="module"
+                value={this.state.module}
+                onChange={this.handleModFilter} 
+                onOpen={this.moduleList}
+              >
+              {
+              this.state.modules.map((module) => <MenuItem value = {module}> {module.getedv()} </MenuItem>)
               }
               </Select>
         </FormControl>
         {
           // Show the list of SemesterListEntry components
           this.state.filteredProjects.map((project) =>
-            <SemesterberichtEntry project_id={project.id} project={project} student={this.props.location.state.student}
+            <GradeListEntry project_id={project.id} project={project} person={this.state.person} 
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -160,11 +204,11 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-Semesterbericht.propTypes = {
+GradeList.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** @ignore */
   location: PropTypes.object.isRequired,
 }
 
-export default withRouter(withStyles(styles)(Semesterbericht));
+export default withRouter(withStyles(styles)(GradeList));

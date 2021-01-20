@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ProjektFormular(props) {
   const classes = useStyles();
-  const [ProjektArt, setProjektArt] = React.useState('');
+  const [ProjektArt, setProjektArt] = React.useState();
+  const [ProjectTypes, setProjectTypes] = React.useState([]);
   const [Professor, setProfessor] = React.useState(null);
   const [Titel, setProjektTitel] = React.useState('');
   const [Kapazität,setKapazität] = React.useState('');
@@ -46,7 +47,7 @@ function ProjektFormular(props) {
   const [Professors, setProfessors] = React.useState(['']);
   const [extKoop, setextKoop] = React.useState('');
   const [Semester, setSemester] = React.useState('');
-  const [Semesters, setSemesters] = React.useState(['']);
+  const [Semesters, setSemesters] = React.useState([]);
   const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
 
@@ -74,7 +75,7 @@ function ProjektFormular(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const project = new ProjectBO(Titel)
-    project.setProjectType(ProjektArt)
+    project.setProjectType(ProjektArt.getID())
     project.setCapacity(Kapazität)
     project.setShortDescription(Inhalt)
     let dozent = props.location.state.linkState
@@ -104,20 +105,6 @@ function ProjektFormular(props) {
             }
             )
 
-    // console.log(
-    //   'ProjektArt:', ProjektArt, 
-    //   'Titel:', Titel,
-    //   'Kapazität:', Kapazität,
-    //   'Inhalt:', Inhalt,
-    //   'Raum:', Raum,
-    //   'Wöchentlich:', WT,
-    //   'Blocktage vor Beginn der VZ:', BTvorVZ,
-    //   'Blocktage in der PZ:', BTinPZ,
-    //   'BT in der VZ:', BTinVZ,
-    //   'Besonderer Raum:', BesondererRaum,
-    //   'Professors:', Professors,
-    //   'current dozent', dozent.id
-    //   );
     history.push({
       pathname: '/DozentView',
       state: {  
@@ -140,6 +127,21 @@ function SemesterList(){
   {console.log(semesters)
   setSemesters(semesters)})
 }
+
+function ProjectTypeList(){
+  var api = AppApi.getAPI()
+  api.getAllProjectTypes().then((projecttypes) =>{
+    console.log(projecttypes)
+    setProjectTypes(projecttypes)
+  })
+}
+
+
+useEffect(() => {
+  SemesterList();
+  ProjectTypeList()
+}, []);
+
 
 // useEffect(() => {
 //   console.log("useEffect")
@@ -172,11 +174,11 @@ function SemesterList(){
               id="ProjektArt"
               value={ProjektArt}
               onChange={handleProjektArt}
+              onOpen={ProjectTypeList}
             >
-              <MenuItem value={1}>Fachspezifisches Projekt</MenuItem>
-              <MenuItem value={2}>Interdisziplinäres Projekt</MenuItem>
-              <MenuItem value={3}>Transdisziplinäres Projekt</MenuItem>
-
+              {
+              ProjectTypes.map((projecttype) => <MenuItem value = {projecttype}> {projecttype.getName()} </MenuItem>)
+              }
               </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
@@ -189,7 +191,7 @@ function SemesterList(){
                 onOpen={SemesterList}
               >
               {
-              Semesters.map((semester) => <MenuItem value = {semester}> {semester.name} </MenuItem>)
+              Semesters.map((semester) => <MenuItem value = {semester}> {semester.getName()} </MenuItem>)
               }
               </Select>
               </FormControl>

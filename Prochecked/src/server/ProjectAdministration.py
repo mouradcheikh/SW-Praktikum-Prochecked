@@ -15,14 +15,14 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
-from .db.ProjectTypeMapper import ProjectTypeMapper
+from server.db.ProjectTypeMapper import ProjectTypeMapper
 
-from .db.RoleMapper import RoleMapper
-from .db.GradingMapper import GradingMapper
-from .db.ModuleMapper import ModuleMapper
+from server.db.RoleMapper import RoleMapper
+from server.db.GradingMapper import GradingMapper
+from server.db.ModuleMapper import ModuleMapper
+from server.db.ProjectStateMapper import ProjectStateMapper
+from server.db.AutomatMapper import AutomatMapper
 
-from .db.ProjectStateMapper import ProjectStateMapper
-from .db.AutomatMapper import AutomatMapper
 
 class ProjectAdministration (object):
     def __init__(self):
@@ -332,8 +332,9 @@ class ProjectAdministration (object):
 
   
 
-    def get_all_projects(self, ):
-        pass
+    def get_all_projects(self):
+        with ProjectMapper() as mapper:
+            return mapper.find_all()
 
     def get_projects_by_person(self, person):
         pass
@@ -354,6 +355,7 @@ class ProjectAdministration (object):
 #Grading Related
 
     def create_grading(self, grade, passed, participation_id):
+        "Erstelen eines Gradings (Bewertung) mit gegebener Note(grade), Teilnahme ID (participation_id) und dem passed flag"
         print(grade)
         grading = Grading()
         grading.set_grade(grade)
@@ -387,6 +389,7 @@ class ProjectAdministration (object):
             return mapper.find_by_participation_id(participation_id) 
 
     def get_grading_by_project_id_and_matr_nr(self, project_id, matr_nr):
+        "Ein Grading Objekt nach gegebener project id und Matrikelnummer auslesen"
         adm = ProjectAdministration()
         student = adm.get_student_by_matr_nr(matr_nr)
         student_id = student.get_id()
@@ -521,6 +524,64 @@ class ProjectAdministration (object):
         pass
 
 
+#Module Related
+    def get_free_modules_by_semester(self, semester_id):
+        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester noch nicht mit einem projekt belegt wurden, also noch frei sind"""
+        with ModuleMapper() as mapper:
+            all_modules = mapper.find_all()
+
+        adm = ProjectAdministration()
+        all_projects = adm.get_all_projects()
+
+        semester_id = semester_id
+
+        free_modules = []
+        found = False
+
+        for m in all_modules:
+            module_id = m.get_id()
+            for p in all_projects:
+                # print(p.get_name(), p.get_module(), "modul:", module_id)
+                if p.get_module() == module_id and p.get_semester() == semester_id:
+                    found = True
+            if found == False:
+                free_modules.append(m)
+            found = False
+
+        return free_modules
+
+
+    def get_all_modules(self):
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+
+    def get_bound_modules_by_semester(self, semester_id):
+        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester mit einem projekt belegt wurden, also nicht mehr frei sind"""
+        with ModuleMapper() as mapper:
+            all_modules = mapper.find_all()
+
+        adm = ProjectAdministration()
+        all_projects = adm.get_all_projects()
+
+        semester_id = semester_id
+
+        bound_modules = []
+        found = False
+
+        for m in all_modules:
+            module_id = m.get_id()
+            for p in all_projects:
+                # print(p.get_name(), p.get_module(), "modul:", module_id)
+                if p.get_module() == module_id and p.get_semester() == semester_id:
+                    found = True
+            if found == True:
+                bound_modules.append(m)
+            found = False
+
+        return bound_modules
+                
+
 #Module related
 
     def get_all_module(self):
@@ -546,6 +607,11 @@ class ProjectAdministration (object):
             mapper.delete(module)
 
 #ProjectType Related
+
+    def get_all_project_types(self):
+        with ProjectTypeMapper() as mapper:
+            return mapper.find_all()
+
     def create_projecttype(self, name, number_ects, number_sws):
         projecttype = ProjectType()
         projecttype.set_name(name)
@@ -588,9 +654,8 @@ if __name__ == '__main__':
 
 
     adm = ProjectAdministration()
-    projects = adm.get_projects_by_student(12345)
-    for p in projects:
-        print(p)
+    modules = adm.get_free_modules_by_semester(1)
+    print(modules, modules[0], modules[0].get_edv_nr())
 
     # p = adm.create_grading(2, 1)
     # print(p)

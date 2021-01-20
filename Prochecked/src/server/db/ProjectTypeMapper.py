@@ -15,7 +15,14 @@ class ProjectTypeMapper(Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        result = ProjectType.from_tuples(tuples)
+        for (id, creation_date, name, number_ECTS, number_SWS) in tuples:
+            p = ProjectType()
+            p.set_id(id)
+            p.set_creation_date(creation_date)
+            p.set_name(name)
+            p.set_number_ects(number_ECTS)
+            p.set_number_sws(number_SWS)
+            result.append(p)
 
         self._cnx.commit()
         cursor.close()

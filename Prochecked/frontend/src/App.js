@@ -34,6 +34,7 @@ import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
+import GradeList from './Components/pages/DozentView/GradeList'
 import ProjectListStudent from './Components/pages/StudentView/ProjectListStudent';
 import { StudentBO } from './AppApi';
 import CreateModule from './Components/pages/AdminView/CreateModule';
@@ -284,6 +285,7 @@ class App extends React.Component {
             <Route exact path="/DropDown_Dozent" component={DropDown_Dozent} />
             <Route exact path="/CreateProjectType"component={CreateProjectType}/>
             <Route exact path = '/CreateModule' component = {CreateModule}/>
+            <Route exact path = '/GradeList' component = {GradeList}/>
 
             {
               // Ist eine Person eingeloggt?

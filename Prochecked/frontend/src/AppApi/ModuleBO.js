@@ -1,47 +1,54 @@
 import BusinessObject from './BusinessObject';
 
 
+
 /**
- * Represents a person of the system
-/**
- * Represents a Role of the system
+ * Represents a Module of the system
  */
 export default class ModuleBO extends BusinessObject {
 
   /**
-   * Constructs a PersonBO object with a given name, email, google id and role
+   * Constructs a moduleBO object with a given creation_date, grade, passed
    * 
-//    * @param {String} aname - the name of this PersonBO. ????
+   * @param {String} aname - the name of this moduleBO.
    */
-  constructor(aname, aedv_nr) {
+  constructor() {
     super();
-    this.name = aname
-    this.edv_nr = aedv_nr
-   
+    this.creation_date = null
+    this.edv_nr = null
+    this.name = null
   }
 
-//   /**
-//    * Sets a new name
-//    * 
-//    * @param {String} aname - the new name of this PersonBO.  ??????
-//    */
+  /**
+   * Sets a new name
+   * 
+   * @param {String} aname - the new name of this PersonBO.
+   */
+  setCreationDate(acreation_date) {
+    this.creation_date = acreation_date
+  }
+
+  getCreationDate() {
+    return this.getCreationDate
+  }
+
   setName(aname) {
     this.name = aname
   }
+
   getName() {
     return this.name
   }
-  setEdv_nr(aedv_nr) {
-    this.edv_nr = aedv_nr
+
+  setedv(edv){
+      this.edv_nr = edv
   }
-  getEdv_nr() {
+
+  getedv(){
     return this.edv_nr
   }
 
- 
-  /** 
-   * Returns an Array of PersonBOs from a given JSON structure.
-   */
+
   static fromJSON(module) {
     let result = [];
 

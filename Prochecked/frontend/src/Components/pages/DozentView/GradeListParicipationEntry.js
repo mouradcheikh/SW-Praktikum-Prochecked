@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid, ListItem } from '@material-ui/core';
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Semesterbericht from './Semesterbericht'
+import GradeList from './GradeList'
 import AppAPI from '../../../AppApi/AppApi'
 import Paper from '@material-ui/core/Paper';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 /**
- * Renders a ProjectBO object in the Semesterbericht by selected filter (semester filter)
+ * Renders a ProjectBO object in the GradeList by selected filter (semester filter)
  * 
- * @see See [Semesterbericht](#semesterbericht)
+ * @see See [GradeList](#GradeList)
  * 
  */
-class SemesterberichtEntry extends Component {
+class GradeListEntry extends Component {
 
   constructor(props) {
     super(props);
@@ -23,17 +23,30 @@ class SemesterberichtEntry extends Component {
     // Init the state
     this.state = {
       project: this.props.project,
-      student: this.props.student,
-      grading: null
+      grading: null,
+      participation: this.props.participation,
+      student: null,
     };
   }
 
-  getGrade = () => {
+  getGrading = () => {
     var api = AppAPI.getAPI()
-    api.getGradingByProjectandMatr(this.props.project.getID(), this.props.student.matr_nr).then((grading) =>
-            {console.log(this.props.project, grading)
+    api.getGradingById(this.props.participation.getGrading()).then((grading) =>
+            {console.log(grading)
             this.setState({
-                grading: grading
+                grading: grading,
+
+            }, )}
+            )
+  }
+
+  getStudent = () => {
+    var api = AppAPI.getAPI()
+    api.getStudent(this.props.participation.getStudent()).then((student) =>
+            {console.log(student)
+            this.setState({
+                student: student,
+
             })}
             )
   }
@@ -44,7 +57,7 @@ class SemesterberichtEntry extends Component {
       return "In Bewertung"
     }
     else if (this.state.grading === null){
-      return "loading..."
+      return "Loading..."
     }
     else {
       console.log(this.props.project)
@@ -53,32 +66,27 @@ class SemesterberichtEntry extends Component {
   }
 
   componentDidMount(){
-    this.getGrade()
+    this.getGrading()
+    this.getStudent()
   }
 
-  componentDidUpdate(prevProps){
-    if (prevProps.project !== this.props.project)
-    this.getGrade(); 
-  }
+
   
   /** Renders the component */
   render() {
     const { classes } = this.props;
+    const {loadingInProgress} = this.state
 
     return (
- 
+    this.state.student != null?
       <div>
+        <LoadingProgress show={loadingInProgress}/>
         <Grid container spacing={1} justify='flex-start' alignItems='center'>
-        <Grid item xs={8}>
-            <Typography variant='body1' className={classes.heading}>{this.props.project.name} 
-            </Typography>
-        </Grid>
-        <Grid item xs={4}>
-            <Typography variant='body1' className={classes.heading}>Note: {this.getGradeofGrading()}
-            </Typography>
-        </Grid>
+            <Grid item xs={6}>{this.state.student.matr_nr + " - " + this.state.student.name}</Grid>
+            <Grid item xs={6}>Note: {this.getGradeofGrading()}</Grid>
         </Grid>
       </div>
+    : <div></div>
     );
   }
 }
@@ -91,7 +99,7 @@ const styles = theme => ({
 });
 
 /** PropTypes */
-SemesterberichtEntry.propTypes = {
+GradeListEntry.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The ProjectBO to be rendered */
@@ -100,4 +108,4 @@ SemesterberichtEntry.propTypes = {
   student: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(SemesterberichtEntry);
+export default withStyles(styles)(GradeListEntry);

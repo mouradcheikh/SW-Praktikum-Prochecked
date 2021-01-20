@@ -4,8 +4,8 @@ import ParticipationBO from './ParticipationBO'
 import ProjectBO from './ProjectBO'
 import GradingBO from './GradingBO'
 import SemesterBO from './SemesterBO'
-import ModuleBO from './ModuleBO'
-import ProjectTypeBO from './ProjectTypeBO'
+import ModuleBO from './ModuleBO';
+import ProjectTypeBO from './ProjectTypeBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -74,9 +74,12 @@ export default class AppAPI {
     #getGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #deleteGradingURL = (id) => `${this.#AppServerBaseURL}/gradings/${id}`;
     #getGradingbyProjectAndMatrURL = (project_id, matr_nr) => `${this.#AppServerBaseURL}/gradings-by-project-and-matr/${project_id}/${matr_nr}`;
-   
-    
-    //Module releated
+
+    //Module Related
+    #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
+    #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
+    #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
+
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
@@ -318,7 +321,7 @@ getStudentByMatrikelNummer(matr_nr) {
   getParticipationsByProject(project_id){
     return this.#fetchAdvanced(this.#getParticipationsByProjectURL(project_id))
       .then((responseJSON) => {
-        console.log(responseJSON)
+        console.log("Teilnahmen:", responseJSON)
         let participationBOs = ParticipationBO.fromJSON(responseJSON);
         // console.log(participationBOs);
         return new Promise(function (resolve) {
@@ -681,6 +684,27 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
+  getGradingById(id){
+    return this.#fetchAdvanced(this.#getGradingURL(id)).then((responseJSON) => { 
+      // We always get an array of GradingBOs.fromJSON, but only need one object
+      let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
+      console.info(responseGradingBO);
+      return new Promise(function (resolve) {
+        resolve(responseGradingBO);
+      })
+    })
+  }
+
+  // getSemesters(){
+  //   return this.#fetchAdvanced(this.#getSemURL()).then((responseJSON) => {
+  //     // We always get an array of SemBOs.fromJSON, but only need one object
+  //     let responseSemBOs = SemesterBO.fromJSON(responseJSON);
+  //     console.info(responseSemBOs);
+  //     return new Promise(function (resolve) {
+  //       resolve(responseSemBOs);
+  //     })
+  //   })
+  // }
 
   /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
@@ -902,6 +926,17 @@ getStudentByMatrikelNummer(matr_nr) {
 
 
   
+  getFreeModulesBySemester(semester){
+    return this.#fetchAdvanced(this.#getFreeModulesBySemesterURL(semester))
+    .then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
   
  //Module Related 
 
@@ -921,7 +956,7 @@ getStudentByMatrikelNummer(matr_nr) {
 
   let m = new ModuleBO();
     m.setName(name)
-    m.setEdv_nr(edv_nr)
+    m.setedv(edv_nr)
   // console.log(m)
 
   return this.#fetchAdvanced(this.#addModuleURL(), {
@@ -961,18 +996,47 @@ deleteModule(id) {
 }
 
 
-}
+  getBoundModulesBySemester(semester){
+    return this.#fetchAdvanced(this.#getBoundModulesBySemesterURL(semester))
+    .then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
 
 
+  getAllModules(){
+    return this.#fetchAdvanced(this.#getModulesURL()).then((responseJSON) => {
+      console.log(responseJSON)
+      let moduleBOs = ModuleBO.fromJSON(responseJSON);
+      console.log(moduleBOs);
+      return new Promise(function (resolve) {
+        resolve(moduleBOs);
+      })
+    })
+  }
 
 
-
-
-
+  getAllProjectTypes(){
+    return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
+      console.log(responseJSON)
+      let projectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
+      console.log(projectTypeBOs);
+      return new Promise(function (resolve) {
+        resolve(projectTypeBOs);
+      })
+    })
+  }
   
 
 
 
+
+}
 
 
 

@@ -82,7 +82,7 @@ student = api.inherit('Student', person, {
 })
 
 module = api.inherit('Module', nbo, {
-    'edv_nr': fields.String(attribute='__edv_nr',
+    'edv_nr': fields.String(attribute='_edv_nr',
                              description='EDV-Nummer eines Moduls')
 })
 
@@ -120,7 +120,8 @@ project = api.inherit('Project', nbo, {
                                     description='Jetziger Status des Projekts'),
     'project_type': fields.Integer(attribute='_project_type',
                                   description='Art des Projekts'),
-    'semester': fields.Integer(attribute='_semester', description='semester des Projekts')
+    'semester': fields.Integer(attribute='_semester', description='semester des Projekts'),
+    'module': fields.Integer(attribute='_module', description='semester des Projekts')
 })
 
 participation = api.inherit('Participation', bo, {
@@ -143,11 +144,11 @@ grading = api.inherit('Grading', bo, {
                             description ='ID der Teilnahme für die Note')
 })
 
-projecttype = api.inherit('ProjectType', nbo, {
-    'number_ects': fields.Integer(attribute = '_number_ECTS',        
-                                   description= 'Anzahl der ECTS des Projekts'),
-    'number_sws': fields.Integer(attribute = '_number_SWS',        
-                                   description= 'Anzahl der SWS des Projekts')
+projecttype = api.inherit('projecttype', nbo, {
+    'number_ects': fields.Integer(attribute='_number_ects',
+                            description= 'ECTS der Projectart'),
+    'number_sws': fields.Integer(attribute='_number_sws',
+                            description= 'SWS der Projektart'),
 })
 
 # Person related
@@ -305,11 +306,11 @@ class ProjectOperations(Resource):
         liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
-        #print(api.payload)
+        print(api.payload)
         adm = ProjectAdministration()
 
         proposal = Project.from_dict(api.payload)
-        #print(proposal.get_preffered_bd())
+        print(proposal, proposal.get_name(), proposal.get_module())
 
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
@@ -391,8 +392,8 @@ class ProjectsByStateOperation(Resource):
         print(project_state)
         adm = ProjectAdministration()
         project_list = adm.get_projects_by_state(project_state)
-        #for p in project_list:
-            #print(p.get_project_state())
+        for p in project_list:
+            print(p.get_name(), p.get_semester())
         return project_list
 
 
@@ -546,9 +547,12 @@ class ParticipationOperations(Resource):
 
         if par is not None:
             gra = adm.get_grading_by_id(par.get_grading())
-            print("Grading:", gra)
-            adm.delete_grading(gra)
-            adm.delete_participation(par)
+            if gra is not None:
+                print("Grading:", gra)
+                adm.delete_grading(gra)
+                adm.delete_participation(par)
+            else:
+                adm.delete_participation(par)
             return '', 200
         else:
             return '', 500  # Wenn unter id keine Participation existiert.'''
@@ -949,7 +953,7 @@ class ProjectTypeOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_projecttype(proposal.get_name(), proposal.get_number_ects(), proposal.get_number_sws(), proposal.get_id())
+            p = adm.create_projecttype(proposal.get_name(), proposal.get_number_ects(), proposal.get_number_sws())
             return p, 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
@@ -1058,6 +1062,54 @@ class ModuleDeleteOperations(Resource):
         else:
             return '', 500  # Wenn unter id kein Module existiert.'''
     
+
+
+
+#Module related 
+
+@prochecked.route('/modules')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ModuleListOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self):
+        # """Auslesen aller Module-Objekte.
+
+        # Sollten keine Module-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        modules = adm.get_all_modules()
+        return modules
+
+
+@prochecked.route('/free-modules/<int:semester>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('semester')
+class FreeModuleOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self, semester):
+        """Auslesen aller Module-Objekte, die in gegebenem Semester noch frei sind.
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_free_modules_by_semester(semester)
+        return mod
+
+
+@prochecked.route('/bound-modules/<int:semester>')
+@prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@prochecked.param('semester')
+class BoundModuleOperations(Resource):
+    @prochecked.marshal_list_with(module)
+    @secured
+    def get(self, semester):
+        """Auslesen aller Module-Objekte, die in gegebenem Semester nicht mehr frei sind.
+        """
+        adm = ProjectAdministration()
+        mod = adm.get_bound_modules_by_semester(semester)
+        return mod
+
+
+
 
 
 
