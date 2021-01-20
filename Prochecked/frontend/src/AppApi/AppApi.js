@@ -79,10 +79,12 @@ export default class AppAPI {
     #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
     #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
     #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
+   
 
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
-    #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
+    #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;  
+    #updateModuleURL = () => `${this.#AppServerBaseURL}/module`; 
 
     
     //ProjectType related
@@ -974,6 +976,22 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   })
 }
+
+updatModule(m) {
+    return this.#fetchAdvanced(this.#updateModuleURL(), { 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(m)
+      }).then((responseJSON) => {
+        let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responseModuleBO);
+      })
+    })
+  }
 
   /**
  * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO

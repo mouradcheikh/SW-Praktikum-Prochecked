@@ -1040,6 +1040,20 @@ class ModuleOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+    @prochecked.marshal_with(module, code=200)
+    @prochecked.expect(module)  # Wir erwarten ein Module-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Module-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        m = Module.from_dict(api.payload)
+        if m is not None:
+            adm.save_module()
+            return '', 200
+        else:
+            return '', 500
     
 
 @prochecked.route('/module/<int:id>')

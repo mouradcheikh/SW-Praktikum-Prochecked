@@ -606,6 +606,11 @@ class ProjectAdministration (object):
         with ModuleMapper() as mapper:
             mapper.delete(module)
 
+    def save_module(self, module):
+        """Ein Module updaten"""
+        with ModuleMapper() as mapper:
+            mapper.update(module)
+
 #ProjectType Related
 
     def get_all_project_types(self):

@@ -112,6 +112,26 @@ class ModuleMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def update(self, module):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param semester das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE module " + "SET creation_date=%s, name=%s, edv_nr=%s WHERE id=%s"
+
+        data = (module.get_creation_date(), 
+                module.get_name(),
+                module.get_edv_nr(),
+                module.get_id(), 
+               )
+
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
 if (__name__ == "__main__"):
 
 
