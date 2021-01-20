@@ -977,7 +977,7 @@ getStudentByMatrikelNummer(matr_nr) {
   })
 }
 
-updatModule(m) {
+updateModule(m) {
     return this.#fetchAdvanced(this.#updateModuleURL(), { 
       method: 'PUT',
       headers: {

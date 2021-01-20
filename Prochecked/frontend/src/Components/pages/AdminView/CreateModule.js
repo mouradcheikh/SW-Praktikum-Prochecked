@@ -69,7 +69,7 @@ class CreateModule extends React.Component {
   updateModule = () => {
     let updatedModule = Object.assign(new ModuleBO(), this.state.updateM);
     updatedModule.setName(this.state.module)
-    updatedModule.edv_nr(this.state.module)
+    updatedModule.setedv(this.state.module)
     console.log(updatedModule)
     
     AppApi.getAPI().updateModule(updatedModule).then(module => {
@@ -158,13 +158,12 @@ class CreateModule extends React.Component {
            <Paper className={classes.paper}>
            <div>
              {moduleList.map(m => <ListItem>
-              {m.name}
+              Modul: {m.name}  {m.edv_nr}
              <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
 
-              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}> {}
-                   edit
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                    edit
                 </Button>
              
               </ListItem >)}
