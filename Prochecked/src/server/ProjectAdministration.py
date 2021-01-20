@@ -488,9 +488,17 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id)
     
     def delete_semester(self, semester):
-        """Ein Semester löschen"""
-        with SemesterMapper() as mapper:
-            mapper.delete(semester)
+        """Ein Semester löschen, wenn es nicht von einem Projekt genutzt wird"""
+        adm = ProjectAdministration()
+        projects = adm.get_all_projects()
+        semester_found = False
+        for p in projects:
+            if p.get_semester() == semester:
+                semester_found = True
+        if semester_found == False:
+            with SemesterMapper() as mapper:
+                mapper.delete(semester)
+      
 
     def save_semester(self, semester):
         """Ein Semester updaten"""
@@ -602,9 +610,16 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id)
     
     def delete_module(self, module):
-        """Ein Module löschen"""
-        with ModuleMapper() as mapper:
-            mapper.delete(module)
+        """Ein Module löschen, wenn es nicht von einem Projekt genutzt wird"""
+        adm = ProjectAdministration()
+        projects = adm.get_all_projects()
+        module_found = False
+        for p in projects:
+            if p.get_module() == module:
+                module_found = True
+        if module_found == False:
+            with ModuleMapper() as mapper:
+                mapper.delete(module)
 
 #ProjectType Related
 
