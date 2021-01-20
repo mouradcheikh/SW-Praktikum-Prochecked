@@ -24,7 +24,7 @@ class CreateProjectType extends React.Component {
       name: null, //für CreateProjectType
       ects:'',
       sws:'',
-      type:'',
+      type: null,
       allTypes: [], // für Rollenliste
       typeValidationFailed: false, //prüft eingabe des projectType im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
@@ -33,24 +33,24 @@ class CreateProjectType extends React.Component {
 
 
 
-  /** Create person */
-     createProjecType(name, ects, sws){
+  /** Create projecType */
+     createProjectType(name, ects, sws){
       var api = AppApi.getAPI()
-      // console.log(api)
+      console.log(name, ects, sws)
       api.createProjecType(name, ects, sws).then((type) =>
           {
-            // console.log(person)
+            // console.log(projecType)
           this.setState({
               type: type
           },
+          this.ProjectTypeList()
           )}
           )
-          console.log(this.state.type)
         }
 
 
   /** Delete Type */
-  deleteType = (t) => {
+  deleteProjectType = (t) => {
     console.log(t.getID());
     var api = AppApi.getAPI();
     api
@@ -73,7 +73,7 @@ class CreateProjectType extends React.Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null,
-    });
+    }, ()=> {this.ProjectTypeList()});
   };
 
   ProjectTypeList(){
@@ -86,70 +86,25 @@ class CreateProjectType extends React.Component {
             )
           }
 
-  textFieldValueChange = (event) => {
-    const value = event.target.value;
-
-    this.setState({
-      [event.target.id]: value,
-    });
-
-    if (value.length > 1) {
-      //eingabe des textfields muss mindestens 1 zeichen enthalten
-
-      this.setState({
-        typeValidationFailed: false,
-      });
-
-      this.state.allTypes.map((t) => {
-        if (t.name === value) {
-          //t:prüft ob projectType bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
-          this.setState({
-            typeValidationFailed: true,
-          });
-        }
-      });
-    } else {
-      this.setState({
-        typeValidationFailed: true,
-      });
-    }
-  };
-
-/** Delete Persons */
-deleteProjectType = (t) => { console.log(t.getID()) 
-  var api = AppApi.getAPI()
-  api.deleteProjectType(t.getID()).then(() => {
-    this.setState({  // Set new state when ParticipationBOs have been fetched
-      deletingInProgress: false, // loading indicator 
-      deletingError: null,
-    })
-  }).catch(e =>
-    this.setState({ // Reset state with error from catch 
-      deletingInProgress: false,
-      deletingError: e
-    })
-  );
-  // set loading to true
-  this.setState({
-    deletingInProgress: true,
-    deletingError: null
-  });
-}
+  
+  
 
   handleSubmit = (event) => {
-    event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    if (this.state.typeValidationFailed === false) {
-      //t: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.CreateProjectType(this.state.type);
-      this.setState({
-        success: true,
-      });
+     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+      this.createModule(
+        this.state.type, 
+        this.state.sws,
+        this.state.ects,
+            )}
+  
+          handleChange(e) { 
+              this.setState({ [e.target.name]: e.target.value });
+              // console.log({ [e.target.name]: e.target.value })
+              }
+        /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+    componentDidMount() {
+      this.ProjectTypeList();
     }
-  };
-
-  componentDidMount() {
-    //  this.TypeList();
-  }
 
   render() {
     const { classes } = this.props;
@@ -170,10 +125,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="projektart"
                   label="Projektart"
-                  value={name}
-                  onChange={this.textFieldValueChange}
+                  // value={name}
+                  name='type'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie einen Projektart ein"
@@ -191,10 +146,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="ECTS"
                   label="ECTS"
-                  value={ects}
-                  onChange={this.textFieldValueChange}
+                  // value={ects}
+                  name='ects'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an ECTS ein:"
@@ -212,10 +167,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="SWS"
                   label="SWS"
-                  value={sws}
-                  onChange={this.textFieldValueChange}
+                 // value={sws}
+                  name='sws'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an SWS ein:"
