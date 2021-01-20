@@ -54,7 +54,7 @@ CREATE TABLE `module` (
   `id` int NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `edv_nr` int ,
+  `edv_nr` varchar(128),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

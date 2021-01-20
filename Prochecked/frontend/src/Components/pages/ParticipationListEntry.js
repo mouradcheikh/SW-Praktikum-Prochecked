@@ -45,7 +45,7 @@ class ParticipationListEntry extends Component {
       deletingInProgress: false,
       loadingError: null,
       deletingError: null,
-      grade: '',
+      grade: null,
       showParticipationForm: false,
       participation: props.participation,
     }
@@ -98,6 +98,8 @@ class ParticipationListEntry extends Component {
         deletingError: e
       })
     );
+
+
     // set loading to true
     this.setState({
       deletingInProgress: true,
@@ -393,9 +395,8 @@ parentCall = () => {
             </form>
             {/* {project.project_state ===4? */}
             <Typography variant='body2' color={'textSecondary'}>
-              {grade.grade != null?  
+              {grade != null?  
               <div>Bewertet: {grade.grade + " - " + this.passed()}
-              
            
 
             <IconButton aria-label="delete" onClick={() => this.deleteGrading()}
