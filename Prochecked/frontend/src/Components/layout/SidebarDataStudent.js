@@ -10,7 +10,7 @@ import * as MdIcons from 'react-icons/md';
 export const SidebarDataStudent = [
   {
     title: 'Home',
-    path: '/home',
+    path: '/StudentView',
     icon: <AiIcons.AiFillHome />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -18,14 +18,14 @@ export const SidebarDataStudent = [
 
 
   {
-    title: 'Projekte anmelden',
-    path: '/projekteAnmelden',
+    title: 'Projektanmeldung',
+    path: '/ProjectListStudent',
     icon: <RiIcons.RiAdminFill />,
    
     },
   {
-      title: 'Notenliste',
-      path: '/notenliste',
+      title: 'Semesterbericht',
+      path: '/Semesterbericht',
       icon: <RiIcons.RiAdminFill />,
      
     },

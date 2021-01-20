@@ -22,6 +22,7 @@ import StudentLogin from './Components/pages/StudentView/StudentLogin';
 // import StudentView from './Components/pages/StudentView';
 import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
+import about from './Components/pages/about';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
 import ProjectList from './Components/pages/ProjectList';
@@ -271,17 +272,11 @@ class App extends React.Component {
 			<ThemeProvider theme={Theme}>
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
-					<Container maxWidth='md'>
+					<Container maxWidth = 'lg'>
                         <Paper style={{backgroundColor: blueGrey[900]}}>
                             
                             <Header person = {person}/>
-
-
-                           
-                            
-                            
-                            
-                           
+                    
                             <Route exact path = '/StudentView' component = {StudentView}/>
                             <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
                             
@@ -290,13 +285,14 @@ class App extends React.Component {
                             <Route exact path = '/DozentView' component = {DozentenView}/>
                             <Route exact path = '/AdminView' component = {AdminView}/>
                             <Route exact path = '/CreateProject' component = {ProjektFormular}/>
-                            <Route exact path = '/CreatePerson' component = {CreatePerson}/>
-                            <Route exact path = '/CreateSemester' component = {CreateSemester}/>
+                            <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
+                            <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
                             <Route exact path = '/ProjectList' component = {ProjectList}/>
                             <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
-                            <Route exact path = '/SelectStudent' component = {SelectStudent}/>
+                            <Route exact path = '/student/SelectStudent' component = {SelectStudent}/>
                             <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
-                            <Route exact path = '/DropDown_Dozent' component = {DropDown_Dozent}/>
+                            <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>
+                            <Route exact path = '/about' component = {about}/>
                             {
                                 // Ist eine Person eingeloggt?
                             person ?
@@ -313,7 +309,7 @@ class App extends React.Component {
                                     </>
 
                             }       
-                                               
+                                             
                             <LoadingProgress show={authLoading} />
                             <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
                             <ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
@@ -326,6 +322,7 @@ class App extends React.Component {
         );
     }
 }
+
 
 
 export default App;

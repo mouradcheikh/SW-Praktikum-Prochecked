@@ -46,13 +46,13 @@ const theme = createMuiTheme({
       light: colors.red[400]
     },
     text: {
-      primary: colors.blueGrey[800],
-      secondary: colors.blueGrey[600],
-      link: colors.blue[600]
+      primary: white,
+      secondary: white,
+      // link: colors.blue[600]
     },
     background: {
       default: '#F4F6F8',
-      paper: white
+      paper: colors.grey[900],
     },
     icon: colors.blueGrey[600],
     divider: colors.grey[200]

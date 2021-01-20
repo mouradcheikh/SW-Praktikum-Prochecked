@@ -10,7 +10,7 @@ import * as MdIcons from 'react-icons/md';
 export const SidebarDataDozent = [
   {
     title: 'Home',
-    path: '/home',
+    path: '/DozentView',
     icon: <AiIcons.AiFillHome />,
     
   },
@@ -18,13 +18,13 @@ export const SidebarDataDozent = [
 
   {
     title: 'Projekt erstellen',
-    path: '/projektErstellen',
+    path: '/CreateProject',
     icon: <RiIcons.RiAdminFill />,
    
     },
   {
       title: 'Projekte bewerten',
-      path: '/projekteBewerten',
+      path: '/ProjectList',
       icon: <RiIcons.RiAdminFill />,
      
     },

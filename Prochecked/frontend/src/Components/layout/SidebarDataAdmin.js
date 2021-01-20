@@ -38,13 +38,13 @@ export const SidebarDataAdmin = [
       },
       {
         title: 'Personen verwalten',
-        path: '/admin/personenVerwalten',
+        path: '/admin/CreatePerson',
         icon: <BsIcons.BsFillPersonLinesFill />,
         cName: 'sub-nav',
       },
       {
         title: 'Semester verwalten',
-        path: '/admin/semesterVerwalten',
+        path: '/admin/CreateSemester',
         icon: <MdIcons.MdTimeline />,
         cName: 'sub-nav',
       },
@@ -68,7 +68,7 @@ export const SidebarDataAdmin = [
     subNav: [
       {
         title: 'Projekte verwalten',
-        path: '/dozent/projekteVerwalten',
+        path: '/dozent/DropDown_Dozent',
         icon: <IoIcons.IoIosPaper />
       },
     ]
@@ -84,7 +84,7 @@ export const SidebarDataAdmin = [
     subNav: [
       {
         title: 'Projekte anmelden',
-        path: '/messages/projekteAnmelden',
+        path: '/student/SelectStudent',
         icon: <IoIcons.IoIosPaper />
       },
     ]

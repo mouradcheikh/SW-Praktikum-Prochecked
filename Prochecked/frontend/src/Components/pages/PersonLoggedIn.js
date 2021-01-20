@@ -4,6 +4,7 @@ import AdminView from './AdminView'
 import DozentView from './DozentView'
 import UserView from './UserView'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, Grid} from '@material-ui/core';
 // import SidebarAdmin from '../SidebarAdmin';
 import SidebarAdmin from '../layout/SidebarAdmin';
 
@@ -88,12 +89,15 @@ class PersonLoggedIn extends Component {
         }
         return(
             <div>
-                <div>
-                <SidebarAdmin person ={this.props.person}/>
-                </div>
-               
-                
-                {page}
+            <Grid >
+                <Grid>
+                    <SidebarAdmin style={{align: 'top'}} person ={this.props.person}/>
+                </Grid>
+            
+                <Grid>
+                    {page}
+                </Grid>
+            </Grid>
             </div>
             
             )
