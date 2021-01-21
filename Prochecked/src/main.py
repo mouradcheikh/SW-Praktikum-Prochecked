@@ -1050,7 +1050,7 @@ class ModuleOperations(Resource):
         print(api.payload)
         m = Module.from_dict(api.payload)
         if m is not None:
-            adm.save_module()
+            adm.save_module(m)
             return '', 200
         else:
             return '', 500

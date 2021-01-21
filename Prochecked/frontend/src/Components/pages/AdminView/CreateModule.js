@@ -91,14 +91,30 @@ class CreateModule extends React.Component {
           })}
           )
         }
-      
-          
+        
         handleSubmit = (event) => {
           event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-          this.createModule(
-            this.state.module, 
-            this.state.edv_nr, 
-          )}
+          if (this.state.editButton === false){
+            this.createModule(this.state.module, this.state.edv_nr)
+            this.setState({
+              success : true,
+            })
+            }
+          else {
+              this.updateModule(this.state.module, this.state.edv_nr)
+              this.setState({
+                success : true,
+              })
+            }
+          }
+    
+          
+        // handleSubmit = (event) => {
+        //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+        //   this.createModule(
+        //     this.state.module, 
+        //     this.state.edv_nr, 
+        //   )}
 
         handleChange(e) { 
             this.setState({ [e.target.name]: e.target.value });
@@ -163,7 +179,8 @@ class CreateModule extends React.Component {
               <DeleteIcon />
               </IconButton>
 
-              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                    edit
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+                edit
                 </Button>
              
               </ListItem >)}
