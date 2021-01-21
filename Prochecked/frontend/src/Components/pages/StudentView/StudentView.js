@@ -45,7 +45,7 @@ class StudentView extends Component{
     // const person = this.props.location.state.person
     // const student = this.props.location.state.student
     const{ person, student} = this.state;
-    console.log(this.state)
+    // console.log(this.state)
 
     return(
     <div>

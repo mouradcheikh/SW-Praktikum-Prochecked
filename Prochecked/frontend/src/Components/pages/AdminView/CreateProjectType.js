@@ -51,7 +51,7 @@ class CreateProjectType extends React.Component {
 
   /** Delete Type */
   deleteType = (t) => {
-    console.log(t.getID());
+    // console.log(t.getID());
     var api = AppApi.getAPI();
     api
       .deleteProjectType(t.getID())

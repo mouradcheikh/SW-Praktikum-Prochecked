@@ -29,7 +29,7 @@ class CreateModule extends React.Component {
     /** Create module */
     createModule(name, edv_nr){
     var api = AppApi.getAPI()
-    console.log(name, edv_nr)
+    // console.log(name, edv_nr)
   console.info(typeof edv_nr)
     api.createModule(name, edv_nr).then((module) =>
         {
@@ -43,7 +43,8 @@ class CreateModule extends React.Component {
       }
     
    /** Delete module */
-   deleteModule = (m) => { console.log(m.getID()) 
+   deleteModule = (m) => {
+      // console.log(m.getID()) 
     var api = AppApi.getAPI()
     api.deleteModule(m.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched ???

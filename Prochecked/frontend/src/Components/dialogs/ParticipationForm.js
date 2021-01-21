@@ -79,14 +79,14 @@ class ParticipationForm extends Component {
   /** Updates the participation */
   updateParticipation = () => {
     this.setStudent(this.state.student)
-    console.log(this.props.participation)
+    // console.log(this.props.participation)
     // clone the original participation, in case the backend call fails
     let updatedParticipation = Object.assign(new ParticipationBO(), this.props.participation);
     
     // set the new attributes from our dialog
-    console.log(this.state.student.id)
+    // console.log(this.state.student.id)
     updatedParticipation.setStudent(this.state.student.id);
-    console.log(updatedParticipation)
+    // console.log(updatedParticipation)
     
     AppApi.getAPI().updateParticipation(updatedParticipation).then(participation => {
       this.setState({

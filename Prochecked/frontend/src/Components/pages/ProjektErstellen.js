@@ -59,7 +59,7 @@ function ProjektFormular(props) {
 
   const handleProfessor = (event) => {
     setProfessor(event.target.value);
-    console.log(Professor)
+    // console.log(Professor)
   }
 
   const handleSemester = (event) => {
@@ -124,14 +124,14 @@ function ProfList(){
 function SemesterList(){
   var api = AppApi.getAPI()
   api.getSemesters().then((semesters) =>
-  {console.log(semesters)
+  {
   setSemesters(semesters)})
 }
 
 function ProjectTypeList(){
   var api = AppApi.getAPI()
   api.getAllProjectTypes().then((projecttypes) =>{
-    console.log(projecttypes)
+    // console.log(projecttypes)
     setProjectTypes(projecttypes)
   })
 }

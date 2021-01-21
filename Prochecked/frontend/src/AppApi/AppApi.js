@@ -929,9 +929,9 @@ getStudentByMatrikelNummer(matr_nr) {
   getFreeModulesBySemester(semester){
     return this.#fetchAdvanced(this.#getFreeModulesBySemesterURL(semester))
     .then((responseJSON) => {
-      console.log(responseJSON)
+      // console.log(responseJSON)
       let moduleBOs = ModuleBO.fromJSON(responseJSON);
-      console.log(moduleBOs);
+      // console.log(moduleBOs);
       return new Promise(function (resolve) {
         resolve(moduleBOs);
       })
@@ -944,7 +944,7 @@ getStudentByMatrikelNummer(matr_nr) {
   return this.#fetchAdvanced(this.#getModuleURL()).then((responseJSON) => {
     // We always get an array of ModuleBOs.fromJSON, but only need one object
     let responseModuleBOs = ModuleBO.fromJSON(responseJSON);
-    console.info(responseModuleBOs);
+    // console.info(responseModuleBOs);
     return new Promise(function (resolve) {
       resolve(responseModuleBOs);
     })
@@ -999,9 +999,9 @@ deleteModule(id) {
   getBoundModulesBySemester(semester){
     return this.#fetchAdvanced(this.#getBoundModulesBySemesterURL(semester))
     .then((responseJSON) => {
-      console.log(responseJSON)
+      // console.log(responseJSON)
       let moduleBOs = ModuleBO.fromJSON(responseJSON);
-      console.log(moduleBOs);
+      // console.log(moduleBOs);
       return new Promise(function (resolve) {
         resolve(moduleBOs);
       })
@@ -1011,9 +1011,9 @@ deleteModule(id) {
 
   getAllModules(){
     return this.#fetchAdvanced(this.#getModulesURL()).then((responseJSON) => {
-      console.log(responseJSON)
+      // console.log(responseJSON)
       let moduleBOs = ModuleBO.fromJSON(responseJSON);
-      console.log(moduleBOs);
+      // console.log(moduleBOs);
       return new Promise(function (resolve) {
         resolve(moduleBOs);
       })
@@ -1023,9 +1023,9 @@ deleteModule(id) {
 
   getAllProjectTypes(){
     return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
-      console.log(responseJSON)
+      // console.log(responseJSON)
       let projectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
-      console.log(projectTypeBOs);
+      // console.log(projectTypeBOs);
       return new Promise(function (resolve) {
         resolve(projectTypeBOs);
       })

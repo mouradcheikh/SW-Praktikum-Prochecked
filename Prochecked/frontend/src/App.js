@@ -126,7 +126,7 @@ class App extends React.Component {
 
   getPersons() {
     var api = AppAPI.getAPI();
-    console.log(api);
+    // console.log(api);
     api.getPersons().then((person) => {
       console.log(person);
       this.setState({
@@ -139,8 +139,8 @@ class App extends React.Component {
     var api = AppAPI.getAPI();
     // console.log(api)
     api.createPerson(name, email, google_id).then((person) => {
-      console.log(person);
-      console.log("test");
+      // console.log(person);
+      // console.log("test");
       this.setState({
         person: person,
       });
@@ -268,7 +268,7 @@ class App extends React.Component {
     /** Renders the whole app */
 render() {
     const { person, appError, authError, authLoading } = this.state;
-    console.log(this.state)
+    // console.log(this.state)
     
     return (
         <ThemeProvider theme={Theme}>
@@ -282,7 +282,7 @@ render() {
                         <Route exact path = '/StudentView' component = {StudentView}/>
                         <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
                         
-                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = 'Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
@@ -295,7 +295,7 @@ render() {
                         <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
                         <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>
                         <Route exact path = '/about' component = {about}/>
-                        <Route exact path = '/CreateModule' component = {CreateModule}/>
+                        <Route exact path = '/admin/CreateModule' component = {CreateModule}/>
                         <Route exact path = '/GradeList' component = {GradeList}/>              
                         {
                             // Ist eine Person eingeloggt?

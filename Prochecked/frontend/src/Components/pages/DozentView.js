@@ -41,6 +41,7 @@ class DozentenView extends Component{
     // const adminProf = this.props.location.state.prof
     // console.log(this.props.location.state.person)
     // console.log(this.props.location.state.prof)
+    console.log(this.state, this.props)
 
     return(<div>
       <center>

@@ -51,7 +51,7 @@ const Sidebar = (props) => {
   const showSidebar = () => setSidebar(!sidebar);
   // const person = props.person;
 
-  console.log(props)
+  // console.log(props)
 
   
 
@@ -93,8 +93,8 @@ const Sidebar = (props) => {
 
             {
 
-              result.map((item, index) => {
-                    return <SubMenu item={item} key={index} />;
+              result.map((item, index) => {console.log(props.person)
+                    return <SubMenu item={item} key={index} person = {props.person} />;
                   })
 
           //    props.person.berechtigung===3?

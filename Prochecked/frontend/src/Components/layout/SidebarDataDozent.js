@@ -7,7 +7,13 @@ import * as BsIcons from 'react-icons/bs';
 import * as MdIcons from 'react-icons/md';
 
 
+
+
+
 export const SidebarDataDozent = [
+
+
+  
   {
     title: 'Home',
     path: '/DozentView',

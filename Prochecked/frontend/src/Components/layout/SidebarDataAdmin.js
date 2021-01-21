@@ -51,7 +51,7 @@ export const SidebarDataAdmin = [
       
       {
         title: 'Module verwalten',
-        path: '/admin/moduleVerwalten',
+        path: '/admin/CreateModule',
         icon: <MdIcons.MdViewModule />,
         cName: 'sub-nav',
       },
