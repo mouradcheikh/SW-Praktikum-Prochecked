@@ -135,10 +135,11 @@ class ProjectListStudent extends Component {
                     onExpandedStateChange={this.onExpandedStateChange} 
                     student = {student}
                     onProjectDeleted={this.projectDeleted}
-                    getProjects = {this.getProjectsByStateAccepted}
+                    getProjects = {this.getProjectsByStudent}
+                    getProjectsByStateAccepted = {this.getProjectsByStateAccepted}
                   />)
                 }
-                <LoadingProgress show={loadingInProgress} />
+                
                 <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
               
             </Grid>
