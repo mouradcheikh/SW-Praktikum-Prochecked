@@ -67,14 +67,14 @@ class ParticipationMapper(Mapper):
 
         return result
     
-    def delete_participation(self, participation):
+    def delete_participation(self, participation_id):
         """Löschen der Daten eines Participation-Objekts aus der Datenbank.
 
         :param participation das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM participation WHERE id={}".format(participation.get_id())
+        command = "DELETE FROM participation WHERE id={}".format(participation_id)
         cursor.execute(command)
 
         self._cnx.commit()

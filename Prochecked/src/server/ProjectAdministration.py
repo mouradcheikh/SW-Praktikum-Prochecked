@@ -463,8 +463,17 @@ class ProjectAdministration (object):
 
     def delete_participation(self, participation):
         """Eine Participation löschen"""
-        with ParticipationMapper() as mapper:
-            mapper.delete_participation(participation)
+        print("adm:",participation)
+        if participation.get_grading() is not None:
+            gra = adm.get_grading_by_id(participation.get_grading())
+            adm.delete_grading(gra)
+            with ParticipationMapper() as mapper:
+                mapper.delete_participation(participation.get_id())
+        else:
+            print(participation.get_id())
+            with ParticipationMapper() as mapper:
+                mapper.delete_participation(participation.get_id())
+
 
 
 
