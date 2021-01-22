@@ -550,7 +550,6 @@ class ParticipationOperations(Resource):
         """
         adm = ProjectAdministration()
         par = adm.get_participation_by_id(id)
-        print(par, par.get_id())
 
         if par is not None:
             adm.delete_participation(par)
