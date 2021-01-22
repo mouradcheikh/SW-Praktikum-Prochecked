@@ -40,6 +40,11 @@ class ProjectListEntryNew extends Component {
   }
 
 
+  updateParent = () => {
+    this.props.getProjects()
+  }
+
+
   /** Adds an participation for the current customer */
   addParticipation = () => {
 
@@ -56,7 +61,7 @@ class ProjectListEntryNew extends Component {
         participation: participationBO,
         loadingInProgress: false, // loading indicator 
         addingParticipationError: null
-      })
+      }, ()=> this.updateParent())
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         participation: null,
@@ -112,13 +117,13 @@ class ProjectListEntryNew extends Component {
   }
 
    /** Deletes this participation */
-   deleteParticipation = () => { console.log(this.state.participation)
+   deleteParticipation = () => { console.log(this.state.participation, this.state.participation.getID())
     var api = AppApi.getAPI()
     api.deleteParticipation(this.state.participation.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
-      })
+      }, () => this.updateParent())
       // console.log(participation);
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
@@ -130,7 +135,7 @@ class ProjectListEntryNew extends Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null
-    });
+    }, () => this.updateParent());
   }
 
   identPar(){ //identifiziert die Teilnahme des angemeldetetn studenten innerhalb der particiationListe(state) und setzt sie in das eigene state
@@ -179,23 +184,22 @@ class ProjectListEntryNew extends Component {
           >
             
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                  
-                 
-                  <Button variant="contained"
+              <Grid item xs={7}>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+                </Typography>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+                </Typography>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
+                </Typography>
+              </Grid>
+                <Grid item xs={5}>
+                <Button variant="contained"
                           color="secondary"
                           className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
                           variant='outlined' color='primary' size='small' onClick={this.deleteParticipation}>
                   Abmelden
-                  </Button>
-                </Typography>
-                <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-                </Typography>
-                
-                <Typography variant='body1' className={classes.heading}>{"verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
-                </Typography>
+                </Button>
 
               
               </Grid>
@@ -216,30 +220,23 @@ class ProjectListEntryNew extends Component {
           id={`project${project.getID()}accountpanel-header`}
         >
           
-          <Grid container spacing={1} justify='flex-start' alignItems='center'>
-            <Grid item>
-              <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                
-                <Button                
+          <Grid container wrap="nowrap" spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item zeroMinWidth xs={7}>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+              </Typography>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+              </Typography>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
+              </Typography>
+            </Grid>
+            <Grid item zeroMinWidth xs={5}>
+              <Button                
                         color="secondary"
                         className={classes.buttonFreigeben}
                         startIcon={<CheckIcon/>}
                         variant="contained" color='primary' size='small'  onClick={this.addParticipation}>
                 Anmelden
-                </Button>
-                {/* <Button variant="contained"
-                        color="secondary"
-                        className={classes.buttonAblehnen}
-                        startIcon={<HighlightOffIcon/>}
-                        variant='outlined' color='primary' size='small' onClick={() => this.deleteParticipation}>
-                Abmelden
-                </Button> */}
-              </Typography>
-              <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-              </Typography>
-              
-              <Typography variant='body1' className={classes.heading}>{"verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
-              </Typography>
+              </Button>
 
             
             </Grid>

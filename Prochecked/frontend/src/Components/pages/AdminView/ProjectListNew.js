@@ -174,7 +174,7 @@ class ProjectListNew extends Component {
       <Grid container spacing={3}>
         <Grid item xs={6}>
         <h1>Freigegebene Projekte</h1>
-          <Paper className={classes.paper}>
+          
           {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -187,11 +187,9 @@ class ProjectListNew extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
-          </Paper>
         </Grid>
         <Grid item xs={6}>
         <h1>Abgelehnte Projekte</h1>
-          <Paper className={classes.paper}>
           {
           // Show the list of ProjectListEntry components
           // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
@@ -204,7 +202,6 @@ class ProjectListNew extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateDeclined} /> 
-          </Paper>
         </Grid>
       </Grid>
         </div>

@@ -297,6 +297,13 @@ class ProjectOperations(Resource):
     @prochecked.marshal_with(project, code=200)
     @prochecked.expect(project)  
     @secured
+    def get(self):
+        """Auslesen aller Project-Objekte.
+        Sollten keine Project-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ProjectAdministration()
+        projects = adm.get_all_projects()
+        return projects
+
     def post(self):
         """Anlegen eines neuen Projekt-Objekts.
 
@@ -318,7 +325,7 @@ class ProjectOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             p = adm.create_project(proposal)
-            return p, 200
+            return '', 200
         else:
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
@@ -544,16 +551,10 @@ class ParticipationOperations(Resource):
         """
         adm = ProjectAdministration()
         par = adm.get_participation_by_id(id)
-
+        print(par, par.get_id())
 
         if par is not None:
-            gra = adm.get_grading_by_id(par.get_grading())
-            if gra is not None:
-                print("Grading:", gra)
-                adm.delete_grading(gra)
-                adm.delete_participation(par)
-            else:
-                adm.delete_participation(par)
+            adm.delete_participation(par)
             return '', 200
         else:
             return '', 500  # Wenn unter id keine Participation existiert.'''

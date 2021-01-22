@@ -11,6 +11,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import ModuleForm from'../../dialogs/DropdownModule'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import List from '@material-ui/core/List';
@@ -195,18 +197,30 @@ componentDidMount(){
     return (
       project.project_state ===1?
       <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
             // expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
-          >
-            
-            <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item>
-                <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+          > */}
+          <Box m="0,5rem" p={2}>
+          <Paper>
+          <Box p={2}>
+            <Grid container wrap="nowrap" spacing={1} justify='flex-start' alignItems='center'>
+              <Grid zeroMinWidth item xs = {9}>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+                </Typography>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' 
+                // className={classes.heading}
+                >{"Beschreibung:"+ " "+ project.getShortDescription()} 
+                </Typography>
+                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projektart:"+ " "+ this.state.projecttype} 
+                </Typography>
+                </Grid>
+                <Grid zeroMinWidth item xs={3}>
                   <Button variant="contained"
                           color="secondary"
-                          className={classes.buttonFreigeben}
+                          fullWidth
+                          // className={classes.buttonFreigeben}
                           startIcon={<CheckIcon/>}
                           variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
                   Freigeben
@@ -214,101 +228,133 @@ componentDidMount(){
                   
                   <Button variant="contained"
                           color="secondary"
-                          className={classes.buttonAblehnen}
+                          fullWidth
+                          // className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
                           variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
-                  Ablehnen
+                  Ablehnen  
                   </Button>
-                </Typography>
+                  </Grid>
                 <ModuleForm show={showProjectForm} project={project} onClose={this.ProjectFormClosed} updateProject ={this.updateProject} updateModuleOfProject={this.updateModuleOfProject}/>
-                <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-                </Typography>
-                <Typography variant='body1' className={classes.heading}>{"Projektart:"+ " "+ this.state.projecttype} 
-                </Typography>
-              </Grid>
             </Grid>
-          </AccordionSummary>
+            </Box>
+            </Paper>
+            </Box>
+          {/* </AccordionSummary>
          <AccordionDetails> 
           </AccordionDetails>
-        </Accordion> 
+        </Accordion>  */}
       </div>
       : project.project_state ===2?
       <div>
-      <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+      {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
         <AccordionSummary
           // expandIcon={<ExpandMoreIcon />}
           id={`project${project.getID()}accountpanel-header`}
         >
-          
-          <Grid container spacing={1} justify='flex-start' alignItems='center'>
-            <Grid item>
-              <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+           */}
+          <Box m="0,5rem" p={2}>
+          <Paper>
+          <Box p={2}>
+          <Grid container wrap="nowrap" spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item zeroMinWidth  xs={7}>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+              </Typography>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+              </Typography>
+            </Grid>
+            <Grid item zeroMinWidth xs={5}>
                 <Button variant="contained"
                         color="secondary"
-                        className={classes.button}
+                        // className={classes.button}
                         startIcon={<CheckIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3)}>
+                        // className={classes.button} 
+                        variant='outlined' 
+                        color='primary' 
+                        size='small' 
+                        fullWidth 
+                        onClick={() => this.updateProject(3)}>
                 Freigeben
                 </Button>
                 <Button variant="contained"
                         color="secondary"
-                        className={classes.button}
+                        // className={classes.button}
                         startIcon={<ReplyRoundedIcon/>}
-                className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 1)}>
+                        // className={classes.button} 
+                        variant='outlined' 
+                        color='primary' 
+                        size='small' 
+                        fullWidth
+                        onClick={() => this.updateModule(0, 1)}>
                 Rückgängig
                 </Button>
-                 
-              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
-             Löschen
-            </Button>        
-              
-              </Typography>
-              <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-              </Typography>
-            </Grid>
+                <Button fullWidth variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+                Löschen
+                </Button>  
+            </Grid>       
           </Grid>
-        </AccordionSummary>
+          </Box>
+          </Paper>
+          </Box>
+        {/* </AccordionSummary>
        <AccordionDetails> 
         </AccordionDetails>
-      </Accordion> 
+      </Accordion>  */}
     </div>
     : 
     <div>
-    <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+    {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
       <AccordionSummary
         // expandIcon={<ExpandMoreIcon />}
         id={`project${project.getID()}accountpanel-header`}
-      >
-        
-        <Grid container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+      > */}
+      <Box m="0,5rem" p={2}>
+        <Paper>
+        <Box p={2}>
+        <Grid wrap="nowrap" container spacing={1} justify='flex-start' alignItems='center'>
+          <Grid item zeroMinWidth xs={7}>
+            <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+            </Typography>
+            <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+            </Typography>
+            </Grid>
+          <Grid item zeroMinWidth xs={5}>
               <Button variant="contained"
+                      fullWidth
                       color="secondary"
-                      className={classes.button}
+                      // className={classes.button}
                       startIcon={<HighlightOffIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small' onClick={() => this.updateModule(0, 2)}>
+                      // className={classes.button} 
+                      variant='outlined' 
+                      color='primary' 
+                      size='small' 
+                      onClick={() => this.updateModule(0, 2)}>
               Ablehnen
               </Button>
               <Button variant="contained"
                       color="secondary"
-                      className={classes.button}
+                      fullWidth
+                      // className={classes.button}
                       startIcon={<ReplyRoundedIcon/>}
-              className={classes.button} variant='outlined' color='primary' size='small'  onClick={() => this.updateModule(0, 1)}>
+                      // className={classes.button} 
+                      variant='outlined' 
+                      color='primary' 
+                      size='small'  
+                      onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
-              <Button variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+              <Button fullWidth variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
              Löschen
             </Button> 
-            </Typography>
-            <Typography variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-            </Typography>
           </Grid>
         </Grid>
-      </AccordionSummary>
+        </Box>
+        </Paper>
+        </Box>
+      {/* </AccordionSummary>
      <AccordionDetails> 
       </AccordionDetails>
-    </Accordion> 
+    </Accordion>  */}
   </div>
     );
   }

@@ -62,6 +62,7 @@ export default class AppAPI {
 
     // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
     #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
+    #getProjectsURL = () => `${this.#AppServerBaseURL}/project`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
@@ -410,6 +411,18 @@ getStudentByMatrikelNummer(matr_nr) {
   // }
 
 //Project related
+
+
+  getProjects(){
+    return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
+    // We always get an array of SemBOs.fromJSON, but only need one object
+      let responseProBOs = ProjectBO.fromJSON(responseJSON);
+      console.info(responseProBOs);
+      return new Promise(function (resolve) {
+        resolve(responseProBOs);
+      })
+    })
+  }
 
  /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
