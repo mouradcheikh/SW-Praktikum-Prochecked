@@ -7,6 +7,7 @@ import { SidebarDataAdmin } from './SidebarDataAdmin';
 import { SidebarDataDozent } from './SidebarDataDozent';
 import { SidebarDataStudent } from './SidebarDataStudent';
 import { SidebarDataUserView } from './SidebarDataUserView';
+import {AppApi} from '../../AppApi'
 
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
@@ -47,8 +48,9 @@ const SidebarWrap = styled.div`
 
 const Sidebar = (props) => {
   const [sidebar, setSidebar] = useState(false);
+  const [student, setStudent] = useState(null);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const showSidebar = () => {setSidebar(!sidebar); getStudentByPerson()};
   // const person = props.person;
 
   // console.log(props)
@@ -71,6 +73,28 @@ const Sidebar = (props) => {
     else{
       result = SidebarDataUserView
     }
+
+
+    let getStudentByPerson = () =>{
+      var api = AppApi.getAPI()
+      api.getStudentByPersonId(props.person.id) //evtl. Objekt von API vorher anlegen
+        .then(studentBO =>
+          setStudent(studentBO))             // Set new state when ProjectBOs have been fetched
+
+            
+      //     ).catch(e =>
+      //       this.setState({             // Reset state with error from catch
+      //         loadingInProgress: false, // disable loading indicator
+      //         error: e
+      //       })
+      //     );
+      // // set loading to true
+      // this.setState({
+      //   loadingInProgress: true,
+      //   error: null
+      // });
+    }
+    
   
   return (
     
@@ -94,7 +118,7 @@ const Sidebar = (props) => {
             {
 
               result.map((item, index) => {console.log(props.person)
-                    return <SubMenu item={item} key={index} person = {props.person} />;
+                    return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
                   })
 
           //    props.person.berechtigung===3?

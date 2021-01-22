@@ -38,17 +38,29 @@ const DropdownLink = styled(Link)`
   }
 `;
 
-const SubMenu = ({ item }) => {
+const SubMenu = ( props ) => {
   const [subnav, setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);
 
+  let person = props.person
+  let item = props.item
+  console.log(person)
+
   return (
     <>
-      <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
+      <SidebarLink
+      to={{
+        pathname: item.path, 
+        state: { linkState: person,student: props.student }
+      }
+      }
+      onClick={item.subNav && showSubnav} 
+      >
         <div>
           {item.icon}
           <SidebarLabel>{item.title}</SidebarLabel>
+
         </div>
         <div>
           {item.subNav && subnav
@@ -58,10 +70,15 @@ const SubMenu = ({ item }) => {
             : null}
         </div>
       </SidebarLink>
+
       {subnav &&
         item.subNav.map((item, index) => {
           return (
-            <DropdownLink to={item.path} key={index}>
+            <DropdownLink to={{
+              pathname: item.path, 
+              state: { linkState: person, student: props.student }
+            }}
+            key={index}>
               {item.icon}
               <SidebarLabel>{item.title}</SidebarLabel>
             </DropdownLink>

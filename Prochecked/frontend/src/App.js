@@ -282,7 +282,7 @@ render() {
                         <Route exact path = '/StudentView' component = {StudentView}/>
                         <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
                         
-                        <Route exact path = 'Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
                         <Route exact path = '/StudentLogin' component = {StudentLogin}/>
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>

@@ -30,23 +30,19 @@ class ProjectList extends Component {
       expandedID = this.props.location.expandProject.getID();
     }
 
-    // let adminProf = null;
-
-    // if (this.props.location.state.adminProf) {
-    //   adminProf = this.props.location.state.adminProf
-    //   console.log(adminProf)
-    // }
-
 
     let person = '';
     let adminProf = ''
+
+    if (this.props.location.state !== undefined){
 
     if (this.props.location.state.linkState){
       person = this.props.location.state.linkState
     }
     if (this.props.location.state.adminProf){
       adminProf = this.props.location.state.adminProf
-    }
+    }}
+    
 
 
    
