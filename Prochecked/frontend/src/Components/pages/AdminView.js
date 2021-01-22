@@ -10,27 +10,26 @@ import grey from '@material-ui/core/colors/grey'
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: grey[900],
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      // backgroundColor: 'gray'
     },
     paper: {
       padding: theme.spacing(2),
-      textAlign: 'left',
+      textAlign: "left",
       color: theme.palette.text.secondary,
       backgroundColor: 'white',
     },
-  }),
+  })
 );
 
 export default function MenuListComposition() {
   const classes = useStyles();
 
   return (
-    
     <div className={classes.root}>
-        <Grid container spacing={3}>
+      <Grid container spacing={3}>
         <MenuList>
         <Grid item xs={12}>
         <h3 style ={{color: "white"}} >Admin-Aktionen</h3>
@@ -41,31 +40,39 @@ export default function MenuListComposition() {
           <Link to='/CreateSemester' style={{ textDecoration: 'none' }}>
           <MenuItem>Semester erstellen</MenuItem>
           </Link >
-          <Link to='/ProjectListNew' style={{ textDecoration: 'none' }}>
+          <Link to='/CreateModule'>
+          <MenuItem>Modul erstellen</MenuItem>
+          </Link >
+          <Link to='/ProjectListNew'>
           <MenuItem>Projekte freigeben</MenuItem>
           </Link>
-          </Paper>
-          </Grid>
-          <Grid item xs={12}>
-          <h3 style ={{color: "white"}} >Dozent-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='/DropDown_Dozent' style={{ textDecoration: 'none' }}>
-          <MenuItem>Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten </MenuItem>
+          <Link to="/CreateProjectType">
+          <MenuItem>Projektarten pflegen</MenuItem>
           </Link>
           </Paper>
           </Grid>
           <Grid item xs={12}>
-          <h3 style ={{color: "white"}} >Student-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='SelectStudent' style={{ textDecoration: 'none' }}>
-          <MenuItem>Student für Projekte registieren/Semesterbericht einsehen</MenuItem>
-          </Link>
-          </Paper>
+            <h3>Dozent-Aktionen</h3>
+            <Paper className={classes.paper}>
+              <Link to="/DropDown_Dozent">
+                <MenuItem>
+                  Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten{" "}
+                </MenuItem>
+              </Link>
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <h3>Student-Aktionen</h3>
+            <Paper className={classes.paper}>
+              <Link to="SelectStudent">
+                <MenuItem>
+                  Student für Projekte registieren/Semesterbericht einsehen
+                </MenuItem>
+              </Link>
+            </Paper>
           </Grid>
         </MenuList>
-      </Grid> 
+      </Grid>
     </div>
   );
 }
-
-

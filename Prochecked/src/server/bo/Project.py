@@ -26,7 +26,7 @@ class Project(NamedBusinessObjects, Automat):
         self._number_bd_lecturetime = None #blocktage vorlesungszeit
         self._preffered_bd = None #Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
         self._special_room = None
-        # self._module = None
+        self._module = None
         self._dozent = None
         self._dozent2 = None
         self._semester = None #Kommt hier ein Objekt von Semester rein?
@@ -127,6 +127,12 @@ class Project(NamedBusinessObjects, Automat):
     def get_semester(self):
         return self._semester
 
+    def get_module(self):
+        return self._module
+
+    def set_module(self, module_id):
+        self._module = module_id
+
     def __str__(self):
         return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
 
@@ -154,6 +160,7 @@ class Project(NamedBusinessObjects, Automat):
         obj.set_creation_date(Project.date_format(dictionary["creation_date"]))
         obj.set_last_updated(Project.date_format(dictionary["last_updated"]))
         obj.set_semester(dictionary["semester"])
+        obj.set_module(dictionary["module"])
         return obj
 
 if __name__ == "__main__":

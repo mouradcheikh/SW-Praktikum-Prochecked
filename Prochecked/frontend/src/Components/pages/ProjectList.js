@@ -43,6 +43,7 @@ class ProjectList extends Component {
 
     // Init an empty state
     this.state = {
+      person: null,
       projects: [],
       newProjects: [],
       projectsInReview: [],
@@ -226,6 +227,10 @@ class ProjectList extends Component {
     }
     else{
     // console.log("gerendert")
+    let person = this.props.location.state.linkState
+    this.setState({
+      person: person
+    })
     this.getProjectsByDozentNew(person.id);
     this.getProjectsByDozentAccepted(person.id);
     this.getProjectsByDozentInReview(person.id);
@@ -281,7 +286,8 @@ class ProjectList extends Component {
               project={project}
               expandedState={expandedProjectID === project.getID()}
               // projectsFromEntry={this.projectsFromEntry}
-              
+              onProjectDeleted={this.projectDeleted}
+              onExpandedStateChange={this.onExpandedStateChange}
               person ={person} adminProf ={adminProf}
               getProjectsByDozentNew = {this.getProjectsByDozentNew}
               getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
