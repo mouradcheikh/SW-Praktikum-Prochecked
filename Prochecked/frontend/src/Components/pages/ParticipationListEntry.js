@@ -66,7 +66,7 @@ class ParticipationListEntry extends Component {
         loadingError: null
       })).catch(e =>
         this.setState({ // Reset state with error from catch 
-          student: null,
+          student: '',
           loadingInProgress: false,
           loadingError: e
         })
