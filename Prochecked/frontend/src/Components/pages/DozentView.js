@@ -65,15 +65,17 @@ class DozentenView extends Component{
             </div>
             <div>            
             <Link to={{
+              
             pathname: '/GradeList',
             state: { person: person},
-            }}>
+            }} style={{ textDecoration: 'none' }}>
            <Button
                 size="large"
                 variant="contained"
                 color="primary"
                 algin="center"
                 className={classes.button}
+    
                 > 
                     Notenliste
             </Button>
