@@ -156,10 +156,26 @@ class ProjectMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE project SET name=%s, project_state_id=%s, module_id=%s WHERE id=%s"
+        command = "UPDATE project SET name=%s, capacity=%s, ext_partner_list=%s, short_description=%s, weekly_flag=%s, number_bd_b_lecturetime=%s, number_bd_examtime=%s, number_bd_lecturetime=%s, preffered_bd=%s, special_room=%s, person_id=%s, project_state_id=%s, project_type_id=%s, semester_id=%s, person2_id=%s,  module_id=%s WHERE id=%s"
+
+        
         data = (
             project.get_name(),
+            project.get_capacity(),
+            project.get_ext_partner_list(),
+            project.get_short_description(),
+            project.get_weekly_flag(),
+            project.get_number_bd_b_lecturetime(),
+            project.get_number_bd_examtime(),
+            project.get_number_bd_lecturetime(),
+            project.get_preffered_bd(),
+            project.get_special_room(),
+            project.get_dozent(),
+            
             project.get_project_state(),
+            project.get_project_type(),
+            project.get_semester(),
+            project.get_dozent2(),
             project.get_module(),
             project.get_id())
             

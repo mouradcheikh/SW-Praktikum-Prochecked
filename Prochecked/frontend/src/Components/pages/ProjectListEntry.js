@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { Link } from "react-router-dom";
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import ProjectForm from '../dialogs/ParticipationForm';
@@ -123,13 +124,15 @@ class ProjectListEntry extends Component {
     const { classes, expandedState} = this.props;
     // Use the states project
     const { project} = this.state;
-
+    // const editButton = true
     // console.log(this.state);
     return (
  
       project.project_state ===3?
       <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        <Accordion defaultExpanded={false} expanded={expandedState} 
+        // onChange={this.expansionPanelStateChanged}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
@@ -139,6 +142,7 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
                 </Grid>
+                
                 <Grid direction="row"
                       alignItems="center"
                       justify="flex-end">
@@ -152,7 +156,29 @@ class ProjectListEntry extends Component {
                           onClick={() => this.updateProject(4)}>
                   Bewerten
                 </Button>
-              </Grid>
+                
+                </Grid>
+                
+                <div>
+                  <Link to={{
+                    pathname: '/updateProject',
+                    state: { project: project, editButton: true }
+                    }} style={{ textDecoration: 'none' }}
+                    >
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                    //     onClick = {this.handleStudentButtonClicked}
+                    >
+                               edit
+                        
+                    </Button>
+                  </Link>
+                </div>
+
+               
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>

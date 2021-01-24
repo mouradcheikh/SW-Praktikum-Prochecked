@@ -341,7 +341,7 @@ class ProjectOperations(Resource):
         Project-Objekts.
         """
         adm = ProjectAdministration()
-        #print(api.payload)
+        print("PROJEKTTYP",api.payload)
         p = Project.from_dict(api.payload)
         #print(p)
 

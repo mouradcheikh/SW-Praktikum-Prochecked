@@ -25,6 +25,7 @@ import AdminView from './Components/pages/AdminView';
 import about from './Components/pages/about';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
+import ProjektFormularUpdate from './Components/pages/ProjektUpdaten'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreatePerson from './Components/pages/AdminView/CreatePerson';
@@ -287,6 +288,7 @@ render() {
                         <Route exact path = '/DozentView' component = {DozentenView}/>
                         <Route exact path = '/AdminView' component = {AdminView}/>
                         <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/UpdateProject' component = {ProjektFormularUpdate}/>
                         <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
                         <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>

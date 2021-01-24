@@ -7,7 +7,6 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -30,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ProjektFormular(props) {
+function ProjektFormularUpdate(props) {
   
 
   const classes = useStyles();
-  const [ProjektArt, setProjektArt] = React.useState();
+  const [ProjektArt, setProjektArt] = React.useState('');
   const [ProjectTypes, setProjectTypes] = React.useState([]);
   const [Professor, setProfessor] = React.useState(null);
   const [Titel, setProjektTitel] = React.useState('');
@@ -55,6 +54,7 @@ function ProjektFormular(props) {
   const [edit, setEdit] = React.useState(false);
 
   console.log(props)
+  console.log(ProjectTypes.default)
 
   // if(props.location.state.editButton !==undefined){
   //   // setEdit(props.location.state.editButton)
@@ -84,43 +84,71 @@ function ProjektFormular(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const project = new ProjectBO(Titel)
-    project.setProjectType(ProjektArt.getID())
-    project.setCapacity(Kapazität)
-    project.setShortDescription(Inhalt)
-    let dozent = props.location.state.linkState
-    project.setDozent(dozent.id)
-    project.setRoom(Raum)
-    project.setWeeklyFlag(WT)
-    project.setNumberBdBLecturetime(BTvorVZ)
-    project.setNumberBdLecturetime(BTinVZ)
-    project.setNumberBdExamtime(BTinPZ)
-    project.setSpecialRoom(BesondererRaum)
-    // project.setDozent(Professor)
-    project.setProjectState(1)
-    project.setExtPartnerList(extKoop)
-    project.setSemester(Semester.id)
-    project.setprefferedbd(BT)
 
-    if (Professor != null){
+    // const project = new ProjectBO(Titel)
+    const project = props.location.state.project
+
+
+
+  if (Titel !== '' ){
+      project.setName(Titel)
+    }
+
+  if (ProjektArt !== '' ){
+      project.setProjectType(ProjektArt.getID())
+    }
+
+  if (Kapazität !== ''){
+    project.setCapacity(Kapazität)
+  }
+
+  if (Inhalt !== ''){
+    project.setShortDescription(Inhalt)
+  }
+ 
+  if (Raum !== ''){
+    project.setRoom(Raum)
+  }
+
+  if (WT !== 'Ja'){
+    project.setWeeklyFlag(WT)
+  }
+  if (BTvorVZ !== '0'){
+    project.setNumberBdBLecturetime(BTvorVZ)
+  }
+  if (BTinPZ !== '0'){
+    project.setNumberBdLecturetime(BTinPZ)
+  }
+  if (BTinVZ !== '0'){
+    project.setNumberBdExamtime(BTinVZ)
+  }
+  if (BesondererRaum !== ''){
+    project.setSpecialRoom(BesondererRaum)
+  }
+  if (extKoop !== ''){
+    project.setExtPartnerList(extKoop)
+  }
+  if (Semester !== ''){
+    project.setSemester(Semester.id)
+  }
+  if (BT !== null){
+    project.setprefferedbd(BT)
+  }
+  if (Professor != null){
       project.setDozent2(Professor.id)
     }
+  
+
+      
 
     console.log(project)
 
     var api = AppApi.getAPI()
         // console.log(api)
 
-        !edit?
-        api.createProject(project).then((project) =>
-            {console.log(project)
-            }
-            )
-        :
-        project.setID(props.location.state.project.id)
-
         api.updateProject(project).then((project) =>
-            {console.log(project)
+            {
+              // console.log(project)
             }
             )
 
@@ -358,4 +386,4 @@ useEffect(() => {
   );
 }
 
-export default ProjektFormular;
+export default ProjektFormularUpdate;
