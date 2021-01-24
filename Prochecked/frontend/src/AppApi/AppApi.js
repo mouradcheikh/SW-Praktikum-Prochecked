@@ -878,12 +878,12 @@ getStudentByMatrikelNummer(matr_nr) {
               })
             }
 
-      createProjectType(aname, sws, ects) {
+      createProjectType(name, sws, ects) {
 
               let p = new ProjectTypeBO();
-              p.setName(aname)
-              p.setSWS(sws)
-              p.setECTS(ects)
+              p.setName(name)
+              p.setSws(sws)
+              p.setEcts(ects)
               // console.log(p)
       
               return this.#fetchAdvanced(this.#addProjectTypeURL(), {
@@ -902,7 +902,7 @@ getStudentByMatrikelNummer(matr_nr) {
                 })
               })
             }
-      deleteProjectType(id) {
+      deleteProjectType(id) { console.log(id)
               return this.#fetchAdvanced(this.#deleteProjectTypeURL(id), {
                 method: 'DELETE'
               })

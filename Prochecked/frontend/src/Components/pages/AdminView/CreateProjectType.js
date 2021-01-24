@@ -21,23 +21,24 @@ class CreateProjectType extends React.Component {
     super(props);
 
     this.state = {
-      name: null, //für CreateProjectType
+      name: '', //für CreateProjectType
       ects:'',
       sws:'',
-      type: null,
-      allTypes: [], // für Rollenliste
+      type: '',
+      allTypes: [], // für alle Projekttypen 
       typeValidationFailed: false, //prüft eingabe des projectType im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
 
 
   /** Create projecType */
-     createProjectType(name, ects, sws){
+  createProjectType(name, ects, sws){
       var api = AppApi.getAPI()
       console.log(name, ects, sws)
-      api.createProjecType(name, ects, sws).then((type) =>
+      api.createProjectType(name, ects, sws).then((type) =>
           {
             // console.log(projecType)
           this.setState({
@@ -53,8 +54,7 @@ class CreateProjectType extends React.Component {
   deleteProjectType = (t) => {
     console.log(t.getID());
     var api = AppApi.getAPI();
-    api
-      .deleteProjectType(t.getID())
+    api.deleteProjectType(t.getID())
       .then(() => {
         this.setState({
           // Set new state when ParticipationBOs have been fetched
@@ -91,8 +91,8 @@ class CreateProjectType extends React.Component {
 
   handleSubmit = (event) => {
      event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-      this.createModule(
-        this.state.type, 
+      this.createProjectType(
+        this.state.name, 
         this.state.sws,
         this.state.ects,
             )}
@@ -101,6 +101,8 @@ class CreateProjectType extends React.Component {
               this.setState({ [e.target.name]: e.target.value });
               // console.log({ [e.target.name]: e.target.value })
               }
+
+
         /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
     componentDidMount() {
       this.ProjectTypeList();
@@ -109,6 +111,7 @@ class CreateProjectType extends React.Component {
   render() {
     const { classes } = this.props;
     const { name, type, sws, ects, allTypes, typeValidationFailed, success } = this.state;
+    console.log(this.state)
     return (
       <div>
         <Grid container spacing={3}>
@@ -126,7 +129,7 @@ class CreateProjectType extends React.Component {
                   id="projektart"
                   label="Projektart"
                   // value={name}
-                  name='type'
+                  name='name'
                   onChange={this.handleChange}
                   error={typeValidationFailed}
                   helperText={
