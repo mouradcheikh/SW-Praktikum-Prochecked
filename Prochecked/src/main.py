@@ -1119,7 +1119,7 @@ if __name__ == '__main__':
     p = ProjectType()
     p.set_id(4)
     adm = ProjectAdministration()
-    adm.delete_projecttype(p)
+    adm.save_projecttype_by_id(p)
 
     '''project = Project()
     project.set_id(1)

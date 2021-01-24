@@ -83,12 +83,15 @@ export default class AppAPI {
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
-
     
     //ProjectType related
     #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
+    #updateProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`; 
+
+
+
       /** 
    * Get the Singelton instance 
    * 
@@ -915,6 +918,25 @@ getStudentByMatrikelNummer(matr_nr) {
                   })
                 })
             }
+      
+      updateProjectType(p) {
+  // console.log(gradingBO)
+      return this.#fetchAdvanced(this.#updateProjectTypeURL(), { 
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+       },
+        body: JSON.stringify(p)
+        }).then((responseJSON) => {
+        
+          // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+         let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+           return new Promise(function (resolve) {
+            resolve(responseProjectTypeBO);
+        })
+     })
+    }
 
     
 

@@ -15,6 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from '@material-ui/icons/Save';
+import ProjectTypeBO from "../../../AppApi/ProjectTypeBO";
+
 
 class CreateProjectType extends React.Component {
   constructor(props) {
@@ -25,9 +27,11 @@ class CreateProjectType extends React.Component {
       ects:'',
       sws:'',
       type: '',
+      updateT: '',
       allTypes: [], // für alle Projekttypen 
       typeValidationFailed: false, //prüft eingabe des projectType im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
+      editButton: false
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -76,6 +80,26 @@ class CreateProjectType extends React.Component {
     }, ()=> {this.ProjectTypeList()});
   };
 
+    /** Updates the projecttype */
+    updateProjectType = () => {
+      // console.log(s)
+      // s.preventDefault();
+      // clone the original participation, in case the backend call fails
+      let updatedProjectType = Object.assign(new ProjectTypeBO(), this.state.updateT);
+      updatedProjectType.setName(this.state.name)
+      updatedProjectType.setSws(this.state.sws)
+      updatedProjectType.setEcts(this.state.ects)
+      console.log(updatedProjectType)
+      AppApi.getAPI().updateProjectType(updatedProjectType).then(type => {
+        this.setState({
+          type: type,
+          success: true
+        },() => this.ProjectTypeList()
+        );
+                
+      });
+    }
+
   ProjectTypeList(){
     var api = AppApi.getAPI()
     api.getProjectType().then((allTypes) =>
@@ -90,27 +114,33 @@ class CreateProjectType extends React.Component {
   
 
   handleSubmit = (event) => {
-     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+    event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+    if (this.state.editButton === false){
       this.createProjectType(
         this.state.name, 
         this.state.sws,
         this.state.ects,
             )}
+    else {this.updateProjectType(this.state.semester)
+          }}
   
-          handleChange(e) { 
-              this.setState({ [e.target.name]: e.target.value });
-              // console.log({ [e.target.name]: e.target.value })
-              }
+  handleChange(e) { 
+    this.setState({ [e.target.name]: e.target.value });
+        // console.log({ [e.target.name]: e.target.value })
+      }
 
 
-        /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+
+
+
+/** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
     componentDidMount() {
       this.ProjectTypeList();
     }
 
   render() {
     const { classes } = this.props;
-    const { name, type, sws, ects, allTypes, typeValidationFailed, success } = this.state;
+    const { name, type, sws, ects, allTypes,updateT,editButton,  typeValidationFailed, success } = this.state;
     console.log(this.state)
     return (
       <div>
@@ -191,6 +221,19 @@ class CreateProjectType extends React.Component {
                 >
                   Eintragen
                 </Button>
+                <Grid>
+                { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                </Grid>
               </form>
             </Paper>
           </Grid>
@@ -200,7 +243,7 @@ class CreateProjectType extends React.Component {
               <div>
                 {allTypes.map((t) => (
                   <ListItem>
-                    {t.name}
+                    {t.name }
 
                     <IconButton
                       aria-label="delete"
@@ -208,6 +251,9 @@ class CreateProjectType extends React.Component {
                     >
                       <DeleteIcon />
                     </IconButton>
+                    <Button color='primary' onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                   edit
+                    </Button>
                   </ListItem>
                 ))}
               </div>
