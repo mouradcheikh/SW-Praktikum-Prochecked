@@ -15,46 +15,50 @@ import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from '@material-ui/icons/Save';
+import ProjectTypeBO from "../../../AppApi/ProjectTypeBO";
+
 
 class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: null, //für CreateProjectType
+      name: '', //für CreateProjectType
       ects:'',
       sws:'',
-      type:'',
-      allTypes: [], // für Rollenliste
+      type: '',
+      updateT: '',
+      allTypes: [], // für alle Projekttypen 
       typeValidationFailed: false, //prüft eingabe des projectType im Textfeld
       success: false, //r:nach eingabe der Rolle wird state auf true gesetzt --> status erfolgreich wird angezeigt
+      editButton: false
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
 
 
-  /** Create person */
-     createProjecType(name, ects, sws){
+  /** Create projecType */
+  createProjectType(name, ects, sws){
       var api = AppApi.getAPI()
-      // console.log(api)
-      api.createProjecType(name, ects, sws).then((type) =>
+      console.log(name, ects, sws)
+      api.createProjectType(name, ects, sws).then((type) =>
           {
-            // console.log(person)
+            // console.log(projecType)
           this.setState({
               type: type
           },
+          this.ProjectTypeList()
           )}
           )
-          console.log(this.state.type)
         }
 
 
   /** Delete Type */
-  deleteType = (t) => {
-    // console.log(t.getID());
+  deleteProjectType = (t) => {
+    console.log(t.getID());
     var api = AppApi.getAPI();
-    api
-      .deleteProjectType(t.getID())
+    api.deleteProjectType(t.getID())
       .then(() => {
         this.setState({
           // Set new state when ParticipationBOs have been fetched
@@ -73,8 +77,28 @@ class CreateProjectType extends React.Component {
     this.setState({
       deletingInProgress: true,
       deletingError: null,
-    });
+    }, ()=> {this.ProjectTypeList()});
   };
+
+    /** Updates the projecttype */
+    updateProjectType = () => {
+      // console.log(s)
+      // s.preventDefault();
+      // clone the original participation, in case the backend call fails
+      let updatedProjectType = Object.assign(new ProjectTypeBO(), this.state.updateT);
+      updatedProjectType.setName(this.state.name)
+      updatedProjectType.setSws(this.state.sws)
+      updatedProjectType.setEcts(this.state.ects)
+      console.log(updatedProjectType)
+      AppApi.getAPI().updateProjectType(updatedProjectType).then(type => {
+        this.setState({
+          type: type,
+          success: true
+        },() => this.ProjectTypeList()
+        );
+                
+      });
+    }
 
   ProjectTypeList(){
     var api = AppApi.getAPI()
@@ -86,74 +110,38 @@ class CreateProjectType extends React.Component {
             )
           }
 
-  textFieldValueChange = (event) => {
-    const value = event.target.value;
-
-    this.setState({
-      [event.target.id]: value,
-    });
-
-    if (value.length > 1) {
-      //eingabe des textfields muss mindestens 1 zeichen enthalten
-
-      this.setState({
-        typeValidationFailed: false,
-      });
-
-      this.state.allTypes.map((t) => {
-        if (t.name === value) {
-          //t:prüft ob projectType bereits eingegeben wurde, wenn ja kann dieses nicht eingegeben werden
-          this.setState({
-            typeValidationFailed: true,
-          });
-        }
-      });
-    } else {
-      this.setState({
-        typeValidationFailed: true,
-      });
-    }
-  };
-
-/** Delete Persons */
-deleteProjectType = (t) => { console.log(t.getID()) 
-  var api = AppApi.getAPI()
-  api.deleteProjectType(t.getID()).then(() => {
-    this.setState({  // Set new state when ParticipationBOs have been fetched
-      deletingInProgress: false, // loading indicator 
-      deletingError: null,
-    })
-  }).catch(e =>
-    this.setState({ // Reset state with error from catch 
-      deletingInProgress: false,
-      deletingError: e
-    })
-  );
-  // set loading to true
-  this.setState({
-    deletingInProgress: true,
-    deletingError: null
-  });
-}
+  
+  
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    if (this.state.typeValidationFailed === false) {
-      //t: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-      this.CreateProjectType(this.state.type);
-      this.setState({
-        success: true,
-      });
-    }
-  };
+    if (this.state.editButton === false){
+      this.createProjectType(
+        this.state.name, 
+        this.state.sws,
+        this.state.ects,
+            )}
+    else {this.updateProjectType(this.state.semester)
+          }}
+  
+  handleChange(e) { 
+    this.setState({ [e.target.name]: e.target.value });
+        // console.log({ [e.target.name]: e.target.value })
+      }
 
-  componentDidMount() {
-    //  this.TypeList();
-  }
+
+
+
+
+/** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+    componentDidMount() {
+      this.ProjectTypeList();
+    }
 
   render() {
     const { classes } = this.props;
-    const { name, type, sws, ects, allTypes, typeValidationFailed, success } = this.state;
+    const { name, type, sws, ects, allTypes,updateT,editButton,  typeValidationFailed, success } = this.state;
+    console.log(this.state)
     return (
       <div>
         <Grid container spacing={3}>
@@ -170,10 +158,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="projektart"
                   label="Projektart"
-                  value={name}
-                  onChange={this.textFieldValueChange}
+                  // value={name}
+                  name='name'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie einen Projektart ein"
@@ -191,10 +179,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="ECTS"
                   label="ECTS"
-                  value={ects}
-                  onChange={this.textFieldValueChange}
+                  // value={ects}
+                  name='ects'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an ECTS ein:"
@@ -212,10 +200,10 @@ deleteProjectType = (t) => { console.log(t.getID())
                   margin="normal"
                   id="SWS"
                   label="SWS"
-                  value={sws}
-                  onChange={this.textFieldValueChange}
+                 // value={sws}
+                  name='sws'
+                  onChange={this.handleChange}
                   error={typeValidationFailed}
-                  onInput={(e) => this.setState({ type: e.target.value })}
                   helperText={
                     typeValidationFailed
                       ? "Bitte geben Sie die Anzahl an SWS ein:"
@@ -233,6 +221,19 @@ deleteProjectType = (t) => { console.log(t.getID())
                 >
                   Eintragen
                 </Button>
+                <Grid>
+                { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                </Grid>
               </form>
             </Paper>
           </Grid>
@@ -242,7 +243,7 @@ deleteProjectType = (t) => { console.log(t.getID())
               <div>
                 {allTypes.map((t) => (
                   <ListItem>
-                    {t.name}
+                    {t.name }
 
                     <IconButton
                       aria-label="delete"
@@ -250,6 +251,9 @@ deleteProjectType = (t) => { console.log(t.getID())
                     >
                       <DeleteIcon />
                     </IconButton>
+                    <Button color='primary' onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                   edit
+                    </Button>
                   </ListItem>
                 ))}
               </div>

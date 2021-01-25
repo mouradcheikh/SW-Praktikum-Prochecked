@@ -56,7 +56,7 @@ class StudentView extends Component{
             <Link to={{
             pathname: '/ProjectListStudent',
             state: { linkState: person, student: student}
-            }}>
+            }} style={{ textDecoration: 'none' }}>
             <Button
                 size="large"
                 variant="contained"
@@ -73,7 +73,7 @@ class StudentView extends Component{
             <Link to={{
             pathname: '/Semesterbericht',
             state: { linkState: person, student: student }
-            }}>
+            }} style={{ textDecoration: 'none' }}>
            <Button
                 size="large"
                 variant="contained"

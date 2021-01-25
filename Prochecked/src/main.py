@@ -551,7 +551,6 @@ class ParticipationOperations(Resource):
         """
         adm = ProjectAdministration()
         par = adm.get_participation_by_id(id)
-        print(par, par.get_id())
 
         if par is not None:
             adm.delete_participation(par)
@@ -1038,6 +1037,20 @@ class ModuleOperations(Resource):
             # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
+    @prochecked.marshal_with(module, code=200)
+    @prochecked.expect(module)  # Wir erwarten ein Module-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Module-Objekts."""
+
+        adm = ProjectAdministration()
+        print(api.payload)
+        m = Module.from_dict(api.payload)
+        if m is not None:
+            adm.save_module(m)
+            return '', 200
+        else:
+            return '', 500
     
 
 @prochecked.route('/module/<int:id>')
@@ -1114,10 +1127,10 @@ class BoundModuleOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    ''' m = Module()
-    m.set_id(1)
+    p = ProjectType()
+    p.set_id(4)
     adm = ProjectAdministration()
-    adm.delete_module(m)'''
+    adm.save_projecttype_by_id(p)
 
     '''project = Project()
     project.set_id(1)

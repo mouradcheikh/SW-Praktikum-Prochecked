@@ -50,7 +50,7 @@ class DozentenView extends Component{
             <Link to={{
             pathname: '/CreateProject',
             state: { linkState: person, adminProf: adminProf},
-            }}>
+            }} style={{ textDecoration: 'none' }}>
             <Button
                 size="large"
                 variant="contained"
@@ -66,7 +66,7 @@ class DozentenView extends Component{
             <Link to={{
             pathname: '/ProjectList',
             state: { linkState: person, adminProf: adminProf},
-            }}>
+            }} style={{ textDecoration: 'none' }}>
            <Button
                 size="large"
                 variant="contained"
@@ -80,15 +80,17 @@ class DozentenView extends Component{
             </div>
             <div>            
             <Link to={{
+              
             pathname: '/GradeList',
             state: { person: person},
-            }}>
+            }} style={{ textDecoration: 'none' }}>
            <Button
                 size="large"
                 variant="contained"
                 color="primary"
                 algin="center"
                 className={classes.button}
+    
                 > 
                     Notenliste
             </Button>

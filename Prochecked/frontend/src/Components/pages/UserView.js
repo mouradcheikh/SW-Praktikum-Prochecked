@@ -53,6 +53,7 @@ render () {
                   }} style={{ textDecoration: 'none' }}
                   >
                   <Button
+                  
                       size="large"
                       variant="contained"
                       color="primary"
@@ -124,7 +125,7 @@ const styles = (theme) => ({
   paper:{
     height: '80vh',   
 
-    backgroundColor: blueGrey[900],
+    backgroundColor: grey[900],
     // backgroundColor: grey[800],
    
     
@@ -132,4 +133,5 @@ const styles = (theme) => ({
 
 })
 
-  export default  withStyles(styles)(UserView);
+
+export default  withStyles(styles)(UserView);

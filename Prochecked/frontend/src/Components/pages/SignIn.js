@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Typography, withStyles } from '@material-ui/core';
+import { Button, Grid, Typography, withStyles, Paper } from '@material-ui/core';
+import grey from '@material-ui/core/colors/grey'
 
 //SignIn Seite der ProChecked - App, man kann sich mit einem Google Account anmelden 
 
@@ -18,14 +19,14 @@ class SignIn extends Component {
 		const { classes } = this.props;
 
 		return (
-			<div>
-				<Typography className={classes.root} align='center' variant='h6'>Welcome to the HdM ProChecked Showcase</Typography>
-				<Typography className={classes.root} align='center'>It appears, that you are not signed in.</Typography>
-				<Typography className={classes.root} align='center'>To use the services of the HdM ProChecked</Typography>
+			<div className= {classes.paper}>
+				<Typography className={classes.root} align='center' style ={{color: "white"}} variant='h6'>Willkomen auf der Projekt-Management Seite der HdM</Typography>
+				<Typography className={classes.root} align='center' style ={{color: "white"}}>Bisher sind Sie nicht eingeloggt.</Typography>
+				<Typography className={classes.root} align='center' style ={{color: "white"}}>Melden Sie sich bitte an um "ProChecked" mit all seinen Funktionen nutzen zu können </Typography>
 				<Grid container justify='center'>
 					<Grid item>
 						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-							Sign in with Google
+							Login via Google
       			</Button>
 					</Grid>
 				</Grid>
@@ -38,7 +39,11 @@ class SignIn extends Component {
 const styles = theme => ({
 	root: {
 		margin: theme.spacing(2)
-	}
+	},
+	paper:{
+		height: '100vh',   
+		backgroundColor: grey[900]
+	  }
 });
 
 /** PropTypes */
