@@ -9,6 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import ModuleBO from '../../../AppApi/ModuleBO';
 
 
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 class CreateModule extends React.Component {
     constructor(props) {
@@ -23,7 +24,9 @@ class CreateModule extends React.Component {
             textField: false,
             updateM: '',
             editButton: false,
-            edv_nr: ''
+            edv_nr: '',
+            projects: [],
+            alert: false,
         };
    this.handleChange = this.handleChange.bind(this);
     }
@@ -32,7 +35,7 @@ class CreateModule extends React.Component {
     createModule(name, edv_nr){
     var api = AppApi.getAPI()
     console.log(name, edv_nr)
-  console.info(typeof edv_nr)
+    console.info(typeof edv_nr)
     api.createModule(name, edv_nr).then((module) =>
         {
           // console.log(modudle)
@@ -46,16 +49,26 @@ class CreateModule extends React.Component {
     
    /** Delete module */
    deleteModule = (m) => { console.log(m.getID()) 
+    let module_used = false
+    console.log(this.state.projects)
+    this.state.projects.forEach((p) => {
+      if (p.getModule() === m.getID()){
+        module_used = true
+      }
+    })
+    if (module_used === false){
     var api = AppApi.getAPI()
     api.deleteModule(m.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched ???
         deletingInProgress: false, // loading indicator 
-        deletingError: null
+        deletingError: null,
+        alert: false
       })
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
-        deletingError: e
+        deletingError: e,
+        alert: false
       })
     );
     // set loading to true
@@ -64,6 +77,12 @@ class CreateModule extends React.Component {
       deletingError: null
     },()=> {this.ModuleList()}
     );
+  }
+    else{
+      this.setState({
+        alert: true
+      })
+    }
   }
   /** Updates the Module */
   updateModule = () => {
@@ -81,6 +100,8 @@ class CreateModule extends React.Component {
               
     });
   }
+
+
   
     ModuleList(){
       var api = AppApi.getAPI()
@@ -92,6 +113,19 @@ class CreateModule extends React.Component {
           )
         }
         
+
+  
+  ProjectList(){
+      var api = AppApi.getAPI()
+        api.getProjects().then((projects) =>
+        {
+        this.setState({
+          projects:projects
+        })}
+        )
+    }
+      
+          
         handleSubmit = (event) => {
           event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
           if (this.state.editButton === false){
@@ -123,11 +157,12 @@ class CreateModule extends React.Component {
       /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.ModuleList();
+    this.ProjectList()
   }
          
     render() { 
         const { classes  } = this.props;
-        const { module, moduleList, updatetM, edv_nr, editButton, moduleValidationFailed, success } = this.state; 
+        const { module, moduleList, updatetM, edv_nr, editButton, moduleValidationFailed, success, alert } = this.state; 
         return (
 
         <div>
@@ -139,8 +174,14 @@ class CreateModule extends React.Component {
               </div>
               <div>
                   <form className={classes.root}  onSubmit= {this.handleSubmit}>
+                    <Grid container>
+                    <Grid xs="4" item>
                     <TextField id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
+                    </Grid>
+                    <Grid xs="4" item>
                     <TextField id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
+                    </Grid>
+                    <Grid xs="4" item>
                     <Button
                       type = "submit"
                       variant="contained"
@@ -150,7 +191,7 @@ class CreateModule extends React.Component {
                       startIcon={<SaveIcon />}>                
                           Modul anlegen
                     </Button>
-                    <Grid>
+                    </Grid>
                 { editButton? 
                   <Button 
                     type = "submit"
@@ -167,6 +208,12 @@ class CreateModule extends React.Component {
                   </form>
               </div>
             </Paper>
+            {alert ? 
+                <Alert variant="outlined" severity="warning">
+                Es können keine Module gelöscht werden, welche in einem Projekt als Modul eingetragen sind!
+                </Alert> :
+                <div></div>
+                }
           </Grid>
 
             <Grid item xs={6}>

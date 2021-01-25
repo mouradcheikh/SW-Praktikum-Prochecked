@@ -30,5 +30,5 @@ class ProjectType(NamedBusinessObjects):
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_number_sws(dictionary["number_sws"]) #muss "vorname" hier private sein?
-        obj.set_number_ects(dictionary["number_ETCS"])# ""
+        obj.set_number_ects(dictionary["number_ects"])# ""
         return obj

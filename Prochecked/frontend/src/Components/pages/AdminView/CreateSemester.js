@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
+import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid, GridItem } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,6 +7,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
 import SemesterBO from '../../../AppApi/SemesterBO';
 import AddIcon from '@material-ui/icons/Add';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 
 class CreateSemester extends React.Component {
@@ -14,13 +15,15 @@ class CreateSemester extends React.Component {
         super(props);
 
         this.state = {
+            projects: [],
             semester: null, //für CreateSemester
             semesters: [], // für SemesterList 
             semesterValidationFailed: false, //prüft eingabe des semsters im Textfeld
             success: false, //r:nach eingabe des Semesters wird state auf true gesetzt --> status erfolgreich wird angezeigt
             textField: false,
             updateS: '',
-            editButton: false
+            editButton: false,
+            alert: false
         }
     }
 
@@ -40,18 +43,28 @@ class CreateSemester extends React.Component {
       }
     
    /** Delete semester */
-   deleteSemester = (s) => { console.log(s.getID()) 
+  deleteSemester = (s) => { console.log(s.getID()) 
+    let semester_used = false
+    console.log(this.state.projects)
+    this.state.projects.forEach((p) => {
+      if (p.getSemester() === s.getID()){
+        semester_used = true
+      }
+    })
+    if (semester_used === false){
     var api = AppApi.getAPI()
     api.deleteSemester(s.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null,
+        alert: false
       }, () => this.SemesterList()
       )
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
-        deletingError: e
+        deletingError: e,
+        alert: false
       })
     );
     // // set loading to true
@@ -60,6 +73,13 @@ class CreateSemester extends React.Component {
     //   deletingError: null
     // });
   }
+  else {
+    this.setState({
+      alert: true
+    })
+  }
+
+}
 
 
   /** Updates the semester */
@@ -91,6 +111,17 @@ class CreateSemester extends React.Component {
           )
         }
 
+
+    ProjectList(){
+      var api = AppApi.getAPI()
+        api.getProjects().then((projects) =>
+        {
+        this.setState({
+          projects:projects
+        })}
+        )
+    }
+
         
     textFieldValueChange = (event) => {
       const value = event.target.value;
@@ -99,7 +130,7 @@ class CreateSemester extends React.Component {
         [event.target.id]: value,
       });
 
-      if(value.length > 5){ //eingabe des textfields muss mindestens 5 zeichen enthalten
+      if(value.length > 4){ //eingabe des textfields muss mindestens 5 zeichen enthalten
       
         this.setState({
           semesterValidationFailed: false,
@@ -160,17 +191,18 @@ class CreateSemester extends React.Component {
       
   componentDidMount() {
     this.SemesterList();
+    this.ProjectList()
   }
          
   render() { 
         const { classes  } = this.props;
-        const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField} = this.state; 
+        const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField, alert} = this.state; 
   return( 
     <div>
       <Grid container spacing={3}>
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
-            <Paper className={classes.paper}>
+            <Paper margin = "normal" className={classes.paper}>
               <form onSubmit={this.handleSubmit}>
                 <TextField 
                   className={classes.formControl}
@@ -186,10 +218,9 @@ class CreateSemester extends React.Component {
                   // onInput={e=>this.setState({semester: (e.target.value)})}
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
-                <Grid>
+                
                 <Button 
                   type = "submit" 
-                  className={classes.buttonMargin} 
                   variant='contained' 
                   color='primary' 
                   size='small'
@@ -197,7 +228,8 @@ class CreateSemester extends React.Component {
                 >
                 Eintragen
                 </Button>
-                </Grid>
+                
+                
                 <Grid>
                 { editButton? 
                   <Button 
@@ -205,16 +237,20 @@ class CreateSemester extends React.Component {
                     variant="contained"
                     color="primary"
                     size="small"
-                    className={classes.buttonMargin}
-                    startIcon={<SaveIcon />}>                
+                    startIcon={<SaveIcon/>}>                
                     überschreiben
                   </Button>
                 :<div></div> }
                 </Grid>
                     
               </form>
-
             </Paper>
+            {alert ? 
+                <Alert variant="outlined" severity="warning">
+                Es können keine Semester gelöscht werden, welche in einem Projekt als Semester eingetragen sind!
+                </Alert> :
+                <div></div>
+                }
             </Grid>
             <Grid item xs={6}>
             <h1>Bestehende Semester</h1>
@@ -224,16 +260,14 @@ class CreateSemester extends React.Component {
                {semesters.map(s => 
                
                <ListItem>
-                {s.name}
-
+                  {s.name}
                 <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
-
                 <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
-
+                
 
                 {/* <Button color='primary' onClick={this.handleStateTextField.bind(this)}>
                    edit
@@ -265,9 +299,8 @@ class CreateSemester extends React.Component {
                       </Button>
                   </form>
                 :<div></div>} */}
-
-
-              </ListItem >)}
+              </ListItem >
+              )}
 
             </div>
             </Paper>
