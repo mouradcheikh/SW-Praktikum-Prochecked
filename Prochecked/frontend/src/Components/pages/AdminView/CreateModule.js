@@ -32,7 +32,7 @@ class CreateModule extends React.Component {
     createModule(name, edv_nr){
     var api = AppApi.getAPI()
     console.log(name, edv_nr)
-  console.info(typeof edv_nr)
+    console.info(typeof edv_nr)
     api.createModule(name, edv_nr).then((module) =>
         {
           // console.log(modudle)

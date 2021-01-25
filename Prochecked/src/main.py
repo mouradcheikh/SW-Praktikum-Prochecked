@@ -1117,10 +1117,10 @@ class BoundModuleOperations(Resource):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    ''' m = Module()
-    m.set_id(1)
+    p = ProjectType()
+    p.set_id(4)
     adm = ProjectAdministration()
-    adm.delete_module(m)'''
+    adm.save_projecttype_by_id(p)
 
     '''project = Project()
     project.set_id(1)
