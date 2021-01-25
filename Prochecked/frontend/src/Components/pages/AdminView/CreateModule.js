@@ -88,7 +88,7 @@ class CreateModule extends React.Component {
   updateModule = () => {
     let updatedModule = Object.assign(new ModuleBO(), this.state.updateM);
     updatedModule.setName(this.state.module)
-    updatedModule.setedv(this.state.module)
+    updatedModule.setedv(this.state.edv_nr)
     console.log(updatedModule)
     
     AppApi.getAPI().updateModule(updatedModule).then(module => {
@@ -135,6 +135,7 @@ class CreateModule extends React.Component {
             })
             }
           else {
+            console.log(this.state)
               this.updateModule(this.state.module, this.state.edv_nr)
               this.setState({
                 success : true,
@@ -192,7 +193,21 @@ class CreateModule extends React.Component {
                           Modul anlegen
                     </Button>
                     </Grid>
-                { editButton? 
+                    <Grid xs="4" item>
+                    { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="default"
+                    size="large"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                    </Grid>
+                
+                {/* { editButton? 
                   <Button 
                     type = "submit"
                     variant="contained"
@@ -202,7 +217,8 @@ class CreateModule extends React.Component {
                     startIcon={<SaveIcon />}>                
                     überschreiben
                   </Button>
-                :<div></div> }
+                :<div></div> } */}
+                
                 </Grid>
                     
                   </form>
