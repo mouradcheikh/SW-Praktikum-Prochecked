@@ -6,6 +6,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
+import ModuleBO from '../../../AppApi/ModuleBO';
+
+
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 class CreateModule extends React.Component {
@@ -19,7 +22,7 @@ class CreateModule extends React.Component {
             moduleValidationFailed: false, //prüft eingabe des module im Textfeld
             success: false, //r:nach eingabe des Module wird state auf true gesetzt --> status erfolgreich wird angezeigt
             textField: false,
-            updateS: '',
+            updateM: '',
             editButton: false,
             edv_nr: '',
             projects: [],
@@ -32,7 +35,7 @@ class CreateModule extends React.Component {
     createModule(name, edv_nr){
     var api = AppApi.getAPI()
     console.log(name, edv_nr)
-  console.info(typeof edv_nr)
+    console.info(typeof edv_nr)
     api.createModule(name, edv_nr).then((module) =>
         {
           // console.log(modudle)
@@ -75,12 +78,29 @@ class CreateModule extends React.Component {
     },()=> {this.ModuleList()}
     );
   }
-  else{
-    this.setState({
-      alert: true
-    })
+    else{
+      this.setState({
+        alert: true
+      })
+    }
   }
+  /** Updates the Module */
+  updateModule = () => {
+    let updatedModule = Object.assign(new ModuleBO(), this.state.updateM);
+    updatedModule.setName(this.state.module)
+    updatedModule.setedv(this.state.module)
+    console.log(updatedModule)
+    
+    AppApi.getAPI().updateModule(updatedModule).then(module => {
+      this.setState({
+        module: module,
+        success: true
+      },() => this.ModuleList()
+      );
+              
+    });
   }
+
 
   
     ModuleList(){
@@ -92,6 +112,7 @@ class CreateModule extends React.Component {
           })}
           )
         }
+        
 
   
   ProjectList(){
@@ -107,10 +128,27 @@ class CreateModule extends React.Component {
           
         handleSubmit = (event) => {
           event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-          this.createModule(
-            this.state.module, 
-            this.state.edv_nr, 
-          )}
+          if (this.state.editButton === false){
+            this.createModule(this.state.module, this.state.edv_nr)
+            this.setState({
+              success : true,
+            })
+            }
+          else {
+              this.updateModule(this.state.module, this.state.edv_nr)
+              this.setState({
+                success : true,
+              })
+            }
+          }
+    
+          
+        // handleSubmit = (event) => {
+        //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+        //   this.createModule(
+        //     this.state.module, 
+        //     this.state.edv_nr, 
+        //   )}
 
         handleChange(e) { 
             this.setState({ [e.target.name]: e.target.value });
@@ -124,7 +162,7 @@ class CreateModule extends React.Component {
          
     render() { 
         const { classes  } = this.props;
-        const { module, moduleList, edv_nr, editButton, moduleValidationFailed, success, alert} = this.state; 
+        const { module, moduleList, updatetM, edv_nr, editButton, moduleValidationFailed, success, alert } = this.state; 
         return (
 
         <div>
@@ -154,7 +192,19 @@ class CreateModule extends React.Component {
                           Modul anlegen
                     </Button>
                     </Grid>
-                    </Grid>
+                { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                </Grid>
+                    
                   </form>
               </div>
             </Paper>
@@ -171,10 +221,15 @@ class CreateModule extends React.Component {
            <Paper className={classes.paper}>
            <div>
              {moduleList.map(m => <ListItem>
-              {m.name}
+              Modul: {m.name}  {m.edv_nr}
              <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
-             </IconButton>
+              </IconButton>
+
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+                edit
+                </Button>
+             
               </ListItem >)}
           </div>
            </Paper>

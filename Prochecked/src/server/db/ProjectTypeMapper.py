@@ -121,7 +121,7 @@ class ProjectTypeMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM person WHERE id={}".format(projecttype.get_id())
+        command = "DELETE FROM projecttype WHERE id={}".format(projecttype.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -129,4 +129,11 @@ class ProjectTypeMapper(Mapper):
     
 
 if __name__ == "__main__":
-    pass
+    p = ProjectType()
+    p.set_id(4)
+
+    with ProjectTypeMapper() as mapper:
+        # result = mapper.find_all()
+        # for p in result:
+        #     print(p)
+        mapper.delete(p)
