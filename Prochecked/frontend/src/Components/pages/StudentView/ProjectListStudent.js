@@ -125,7 +125,7 @@ class ProjectListStudent extends Component {
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <h1>Verfügbare Projekte</h1>
-              <Paper className={classes.paper}>
+              
                 {
                   projectsAvailable.map(project =>
                   <ProjectListEntryStudent 
@@ -135,11 +135,13 @@ class ProjectListStudent extends Component {
                     onExpandedStateChange={this.onExpandedStateChange} 
                     student = {student}
                     onProjectDeleted={this.projectDeleted}
+                    getProjects = {this.getProjectsByStudent}
+                    getProjectsByStateAccepted = {this.getProjectsByStateAccepted}
                   />)
                 }
-                <LoadingProgress show={loadingInProgress} />
+                
                 <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
-              </Paper>
+              
             </Grid>
 
             <Grid item xs={6}>

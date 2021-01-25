@@ -6,7 +6,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
+import ModuleBO from '../../../AppApi/ModuleBO';
 
+
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 class CreateModule extends React.Component {
     constructor(props) {
@@ -19,9 +22,11 @@ class CreateModule extends React.Component {
             moduleValidationFailed: false, //prüft eingabe des module im Textfeld
             success: false, //r:nach eingabe des Module wird state auf true gesetzt --> status erfolgreich wird angezeigt
             textField: false,
-            updateS: '',
+            updateM: '',
             editButton: false,
-            edv_nr: ''
+            edv_nr: '',
+            projects: [],
+            alert: false,
         };
    this.handleChange = this.handleChange.bind(this);
     }
@@ -30,7 +35,7 @@ class CreateModule extends React.Component {
     createModule(name, edv_nr){
     var api = AppApi.getAPI()
     console.log(name, edv_nr)
-  console.info(typeof edv_nr)
+    console.info(typeof edv_nr)
     api.createModule(name, edv_nr).then((module) =>
         {
           // console.log(modudle)
@@ -44,16 +49,26 @@ class CreateModule extends React.Component {
     
    /** Delete module */
    deleteModule = (m) => { console.log(m.getID()) 
+    let module_used = false
+    console.log(this.state.projects)
+    this.state.projects.forEach((p) => {
+      if (p.getModule() === m.getID()){
+        module_used = true
+      }
+    })
+    if (module_used === false){
     var api = AppApi.getAPI()
     api.deleteModule(m.getID()).then(() => {
       this.setState({  // Set new state when ParticipationBOs have been fetched ???
         deletingInProgress: false, // loading indicator 
-        deletingError: null
+        deletingError: null,
+        alert: false
       })
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
-        deletingError: e
+        deletingError: e,
+        alert: false
       })
     );
     // set loading to true
@@ -63,6 +78,29 @@ class CreateModule extends React.Component {
     },()=> {this.ModuleList()}
     );
   }
+    else{
+      this.setState({
+        alert: true
+      })
+    }
+  }
+  /** Updates the Module */
+  updateModule = () => {
+    let updatedModule = Object.assign(new ModuleBO(), this.state.updateM);
+    updatedModule.setName(this.state.module)
+    updatedModule.setedv(this.state.edv_nr)
+    console.log(updatedModule)
+    
+    AppApi.getAPI().updateModule(updatedModule).then(module => {
+      this.setState({
+        module: module,
+        success: true
+      },() => this.ModuleList()
+      );
+              
+    });
+  }
+
 
   
     ModuleList(){
@@ -74,14 +112,44 @@ class CreateModule extends React.Component {
           })}
           )
         }
+        
+
+  
+  ProjectList(){
+      var api = AppApi.getAPI()
+        api.getProjects().then((projects) =>
+        {
+        this.setState({
+          projects:projects
+        })}
+        )
+    }
       
           
         handleSubmit = (event) => {
           event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-          this.createModule(
-            this.state.module, 
-            this.state.edv_nr, 
-          )}
+          if (this.state.editButton === false){
+            this.createModule(this.state.module, this.state.edv_nr)
+            this.setState({
+              success : true,
+            })
+            }
+          else {
+            console.log(this.state)
+              this.updateModule(this.state.module, this.state.edv_nr)
+              this.setState({
+                success : true,
+              })
+            }
+          }
+    
+          
+        // handleSubmit = (event) => {
+        //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+        //   this.createModule(
+        //     this.state.module, 
+        //     this.state.edv_nr, 
+        //   )}
 
         handleChange(e) { 
             this.setState({ [e.target.name]: e.target.value });
@@ -90,11 +158,12 @@ class CreateModule extends React.Component {
       /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.ModuleList();
+    this.ProjectList()
   }
          
     render() { 
         const { classes  } = this.props;
-        const { module, moduleList, edv_nr, editButton, moduleValidationFailed, success } = this.state; 
+        const { module, moduleList, updatetM, edv_nr, editButton, moduleValidationFailed, success, alert } = this.state; 
         return (
 
         <div>
@@ -106,8 +175,14 @@ class CreateModule extends React.Component {
               </div>
               <div>
                   <form className={classes.root}  onSubmit= {this.handleSubmit}>
+                    <Grid container>
+                    <Grid xs="4" item>
                     <TextField id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
+                    </Grid>
+                    <Grid xs="4" item>
                     <TextField id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
+                    </Grid>
+                    <Grid xs="4" item>
                     <Button
                       type = "submit"
                       variant="contained"
@@ -117,9 +192,44 @@ class CreateModule extends React.Component {
                       startIcon={<SaveIcon />}>                
                           Modul anlegen
                     </Button>
+                    </Grid>
+                    <Grid xs="4" item>
+                    { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="default"
+                    size="large"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                    </Grid>
+                
+                {/* { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> } */}
+                
+                </Grid>
+                    
                   </form>
               </div>
             </Paper>
+            {alert ? 
+                <Alert variant="outlined" severity="warning">
+                Es können keine Module gelöscht werden, welche in einem Projekt als Modul eingetragen sind!
+                </Alert> :
+                <div></div>
+                }
           </Grid>
 
             <Grid item xs={6}>
@@ -127,10 +237,15 @@ class CreateModule extends React.Component {
            <Paper className={classes.paper}>
            <div>
              {moduleList.map(m => <ListItem>
-              {m.name}
+              Modul: {m.name}  {m.edv_nr}
              <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
-             </IconButton>
+              </IconButton>
+
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+                edit
+                </Button>
+             
               </ListItem >)}
           </div>
            </Paper>

@@ -45,7 +45,7 @@ class CreatePerson extends Component {
               // console.log(person)
             this.setState({
                 person: person
-            },
+            }, () => this.PersonList()
             )}
             )
             console.log(this.state.person)
@@ -104,7 +104,7 @@ class CreatePerson extends Component {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null,
-      })
+      }, () => this.PersonList())
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
@@ -132,7 +132,7 @@ class CreatePerson extends Component {
         this.setState({
           person: person,
           success: true
-        });      
+        }, () => this.PersonList());      
       });
     }
 
@@ -199,8 +199,9 @@ class CreatePerson extends Component {
         } 
     }
 
-    componentDidMount() {
-      this.PersonList();}
+    componentDidMount(){
+      this.PersonList()}
+
       
     render() {
         const { classes } = this.props;
@@ -262,8 +263,8 @@ class CreatePerson extends Component {
               <form className={classes.root}  onSubmit= {this.handleSubmitStudent}>
                   <div>
                       <h3>Matrikelnummer und Studiengang bitte noch angeben</h3>
-                      <TextField id="outlined-basic" label="MatrikelNummer" variant="outlined" name='matrNr' required onChange={this.handleChange} />
-                      <TextField id="outlined-basic" label="Studiengang" variant="outlined" name='studiengang' required onChange={this.handleChange}
+                      <TextField id="outlined-basic" label="MatrikelNummer" variant="outlined" name='matrNr' margin = 'normal' required onChange={this.handleChange} />
+                      <TextField id="outlined-basic" label="Studiengang" variant="outlined" name='studiengang' margin = 'normal' required onChange={this.handleChange}
                       helperText={ validationSuccedStudent? '' : person !==null ? 'Student ' + person.name+ ' '+ 'mit der Matrikelnummer'+ ' '+ this.state.matrNr + ' '+ 'erfolgreich eingetragen!' :''}/>
                   </div>
                   <Button
@@ -295,7 +296,7 @@ class CreatePerson extends Component {
          </Grid>
          <Grid item xs={6}>
           <h1>Angelegte Personen</h1>
-          <Paper className={classes.paper} style={{maxHeight: 200, overflow: 'auto'}}>
+          <Paper className={classes.paper} style={{maxHeight: 275, overflow: 'auto'}}>
             <div>
             {persons.map(p => 
                <ListItem>

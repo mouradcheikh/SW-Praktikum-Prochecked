@@ -463,8 +463,18 @@ class ProjectAdministration (object):
 
     def delete_participation(self, participation):
         """Eine Participation löschen"""
-        with ParticipationMapper() as mapper:
-            mapper.delete_participation(participation)
+        adm = ProjectAdministration()
+        print("adm:",participation, participation.get_grading())
+        if participation.get_grading() != 0 and participation.get_grading() is not None:
+            gra = adm.get_grading_by_id(participation.get_grading())
+            adm.delete_grading(gra)
+            with ParticipationMapper() as mapper:
+                mapper.delete_participation(participation.get_id())
+        else:
+            print(participation.get_id())
+            with ParticipationMapper() as mapper:
+                mapper.delete_participation(participation.get_id())
+
 
 
 
@@ -488,9 +498,17 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id)
     
     def delete_semester(self, semester):
-        """Ein Semester löschen"""
-        with SemesterMapper() as mapper:
-            mapper.delete(semester)
+        """Ein Semester löschen, wenn es nicht von einem Projekt genutzt wird"""
+        adm = ProjectAdministration()
+        projects = adm.get_all_projects()
+        semester_found = False
+        for p in projects:
+            if p.get_semester() == semester:
+                semester_found = True
+        if semester_found == False:
+            with SemesterMapper() as mapper:
+                mapper.delete(semester)
+      
 
     def save_semester(self, semester):
         """Ein Semester updaten"""
@@ -602,9 +620,21 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id)
     
     def delete_module(self, module):
-        """Ein Module löschen"""
+        """Ein Module löschen, wenn es nicht von einem Projekt genutzt wird"""
+        adm = ProjectAdministration()
+        projects = adm.get_all_projects()
+        module_found = False
+        for p in projects:
+            if p.get_module() == module:
+                module_found = True
+        if module_found == False:
+            with ModuleMapper() as mapper:
+                mapper.delete(module)
+
+    def save_module(self, module):
+        """Ein Module updaten"""
         with ModuleMapper() as mapper:
-            mapper.delete(module)
+            mapper.update(module)
 
 #ProjectType Related
 

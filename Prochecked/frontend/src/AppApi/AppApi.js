@@ -62,6 +62,7 @@ export default class AppAPI {
 
     // #getProjectsByStateNewURL = (person_id) => `${this.#AppServerBaseURL}/state/${project_state_id}/projects`;
     #getProjectsByStateURL = (project_state) => `${this.#AppServerBaseURL}/projects/${project_state}`;
+    #getProjectsURL = () => `${this.#AppServerBaseURL}/project`;
     #addProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #updateProjectURL = () => `${this.#AppServerBaseURL}/project`;
     #getProjectsByDozentNewURL = (person_id) => `${this.#AppServerBaseURL}/dozentn/${person_id}/projectn`;
@@ -79,16 +80,22 @@ export default class AppAPI {
     #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
     #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
     #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
+   
 
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
-    #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;   
+    #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;  
+    #updateModuleURL = () => `${this.#AppServerBaseURL}/module`; 
 
     
     //ProjectType related
     #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
+    #updateProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`; 
+
+
+
       /** 
    * Get the Singelton instance 
    * 
@@ -410,6 +417,18 @@ getStudentByMatrikelNummer(matr_nr) {
   // }
 
 //Project related
+
+
+  getProjects(){
+    return this.#fetchAdvanced(this.#getProjectsURL()).then((responseJSON) => {
+    // We always get an array of SemBOs.fromJSON, but only need one object
+      let responseProBOs = ProjectBO.fromJSON(responseJSON);
+      console.info(responseProBOs);
+      return new Promise(function (resolve) {
+        resolve(responseProBOs);
+      })
+    })
+  }
 
  /**
    * Returns a Promise, which resolves to an Array of ProjectBOs
@@ -878,12 +897,12 @@ getStudentByMatrikelNummer(matr_nr) {
               })
             }
 
-      createProjectType(aname, sws, ects) {
+      createProjectType(name, sws, ects) {
 
               let p = new ProjectTypeBO();
-              p.setName(aname)
-              p.setSWS(sws)
-              p.setECTS(ects)
+              p.setName(name)
+              p.setSws(sws)
+              p.setEcts(ects)
               // console.log(p)
       
               return this.#fetchAdvanced(this.#addProjectTypeURL(), {
@@ -902,7 +921,7 @@ getStudentByMatrikelNummer(matr_nr) {
                 })
               })
             }
-      deleteProjectType(id) {
+      deleteProjectType(id) { console.log(id)
               return this.#fetchAdvanced(this.#deleteProjectTypeURL(id), {
                 method: 'DELETE'
               })
@@ -915,6 +934,25 @@ getStudentByMatrikelNummer(matr_nr) {
                   })
                 })
             }
+      
+      updateProjectType(p) {
+  // console.log(gradingBO)
+      return this.#fetchAdvanced(this.#updateProjectTypeURL(), { 
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain',
+          'Content-type': 'application/json',
+       },
+        body: JSON.stringify(p)
+        }).then((responseJSON) => {
+        
+          // We always get an array of ParticipationBOs.fromJSON, but only need one object 
+         let responseProjectTypeBO = ProjectTypeBO.fromJSON(responseJSON)[0];
+           return new Promise(function (resolve) {
+            resolve(responseProjectTypeBO);
+        })
+     })
+    }
 
     
 
@@ -974,6 +1012,22 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   })
 }
+
+updateModule(m) {
+    return this.#fetchAdvanced(this.#updateModuleURL(), { 
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(m)
+      }).then((responseJSON) => {
+        let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+        resolve(responseModuleBO);
+      })
+    })
+  }
 
   /**
  * Deletes the given Semester and returns a Promise, which resolves to an SemesterBO

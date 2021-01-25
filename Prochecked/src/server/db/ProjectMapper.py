@@ -121,7 +121,7 @@ class ProjectMapper(Mapper):
                     project.set_id(1)
 
 
-        command = "INSERT INTO project (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        command = "INSERT INTO project (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id, module_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         data = (
                 project.get_id(),
                 project.get_name(),
@@ -139,7 +139,8 @@ class ProjectMapper(Mapper):
                 project.get_project_state(),
                 project.get_project_type(),
                 project.get_semester(),
-                project.get_dozent2()
+                project.get_dozent2(),
+                project.get_module()
                 )
         cursor.execute(command, data)
 
