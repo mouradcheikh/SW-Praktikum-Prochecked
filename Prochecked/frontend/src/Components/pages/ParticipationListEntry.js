@@ -131,14 +131,14 @@ class ParticipationListEntry extends Component {
     // console.log(this.state.student.id)
     updatedGrading.setGrade(newGrade);
     updatedGrading.setParticipation(participation_id)
-    // console.log(updatedGrading)
+    console.log(updatedGrading)
     
     AppApi.getAPI().updateGrading(updatedGrading).then(grading => {
       this.setState({
         grade: grading, 
         updatingInProgress: false,              // disable loading indicator  
         updatingError: null                     // no error message
-      });
+      }, () => {this.getGrading()});
       // keep the new state as base state
       this.baseState.grade = this.state.grade;
       this.props.onClose(updatedGrading);      // call the parent with the new participation
@@ -157,10 +157,11 @@ class ParticipationListEntry extends Component {
     );
   }
   
+  
 getGrading = () => {
   let grade = this.props.participation.grading_id
   // console.log(grade)
-  if (grade !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+  if (grade !== 0 || grade!==null){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
     var api = AppApi.getAPI()
     // console.log(this.props.participation)
     api.getGrading(this.props.participation.grading_id).then(grade => 
@@ -291,13 +292,12 @@ parentCall = () => {
     this.setState({ grade:
       this.textInput.current.value})
       console.log(this.props.participation)
-      if (this.props.participation.grading_id === 0) {
+      if (this.props.participation.grading_id === 0 || this.props.participation.grading_id === null) {
       this.createGrading(this.textInput.current.value, this.props.participation.getID())
       this.getGrading() 
     }
       else {
         this.updateGrading(this.textInput.current.value, this.props.participation.getID())
-     
       }
       // this.updateProject(5)
     }

@@ -183,6 +183,14 @@ class ProjectList extends Component {
     }
  
 
+  updateComponent = () => {
+      this.getProjectsByDozentAccepted(this.state.person.id)
+      this.getProjectsByDozentInReview(this.state.person.id)
+      this.getProjectsByDozentNew(this.state.person.id)
+      this.getProjectsByDozentReviewed(this.state.person.id)
+    }
+  
+    
   /**
    * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
    * the ProjectListEntry of the given ProjectBO.
@@ -231,7 +239,7 @@ class ProjectList extends Component {
     // let adminProf = this.props.location.state.adminProf
     // let person = this.props.location.state.linkState  
     let adminProf =this.state.adminProf;
-    let person =this.state.person
+    let person = this.state.person
     if (person === undefined){
       this.getProjectsByDozentNew(adminProf.id);
       this.getProjectsByDozentAccepted(adminProf.id);
@@ -239,8 +247,9 @@ class ProjectList extends Component {
       this.getProjectsByDozentReviewed(adminProf.id);
     }
     else{
-    // console.log("gerendert")
+    console.log("else")
     let person = this.props.location.state.linkState
+    console.log(person)
     this.setState({
       person: person
     })
@@ -302,10 +311,7 @@ class ProjectList extends Component {
               onProjectDeleted={this.projectDeleted}
               onExpandedStateChange={this.onExpandedStateChange}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         
@@ -321,10 +327,7 @@ class ProjectList extends Component {
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -340,10 +343,7 @@ class ProjectList extends Component {
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -361,10 +361,7 @@ class ProjectList extends Component {
                 onExpandedStateChange={this.onExpandedStateChange}
                 onProjectDeleted={this.projectDeleted}
                 person ={person} adminProf ={adminProf}
-                getProjectsByDozentNew = {this.getProjectsByDozentNew}
-                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+                updateComponent = {this.updateComponent}
               />)
           }
           <LoadingProgress show={loadingInProgress} />
