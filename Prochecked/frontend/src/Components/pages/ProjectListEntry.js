@@ -62,7 +62,7 @@ class ProjectListEntry extends Component {
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
     }, 
-    () => this.parentCall()
+    () => this.updateParentComponent()
     );
   }
 
@@ -81,9 +81,7 @@ class ProjectListEntry extends Component {
 
   // aktualisieren des status der elternkomponente, damit diese gerendert wird
   updateParentComponent = () => {
-    this.props.getProjectsByDozentAccepted(this.props.person.id)
-    this.props.getProjectsByDozentInReview(this.props.person.id)
-    this.props.getProjectsByDozentReviewed(this.props.person.id)
+    this.props.updateComponent()
   }
 
   evaluate(){
