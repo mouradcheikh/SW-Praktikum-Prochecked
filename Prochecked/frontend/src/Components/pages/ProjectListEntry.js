@@ -10,6 +10,7 @@ import ParticipationList from './ParticipationList';
 import CheckIcon from '@material-ui/icons/Check';
 import {ProjectBO} from '../../AppApi';
 import  {AppApi}  from '../../AppApi';
+import Box from '@material-ui/core/Box';
 
 /**
  * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
@@ -160,13 +161,14 @@ class ProjectListEntry extends Component {
                 </Grid>
                 
                 <div>
+                  <Box m={1}>
                   <Link to={{
                     pathname: '/updateProject',
                     state: { project: project, editButton: true }
                     }} style={{ textDecoration: 'none' }}
                     >
                     <Button
-                        size="large"
+                        size="small"
                         variant="contained"
                         color="primary"
                         className={classes.button}
@@ -176,6 +178,7 @@ class ProjectListEntry extends Component {
                         
                     </Button>
                   </Link>
+                  </Box>
                 </div>
 
                
