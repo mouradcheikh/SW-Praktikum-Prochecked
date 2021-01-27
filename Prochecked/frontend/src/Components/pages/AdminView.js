@@ -3,14 +3,15 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles, createStyles, createMuiTheme, Theme } from '@material-ui/core/styles';
-import {withStyles, Button, List, ListItem, ListItemSecondaryAction, Typography, Input, Grid } from '@material-ui/core';
+import {withStyles, Button, List, ListItem, ListItemSecondaryAction, Typography, Input, Grid, Container } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import grey from '@material-ui/core/colors/grey'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      display: "flex",
+      height: 600 ,
+      display: 'flex',
       alignItems: "center",
       justifyContent: "center",
       // backgroundColor: 'gray'
@@ -24,17 +25,32 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function MenuListComposition() {
+export default function AdminView(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <MenuList>
-        <Grid item xs={12}>
-        <h3 style ={{color: "white"}} >Admin-Aktionen</h3>
-          <Paper className={classes.paper}>
-          <Link to='/CreatePerson' style={{ textDecoration: 'none' }}>
+      {/* <Container maxWidth = 'lg'> */}
+      <Grid container spacing={1} justify = 'center'>
+        
+        <Grid alignContent = 'center' alignItems = 'center'>
+          <Grid>
+          <h1 align = 'center' style ={{color: "white"}} >Herzlich Willkommen</h1>
+          <h2>Sie haben sich als Admin eingeloggt</h2>
+            
+            </Grid>
+          {/* <Paper className={classes.paper}> */}
+
+            
+
+
+
+
+
+
+
+
+          {/* <Link to='/CreatePerson' style={{ textDecoration: 'none' }}>
           <MenuItem>Personen anlegen</MenuItem>
           </Link >
           <Link to='/CreateSemester' style={{ textDecoration: 'none' }}>
@@ -68,16 +84,17 @@ export default function MenuListComposition() {
                 <MenuItem>
                   Student für Projekte registieren/Semesterbericht einsehen
                 </MenuItem>
-              </Link>
-            </Paper>
+              </Link> */}
+            {/* </Paper> */}
           </Grid>
-        </MenuList>
+     
       </Grid>
+    {/* </Container> */}
     </div>
   );
 }
 
-export default (AdminView)
+// export default (AdminView)
 
 
 

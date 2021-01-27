@@ -139,8 +139,8 @@ class ProjectListStudent extends Component {
   
     
     return (
-        <div className={classes.root}>
-          <Grid container spacing={3}>
+        <div >
+          <Grid className={classes.root} container spacing={3}>
             <Grid item xs={6}>
               <h1>Verfügbare Projekte</h1>
               
@@ -182,6 +182,7 @@ class ProjectListStudent extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   projectFilter: {
     marginTop: theme.spacing(2),

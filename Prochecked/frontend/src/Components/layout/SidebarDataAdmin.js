@@ -17,7 +17,6 @@ export const SidebarDataAdmin = [
 
   {
     title: 'Admin',
-    path: '/admin',
     icon: <RiIcons.RiAdminFill />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -32,7 +31,7 @@ export const SidebarDataAdmin = [
       },
       {
         title: 'Projektart verwalten',
-        path: '/admin/projektartenVerwalten',
+        path: '/admin/CreateProjectType',
         icon: <AiIcons.AiFillProject />,
         cName: 'sub-nav',
       },
@@ -60,7 +59,6 @@ export const SidebarDataAdmin = [
   },
   {
     title: 'Dozent',
-    path: '/dozent',
     icon: <GiIcons.GiTeacher />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -76,7 +74,6 @@ export const SidebarDataAdmin = [
   
   {
     title: 'Student',
-    path: '/student',
     icon: <IoIcons.IoMdSchool />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,

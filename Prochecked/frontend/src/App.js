@@ -278,27 +278,7 @@ render() {
                 <Container maxWidth = 'lg'>
                     <Paper style={{backgroundColor: blueGrey[900]}}>
                         
-                        <Header person = {person}/>
-                
-                        <Route exact path = '/StudentView' component = {StudentView}/>
-                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
-                        
-                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
-                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
-                        <Route exact path = '/DozentView' component = {DozentenView}/>
-                        <Route exact path = '/AdminView' component = {AdminView}/>
-                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
-                        <Route exact path = '/UpdateProject' component = {ProjektFormularUpdate}/>
-                        <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
-                        <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
-                        <Route exact path = '/ProjectList' component = {ProjectList}/>
-                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
-                        <Route exact path = '/student/SelectStudent' component = {SelectStudent}/>
-                        <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
-                        <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>
-                        <Route exact path = '/about' component = {about}/>
-                        <Route exact path = '/admin/CreateModule' component = {CreateModule}/>
-                        <Route exact path = '/GradeList' component = {GradeList}/>              
+                        {/* <Header person = {person}/> */}
                         {
                             // Ist eine Person eingeloggt?
                         person ?
@@ -320,6 +300,28 @@ render() {
                                 </>
 
                         }       
+                
+                        <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
+                        <Route exact path = '/DozentView' component = {DozentenView}/>
+                        <Route exact path = '/AdminView' component = {AdminView}/>
+                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/UpdateProject' component = {ProjektFormularUpdate}/>
+                        <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
+                        <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
+                        <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        <Route exact path = '/student/SelectStudent' component = {SelectStudent}/>
+                        <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
+                        <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>
+                        <Route exact path = '/about' component = {about}/>
+                        <Route exact path = '/admin/CreateModule' component = {CreateModule}/>
+                        <Route exact path = '/admin/CreateProjectType' component = {CreateProjectType}/>
+                        <Route exact path = '/GradeList' component = {GradeList}/>              
+                        
                                          
                         <LoadingProgress show={authLoading} />
                         <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />

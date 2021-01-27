@@ -43,7 +43,9 @@ class DozentenView extends Component{
     // console.log(this.props.location.state.prof)
     console.log(this.state, this.props)
 
-    return(<div>
+    return(
+    
+    <div className = {classes.root}>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
@@ -103,6 +105,10 @@ class DozentenView extends Component{
 }
 
 const styles = (theme) => ({
+  root: {
+    height: 650
+  },
+  
   button: {
     margin: theme.spacing(2),
     width: 285,

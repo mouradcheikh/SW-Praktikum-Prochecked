@@ -44,7 +44,7 @@ class ProjectListEntryNew extends Component {
 
 
   updateParent = () => {
-    this.props.getProjects(this.props.student.getMatrNr())
+    this.props.getProjects(this.props.student.matr_nr)
     this.props.getProjectsByStateAccepted()
   }
 
@@ -312,6 +312,7 @@ class ProjectListEntryNew extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   // buttonFreigeben: {
   //   marginRight: theme.spacing(0),

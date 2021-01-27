@@ -48,7 +48,7 @@ class StudentView extends Component{
     // console.log(this.state)
 
     return(
-    <div>
+    <div className = { classes.root}>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
@@ -92,6 +92,9 @@ class StudentView extends Component{
 }
 
 const styles = (theme) => ({
+  root: {
+    height: 650
+  },
   button: {
     margin: theme.spacing(2),
     width: 285,
