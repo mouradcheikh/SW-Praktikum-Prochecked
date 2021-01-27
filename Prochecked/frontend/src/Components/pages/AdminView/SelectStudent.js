@@ -92,12 +92,12 @@ class SelectStudent extends React.Component {
         const { student, matr_nr, matr_nrValidationFailed } = this.state; 
 
         return ( 
-    <div>
+    <div className={classes.root} >
         <div>
             <h1> Wählen Sie den Studenten </h1>
         </div>
       <div>
-        <form className={classes.root} >
+        <form >
           <Prompt when={matr_nrValidationFailed == true || student === '' }
          ></Prompt>
 
@@ -145,7 +145,8 @@ class SelectStudent extends React.Component {
 
 const styles = theme => ({
     root: {
-      width: '100%'
+      width: '100%',
+      height: 650
     }, 
     formControl: {
         margin: theme.spacing(1),

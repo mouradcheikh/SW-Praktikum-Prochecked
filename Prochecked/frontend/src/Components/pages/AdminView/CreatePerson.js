@@ -326,6 +326,7 @@ const styles = theme => ({
       '& > *': {
         margin: theme.spacing(1),
         width: '25ch',
+      
       },
       roott: {
         flexGrow: 1,

@@ -167,14 +167,14 @@ class CreateModule extends React.Component {
         return (
 
         <div>
-     <Grid container spacing={3}>
+     <Grid className={classes.root} container spacing={3}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
                 <h1>Neues Modul eintragen</h1>
               </div>
               <div>
-                  <form className={classes.root}  onSubmit= {this.handleSubmit}>
+                  <form   onSubmit= {this.handleSubmit}>
                     <Grid container>
                     <Grid xs="4" item>
                     <TextField id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
@@ -260,6 +260,7 @@ class CreateModule extends React.Component {
 /** Component specific styles */
 const styles = theme => ({
     root: {
+      height: 650,
       width: '100%'
     }, 
     buttonMargin: {

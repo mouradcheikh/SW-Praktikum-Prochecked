@@ -75,6 +75,7 @@ class PersonLoggedIn extends Component {
             page = <>	
                     <Redirect to={{
                     pathname: '/AdminView',
+                    state: {person: this.props.person}
                     }}
                     />
                     </>
@@ -89,9 +90,14 @@ class PersonLoggedIn extends Component {
         }
         return(
             <div>
-            <Grid >
-                <Grid>
-                    <SidebarAdmin style={{align: 'top'}} person ={this.props.person}/>
+            <Grid 
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+                >
+                <Grid >
+                    <SidebarAdmin  style={{align: 'top'}} person ={this.props.person}/>
                 </Grid>
             
                 <Grid>

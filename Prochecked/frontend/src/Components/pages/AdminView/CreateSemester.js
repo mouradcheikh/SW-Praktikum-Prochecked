@@ -199,7 +199,7 @@ class CreateSemester extends React.Component {
         const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField, alert} = this.state; 
   return( 
     <div>
-      <Grid container spacing={3}>
+      <Grid className={classes.root} container spacing={3}>
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
             <Paper margin = "normal" className={classes.paper}>
@@ -314,6 +314,7 @@ class CreateSemester extends React.Component {
 /** Component specific styles */
 const styles = theme => ({
     root: {
+      height: 650,
       width: '100%'
     }, 
     buttonMargin: {

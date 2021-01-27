@@ -8,9 +8,14 @@ import { SidebarDataDozent } from './SidebarDataDozent';
 import { SidebarDataStudent } from './SidebarDataStudent';
 import { SidebarDataUserView } from './SidebarDataUserView';
 import {AppApi} from '../../AppApi'
+import { Grid} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography'
+import ProfileDropDown from '../dialogs/ProfileDropDown.js'
+
 
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
+
 
 const Nav = styled.div`
   background: #15171c;
@@ -51,6 +56,7 @@ const Sidebar = (props) => {
   const [student, setStudent] = useState(null);
 
   const showSidebar = () => {setSidebar(!sidebar); getStudentByPerson()};
+  const classes = props
   // const person = props.person;
 
   // console.log(props)
@@ -101,9 +107,37 @@ const Sidebar = (props) => {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
+          <Grid item xs={3} justify="flex-start">
+            <NavIcon to='#'>
+              <FaIcons.FaBars onClick={showSidebar} />
+            </NavIcon>
+          </Grid>
+
+          <Grid  item xs={6} justify="center">
+                
+                <Typography variant="h5" align = 'center'>
+                          <div>ProChecked - Hochschule der Medien </div>     
+                </Typography>
+                      
+          </Grid>
+
+        
+          <Grid justify="flex-end">
+
+          {props.person.name}
+
+          </Grid>
+      
+          <Grid item xs={3} justify="flex-end">                 
+                      
+                <ProfileDropDown 
+                className = {classes.profil} 
+                person={props.person}/>
+               
+          </Grid>
+
+
+
         </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
@@ -120,57 +154,20 @@ const Sidebar = (props) => {
               result.map((item, index) => {console.log(props.person)
                     return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
                   })
-
-          //    props.person.berechtigung===3?
-            
-          //   SidebarDataAdmin.map((item, index) => {
-          //     return <SubMenu item={item} key={index} />;
-          //   })
-            
-
-          //   :props.person.berechtigung ===2?
-          //   SidebarDataDozent.map((item, index) => {
-          //     return <SubMenu item={item} key={index} />;
-          //   })
-
-          //   :props.person.berechtigung ===1?
-          //   SidebarDataStudent.map((item, index) => {
-          //     return <SubMenu item={item} key={index} />;
-          //   })
-          //   :
-          //   SidebarDataUserView.map((item, index) => {
-          //     return <SubMenu item={item} key={index} />;
-
-          // })
-          }
-
-            {/* {(() =>
-            {
-            if (props.person.berechtigung===3){
-
-              SidebarDataAdmin.map((item, index) => {
-                return <SubMenu item={item} key={index} />;
-              })
             }
-            else if(props.person.berechtigung ===2){
-              SidebarDataDozent.map((item, index) => {
-                return <SubMenu item={item} key={index} />;
-              })
-            }
-            else{
-              SidebarDataStudent.map((item, index) => {
-                console.log("fcsfdf")
-                return <SubMenu item={item} key={index} />;
-                
-                  })
-            }
-            
-           }) */}
+
        
 
           </SidebarWrap>
+          
         </SidebarNav>
+
+        
+        
+        
       </IconContext.Provider>
+
+      
     </>
   );
 };
