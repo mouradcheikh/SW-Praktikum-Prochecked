@@ -41,8 +41,8 @@ const styles = theme => ({
 		margin: theme.spacing(2)
 	},
 	paper:{
-		height: '100vh',   
-		backgroundColor: grey[900]
+		height: '89vh',   
+		backgroundColor: grey[900],
 	  }
 });
 
