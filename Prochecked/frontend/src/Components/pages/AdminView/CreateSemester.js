@@ -33,7 +33,7 @@ class CreateSemester extends React.Component {
     // console.log(api) 
     api.createSemester(semester).then((semester) =>
         {
-        console.log(semester)
+        // console.log(semester)
         this.setState({
             semester: semester
         },

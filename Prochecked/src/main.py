@@ -341,7 +341,7 @@ class ProjectOperations(Resource):
         Project-Objekts.
         """
         adm = ProjectAdministration()
-        #print(api.payload)
+        print("PROJEKTTYP",api.payload)
         p = Project.from_dict(api.payload)
         #print(p)
 
@@ -528,6 +528,7 @@ class ParticipationsByProjectOperation(Resource):
         Dies ist aus Gründen der referentiellen Integrität sinnvoll!
         """
         pro = adm.get_project_by_id(project_id) 
+        
 
         if pro is not None:
             result = adm.create_participation_for_project(pro)
@@ -651,7 +652,7 @@ class StudentByMatrikelNummerOperations(Resource):
     def get(self, person_id):
         """Auslesen eines bestimmten Person-Objekts.
 
-        Das auszulesende Objekt wird durch die ```matr_nr``` in dem URI bestimmt.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
         stud = adm.get_student_by_person_id(person_id)

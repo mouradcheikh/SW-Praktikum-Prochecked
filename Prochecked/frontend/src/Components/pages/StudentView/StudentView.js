@@ -11,26 +11,84 @@ import ProjektFormular from '../ProjektErstellen'
 import UserView from '../UserView'
 import StudentLogin from './StudentLogin'
 import ProjectListStudent from './ProjectListStudent'
-import { AppApi } from '../../../AppApi/AppApi'
+import AppAPI from '../../../AppApi/AppApi'
+// import Sidebar from '../../../Components/layout/Sidebar';
 
 
 // function StudentView(props) {
 class StudentView extends Component{
   constructor(props){
     super(props);
+
+    let student = '';
+    let person = '';
+
+    if (this.props.location.state.person){ //ohne .state. evtl?
+      person = this.props.location.state.person
+    }
+    if (this.props.location.state.student){ //evtl state wieder rain ???
+      student = this.props.location.state.student
+    }
+    if (student.id === 0){
+      var api = AppAPI.getAPI()
+      api.getStudentByPerson(person.id).then((studentresponse) => {
+        student = studentresponse
+        this.setState({
+          student: studentresponse
+        })
+      })
+    }
+    
+    
+
+    this.state = {
+      // person: this.props.location.state.person,
+      // student: this.props.location.state.student
+      person: person,
+      student: student,
+    }
     
   }
 
+  // componentDidMount(){
+  //   console.log("didmount")
+  //   let student = null;
+  //   let person = null;
+
+  //   if (this.props.location.state.person){ //ohne .state. evtl?
+  //     person = this.props.location.state.person
+  //   }
+  //   if (this.props.location.state.student){ //evtl state wieder rain ???
+  //     student = this.props.location.state.student
+  //   }
+  //   if (student.getID() === 0){
+  //     var api = AppAPI.getAPI()
+  //     api.getStudentByPerson(person.getID()).then((studentresponse) => {
+  //       student = studentresponse
+  //       this.setState({
+  //         student: studentresponse
+  //       })
+  //     })
+  //   }
+  //   this.setState({
+  //     person: person,
+  //     student: student
+  //   })
+  // }
+
   render() {
     const { classes } = this.props;
-    const person = this.props.location.state.person
-    const student = this.props.location.state.student
-    console.log(this.props.location.state.student)
+    // const person = this.props.location.state.person
+    // const student = this.props.location.state.student
+    const{ person, student} = this.state;
+    // console.log(this.state)
 
-    return(<div>
+    return(
+    <div>
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
+            
             <Link to={{
             pathname: '/ProjectListStudent',
             state: { linkState: person, student: student}

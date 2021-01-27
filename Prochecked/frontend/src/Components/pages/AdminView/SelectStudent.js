@@ -132,7 +132,7 @@ class SelectStudent extends React.Component {
       <div>
         <Typography className={classes.participationEntry}>      
       
-        {"Ausgewählter Student:" +" "} {student != null? this.state.student.name:'Student ist nicht bekannt'}
+        {"Ausgewählter Student:" +" "} {student != null? student.name:'Student ist nicht bekannt'}
       
         </Typography>
       </div>

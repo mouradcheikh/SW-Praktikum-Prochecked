@@ -16,17 +16,32 @@ import { AppApi } from '../../AppApi';
 class DozentenView extends Component{
   constructor(props){
     super(props);
+
+    let person = '';
+    let adminProf = '';
+
+    if (this.props.location.state.person){
+      person = this.props.location.state.person
+    }
+    if (this.props.location.state.adminProf){
+      person = this.props.location.state.adminProf
+    }
+
     this.state = {
-      DozentList : null
+      DozentList : null,
+      person: person,
+      adminProf: adminProf
   };
   }
 
   render() {
     const { classes } = this.props;
-    const person = this.props.location.state.person
-    const adminProf = this.props.location.state.prof
+    const { person, adminProf} =this.state;
+    // const person = this.props.location.state.person
+    // const adminProf = this.props.location.state.prof
     // console.log(this.props.location.state.person)
     // console.log(this.props.location.state.prof)
+    console.log(this.state, this.props)
 
     return(<div>
       <center>

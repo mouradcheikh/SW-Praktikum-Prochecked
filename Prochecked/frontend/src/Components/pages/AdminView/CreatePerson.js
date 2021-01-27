@@ -58,12 +58,12 @@ class CreatePerson extends Component {
        student.setMatrNr(matrNr)
        student.setStudiengang(studiengang)
        student.setPerson(person)
-       console.log(student)
+      //  console.log(student)
       var api = AppApi.getAPI()
       // console.log(api)
       api.createStudent(student).then((student) =>
           {
-          console.log(student)
+          // console.log(student)
           this.setState({
               student: student
           },
@@ -73,9 +73,9 @@ class CreatePerson extends Component {
         }
 
     getStudentByPersonId(person_id){
-      console.log("getStudent...")
+      // console.log("getStudent...")
       if (this.state.updateP.berechtigung ===1){
-      console.log("if")
+      // console.log("if")
       var api = AppApi.getAPI()
       api.getStudentByPersonId(person_id).then((student) =>
         {
@@ -84,7 +84,8 @@ class CreatePerson extends Component {
               })
             }
       ) 
-    }    console.log("updateS", this.state.updateS)
+    }    
+    // console.log("updateS", this.state.updateS)
     }
 
     PersonList(){
@@ -126,7 +127,7 @@ class CreatePerson extends Component {
       updatedPerson.setGoogleId(this.state.googleid)
       updatedPerson.setEmail(this.state.email)
       updatedPerson.setBerechtigung(this.state.role)
-      console.log(updatedPerson)
+      // console.log(updatedPerson)
       
       AppApi.getAPI().updatePersonAdmin(updatedPerson).then(person => {
         this.setState({

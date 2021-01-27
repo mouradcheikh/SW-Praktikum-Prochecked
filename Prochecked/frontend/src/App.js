@@ -1,24 +1,31 @@
-import React from "react";
-import {BrowserRouter as Router, Route,Redirect,useHistory,} from "react-router-dom";
-import { Container, ThemeProvider, CssBaseline } from "@material-ui/core";
-import firebase from "firebase/app";
-import "firebase/auth";
-import PersonBO from "./AppApi/PersonBO";
-import RoleBO from "./AppApi/RoleBO";
-import AppAPI from "./AppApi/AppApi";
-import SignIn from "./Components/pages/SignIn"; //importiere von Pages das SignIn
-import UserView from "./Components/pages/UserView";
-import Header from "./Components/layout/Header";
-import LoadingProgress from "./Components/dialogs/LoadingProgress";
-import ContextErrorMessage from "./Components/dialogs/ContextErrorMessage";
-import Theme from "./Theme";
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom';
+import { Container, ThemeProvider, CssBaseline, Paper } from '@material-ui/core';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import PersonBO from './AppApi/PersonBO'
+import RoleBO from './AppApi/RoleBO'
+import AppAPI from './AppApi/AppApi'
+import SignIn from './Components/pages/SignIn'; //importiere von Pages das SignIn
+import UserView from './Components/pages/UserView';
+import Header from './Components/layout/Header';
+
+import SidebarAdmin from './Components/layout/SidebarAdmin';
+
+
+import LoadingProgress from './Components/dialogs/LoadingProgress';
+import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
+import Theme from './Theme';
 // import PersonList from './Components/PersonList';
 import StudentLogin from "./Components/pages/StudentView/StudentLogin";
 // import StudentView from './Components/pages/StudentView';
 import DozentenView from './Components/pages/DozentView';
 import AdminView from './Components/pages/AdminView';
+import about from './Components/pages/about';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
 import ProjektFormular from './Components/pages/ProjektErstellen'
+import ProjektFormularUpdate from './Components/pages/ProjektUpdaten'
 import ProjectList from './Components/pages/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreatePerson from './Components/pages/AdminView/CreatePerson';
@@ -120,7 +127,7 @@ class App extends React.Component {
 
   getPersons() {
     var api = AppAPI.getAPI();
-    console.log(api);
+    // console.log(api);
     api.getPersons().then((person) => {
       console.log(person);
       this.setState({
@@ -133,8 +140,8 @@ class App extends React.Component {
     var api = AppAPI.getAPI();
     // console.log(api)
     api.createPerson(name, email, google_id).then((person) => {
-      console.log(person);
-      console.log("test");
+      // console.log(person);
+      // console.log("test");
       this.setState({
         person: person,
       });
@@ -147,12 +154,15 @@ class App extends React.Component {
     api.getPersonByGoogleId(google_id).then((person) => {
       this.setState(
         {
-          person: person,
+            person: person,
         },
         () => this.getStudentByPersonId(this.state.person.getID())
       );
     });
   };
+
+        
+    
 
   getStudentByPersonId = (person_id) => {
     var api = AppAPI.getAPI();
@@ -250,72 +260,79 @@ class App extends React.Component {
 
   componentDidMount() {
     firebase.initializeApp(this.#firebaseConfig);
-    firebase.auth().languageCode = "en";
+    firebase.auth().languageCode = 'en';
     firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
     // console.log("rendered")
-  }
+    
+    };
 
-  /** Renders the whole app */
-  render() {
+    /** Renders the whole app */
+render() {
     const { person, appError, authError, authLoading } = this.state;
-
+    // console.log(this.state)
+    
     return (
-      <ThemeProvider theme={Theme}>
-        <CssBaseline />
-        <Router basename={process.env.PUBLIC_URL}>
-          <Container maxWidth="md">
-            <Header />
-            <Route exact path="/StudentView" component={StudentView} />
-            <Route exact path="/ProjectListStudent" component={ProjectListStudent}/>
+        <ThemeProvider theme={Theme}>
+            <CssBaseline />
+            <Router basename={process.env.PUBLIC_URL}>
+                <Container maxWidth = 'lg'>
+                    <Paper style={{backgroundColor: blueGrey[900]}}>
+                        
+                        <Header person = {person}/>
+                
+                        <Route exact path = '/StudentView' component = {StudentView}/>
+                        <Route exact path = '/ProjectListStudent' component = {ProjectListStudent}/>
+                        
+                        <Route exact path = '/Semesterbericht' component = {Semesterbericht}/>
+                        <Route exact path = '/StudentLogin' component = {StudentLogin}/>
+                        <Route exact path = '/DozentView' component = {DozentenView}/>
+                        <Route exact path = '/AdminView' component = {AdminView}/>
+                        <Route exact path = '/CreateProject' component = {ProjektFormular}/>
+                        <Route exact path = '/UpdateProject' component = {ProjektFormularUpdate}/>
+                        <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
+                        <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
+                        <Route exact path = '/ProjectList' component = {ProjectList}/>
+                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
+                        <Route exact path = '/student/SelectStudent' component = {SelectStudent}/>
+                        <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
+                        <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>
+                        <Route exact path = '/about' component = {about}/>
+                        <Route exact path = '/admin/CreateModule' component = {CreateModule}/>
+                        <Route exact path = '/GradeList' component = {GradeList}/>              
+                        {
+                            // Ist eine Person eingeloggt?
+                        person ?
+                                
+                                
+                                <PersonLoggedIn 
+                                berechtigung = {this.state.person.berechtigung} 
+                                person = {this.state.person} 
+                                setRole = {this.setRole} 
+                                student = {this.state.student}>
 
-            <Route exact path="/Semesterbericht" component={Semesterbericht} />
-            <Route exact path="/StudentLogin" component={StudentLogin} />
-            <Route exact path="/DozentView" component={DozentenView} />
-            <Route exact path="/AdminView" component={AdminView} />
-            <Route exact path="/CreateProject" component={ProjektFormular} />
-            <Route exact path="/CreatePerson" component={CreatePerson} />
-            <Route exact path="/CreateSemester" component={CreateSemester} />
-            <Route exact path="/ProjectList" component={ProjectList} />
-            <Route exact path="/ReleaseProject" component={ReleaseProject} />
-            <Route exact path="/SelectStudent" component={SelectStudent} />
-            <Route exact path="/ProjectListNew" component={ProjectListNew} />
-            <Route exact path="/DropDown_Dozent" component={DropDown_Dozent} />
-            <Route exact path="/CreateProjectType"component={CreateProjectType}/>
-            <Route exact path = '/CreateModule' component = {CreateModule}/>
-            <Route exact path = '/GradeList' component = {GradeList}/>
+                                </PersonLoggedIn>
+                                
+                                :
+                                // sonst zeige die SignIn Seite 
+                                <>
+                                    <Redirect to='/SignIn' />
+                                    <SignIn onSignIn={this.handleSignIn} />
+                                </>
 
-            {
-              // Ist eine Person eingeloggt?
-              person ? (
-                <PersonLoggedIn
-                  berechtigung={this.state.person.berechtigung}
-                  person={this.state.person}
-                  setRole={this.setRole}
-                  student={this.state.student}
-                ></PersonLoggedIn>
-              ) : (
-                // sonst zeige die SignIn Seite
-                <>
-                  <Redirect to="/SignIn" />
-                  <SignIn onSignIn={this.handleSignIn} />
-                </>
-              )
-            }
-            <LoadingProgress show={authLoading} />
-            <ContextErrorMessage
-              error={authError}
-              contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`}
-              onReload={this.handleSignIn}
-            />
-            <ContextErrorMessage
-              error={appError}
-              contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`}
-            />
-          </Container>
-        </Router>
-      </ThemeProvider>
+                        }       
+                                         
+                        <LoadingProgress show={authLoading} />
+                        <ContextErrorMessage error={authError} contextErrorMsg={`Während der Anmeldung ist etwas falsch gelaufen.`} onReload={this.handleSignIn} />
+                        <ContextErrorMessage error={appError} contextErrorMsg={`Innerhalb des Programms gab es einen Fehler. Bitte die Seite erneut laden.`} />
+                        {/* </div>
+                        } */}
+                    </Paper>
+                </Container>
+            </Router>
+        </ThemeProvider>
     );
-  }
 }
+}
+
 
 export default App;

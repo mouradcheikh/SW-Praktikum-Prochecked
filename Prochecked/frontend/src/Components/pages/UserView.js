@@ -35,7 +35,7 @@ class UserView extends Component {
     }
 
     viewRole= function() {
-      console.log("clicked")
+      // console.log("clicked")
     };
 
 render () {

@@ -76,3 +76,96 @@ export default function MenuListComposition() {
     </div>
   );
 }
+
+
+
+
+
+
+// export default function MenuListComposition() {
+//   const classes = useStyles();
+
+
+
+
+// class AdminView extends Component {
+
+
+
+
+
+//   render() {
+
+//    const {classes} = this.props
+
+// return (
+//     <div className={classes.root}>
+//       <Grid container spacing={3}>
+//         <MenuList>
+//         <Grid item xs={12}>
+//         <h3>Admin-Aktionen</h3>
+//           <Paper className={classes.paper}>
+//           <Link to='/CreatePerson'>
+//           <MenuItem>Personen anlegen</MenuItem>
+//           </Link >
+//           <Link to='/CreateSemester'>
+//           <MenuItem>Semester erstellen</MenuItem>
+//           </Link >
+//           <Link to='/CreateModule'>
+//           <MenuItem>Modul erstellen</MenuItem>
+//           </Link >
+//           <Link to='/ProjectListNew'>
+//           <MenuItem>Projekte freigeben</MenuItem>
+//           </Link>
+//           <Link to="/CreateProjectType">
+//           <MenuItem>Projektarten pflegen</MenuItem>
+//           </Link>
+//           </Paper>
+//           </Grid>
+//           <Grid item xs={12}>
+//             <h3>Dozent-Aktionen</h3>
+//             <Paper className={classes.paper}>
+//               <Link to="/DropDown_Dozent">
+//                 <MenuItem>
+//                   Projekte erstellen/Bewertung-Teilnehmerpflege von Projekten{" "}
+//                 </MenuItem>
+//               </Link>
+//             </Paper>
+//           </Grid>
+//           <Grid item xs={12}>
+//             <h3>Student-Aktionen</h3>
+//             <Paper className={classes.paper}>
+//               <Link to="SelectStudent">
+//                 <MenuItem>
+//                   Student für Projekte registieren/Semesterbericht einsehen
+//                 </MenuItem>
+//               </Link>
+//             </Paper>
+//           </Grid>
+//         </MenuList>
+//       </Grid>
+//     </div>
+//   );
+
+
+
+//   const useStyles = makeStyles((theme) =>
+//   createStyles({
+//     root: {
+//       display: "flex",
+//       alignItems: "center",
+//       justifyContent: "center",
+//       // backgroundColor: 'gray'
+//     },
+//     paper: {
+//       padding: theme.spacing(2),
+//       textAlign: "left",
+//       color: theme.palette.text.secondary,
+//     },
+//   })
+//   );
+
+// };
+// }
+
+// export default withStyles(styles)(AdminView);
