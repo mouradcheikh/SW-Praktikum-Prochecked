@@ -15,6 +15,7 @@ import { green, red } from '@material-ui/core/colors';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
+    height: 650
   },
   cardHeader: {
     padding: theme.spacing(1, 2),

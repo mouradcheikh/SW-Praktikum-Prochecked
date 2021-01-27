@@ -4,6 +4,7 @@ import { makeStyles, Paper, Typography, Link , ListItem, List} from '@material-u
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    height: '89vh',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(1)

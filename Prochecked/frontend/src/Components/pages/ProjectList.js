@@ -266,37 +266,37 @@ class ProjectList extends Component {
     const { adminProf, person, newProjects, filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
     console.log(this.state, this.props)
     return (
-      <div>
       <div className={classes.root}>
-        <h1>Pflegen Sie Ihre Projekte und bewerten Sie die Teilnehmer:</h1>
-        <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Projektfilter:
-              </Typography>
+        <div >
+          <h1>Pflegen Sie Ihre Projekte und bewerten Sie die Teilnehmer:</h1>
+          <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item>
+              <Typography>
+                Projektfilter:
+                </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                autoFocus
+                fullWidth
+                id='projectFilter'
+                type='text'
+                value={projectFilter}
+                onChange={this.filterFieldValueChange}
+                InputProps={{
+                  endAdornment: <InputAdornment position='end'>
+                    <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>,
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='projectFilter'
-              type='text'
-              value={projectFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
-        </Grid>
 
-      </div>
+        </div>
 
-      <div>
+        <div>
 
       <h2>Projekte zur Freigabe übergeben</h2>
         {
@@ -356,8 +356,31 @@ class ProjectList extends Component {
           {
             // Show the list of ProjectListEntry components
             // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-            projectsReviewed.map(project =>
-              <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+            newProjects.map(project =>
+              <ProjectListEntry 
+                key={project.getID()}
+                project={project}
+                expandedState={expandedProjectID === project.getID()}
+                // projectsFromEntry={this.projectsFromEntry}
+                onProjectDeleted={this.projectDeleted}
+                onExpandedStateChange={this.onExpandedStateChange}
+                person ={person} adminProf ={adminProf}
+                getProjectsByDozentNew = {this.getProjectsByDozentNew}
+                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              />)
+          }
+          
+          <h2>Akzeptierte Projekte</h2>
+          {
+            // Show the list of ProjectListEntry components
+            // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+            filteredProjects.map(project =>
+              <ProjectListEntry key={project.getID()}
+                project={project}
+                expandedState={expandedProjectID === project.getID()}
+                // projectsFromEntry={this.projectsFromEntry}
                 onExpandedStateChange={this.onExpandedStateChange}
                 onProjectDeleted={this.projectDeleted}
                 person ={person} adminProf ={adminProf}
@@ -365,10 +388,50 @@ class ProjectList extends Component {
               />)
           }
           <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentReviewed} />
+          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentAccepted} />
           {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
           
-      </div>
+          <h2>Projekte in Bewertung</h2>
+          {
+            // Show the list of ProjectListEntry components
+            // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+            projectsInReview.map(project =>
+              <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+                onExpandedStateChange={this.onExpandedStateChange}
+                onProjectDeleted={this.projectDeleted}
+                person ={person} adminProf ={adminProf}
+                getProjectsByDozentNew = {this.getProjectsByDozentNew}
+                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              />)
+          }
+          <LoadingProgress show={loadingInProgress} />
+          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
+          {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+        </div>
+        
+        <div>
+          <h2> Bewertete Projekte</h2>
+            {
+              // Show the list of ProjectListEntry components
+              // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
+              projectsReviewed.map(project =>
+                <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
+                  onExpandedStateChange={this.onExpandedStateChange}
+                  onProjectDeleted={this.projectDeleted}
+                  person ={person} adminProf ={adminProf}
+                  getProjectsByDozentNew = {this.getProjectsByDozentNew}
+                  getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
+                  getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
+                  getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+                />)
+            }
+            <LoadingProgress show={loadingInProgress} />
+            <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentReviewed} />
+            {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+            
+        </div>
 
       </div>
     );
@@ -379,6 +442,7 @@ class ProjectList extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   projectFilter: {
     marginTop: theme.spacing(2),

@@ -49,7 +49,7 @@ class DropDownDozent extends React.Component {
         const { classes  } = this.props;
         const { profs, prof } = this.state; 
         return ( 
-    <div>
+    <div className = {classes.root}>
         <div>
             <h1> Wählen Sie den Dozenten </h1>
         </div>
@@ -94,7 +94,8 @@ class DropDownDozent extends React.Component {
 
 const styles = theme => ({
     root: {
-      width: '100%'
+      width: '100%',
+      height: 650
     }, 
     formControl: {
         margin: theme.spacing(1),

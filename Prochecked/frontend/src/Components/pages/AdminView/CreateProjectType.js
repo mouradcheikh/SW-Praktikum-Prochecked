@@ -144,7 +144,7 @@ class CreateProjectType extends React.Component {
     console.log(this.state)
     return (
       <div>
-        <Grid container spacing={3}>
+        <Grid className={classes.root} container spacing={3}>
           <Grid item xs={6}>
             <h1>Neue Projektart eingetragen: </h1>
             <Paper className={classes.paper}>
@@ -267,6 +267,7 @@ class CreateProjectType extends React.Component {
 
 const styles = (theme) => ({
   root: {
+    height: 650,
     width: "100%",
   },
   buttonMargin: {
