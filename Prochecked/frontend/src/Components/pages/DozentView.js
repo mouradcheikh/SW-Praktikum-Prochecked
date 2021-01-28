@@ -1,15 +1,9 @@
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-// import { Link as RouterLink } from 'react-router-dom'
-//import './App.css';
 import React, { Component } from 'react';
-// import RoleBO from '../../AppApi/RoleBO'
 import {Link} from 'react-router-dom';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import ProjectList from './ProjectList';
-import ProjektFormular from './ProjektErstellen'
-import UserView from './UserView'
-import { AppApi } from '../../AppApi';
+import { Grid} from '@material-ui/core';
+
 
 
 // function DozentenView(props) {
@@ -18,13 +12,13 @@ class DozentenView extends Component{
     super(props);
 
     let person = '';
-    let adminProf = '';
+    let adminProf = false
 
     if (this.props.location.state.person){
       person = this.props.location.state.person
     }
     if (this.props.location.state.adminProf){
-      person = this.props.location.state.adminProf
+      adminProf= this.props.location.state.adminProf
     }
 
     this.state = {
@@ -44,8 +38,12 @@ class DozentenView extends Component{
     console.log(this.state, this.props)
 
     return(
+      
     
     <div className = {classes.root}>
+      
+      {adminProf?
+      
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
@@ -99,6 +97,25 @@ class DozentenView extends Component{
             </Link>
             </div>
     </center>
+    :
+    <div className={classes.view}>
+      {/* <Container maxWidth = 'lg'> */}
+      <Grid container spacing={1} justify = 'center'>
+        
+        <Grid alignContent = 'center' alignItems = 'center'>
+          <Grid>
+          <h1 align = 'center' style ={{color: "white"}} >Herzlich Willkommen</h1>
+          <h2>Sie haben sich als Dozent eingeloggt</h2>
+            
+            </Grid>
+         
+          </Grid>
+     
+      </Grid>
+    {/* </Container> */}
+    </div>
+          }
+    
   </div>
 ); 
 }
@@ -108,6 +125,11 @@ const styles = (theme) => ({
   root: {
     height: 650
   },
+  // view:{
+  //   display: 'flex',
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
   
   button: {
     margin: theme.spacing(2),

@@ -75,7 +75,7 @@ class DropDownDozent extends React.Component {
           <div>
               <Link to={{
               pathname: "/DozentView",
-              state: { person: prof }
+              state: { person: prof, adminProf: true }
               }}>
                 <Button
                  type="submit"
