@@ -208,6 +208,7 @@ useEffect(() => {
                 value={Semester}
                 onChange={handleSemester} 
                 onOpen={SemesterList}
+                required
               >
               {
               Semesters.map((semester) => <MenuItem value = {semester}> {semester.getName()} </MenuItem>)
@@ -232,7 +233,7 @@ useEffect(() => {
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
             label="Titel des Projekts" 
-            variant="outlined"
+            variant="standard"
             value={Titel}
             onInput={e=>setProjektTitel(e.target.value)}
             />
@@ -242,7 +243,7 @@ useEffect(() => {
             id="maxTeilnehmer"
             label="Kapazität (max. Teilnehmerzahl)"
             type="number" 
-            variant="outlined" 
+            variant="standard" 
             value={Kapazität}
             onInput={e=>setKapazität(e.target.value)}
             />
@@ -265,7 +266,8 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                       id="ext. Koop."
                       label="externe Kooperationspartner"
-                      variant="outlined"
+                      variant="standard"
+                      
                       value={extKoop}
                       onInput={e=>setextKoop(e.target.value)}
                       />
@@ -275,7 +277,7 @@ useEffect(() => {
                     label="Inhalt (Kurzbeschreibung):"
                     multiline
                     rows={6} 
-                    variant="outlined" 
+                    variant="standard" 
                     value={Inhalt}
                     onInput={e=>setInhalt(e.target.value)}
                     />
@@ -292,7 +294,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT vor der VZ"
                     label="Blocktage vor Beginn der Vorlesungszeit "
-                    variant="outlined" 
+                    variant="standard" 
                     type="number"
                     value={BTvorVZ}
                     onInput={e=>setBTvorVZ(e.target.value)}
@@ -301,7 +303,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT in der PZ"
                     label="Blocktage in der Prüfungszeit (nur inter-/tans. Projekte)"
-                    variant="outlined"
+                    variant="standard"
                     type="number" 
                     value={BTinPZ}
                     onInput={e=>setBTinPZ(e.target.value)}
@@ -311,7 +313,7 @@ useEffect(() => {
                     <TextField className={classes.formControl}
                     id="BTSamstag"
                     label="Blocktage (Samstag) in der Vorlesungszeit"
-                    variant="outlined"
+                    variant="standard"
                     type="number" 
                     value={BTinVZ}
                     onInput={e=>setBTinVZ(e.target.value)}
@@ -322,7 +324,7 @@ useEffect(() => {
                     id="Blocktage"
                     label="präferierte Blocktage"
                     type="date" 
-                    variant="outlined" 
+                    variant="standard" 
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -332,7 +334,7 @@ useEffect(() => {
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
                     label="besonderer Raum (falls notwendig)"
-                    variant="outlined" 
+                    variant="standard" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}
                     />

@@ -232,7 +232,7 @@ class ProjectListEntryNew extends Component {
                           color="secondary"
                           className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
-                          variant='outlined' color='primary' size='small' onClick={this.deleteParticipation}>
+                          size='small' onClick={this.deleteParticipation}>
                   Abmelden
                 </Button>
 
@@ -285,11 +285,10 @@ class ProjectListEntryNew extends Component {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Button   variant="contained"             
-                        color="secondary"
+              <Button   
                         className={classes.buttonFreigeben}
                         startIcon={<CheckIcon/>}
-                        variant="outlined" color='primary' size='small'  onClick={this.addParticipation}>
+                        variant="contained" color='primary' size='small'  onClick={this.addParticipation}>
                 Anmelden
               </Button>
 

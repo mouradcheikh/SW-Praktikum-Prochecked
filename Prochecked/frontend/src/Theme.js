@@ -11,15 +11,15 @@ const theme = createMuiTheme({
     white,
     primary: {
       contrastText: white,
-      dark: colors.blueGrey[800],
-      main: colors.blueGrey[500],
-      light: colors.blueGrey[100]
+      dark: '#006c78',
+      main: '#00b8ba', 
+      light: '#96f5ff'
     },
     secondary: {
       contrastText: white,
-      dark: colors.blue[900],
-      main: colors.blue['A400'],
-      light: colors.blue['A400']
+      dark: colors.red[900],
+      main: colors.red[800],
+      light: colors.red['A400']
     },
     success: {
       contrastText: white,
