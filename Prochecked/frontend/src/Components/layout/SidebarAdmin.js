@@ -76,16 +76,20 @@ const Sidebar = (props) => {
     else if (berechtigung ===1){
       result = SidebarDataStudent
     }
+    else if(berechtigung === null){
+      result = SidebarDataAdmin
+    }
     else{
       result = SidebarDataUserView
     }
 
 
     let getStudentByPerson = () =>{
+      if(props.person.berechtigung != null){
       var api = AppApi.getAPI()
       api.getStudentByPersonId(props.person.id) //evtl. Objekt von API vorher anlegen
         .then(studentBO =>
-          setStudent(studentBO))             // Set new state when ProjectBOs have been fetched
+          setStudent(studentBO))}             // Set new state when ProjectBOs have been fetched
 
             
       //     ).catch(e =>
