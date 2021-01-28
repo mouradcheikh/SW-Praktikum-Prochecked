@@ -219,14 +219,14 @@ class CreateSemester extends React.Component {
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
                 
-                <Button 
-                  type = "submit" 
-                  variant='contained' 
-                  color='primary' 
-                  size='small'
-                  startIcon = {< AddIcon/>}
-                >
-                Eintragen
+                <Button
+                      type = "submit"
+                      variant="contained"
+                      color="default"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<SaveIcon />}>                
+                Semester anlegen
                 </Button>
                 
                 
@@ -246,7 +246,7 @@ class CreateSemester extends React.Component {
               </form>
             </Paper>
             {alert ? 
-                <Alert variant="outlined" severity="warning">
+                <Alert color='warning' variant="contained" severity="warning">
                 Es können keine Semester gelöscht werden, welche in einem Projekt als Semester eingetragen sind!
                 </Alert> :
                 <div></div>
@@ -261,7 +261,7 @@ class CreateSemester extends React.Component {
                
                <ListItem>
                   {s.name}
-                <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+                <IconButton color='secondary' aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
                 <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }

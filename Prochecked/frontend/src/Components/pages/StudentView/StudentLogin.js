@@ -64,6 +64,7 @@ function StudentLogin(props) {
             pathname: '/StudentView',
             state: {
                 student: student,
+                person: props.location.state.person
             },
         });  
 
@@ -104,7 +105,7 @@ function StudentLogin(props) {
 
                         >
                             Speichern
-                </Button>
+                        </Button>
                         
                     </div>
                 </form>

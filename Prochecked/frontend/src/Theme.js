@@ -35,9 +35,9 @@ const theme = createMuiTheme({
     },
     warning: {
       contrastText: white,
-      dark: colors.orange[900],
-      main: colors.orange[600],
-      light: colors.orange[400]
+      dark: colors.orange[300],
+      main: colors.orange[300],
+      light: colors.orange[300]
     },
     error: {
       contrastText: white,

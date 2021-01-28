@@ -177,10 +177,10 @@ class CreateModule extends React.Component {
                   <form   onSubmit= {this.handleSubmit}>
                     <Grid container>
                     <Grid xs="4" item>
-                    <TextField id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
+                    <TextField color='primary' id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
                     </Grid>
                     <Grid xs="4" item>
-                    <TextField id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
+                    <TextField color='primary' id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
                     </Grid>
                     <Grid xs="4" item>
                     <Button
@@ -225,20 +225,20 @@ class CreateModule extends React.Component {
               </div>
             </Paper>
             {alert ? 
-                <Alert variant="outlined" severity="warning">
+                <Alert variant="contained" severity="warning">
                 Es können keine Module gelöscht werden, welche in einem Projekt als Modul eingetragen sind!
                 </Alert> :
                 <div></div>
                 }
           </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <h1>Bestehende Module</h1>
            <Paper className={classes.paper}>
            <div>
              {moduleList.map(m => <ListItem>
               Modul: {m.name}  {m.edv_nr}
-             <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
+             <IconButton aria-label="delete" color='secondary' onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
 

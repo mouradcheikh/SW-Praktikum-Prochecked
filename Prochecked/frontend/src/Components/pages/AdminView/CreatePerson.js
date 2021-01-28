@@ -236,7 +236,7 @@ class CreatePerson extends Component {
                       type = "submit"
                       variant="contained"
                       color="default"
-                      size="large"
+                      size="medium"
                       className={classes.button}
                       startIcon={<SaveIcon />}>                
                           Person anlegen
@@ -302,7 +302,7 @@ class CreatePerson extends Component {
             {persons.map(p => 
                <ListItem>
                 { this.berechtigung(p) + ": "+ p.name}
-                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                <IconButton color='secondary' aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
                 <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
