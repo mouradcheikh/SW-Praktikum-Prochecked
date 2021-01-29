@@ -10,7 +10,7 @@ import grey from '@material-ui/core/colors/grey'
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      height: 600 ,
+      height: 660 ,
       display: 'flex',
       alignItems: "center",
       justifyContent: "center",

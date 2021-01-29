@@ -238,11 +238,11 @@ class CreateModule extends React.Component {
            <div>
              {moduleList.map(m => <ListItem>
               Modul: {m.name}  {m.edv_nr}
-             <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
+             <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
 
-              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+              <Button style ={{color: "gray"}}color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
                 edit
                 </Button>
              

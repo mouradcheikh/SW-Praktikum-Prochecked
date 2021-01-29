@@ -302,10 +302,10 @@ class CreatePerson extends Component {
             {persons.map(p => 
                <ListItem>
                 { this.berechtigung(p) + ": "+ p.name}
-                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
+                <Button  style ={{color: "gray"}} onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
                 
                 // ; person.berechtigung ===1? this.getStudentByPersonId(p.getID()):'' 
                 }}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
@@ -326,7 +326,6 @@ const styles = theme => ({
       '& > *': {
         margin: theme.spacing(1),
         width: '25ch',
-      
       },
       roott: {
         flexGrow: 1,
