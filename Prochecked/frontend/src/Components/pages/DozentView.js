@@ -31,14 +31,11 @@ class DozentenView extends Component{
   render() {
     const { classes } = this.props;
     const { person, adminProf} =this.state;
-    // const person = this.props.location.state.person
-    // const adminProf = this.props.location.state.prof
-    // console.log(this.props.location.state.person)
-    // console.log(this.props.location.state.prof)
-    console.log(this.state, this.props)
+    console.log("DozentView",this.state, this.props)
+   
 
     return(
-      
+    
     
     <div className = {classes.root}>
       

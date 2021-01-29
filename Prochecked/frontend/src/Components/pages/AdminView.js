@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) =>
 
 export default function AdminView(props) {
   const classes = useStyles();
+  console.log("AdminView",this.props, this.state)
 
   return (
     <div className={classes.root}>

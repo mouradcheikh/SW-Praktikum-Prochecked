@@ -45,7 +45,7 @@ const SubMenu = ( props ) => {
 
   let person = props.person
   let item = props.item
-  console.log(person)
+ 
 
   return (
     <>

@@ -38,7 +38,7 @@ class StudentView extends Component{
     const { classes } = this.props;
 
     const{ person, student, adminStudent} = this.state;
-    console.log(this.state)
+    console.log("StudentView",this.props, this.state)
 
     return(
 

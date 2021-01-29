@@ -147,7 +147,7 @@ const Sidebar = (props) => {
 
             {
 
-              result.map((item, index) => {console.log(props.person)
+              result.map((item, index) => {
                     return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
                   })
             }
