@@ -41,6 +41,7 @@ export default class AppAPI {
      
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
+    #getStudentByPersonURL = (id) => `${this.#AppServerBaseURL}/student-by-person-id/${id}`
     #getStudentByMatrikelNummerURL = (matr_nr) => `${this.#AppServerBaseURL}/student-by-matr/${matr_nr}`; 
     #createStudentURL = () => `${this.#AppServerBaseURL}/student`;
     #updateStudentAdminURL = () => `${this.#AppServerBaseURL}/student`; 
@@ -581,6 +582,19 @@ getStudentByMatrikelNummer(matr_nr) {
   //Student Relation
   getStudent(id) {
     return this.#fetchAdvanced(this.#getStudentURL(id))
+    .then((responseJSON) => {
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+      // console.log(responseStudentBO);
+      return new Promise(function (resolve) {
+        resolve(responseStudentBO);
+      })
+    })
+  }
+
+
+  getStudentByPerson(id){
+    return this.#fetchAdvanced(this.#getStudentByPersonIdURL(id))
     .then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];

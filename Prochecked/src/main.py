@@ -652,7 +652,7 @@ class StudentByMatrikelNummerOperations(Resource):
     def get(self, person_id):
         """Auslesen eines bestimmten Person-Objekts.
 
-        Das auszulesende Objekt wird durch die ```matr_nr``` in dem URI bestimmt.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
         stud = adm.get_student_by_person_id(person_id)

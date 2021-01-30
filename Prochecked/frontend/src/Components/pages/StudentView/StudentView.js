@@ -9,7 +9,6 @@ class StudentView extends Component{
   constructor(props){
     super(props);
 
-    
     let student = '';
     let person = '';
     let adminStudent = false;
@@ -23,6 +22,17 @@ class StudentView extends Component{
     if (this.props.location.state.adminStudent){
       adminStudent= this.props.location.state.adminStudent
     }
+    if (student.id === 0){
+      var api = AppAPI.getAPI()
+      api.getStudentByPerson(person.id).then((studentresponse) => {
+        student = studentresponse
+        this.setState({
+          student: studentresponse
+        })
+      })
+    }
+    
+    
 
     this.state = {
       // person: this.props.location.state.person,
@@ -33,6 +43,32 @@ class StudentView extends Component{
     }
     
   }
+
+  // componentDidMount(){
+  //   console.log("didmount")
+  //   let student = null;
+  //   let person = null;
+
+  //   if (this.props.location.state.person){ //ohne .state. evtl?
+  //     person = this.props.location.state.person
+  //   }
+  //   if (this.props.location.state.student){ //evtl state wieder rain ???
+  //     student = this.props.location.state.student
+  //   }
+  //   if (student.getID() === 0){
+  //     var api = AppAPI.getAPI()
+  //     api.getStudentByPerson(person.getID()).then((studentresponse) => {
+  //       student = studentresponse
+  //       this.setState({
+  //         student: studentresponse
+  //       })
+  //     })
+  //   }
+  //   this.setState({
+  //     person: person,
+  //     student: student
+  //   })
+  // }
 
   render() {
     const { classes } = this.props;
