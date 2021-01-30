@@ -118,9 +118,8 @@ class SelectStudent extends React.Component {
               />
               <Link onAbort to={{
                 pathname: "/StudentView",
-                state: { student: student }
-                
-                }}style={{ textDecoration: 'none' }}>
+                state: { student: student, adminStudent: true }
+                }}>
                 <Button
                   type="submit"
                   variant="contained"

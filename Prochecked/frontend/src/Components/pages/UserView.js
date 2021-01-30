@@ -16,85 +16,93 @@ class UserView extends Component {
     super(props);
   }
 
-  handleAdminButtonClicked = () => {
-    this.props.setRole(3);
-    this.viewRole();
-  };
+    constructor(props) {
+      super(props);
+    }
 
-  handleStudentButtonClicked = () => {
-    this.props.setRole(1);
-    this.viewRole();
-  };
+    handleAdminButtonClicked = () => {
+      this.props.setRole(3);
+      this.viewRole()
+    }
 
-  handleDozentButtonClicked = () => {
-    this.props.setRole(2);
-    this.viewRole();
-  };
+    handleStudentButtonClicked = () => {
+      this.props.setRole(1);
+      this.props.person.setBerechtigung(1)
+      this.viewRole()
+    }
 
-  viewRole = function () {
-    // console.log("clicked")
-  };
+    handleDozentButtonClicked = () => {
+      this.props.setRole(2);
+      this.viewRole()
+    }
 
-  render() {
-    const { classes } = this.props;
+    viewRole= function() {
+      // console.log("clicked")
+    };
 
-    return (
-      <div>
-        <Paper className={classes.paper}>
-          <center>
-            <h1 style={{ color: "white" }}>Bitte wählen Sie Ihre Rolle:</h1>
-            <div>
-              <Link
-                to={{
-                  pathname: "/StudentLogin",
-                  state: { person: this.props.person },
-                }}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={this.handleStudentButtonClicked}
-                >
-                  Student
-                </Button>
-              </Link>
-            </div>
-            <div>
-              <Link
-                to={{
-                  pathname: "/DozentView",
-                  state: { person: this.props.person },
-                }}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  algin="center"
-                  className={classes.button}
-                  onClick={this.handleDozentButtonClicked}
-                >
-                  Dozent
-                </Button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/AdminView" style={{ textDecoration: "none" }}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={this.handleAdminButtonClicked}
-                >
-                  Admin
-                </Button>
-              </Link>
-            </div>
+render () {
+  const { classes } = this.props;
+  console.log("UserView",this.props, this.state)
+
+	return(
+        <div>
+          <Paper className={classes.paper}>
+            <center>
+                  <h1 style ={{color: "white"}} >Bitte wählen Sie Ihre Rolle:</h1>
+                  <div>
+                  <Link to={{
+                  pathname: '/StudentLogin',
+                  state: { person: this.props.person }
+                  }} style={{ textDecoration: 'none' }}
+                  >
+                  <Button
+                  
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      onClick = {this.handleStudentButtonClicked}
+                  >
+                              Student
+                      
+                  </Button>
+                  </Link>
+                  </div>
+                  <div>
+                  <Link to={{
+                  pathname: '/DozentView' ,
+                  state: { person: this.props.person }
+                  }} style={{ textDecoration: 'none'}}>
+                  <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      algin="center"
+                      className={classes.button}
+                      onClick = {this.handleDozentButtonClicked}
+                      
+                  >
+                              Dozent
+                      
+                  </Button>
+                  </Link>
+                  </div>
+                  <div>
+                  <Link to='/AdminView' style={{ textDecoration: 'none' }}
+>
+                  <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      onClick = {this.handleAdminButtonClicked}
+                      
+                  >
+                              Admin
+                    
+                  </Button>
+                  </Link>
+                  </div>
           </center>
         </Paper>
       </div>
