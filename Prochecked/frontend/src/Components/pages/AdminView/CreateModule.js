@@ -7,9 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import ModuleBO from '../../../AppApi/ModuleBO';
-
-
 import { Alert, AlertTitle } from '@material-ui/lab';
+
+/**
+ * Zeigt die Seite um Module zu erstellen.
+ * Es können Module erstellt, editiert und gelöscht werden.
+ */
 
 class CreateModule extends React.Component {
     constructor(props) {

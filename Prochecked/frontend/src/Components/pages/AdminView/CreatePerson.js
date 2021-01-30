@@ -12,6 +12,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 
+/**
+ * Zeigt die Seite um Personen und Studenten zu erstellen.
+ * Es können Personen und Studenten erstellt, editiert und gelöscht werden.
+ */
 
 class CreatePerson extends Component {
     constructor(props) {

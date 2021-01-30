@@ -18,6 +18,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import ProjectTypeBO from "../../../AppApi/ProjectTypeBO";
 
 
+/**
+ * Zeigt die Seite um einen Projekttyp zu erstellen.
+ * Es können Projekttypen erstellt, editiert und gelöscht werden.
+ */
+
 class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);

@@ -9,6 +9,10 @@ import SemesterBO from '../../../AppApi/SemesterBO';
 import AddIcon from '@material-ui/icons/Add';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+/**
+ * Zeigt die Seite um Semester zu erstellen.
+ * Es können Semester erstellt, editiert und gelöscht werden.
+ */
 
 class CreateSemester extends React.Component {
     constructor(props) {
