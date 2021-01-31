@@ -52,7 +52,7 @@ const SubMenu = ( props ) => {
       <SidebarLink
       to={{
         pathname: item.path, 
-        state: { linkState: person,student: props.student }
+        state: { linkState: props.person, student: props.student }
       }
       }
       onClick={item.subNav && showSubnav} 
@@ -76,7 +76,7 @@ const SubMenu = ( props ) => {
           return (
             <DropdownLink to={{
               pathname: item.path, 
-              state: { linkState: person, student: props.student }
+              state: { linkState: props.person, student: props.student }
             }}
             key={index}>
               {item.icon}

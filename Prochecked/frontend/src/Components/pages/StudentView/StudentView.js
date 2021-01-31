@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import { AppApi } from '../../../AppApi/AppApi'
+import AppAPI from '../../../AppApi/AppApi'
 
 class StudentView extends Component{
   constructor(props){

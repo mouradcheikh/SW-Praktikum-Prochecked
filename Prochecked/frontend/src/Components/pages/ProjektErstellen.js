@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProjektFormular(props) {
   
+  console.log(props)
 
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState();
@@ -53,6 +54,7 @@ function ProjektFormular(props) {
   const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
+  const [person, setPerson] = React.useState('');
 
   console.log(props)
 
@@ -88,7 +90,7 @@ function ProjektFormular(props) {
     project.setProjectType(ProjektArt.getID())
     project.setCapacity(Kapazität)
     project.setShortDescription(Inhalt)
-    let dozent = props.location.state.linkState
+    let dozent = person
     project.setDozent(dozent.id)
     project.setRoom(Raum)
     project.setWeeklyFlag(WT)
@@ -108,26 +110,26 @@ function ProjektFormular(props) {
 
     console.log(project)
 
-    var api = AppApi.getAPI()
-        // console.log(api)
+    // var api = AppApi.getAPI()
+    //     // console.log(api)
 
-        !edit?
-        api.createProject(project).then((project) =>
-            {console.log(project)
-            }
-            )
-        :
-        project.setID(props.location.state.project.id)
+    //     !edit?
+    //     api.createProject(project).then((project) =>
+    //         {console.log(project)
+    //         }
+    //         )
+    //     :
+    //     project.setID(props.location.state.project.id)
 
-        api.updateProject(project).then((project) =>
-            {console.log(project)
-            }
-            )
+    //     api.updateProject(project).then((project) =>
+    //         {console.log(project)
+    //         }
+    //         )
 
     history.push({
       pathname: '/DozentView',
       state: {  
-        person: props.location.state.linkState, 
+        person: person, 
       },
     }); 
   }
@@ -159,6 +161,7 @@ function ProjectTypeList(){
 useEffect(() => {
   SemesterList();
   ProjectTypeList()
+  setPerson(props.location.state.linkState)
 }, []);
 
 
