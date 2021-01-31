@@ -40,6 +40,7 @@ function StudentLogin(props) {
     const [student, setStudent] = React.useState(null);
     const history = useHistory()
 
+    console.log("StudentLogin",props)
 
 
 

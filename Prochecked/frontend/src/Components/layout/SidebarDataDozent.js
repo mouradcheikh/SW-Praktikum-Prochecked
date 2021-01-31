@@ -5,6 +5,8 @@ import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
 import * as MdIcons from 'react-icons/md';
+import * as CgIcons from 'react-icons/cg';
+import * as FaIcons from 'react-icons/fa';
 
 
 
@@ -25,13 +27,20 @@ export const SidebarDataDozent = [
   {
     title: 'Projekt erstellen',
     path: '/CreateProject',
-    icon: <RiIcons.RiAdminFill />,
+    icon: <IoIcons.IoIosCreate />,
    
     },
   {
       title: 'Projekte bewerten',
       path: '/ProjectList',
-      icon: <RiIcons.RiAdminFill />,
+      icon: <AiIcons.AiFillProject />,
+     
+    },
+
+    {
+      title: 'Notenliste einsehen',
+      path: '/GradeList',
+      icon: <FaIcons.FaList />,
      
     },
     

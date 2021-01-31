@@ -1,18 +1,22 @@
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Paper} from '@material-ui/core';
-import blueGrey from '@material-ui/core/colors/blueGrey'
-import grey from '@material-ui/core/colors/grey'
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { Paper } from "@material-ui/core";
+import blueGrey from "@material-ui/core/colors/blueGrey";
+import grey from "@material-ui/core/colors/grey";
 
-
+/**
+ * Es werden die verschiedenen Rollen dargestellt.
+ * Der Nutzer kann sich seine  Rolle auswählen und wird dann auf die entsprechende Seite geleitet.
+ */
 
 class UserView extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-      super(props);
-    }
+
 
     handleAdminButtonClicked = () => {
       this.props.setRole(3);
@@ -21,6 +25,7 @@ class UserView extends Component {
 
     handleStudentButtonClicked = () => {
       this.props.setRole(1);
+      this.props.person.setBerechtigung(1)
       this.viewRole()
     }
 
@@ -35,6 +40,7 @@ class UserView extends Component {
 
 render () {
   const { classes } = this.props;
+  console.log("UserView",this.props, this.state)
 
 	return(
         <div>
@@ -100,33 +106,22 @@ render () {
       </div>
     );
   }
-} 
-
+}
 
 const styles = (theme) => ({
   button: {
-
     margin: theme.spacing(2),
     width: 170,
     fontSize: 25,
     padding: "15x 0",
     backgroundColor: blueGrey[600],
     borderColor: blueGrey[500],
-
-    
-   
-    // blueGrey[700],
   },
-  paper:{
-    height: '80vh',   
+  paper: {
+    height: "80vh",
 
     backgroundColor: grey[900],
-    // backgroundColor: grey[800],
-   
-    
-  }
+  },
+});
 
-})
-
-
-export default  withStyles(styles)(UserView);
+export default withStyles(styles)(UserView);

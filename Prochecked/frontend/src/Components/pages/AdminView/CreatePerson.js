@@ -12,6 +12,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 
+/**
+ * Zeigt die Seite um Personen und Studenten zu erstellen.
+ * Es können Personen und Studenten erstellt, editiert und gelöscht werden.
+ */
 
 class CreatePerson extends Component {
     constructor(props) {
@@ -302,10 +306,10 @@ class CreatePerson extends Component {
             {persons.map(p => 
                <ListItem>
                 { this.berechtigung(p) + ": "+ p.name}
-                <IconButton color='secondary' aria-label="delete" onClick={() => this.deletePersons(p)}>
+                <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
+                <Button  style ={{color: "gray"}} onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
                 
                 // ; person.berechtigung ===1? this.getStudentByPersonId(p.getID()):'' 
                 }}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
@@ -326,7 +330,6 @@ const styles = theme => ({
       '& > *': {
         margin: theme.spacing(1),
         width: '25ch',
-      
       },
       roott: {
         flexGrow: 1,

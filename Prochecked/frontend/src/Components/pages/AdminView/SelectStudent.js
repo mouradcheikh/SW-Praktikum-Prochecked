@@ -16,6 +16,10 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
 import {Link, useHistory, Prompt} from 'react-router-dom';
 
+/**
+ * Zeigt die Seite um den entsprechenden Studenten via Matrikelnummer in der AdminView auszuwählen.
+ * Nach Auswahl des entsprechenden Studenten wird man auf seine View weitergeleitet.
+ */
 
 class SelectStudent extends React.Component {
     constructor(props) {
@@ -114,7 +118,7 @@ class SelectStudent extends React.Component {
               />
               <Link onAbort to={{
                 pathname: "/StudentView",
-                state: { student: student }
+                state: { student: student, adminStudent: true }
                 }}>
                 <Button
                   type="submit"

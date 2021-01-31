@@ -91,19 +91,19 @@ const Sidebar = (props) => {
         .then(studentBO =>
           setStudent(studentBO))}             // Set new state when ProjectBOs have been fetched
 
-            
-      //     ).catch(e =>
-      //       this.setState({             // Reset state with error from catch
-      //         loadingInProgress: false, // disable loading indicator
-      //         error: e
-      //       })
-      //     );
-      // // set loading to true
-      // this.setState({
-      //   loadingInProgress: true,
-      //   error: null
-      // });
     }
+
+    let getBerechtigung = () => {
+      if(props.person.berechtigung ===1){
+        return "Student"
+      }
+      else if(props.person.berechtigung ===2){
+        return "Dozent"
+      }
+      else{
+      return "Admin"
+      } 
+  }
     
   
   return (
@@ -128,7 +128,7 @@ const Sidebar = (props) => {
         
           <Grid justify="flex-end">
 
-          {props.person.name}
+          {props.person.name + ' - '+ getBerechtigung()}
 
           </Grid>
       
@@ -149,26 +149,15 @@ const Sidebar = (props) => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
 
-
-
-
-
             {
 
-              result.map((item, index) => {console.log(props.person)
+              result.map((item, index) => {
                     return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
                   })
             }
 
-       
-
           </SidebarWrap>
-          
         </SidebarNav>
-
-        
-        
-        
       </IconContext.Provider>
 
       
