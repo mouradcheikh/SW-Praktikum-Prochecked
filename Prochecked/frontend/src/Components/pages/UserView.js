@@ -12,6 +12,8 @@ class UserView extends Component {
 
     constructor(props) {
       super(props);
+    
+      
     }
 
     handleAdminButtonClicked = () => {
@@ -33,8 +35,10 @@ class UserView extends Component {
     viewRole= function() {
       // console.log("clicked")
     };
+  
 
 render () {
+
   const { classes } = this.props;
   console.log("UserView",this.props, this.state)
 
@@ -101,8 +105,9 @@ render () {
         </Paper>
       </div>
     );
-  }
-} 
+};
+
+}
 
 
 const styles = (theme) => ({
@@ -131,4 +136,6 @@ const styles = (theme) => ({
 })
 
 
-export default  withStyles(styles)(UserView);
+
+
+export default withStyles(styles)(UserView);
