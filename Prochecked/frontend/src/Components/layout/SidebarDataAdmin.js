@@ -59,32 +59,34 @@ export const SidebarDataAdmin = [
   },
   {
     title: 'Dozent',
+    path: '/dozent/DropDown_Dozent',
     icon: <GiIcons.GiTeacher />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
-    subNav: [
-      {
-        title: 'Projekte verwalten',
-        path: '/dozent/DropDown_Dozent',
-        icon: <IoIcons.IoIosPaper />
-      },
-    ]
+    // subNav: [
+    //   {
+    //     title: 'Projekte verwalten',
+    //     path: '/dozent/DropDown_Dozent',
+    //     icon: <IoIcons.IoIosPaper />
+    //   },
+    // ]
   },
   
   {
     title: 'Student',
+    path: '/student/SelectStudent',
     icon: <IoIcons.IoMdSchool />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
-    subNav: [
-      {
-        title: 'Projekte anmelden',
-        path: '/student/SelectStudent',
-        icon: <IoIcons.IoIosPaper />
-      },
-    ]
+    // subNav: [
+    //   {
+    //     title: 'Projekte anmelden',
+    //     path: '/student/SelectStudent',
+    //     icon: <IoIcons.IoIosPaper />
+    //   },
+    // ]
   },
   
   {
