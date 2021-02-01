@@ -184,8 +184,9 @@ class App extends React.Component {
     var api = AppAPI.getAPI();
     api.updatePerson(updatedPerson).then((newPerson) => {
       //bei put (updatePerson) kommt was zurück? kommt überhaupt person zurück?
+      console.log("geupdatete person", newPerson)
       this.setState({
-        person: newPerson,
+        person: updatedPerson,
       });
     });
   };
@@ -285,6 +286,7 @@ render() {
                                 
                                 
                                 <PersonLoggedIn 
+                                getPersonByGoogleId = {this.getPersonByGoogleId}
                                 berechtigung = {this.state.person.berechtigung} 
                                 person = {this.state.person} 
                                 setRole = {this.setRole} 

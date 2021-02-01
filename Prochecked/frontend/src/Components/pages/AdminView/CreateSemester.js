@@ -223,14 +223,14 @@ class CreateSemester extends React.Component {
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
                 
-                <Button 
-                  type = "submit" 
-                  variant='contained' 
-                  color='primary' 
-                  size='small'
-                  startIcon = {< AddIcon/>}
-                >
-                Eintragen
+                <Button
+                      type = "submit"
+                      variant="contained"
+                      color="default"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<SaveIcon />}>                
+                Semester anlegen
                 </Button>
                 
                 
@@ -250,7 +250,7 @@ class CreateSemester extends React.Component {
               </form>
             </Paper>
             {alert ? 
-                <Alert variant="outlined" severity="warning">
+                <Alert color='warning' variant="contained" severity="warning">
                 Es können keine Semester gelöscht werden, welche in einem Projekt als Semester eingetragen sind!
                 </Alert> :
                 <div></div>

@@ -218,13 +218,13 @@ class CreateProjectType extends React.Component {
                   }
                 />
                 <Button
-                  type="submit"
-                  className={classes.buttonMargin}
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                >
-                  Eintragen
+                      type = "submit"
+                      variant="contained"
+                      color="default"
+                      size="medium"
+                      className={classes.marginbutton}
+                      startIcon={<SaveIcon />}>                
+                      Projektart anlegen
                 </Button>
                 <Grid>
                 { editButton? 

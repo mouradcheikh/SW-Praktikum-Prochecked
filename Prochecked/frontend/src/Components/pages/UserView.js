@@ -16,7 +16,6 @@ class UserView extends Component {
     super(props);
   }
 
-    
 
     handleAdminButtonClicked = () => {
       this.props.setRole(3);

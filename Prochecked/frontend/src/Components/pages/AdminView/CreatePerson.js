@@ -240,7 +240,7 @@ class CreatePerson extends Component {
                       type = "submit"
                       variant="contained"
                       color="default"
-                      size="large"
+                      size="medium"
                       className={classes.button}
                       startIcon={<SaveIcon />}>                
                           Person anlegen

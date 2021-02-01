@@ -296,7 +296,7 @@ class ProjectList extends Component {
 
         </div>
 
-        <div>
+      <div>
 
       <h2>Projekte zur Freigabe übergeben</h2>
         {
@@ -349,14 +349,14 @@ class ProjectList extends Component {
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-      </div>
       
-      <div>
+      
+      
         <h2> Bewertete Projekte</h2>
           {
             // Show the list of ProjectListEntry components
             // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-            newProjects.map(project =>
+            projectsReviewed.map(project =>
               <ProjectListEntry 
                 key={project.getID()}
                 project={project}
@@ -365,71 +365,12 @@ class ProjectList extends Component {
                 onProjectDeleted={this.projectDeleted}
                 onExpandedStateChange={this.onExpandedStateChange}
                 person ={person} adminProf ={adminProf}
-                getProjectsByDozentNew = {this.getProjectsByDozentNew}
-                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
-              />)
-          }
-          
-          <h2>Akzeptierte Projekte</h2>
-          {
-            // Show the list of ProjectListEntry components
-            // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-            filteredProjects.map(project =>
-              <ProjectListEntry key={project.getID()}
-                project={project}
-                expandedState={expandedProjectID === project.getID()}
-                // projectsFromEntry={this.projectsFromEntry}
-                onExpandedStateChange={this.onExpandedStateChange}
-                onProjectDeleted={this.projectDeleted}
-                person ={person} adminProf ={adminProf}
                 updateComponent = {this.updateComponent}
               />)
           }
           <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentAccepted} />
-          {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-          
-          <h2>Projekte in Bewertung</h2>
-          {
-            // Show the list of ProjectListEntry components
-            // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-            projectsInReview.map(project =>
-              <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-                onExpandedStateChange={this.onExpandedStateChange}
-                onProjectDeleted={this.projectDeleted}
-                person ={person} adminProf ={adminProf}
-                getProjectsByDozentNew = {this.getProjectsByDozentNew}
-                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
-              />)
-          }
-          <LoadingProgress show={loadingInProgress} />
           <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
-          {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-        </div>
-        
-        <div>
-          <h2> Bewertete Projekte</h2>
-            {
-              // Show the list of ProjectListEntry components
-              // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
-              projectsReviewed.map(project =>
-                <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-                  onExpandedStateChange={this.onExpandedStateChange}
-                  onProjectDeleted={this.projectDeleted}
-                  person ={person} adminProf ={adminProf}
-                  getProjectsByDozentNew = {this.getProjectsByDozentNew}
-                  getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-                  getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-                  getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
-                />)
-            }
-            <LoadingProgress show={loadingInProgress} />
-            <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentReviewed} />
-            {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
+
             
         </div>
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input } from '@material-ui/core';
+import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid, Box} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
@@ -11,6 +11,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import ParticipationForm from '../dialogs/ParticipationForm';
 import IconButton from '@material-ui/core/IconButton';
+import { spacing } from '@material-ui/system';
 
 
 
@@ -361,6 +362,8 @@ parentCall = () => {
       :project.project_state >=4?
       <div>
         <ListItem>
+          <Grid container>
+          <Grid item xs={4}>
           <Typography className={classes.participationEntry}>
             {/* <Link component={RouterLink} to={{
               pathname: '/StudentZuordnung',
@@ -373,7 +376,6 @@ parentCall = () => {
             </Link> */}
        
             <div>
-
             {this.state.student.matr_nr + " - " + this.state.student.name}
             </div>
            
@@ -381,33 +383,40 @@ parentCall = () => {
             <Button color='primary' onClick={this.editParticipationButtonClicked}>
               edit
             </Button>
-
           </Typography>
+          </Grid>
+          
             <div>
             {/* <form className={classes.root} noValidate autoComplete="off"> */}
+            <Grid item xs={4}>
             <form >
               {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
+              <Grid item xs={2}>
               <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
+              </Grid>
+
+              <Grid item xs={2}>
               <Button className={classes.buttonMargin} variant='outlined' color='primary' size='small' endIcon={<SendIcon/>} onClick={this.handleSubmit}>
               Bewerten
               </Button>
+              </Grid>
+
               {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
+            </Grid>
             {/* {project.project_state ===4? */}
             <Typography variant='body2' color={'textSecondary'}>
               {grade != null?  
               <div>Bewertet: {grade.grade + " - " + this.passed()}
            
 
-            <IconButton aria-label="delete" onClick={() => this.deleteGrading()}
+            <IconButton aria-label="delete" color={'secondary'} onClick={() => this.deleteGrading()}
  >             <DeleteIcon />
             </IconButton>
             </div>
             :'unbewertet'}
 
             </Typography>
-           
-
             </div>
 
           <ListItemSecondaryAction>          
@@ -415,7 +424,7 @@ parentCall = () => {
              Löschen
             </Button>
           </ListItemSecondaryAction>
-
+          </Grid>
         </ListItem>
         <ListItem>
           <LoadingProgress show={loadingInProgress || deletingInProgress} />

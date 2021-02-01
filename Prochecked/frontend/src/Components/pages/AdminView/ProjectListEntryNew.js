@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, hexToRgb, colors } from '@material-ui/core';
 import { Button,ButtonGroup } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import {ProjectBO} from '../../../AppApi';
@@ -217,12 +217,11 @@ componentDidMount(){
                 </Typography>
                 </Grid>
                 <Grid zeroMinWidth item xs={3}>
-                  <Button variant="contained"
-                          color="secondary"
-                          fullWidth
+                  <Button fullWidth
                           // className={classes.buttonFreigeben}
+                          color='primary'
                           startIcon={<CheckIcon/>}
-                          variant='outlined' color='primary' size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
+                          variant='contained'  size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
                   Freigeben
                   </Button>
                   
@@ -231,7 +230,7 @@ componentDidMount(){
                           fullWidth
                           // className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
-                          variant='outlined' color='primary' size='small' onClick={() => this.updateProject(2)}>
+                          size='small' onClick={() => this.updateProject(2)}>
                   Ablehnen  
                   </Button>
                   </Grid>
@@ -264,31 +263,29 @@ componentDidMount(){
               </Typography>
             </Grid>
             <Grid item zeroMinWidth xs={5}>
-                <Button variant="contained"
-                        color="secondary"
-                        // className={classes.button}
+                <Button // className={classes.button}
                         startIcon={<CheckIcon/>}
                         // className={classes.button} 
-                        variant='outlined' 
+                        variant='contained' 
                         color='primary' 
                         size='small' 
                         fullWidth 
                         onClick={() => this.updateProject(3)}>
                 Freigeben
                 </Button>
-                <Button variant="contained"
-                        color="secondary"
+                <Button 
+                        color="default"
                         // className={classes.button}
                         startIcon={<ReplyRoundedIcon/>}
                         // className={classes.button} 
-                        variant='outlined' 
-                        color='primary' 
+                        variant='text' 
+                        color='default' 
                         size='small' 
                         fullWidth
                         onClick={() => this.updateModule(0, 1)}>
                 Rückgängig
                 </Button>
-                <Button fullWidth variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+                <Button fullWidth variant= "text" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
                 Löschen
                 </Button>  
             </Grid>       
@@ -319,31 +316,30 @@ componentDidMount(){
             </Typography>
             </Grid>
           <Grid item zeroMinWidth xs={5}>
-              <Button variant="contained"
+              <Button 
                       fullWidth
-                      color="secondary"
                       // className={classes.button}
                       startIcon={<HighlightOffIcon/>}
                       // className={classes.button} 
-                      variant='outlined' 
-                      color='primary' 
+                      variant='contained' 
+                      color='secondary' 
                       size='small' 
                       onClick={() => this.updateModule(0, 2)}>
               Ablehnen
               </Button>
-              <Button variant="contained"
-                      color="secondary"
+              <Button 
+                      color="default"
                       fullWidth
                       // className={classes.button}
                       startIcon={<ReplyRoundedIcon/>}
                       // className={classes.button} 
-                      variant='outlined' 
-                      color='primary' 
+                      variant='text' 
+                      
                       size='small'  
                       onClick={() => this.updateModule(0, 1)}>
               Rückgängig
               </Button>
-              <Button fullWidth variant= "contained" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
+              <Button fullWidth variant= "text" color='secondary' size='small' endIcon={<DeleteIcon/>} onClick={() => this.deleteProject(project)}>
              Löschen
             </Button> 
           </Grid>

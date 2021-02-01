@@ -14,7 +14,7 @@ const SidebarLink = styled(Link)`
   font-size: 18px;
   &:hover {
     background: #252831;
-    border-left: 4px solid #632ce4;
+    border-left: 4px solid #00b8ba;
     cursor: pointer;
   }
 `;
@@ -33,7 +33,7 @@ const DropdownLink = styled(Link)`
   color: #f5f5f5;
   font-size: 18px;
   &:hover {
-    background: #632ce4;
+    background: #00b8ba;
     cursor: pointer;
   }
 `;
@@ -52,7 +52,7 @@ const SubMenu = ( props ) => {
       <SidebarLink
       to={{
         pathname: item.path, 
-        state: { linkState: person,student: props.student }
+        state: { linkState: props.person, student: props.student }
       }
       }
       onClick={item.subNav && showSubnav} 
@@ -76,7 +76,7 @@ const SubMenu = ( props ) => {
           return (
             <DropdownLink to={{
               pathname: item.path, 
-              state: { linkState: person, student: props.student }
+              state: { linkState: props.person, student: props.student }
             }}
             key={index}>
               {item.icon}
