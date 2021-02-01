@@ -1,20 +1,9 @@
 import React from 'react';
 import  {AppApi}  from '../../../AppApi';
-import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button, Typography } from '@material-ui/core';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Input from '@material-ui/core/Input';
-import {Link, useHistory, Prompt} from 'react-router-dom';
+import {Link, Prompt} from 'react-router-dom';
 
 /**
  * Zeigt die Seite um den entsprechenden Studenten via Matrikelnummer in der AdminView auszuwählen.
@@ -102,8 +91,8 @@ class SelectStudent extends React.Component {
         </div>
       <div>
         <form >
-          <Prompt when={matr_nrValidationFailed == true || student === '' }
-         ></Prompt>
+          {/* <Prompt when={matr_nrValidationFailed == true || student === '' }
+         ></Prompt> */}
 
               <TextField 
                 autoFocus type='text'
@@ -118,9 +107,8 @@ class SelectStudent extends React.Component {
               />
               <Link onAbort to={{
                 pathname: "/StudentView",
-                state: { student: student }
-                
-                }}style={{ textDecoration: 'none' }}>
+                state: { student: student, adminStudent: true }
+                }}>
                 <Button
                   type="submit"
                   variant="contained"

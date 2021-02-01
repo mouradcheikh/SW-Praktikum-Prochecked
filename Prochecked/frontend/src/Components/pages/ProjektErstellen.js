@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProjektFormular(props) {
   
+  console.log(props)
 
   const classes = useStyles();
   const [ProjektArt, setProjektArt] = React.useState();
@@ -53,6 +54,7 @@ function ProjektFormular(props) {
   const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
+  const [person, setPerson] = React.useState('');
 
   console.log(props)
 
@@ -88,7 +90,7 @@ function ProjektFormular(props) {
     project.setProjectType(ProjektArt.getID())
     project.setCapacity(Kapazität)
     project.setShortDescription(Inhalt)
-    let dozent = props.location.state.linkState
+    let dozent = person
     project.setDozent(dozent.id)
     project.setRoom(Raum)
     project.setWeeklyFlag(WT)
@@ -108,26 +110,26 @@ function ProjektFormular(props) {
 
     console.log(project)
 
-    var api = AppApi.getAPI()
-        // console.log(api)
+    // var api = AppApi.getAPI()
+    //     // console.log(api)
 
-        !edit?
-        api.createProject(project).then((project) =>
-            {console.log(project)
-            }
-            )
-        :
-        project.setID(props.location.state.project.id)
+    //     !edit?
+    //     api.createProject(project).then((project) =>
+    //         {console.log(project)
+    //         }
+    //         )
+    //     :
+    //     project.setID(props.location.state.project.id)
 
-        api.updateProject(project).then((project) =>
-            {console.log(project)
-            }
-            )
+    //     api.updateProject(project).then((project) =>
+    //         {console.log(project)
+    //         }
+    //         )
 
     history.push({
       pathname: '/DozentView',
       state: {  
-        person: props.location.state.linkState, 
+        person: person, 
       },
     }); 
   }
@@ -159,6 +161,7 @@ function ProjectTypeList(){
 useEffect(() => {
   SemesterList();
   ProjectTypeList()
+  setPerson(props.location.state.linkState)
 }, []);
 
 
@@ -208,6 +211,7 @@ useEffect(() => {
                 value={Semester}
                 onChange={handleSemester} 
                 onOpen={SemesterList}
+                required
               >
               {
               Semesters.map((semester) => <MenuItem value = {semester}> {semester.getName()} </MenuItem>)
@@ -232,7 +236,7 @@ useEffect(() => {
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
             label="Titel des Projekts" 
-            variant="outlined"
+            variant="standard"
             value={Titel}
             onInput={e=>setProjektTitel(e.target.value)}
             />
@@ -242,7 +246,7 @@ useEffect(() => {
             id="maxTeilnehmer"
             label="Kapazität (max. Teilnehmerzahl)"
             type="number" 
-            variant="outlined" 
+            variant="standard" 
             value={Kapazität}
             onInput={e=>setKapazität(e.target.value)}
             />
@@ -265,7 +269,8 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                       id="ext. Koop."
                       label="externe Kooperationspartner"
-                      variant="outlined"
+                      variant="standard"
+                      
                       value={extKoop}
                       onInput={e=>setextKoop(e.target.value)}
                       />
@@ -275,7 +280,7 @@ useEffect(() => {
                     label="Inhalt (Kurzbeschreibung):"
                     multiline
                     rows={6} 
-                    variant="outlined" 
+                    variant="standard" 
                     value={Inhalt}
                     onInput={e=>setInhalt(e.target.value)}
                     />
@@ -292,7 +297,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT vor der VZ"
                     label="Blocktage vor Beginn der Vorlesungszeit "
-                    variant="outlined" 
+                    variant="standard" 
                     type="number"
                     value={BTvorVZ}
                     onInput={e=>setBTvorVZ(e.target.value)}
@@ -301,7 +306,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT in der PZ"
                     label="Blocktage in der Prüfungszeit (nur inter-/tans. Projekte)"
-                    variant="outlined"
+                    variant="standard"
                     type="number" 
                     value={BTinPZ}
                     onInput={e=>setBTinPZ(e.target.value)}
@@ -311,7 +316,7 @@ useEffect(() => {
                     <TextField className={classes.formControl}
                     id="BTSamstag"
                     label="Blocktage (Samstag) in der Vorlesungszeit"
-                    variant="outlined"
+                    variant="standard"
                     type="number" 
                     value={BTinVZ}
                     onInput={e=>setBTinVZ(e.target.value)}
@@ -322,7 +327,7 @@ useEffect(() => {
                     id="Blocktage"
                     label="präferierte Blocktage"
                     type="date" 
-                    variant="outlined" 
+                    variant="standard" 
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -332,7 +337,7 @@ useEffect(() => {
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
                     label="besonderer Raum (falls notwendig)"
-                    variant="outlined" 
+                    variant="standard" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}
                     />
