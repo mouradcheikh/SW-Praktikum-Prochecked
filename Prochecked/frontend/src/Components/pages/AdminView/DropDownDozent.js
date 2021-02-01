@@ -16,6 +16,10 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
 import {Link, useHistory, Prompt} from 'react-router-dom';
 
+/**
+ * Zeigt die Seite um den entsprechenden Dozenten via DropDown in der AdminView auszuwählen.
+ * Nach Auswahl des entsprechenden Dozenten wird man auf seine View weitergeleitet.
+ */
 
 class DropDownDozent extends React.Component {
     constructor(props) {

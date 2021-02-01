@@ -9,6 +9,10 @@ import SemesterBO from '../../../AppApi/SemesterBO';
 import AddIcon from '@material-ui/icons/Add';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+/**
+ * Zeigt die Seite um Semester zu erstellen.
+ * Es können Semester erstellt, editiert und gelöscht werden.
+ */
 
 class CreateSemester extends React.Component {
     constructor(props) {
@@ -261,10 +265,10 @@ class CreateSemester extends React.Component {
                
                <ListItem>
                   {s.name}
-                <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+                <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
                 

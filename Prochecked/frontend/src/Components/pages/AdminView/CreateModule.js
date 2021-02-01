@@ -7,9 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import ModuleBO from '../../../AppApi/ModuleBO';
-
-
 import { Alert, AlertTitle } from '@material-ui/lab';
+
+/**
+ * Zeigt die Seite um Module zu erstellen.
+ * Es können Module erstellt, editiert und gelöscht werden.
+ */
 
 class CreateModule extends React.Component {
     constructor(props) {
@@ -238,11 +241,11 @@ class CreateModule extends React.Component {
            <div>
              {moduleList.map(m => <ListItem>
               Modul: {m.name}  {m.edv_nr}
-             <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
+             <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
 
-              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+              <Button style ={{color: "gray"}}color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
                 edit
                 </Button>
              
