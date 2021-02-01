@@ -17,7 +17,7 @@ class Mapper():#AbstractContextManager, ABC
             Hierbei handelt es sich also um die Verbindung zwischen Google App Engine und Cloud SQL."""
 
             self._cnx = connector.connect(user='demo', password='demo',
-                                          unix_socket='',
+                                          unix_socket='/cloudsql/prochecked:europe-west3:prochecked-db',
                                           database='prochecked')
         else:
             """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,

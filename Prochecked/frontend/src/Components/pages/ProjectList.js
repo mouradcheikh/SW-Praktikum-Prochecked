@@ -30,12 +30,19 @@ class ProjectList extends Component {
       expandedID = this.props.location.expandProject.getID();
     }
 
-    // let adminProf = null;
 
-    // if (this.props.location.state.adminProf) {
-    //   adminProf = this.props.location.state.adminProf
-    //   console.log(adminProf)
-    // }
+    let person = '';
+    let adminProf = ''
+
+    if (this.props.location.state !== undefined){
+
+    if (this.props.location.state.linkState){
+      person = this.props.location.state.linkState
+    }
+    if (this.props.location.state.adminProf){
+      adminProf = this.props.location.state.adminProf
+    }}
+    
 
 
    
@@ -55,9 +62,13 @@ class ProjectList extends Component {
       expandedProjectID: expandedID,
       showProjectForm: false, //evtl.nicht 
       
-      adminProf:  this.props.location.state.adminProf, 
-      person: this.props.location.state.linkState   
+      // adminProf:  this.props.location.state.adminProf, 
+      // person: this.props.location.state.linkState 
+      adminProf:  adminProf, 
+      person: person 
+    
     };
+    console.log(this.state, this.props)
   }
 
   
@@ -119,7 +130,7 @@ class ProjectList extends Component {
 
    /** Fetches all ProjectBOs from the backend */
    getProjectsByDozentInReview = (person_id) => {
-     console.log(person_id)
+    //  console.log(person_id)
     // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByDozentInReview(person_id) //evtl. Objekt von API vorher anlegen
@@ -172,6 +183,14 @@ class ProjectList extends Component {
     }
  
 
+  updateComponent = () => {
+      this.getProjectsByDozentAccepted(this.state.person.id)
+      this.getProjectsByDozentInReview(this.state.person.id)
+      this.getProjectsByDozentNew(this.state.person.id)
+      this.getProjectsByDozentReviewed(this.state.person.id)
+    }
+  
+    
   /**
    * Handles onExpandedStateChange events from the ProjectListEntry component. Toggels the expanded state of
    * the ProjectListEntry of the given ProjectBO.
@@ -217,8 +236,10 @@ class ProjectList extends Component {
   }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    let adminProf = this.props.location.state.adminProf
-    let person = this.props.location.state.linkState  
+    // let adminProf = this.props.location.state.adminProf
+    // let person = this.props.location.state.linkState  
+    let adminProf =this.state.adminProf;
+    let person = this.state.person
     if (person === undefined){
       this.getProjectsByDozentNew(adminProf.id);
       this.getProjectsByDozentAccepted(adminProf.id);
@@ -226,8 +247,9 @@ class ProjectList extends Component {
       this.getProjectsByDozentReviewed(adminProf.id);
     }
     else{
-    // console.log("gerendert")
+    console.log("else")
     let person = this.props.location.state.linkState
+    console.log(person)
     this.setState({
       person: person
     })
@@ -242,37 +264,37 @@ class ProjectList extends Component {
   render() {
     const { classes, } = this.props;
     const { adminProf, person, newProjects, filteredProjects, projectsInReview, projectsReviewed, projectFilter, expandedProjectID, loadingInProgress, error} = this.state;
-
+    console.log(this.state, this.props)
     return (
-      <div>
       <div className={classes.root}>
-        <h1>Pflegen Sie Ihre Projekte und bewerten Sie die Teilnehmer:</h1>
-        <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
-          <Grid item>
-            <Typography>
-              Projektfilter:
-              </Typography>
+        <div >
+          <h1>Pflegen Sie Ihre Projekte und bewerten Sie die Teilnehmer:</h1>
+          <Grid className={classes.projectFilter} container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item>
+              <Typography>
+                Projektfilter:
+                </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                autoFocus
+                fullWidth
+                id='projectFilter'
+                type='text'
+                value={projectFilter}
+                onChange={this.filterFieldValueChange}
+                InputProps={{
+                  endAdornment: <InputAdornment position='end'>
+                    <IconButton onClick={this.clearFilterFieldButtonClicked}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>,
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='projectFilter'
-              type='text'
-              value={projectFilter}
-              onChange={this.filterFieldValueChange}
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>
-                  <IconButton onClick={this.clearFilterFieldButtonClicked}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>,
-              }}
-            />
-          </Grid>
-        </Grid>
 
-      </div>
+        </div>
 
       <div>
 
@@ -289,10 +311,7 @@ class ProjectList extends Component {
               onProjectDeleted={this.projectDeleted}
               onExpandedStateChange={this.onExpandedStateChange}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         
@@ -308,10 +327,7 @@ class ProjectList extends Component {
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -327,38 +343,36 @@ class ProjectList extends Component {
               onExpandedStateChange={this.onExpandedStateChange}
               onProjectDeleted={this.projectDeleted}
               person ={person} adminProf ={adminProf}
-              getProjectsByDozentNew = {this.getProjectsByDozentNew}
-              getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-              getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-              getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+              updateComponent = {this.updateComponent}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
         {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-      </div>
       
-      <div>
+      
+      
         <h2> Bewertete Projekte</h2>
           {
             // Show the list of ProjectListEntry components
             // Do not use strict comparison, since expandedProjectID maybe a string if given from the URL parameters
             projectsReviewed.map(project =>
-              <ProjectListEntry key={project.getID()} project={project} expandedState={expandedProjectID === project.getID()}
-                onExpandedStateChange={this.onExpandedStateChange}
+              <ProjectListEntry 
+                key={project.getID()}
+                project={project}
+                expandedState={expandedProjectID === project.getID()}
+                // projectsFromEntry={this.projectsFromEntry}
                 onProjectDeleted={this.projectDeleted}
+                onExpandedStateChange={this.onExpandedStateChange}
                 person ={person} adminProf ={adminProf}
-                getProjectsByDozentNew = {this.getProjectsByDozentNew}
-                getProjectsByDozentInReview = {this.getProjectsByDozentInReview}
-                getProjectsByDozentReviewed = {this.getProjectsByDozentReviewed}
-                getProjectsByDozentAccepted = {this.getProjectsByDozentAccepted}
+                updateComponent = {this.updateComponent}
               />)
           }
           <LoadingProgress show={loadingInProgress} />
-          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentReviewed} />
-          {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
-          
-      </div>
+          <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
+
+            
+        </div>
 
       </div>
     );
@@ -369,6 +383,7 @@ class ProjectList extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   projectFilter: {
     marginTop: theme.spacing(2),

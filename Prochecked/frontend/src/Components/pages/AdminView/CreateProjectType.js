@@ -18,6 +18,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import ProjectTypeBO from "../../../AppApi/ProjectTypeBO";
 
 
+/**
+ * Zeigt die Seite um einen Projekttyp zu erstellen.
+ * Es können Projekttypen erstellt, editiert und gelöscht werden.
+ */
+
 class CreateProjectType extends React.Component {
   constructor(props) {
     super(props);
@@ -144,9 +149,9 @@ class CreateProjectType extends React.Component {
     console.log(this.state)
     return (
       <div>
-        <Grid container spacing={3}>
+        <Grid className={classes.root} container spacing={3}>
           <Grid item xs={6}>
-            <h1>Neue Projektart eingetragen: </h1>
+            <h1>Neue Projektart eingetragen</h1>
             <Paper className={classes.paper}>
               <form onSubmit={this.handleSubmit}>
                 <TextField
@@ -213,13 +218,13 @@ class CreateProjectType extends React.Component {
                   }
                 />
                 <Button
-                  type="submit"
-                  className={classes.buttonMargin}
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                >
-                  Eintragen
+                      type = "submit"
+                      variant="contained"
+                      color="default"
+                      size="medium"
+                      className={classes.marginbutton}
+                      startIcon={<SaveIcon />}>                
+                      Projektart anlegen
                 </Button>
                 <Grid>
                 { editButton? 
@@ -246,12 +251,13 @@ class CreateProjectType extends React.Component {
                     {t.name }
 
                     <IconButton
+                    style ={{color: "gray"}}
                       aria-label="delete"
                       onClick={() => this.deleteProjectType(t)}
                     >
-                      <DeleteIcon />
+                      <DeleteIcon  />
                     </IconButton>
-                    <Button color='primary' onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                    <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                     </Button>
                   </ListItem>
@@ -267,6 +273,7 @@ class CreateProjectType extends React.Component {
 
 const styles = (theme) => ({
   root: {
+    height: 650,
     width: "100%",
   },
   buttonMargin: {

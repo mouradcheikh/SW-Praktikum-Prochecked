@@ -40,6 +40,7 @@ function StudentLogin(props) {
     const [student, setStudent] = React.useState(null);
     const history = useHistory()
 
+    console.log("StudentLogin",props)
 
 
 
@@ -64,6 +65,7 @@ function StudentLogin(props) {
             pathname: '/StudentView',
             state: {
                 student: student,
+                person: props.location.state.person
             },
         });  
 
@@ -104,7 +106,7 @@ function StudentLogin(props) {
 
                         >
                             Speichern
-                </Button>
+                        </Button>
                         
                     </div>
                 </form>

@@ -43,7 +43,7 @@ class GradeList extends Component {
 
   /** Fetches ProjectBOsbyState from the backend */
   getProjectsByState = (state) => {
-    console.log(this.props.location.state.person)
+    // console.log(this.props.location.state.person)
     var api = AppAPI.getAPI()
     api.getProjectsByState(state) 
       .then((projectBOs) => {
@@ -137,8 +137,8 @@ class GradeList extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     this.setState({
-        person: this.props.location.state.person
-    }, () => {this.getProjectsByState(5)})
+        person: this.props.location.state.linkState
+    }, () => {console.log(this.state.person); this.getProjectsByState(5)})
     this.semesterList()
   }
 
@@ -196,6 +196,7 @@ class GradeList extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   projectFilter: {
     marginTop: theme.spacing(2),

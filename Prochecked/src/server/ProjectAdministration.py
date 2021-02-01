@@ -171,12 +171,12 @@ class ProjectAdministration (object):
     def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             stud = mapper.find_by_id(id)
-            print("Student", stud) 
+            print("Student_by_id", stud) 
 
         with PersonMapper() as mapper:
 
             pers = mapper.find_by_id(stud.get_person())
-            print("Person:", pers)
+            print("Person:by_student_id:", pers)
 
         stud.set_name(pers.get_name())
         stud.set_google_id(pers.get_google_id())
@@ -464,8 +464,8 @@ class ProjectAdministration (object):
     def delete_participation(self, participation):
         """Eine Participation löschen"""
         adm = ProjectAdministration()
-        print("adm:",participation)
-        if participation.get_grading() is not None:
+        print("adm:",participation, participation.get_grading())
+        if participation.get_grading() != 0 and participation.get_grading() is not None:
             gra = adm.get_grading_by_id(participation.get_grading())
             adm.delete_grading(gra)
             with ParticipationMapper() as mapper:

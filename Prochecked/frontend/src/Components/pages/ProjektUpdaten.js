@@ -7,7 +7,6 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -30,12 +29,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ProjektFormular(props) {
+function ProjektFormularUpdate(props) {
   
-  console.log(props)
 
   const classes = useStyles();
-  const [ProjektArt, setProjektArt] = React.useState();
+  const [ProjektArt, setProjektArt] = React.useState('');
   const [ProjectTypes, setProjectTypes] = React.useState([]);
   const [Professor, setProfessor] = React.useState(null);
   const [Titel, setProjektTitel] = React.useState('');
@@ -54,9 +52,9 @@ function ProjektFormular(props) {
   const [BT, setBT] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
-  const [person, setPerson] = React.useState('');
 
   console.log(props)
+  console.log(ProjectTypes.default)
 
   // if(props.location.state.editButton !==undefined){
   //   // setEdit(props.location.state.editButton)
@@ -86,50 +84,78 @@ function ProjektFormular(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const project = new ProjectBO(Titel)
-    project.setProjectType(ProjektArt.getID())
-    project.setCapacity(Kapazität)
-    project.setShortDescription(Inhalt)
-    let dozent = person
-    project.setDozent(dozent.id)
-    project.setRoom(Raum)
-    project.setWeeklyFlag(WT)
-    project.setNumberBdBLecturetime(BTvorVZ)
-    project.setNumberBdLecturetime(BTinVZ)
-    project.setNumberBdExamtime(BTinPZ)
-    project.setSpecialRoom(BesondererRaum)
-    // project.setDozent(Professor)
-    project.setProjectState(1)
-    project.setExtPartnerList(extKoop)
-    project.setSemester(Semester.id)
-    project.setprefferedbd(BT)
 
-    if (Professor != null){
+    // const project = new ProjectBO(Titel)
+    const project = props.location.state.project
+
+
+
+  if (Titel !== '' ){
+      project.setName(Titel)
+    }
+
+  if (ProjektArt !== '' ){
+      project.setProjectType(ProjektArt.getID())
+    }
+
+  if (Kapazität !== ''){
+    project.setCapacity(Kapazität)
+  }
+
+  if (Inhalt !== ''){
+    project.setShortDescription(Inhalt)
+  }
+ 
+  if (Raum !== ''){
+    project.setRoom(Raum)
+  }
+
+  if (WT !== 'Ja'){
+    project.setWeeklyFlag(WT)
+  }
+  if (BTvorVZ !== '0'){
+    project.setNumberBdBLecturetime(BTvorVZ)
+  }
+  if (BTinPZ !== '0'){
+    project.setNumberBdLecturetime(BTinPZ)
+  }
+  if (BTinVZ !== '0'){
+    project.setNumberBdExamtime(BTinVZ)
+  }
+  if (BesondererRaum !== ''){
+    project.setSpecialRoom(BesondererRaum)
+  }
+  if (extKoop !== ''){
+    project.setExtPartnerList(extKoop)
+  }
+  if (Semester !== ''){
+    project.setSemester(Semester.id)
+  }
+  if (BT !== null){
+    project.setprefferedbd(BT)
+  }
+  if (Professor != null){
       project.setDozent2(Professor.id)
     }
+  
+
+      
 
     console.log(project)
 
-    // var api = AppApi.getAPI()
-    //     // console.log(api)
+    var api = AppApi.getAPI()
+        // console.log(api)
 
-    //     !edit?
-    //     api.createProject(project).then((project) =>
-    //         {console.log(project)
-    //         }
-    //         )
-    //     :
-    //     project.setID(props.location.state.project.id)
-
-    //     api.updateProject(project).then((project) =>
-    //         {console.log(project)
-    //         }
-    //         )
+        api.updateProject(project).then((project) =>
+            {
+              // console.log(project)
+            }
+            )
 
     history.push({
       pathname: '/DozentView',
       state: {  
-        person: person, 
+        person: props.location.state.linkState, 
       },
     }); 
   }
@@ -161,7 +187,6 @@ function ProjectTypeList(){
 useEffect(() => {
   SemesterList();
   ProjectTypeList()
-  setPerson(props.location.state.linkState)
 }, []);
 
 
@@ -211,7 +236,6 @@ useEffect(() => {
                 value={Semester}
                 onChange={handleSemester} 
                 onOpen={SemesterList}
-                required
               >
               {
               Semesters.map((semester) => <MenuItem value = {semester}> {semester.getName()} </MenuItem>)
@@ -236,7 +260,7 @@ useEffect(() => {
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
             label="Titel des Projekts" 
-            variant="standard"
+            variant="outlined"
             value={Titel}
             onInput={e=>setProjektTitel(e.target.value)}
             />
@@ -246,7 +270,7 @@ useEffect(() => {
             id="maxTeilnehmer"
             label="Kapazität (max. Teilnehmerzahl)"
             type="number" 
-            variant="standard" 
+            variant="outlined" 
             value={Kapazität}
             onInput={e=>setKapazität(e.target.value)}
             />
@@ -269,8 +293,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                       id="ext. Koop."
                       label="externe Kooperationspartner"
-                      variant="standard"
-                      
+                      variant="outlined"
                       value={extKoop}
                       onInput={e=>setextKoop(e.target.value)}
                       />
@@ -280,7 +303,7 @@ useEffect(() => {
                     label="Inhalt (Kurzbeschreibung):"
                     multiline
                     rows={6} 
-                    variant="standard" 
+                    variant="outlined" 
                     value={Inhalt}
                     onInput={e=>setInhalt(e.target.value)}
                     />
@@ -297,7 +320,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT vor der VZ"
                     label="Blocktage vor Beginn der Vorlesungszeit "
-                    variant="standard" 
+                    variant="outlined" 
                     type="number"
                     value={BTvorVZ}
                     onInput={e=>setBTvorVZ(e.target.value)}
@@ -306,7 +329,7 @@ useEffect(() => {
               <div><TextField className={classes.formControl}
                     id="BT in der PZ"
                     label="Blocktage in der Prüfungszeit (nur inter-/tans. Projekte)"
-                    variant="standard"
+                    variant="outlined"
                     type="number" 
                     value={BTinPZ}
                     onInput={e=>setBTinPZ(e.target.value)}
@@ -316,7 +339,7 @@ useEffect(() => {
                     <TextField className={classes.formControl}
                     id="BTSamstag"
                     label="Blocktage (Samstag) in der Vorlesungszeit"
-                    variant="standard"
+                    variant="outlined"
                     type="number" 
                     value={BTinVZ}
                     onInput={e=>setBTinVZ(e.target.value)}
@@ -327,7 +350,7 @@ useEffect(() => {
                     id="Blocktage"
                     label="präferierte Blocktage"
                     type="date" 
-                    variant="standard" 
+                    variant="outlined" 
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -337,7 +360,7 @@ useEffect(() => {
                <div><TextField className={classes.formControl}
                     id="BesondererRaum"
                     label="besonderer Raum (falls notwendig)"
-                    variant="standard" 
+                    variant="outlined" 
                     value={BesondererRaum}
                     onInput={e=>setBesondererRaum(e.target.value)}
                     />
@@ -363,4 +386,4 @@ useEffect(() => {
   );
 }
 
-export default ProjektFormular;
+export default ProjektFormularUpdate;

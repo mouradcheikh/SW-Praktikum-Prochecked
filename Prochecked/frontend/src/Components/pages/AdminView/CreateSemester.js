@@ -9,6 +9,10 @@ import SemesterBO from '../../../AppApi/SemesterBO';
 import AddIcon from '@material-ui/icons/Add';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+/**
+ * Zeigt die Seite um Semester zu erstellen.
+ * Es können Semester erstellt, editiert und gelöscht werden.
+ */
 
 class CreateSemester extends React.Component {
     constructor(props) {
@@ -33,7 +37,7 @@ class CreateSemester extends React.Component {
     // console.log(api) 
     api.createSemester(semester).then((semester) =>
         {
-        console.log(semester)
+        // console.log(semester)
         this.setState({
             semester: semester
         },
@@ -199,7 +203,7 @@ class CreateSemester extends React.Component {
         const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField, alert} = this.state; 
   return( 
     <div>
-      <Grid container spacing={3}>
+      <Grid className={classes.root} container spacing={3}>
             <Grid item xs={6}>
             <h1>Neues Semester eintragen</h1>
             <Paper margin = "normal" className={classes.paper}>
@@ -219,14 +223,14 @@ class CreateSemester extends React.Component {
                   helperText={semesterValidationFailed ? 'Bitte geben Sie ein Semester ein (z.B. WS-20/21)' : success ===true ? 'Semester erfolgreich eingetragen!' :''} 
                   />
                 
-                <Button 
-                  type = "submit" 
-                  variant='contained' 
-                  color='primary' 
-                  size='small'
-                  startIcon = {< AddIcon/>}
-                >
-                Eintragen
+                <Button
+                      type = "submit"
+                      variant="contained"
+                      color="default"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<SaveIcon />}>                
+                Semester anlegen
                 </Button>
                 
                 
@@ -246,7 +250,7 @@ class CreateSemester extends React.Component {
               </form>
             </Paper>
             {alert ? 
-                <Alert variant="outlined" severity="warning">
+                <Alert color='warning' variant="contained" severity="warning">
                 Es können keine Semester gelöscht werden, welche in einem Projekt als Semester eingetragen sind!
                 </Alert> :
                 <div></div>
@@ -261,10 +265,10 @@ class CreateSemester extends React.Component {
                
                <ListItem>
                   {s.name}
-                <IconButton aria-label="delete" onClick={() => this.deleteSemester(s)}>
+                <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button color='primary' onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
                 
@@ -314,6 +318,7 @@ class CreateSemester extends React.Component {
 /** Component specific styles */
 const styles = theme => ({
     root: {
+      height: 650,
       width: '100%'
     }, 
     buttonMargin: {

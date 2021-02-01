@@ -7,9 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import ModuleBO from '../../../AppApi/ModuleBO';
-
-
 import { Alert, AlertTitle } from '@material-ui/lab';
+
+/**
+ * Zeigt die Seite um Module zu erstellen.
+ * Es können Module erstellt, editiert und gelöscht werden.
+ */
 
 class CreateModule extends React.Component {
     constructor(props) {
@@ -88,7 +91,7 @@ class CreateModule extends React.Component {
   updateModule = () => {
     let updatedModule = Object.assign(new ModuleBO(), this.state.updateM);
     updatedModule.setName(this.state.module)
-    updatedModule.setedv(this.state.module)
+    updatedModule.setedv(this.state.edv_nr)
     console.log(updatedModule)
     
     AppApi.getAPI().updateModule(updatedModule).then(module => {
@@ -135,6 +138,7 @@ class CreateModule extends React.Component {
             })
             }
           else {
+            console.log(this.state)
               this.updateModule(this.state.module, this.state.edv_nr)
               this.setState({
                 success : true,
@@ -166,20 +170,20 @@ class CreateModule extends React.Component {
         return (
 
         <div>
-     <Grid container spacing={3}>
+     <Grid className={classes.root} container spacing={3}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
                 <h1>Neues Modul eintragen</h1>
               </div>
               <div>
-                  <form className={classes.root}  onSubmit= {this.handleSubmit}>
+                  <form   onSubmit= {this.handleSubmit}>
                     <Grid container>
                     <Grid xs="4" item>
-                    <TextField id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
+                    <TextField color='primary' id="outlined-basic" label="Modul" variant="outlined" name='module' required onChange={this.handleChange}  />  
                     </Grid>
                     <Grid xs="4" item>
-                    <TextField id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
+                    <TextField color='primary' id="outlined-basic" label="EDV-Nummer" variant="outlined" name='edv_nr' required onChange={this.handleChange}  />
                     </Grid>
                     <Grid xs="4" item>
                     <Button
@@ -192,7 +196,21 @@ class CreateModule extends React.Component {
                           Modul anlegen
                     </Button>
                     </Grid>
-                { editButton? 
+                    <Grid xs="4" item>
+                    { editButton? 
+                  <Button 
+                    type = "submit"
+                    variant="contained"
+                    color="default"
+                    size="large"
+                    className={classes.buttonMargin}
+                    startIcon={<SaveIcon />}>                
+                    überschreiben
+                  </Button>
+                :<div></div> }
+                    </Grid>
+                
+                {/* { editButton? 
                   <Button 
                     type = "submit"
                     variant="contained"
@@ -202,31 +220,32 @@ class CreateModule extends React.Component {
                     startIcon={<SaveIcon />}>                
                     überschreiben
                   </Button>
-                :<div></div> }
+                :<div></div> } */}
+                
                 </Grid>
                     
                   </form>
               </div>
             </Paper>
             {alert ? 
-                <Alert variant="outlined" severity="warning">
+                <Alert variant="contained" severity="warning">
                 Es können keine Module gelöscht werden, welche in einem Projekt als Modul eingetragen sind!
                 </Alert> :
                 <div></div>
                 }
           </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={12}>
             <h1>Bestehende Module</h1>
            <Paper className={classes.paper}>
            <div>
              {moduleList.map(m => <ListItem>
               Modul: {m.name}  {m.edv_nr}
-             <IconButton aria-label="delete" onClick={() => this.deleteModule(m)}>
+             <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
 
-              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+              <Button style ={{color: "gray"}}color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
                 edit
                 </Button>
              
@@ -244,6 +263,7 @@ class CreateModule extends React.Component {
 /** Component specific styles */
 const styles = theme => ({
     root: {
+      height: 650,
       width: '100%'
     }, 
     buttonMargin: {

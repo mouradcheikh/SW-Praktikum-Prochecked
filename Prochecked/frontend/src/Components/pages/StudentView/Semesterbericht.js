@@ -108,6 +108,9 @@ class Semesterbericht extends Component {
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     let person = this.props.location.state.student
+    this.setState({
+      student: this.props.location.state.student
+    })
     this.getProjectsByStudent(person.matr_nr)
     // Im backend wird dann zuerst die id des studenten objekts rausgefunden mithilfe der matrikelnummer, dann mit der id die participations rausgeholt und dann mit der projekt id in den participations die projekte hochgeholt
   }
@@ -138,7 +141,7 @@ class Semesterbericht extends Component {
         {
           // Show the list of SemesterListEntry components
           this.state.filteredProjects.map((project) =>
-            <SemesterberichtEntry project_id={project.id} project={project} student={this.props.location.state.student}
+            <SemesterberichtEntry project_id={project.id} project={project} student={this.state.student}
             />)
         }
         <LoadingProgress show={loadingInProgress} />
@@ -152,6 +155,7 @@ class Semesterbericht extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   projectFilter: {
     marginTop: theme.spacing(2),

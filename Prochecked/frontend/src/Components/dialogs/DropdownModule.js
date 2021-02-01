@@ -72,10 +72,10 @@ class ModuleForm extends Component {
         let updatedProject = Object.assign(new ProjectBO(), this.props.project);
         
         // set the new attributes from our dialog
-        console.log(this.state.module)
+        // console.log(this.state.module)
         updatedProject.setModule(this.state.module.id);
         this.updateModuleOfProject(updatedProject)
-        console.log(updatedProject)
+        // console.log(updatedProject)
 
         AppApi.getAPI().updateProject(updatedProject).then(project => {
             this.setState({
@@ -108,14 +108,14 @@ class ModuleForm extends Component {
 
     handleModule = (event) => {
         event.preventDefault();
-        console.log(event.target.value)
+        // console.log(event.target.value)
         this.setState({
             module: event.target.value
         })
     }
 
     getModuleList(){
-        console.log("getmodulelist")
+        // console.log("getmodulelist")
         var api = AppApi.getAPI()
         api.getAllModules().then(modules => 
             this.setState({
@@ -156,12 +156,12 @@ class ModuleForm extends Component {
     updateProjects = () => {
         this.handleClose()
         this.props.updateProject(3)
-        console.log('aktualisiert alle akzeptierten projekte')
+        // console.log('aktualisiert alle akzeptierten projekte')
     }
 
     updateModuleOfProject = (project) => {
         this.props.updateModuleOfProject(project)
-        console.log("updated das modul der elternkomponente")
+        // console.log("updated das modul der elternkomponente")
     }
 
     componentDidMount(){

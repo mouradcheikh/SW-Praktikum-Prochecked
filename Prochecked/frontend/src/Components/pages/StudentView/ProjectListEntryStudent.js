@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
-import { Button,ButtonGroup } from '@material-ui/core';
+import { Button,ButtonGroup, Box } from '@material-ui/core';
 import  {AppApi, ParticipationBO}  from '../../../AppApi';
 import {ProjectBO} from '../../../AppApi';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import List from '@material-ui/core/List';
@@ -36,12 +37,15 @@ class ProjectListEntryNew extends Component {
       participation: null,
       participations: [],
       participatonsCounter: 0,
+      loadingInProgress: false,
+      deletingInProgress: false
     };
   }
 
 
   updateParent = () => {
-    this.props.getProjects()
+    this.props.getProjects(this.props.student.matr_nr)
+    this.props.getProjectsByStateAccepted()
   }
 
 
@@ -61,7 +65,7 @@ class ProjectListEntryNew extends Component {
         participation: participationBO,
         loadingInProgress: false, // loading indicator 
         addingParticipationError: null
-      }, ()=> this.updateParent())
+      }, ()=> {this.updateParent(); this.getParticipationsByProject()})
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         participation: null,
@@ -85,7 +89,7 @@ class ProjectListEntryNew extends Component {
 /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
   // console.log("vor fetch")
-
+    console.log("partbyproject")
     var api = AppApi.getAPI()
     api.getParticipationsByProject(this.state.project.getID())
       .then(participationBOs => 
@@ -95,7 +99,7 @@ class ProjectListEntryNew extends Component {
           loadingInProgress: false,   // disable loading indicator
           error: null,
 
-        }, () => { this.countParticipations(); this.identPar()}
+        }, () => { console.log("nach state");this.countParticipations(); this.identPar()}
         
         )).catch(e =>
           this.setState({             // Reset state with error from catch
@@ -123,7 +127,7 @@ class ProjectListEntryNew extends Component {
       this.setState({  // Set new state when ParticipationBOs have been fetched
         deletingInProgress: false, // loading indicator 
         deletingError: null
-      }, () => this.updateParent())
+      }, () => {this.updateParent(); this.getParticipationsByProject()})
       // console.log(participation);
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
@@ -139,14 +143,23 @@ class ProjectListEntryNew extends Component {
   }
 
   identPar(){ //identifiziert die Teilnahme des angemeldetetn studenten innerhalb der particiationListe(state) und setzt sie in das eigene state
-    this.state.participations.map(par =>  { console.log(par)
-      if(par.student_id === this.props.student.id){
-        this.setState({
-          participation: par,
-        })
+    console.log(this.state.participations)
+    if(this.state.participations.length === 0){
+      console.log("else keine par")
+      this.setState({
+        participation: null,
+      })
     }
-  }) 
-}
+    else{
+      this.state.participations.forEach((par) =>  { console.log("ident", par)
+        if(par.student_id === this.props.student.id){
+          console.log("if")
+          this.setState({
+            participation: par,
+          })
+        }
+      })}
+    }
 
   countParticipations(){ //zählt die Teilnahmen und subtrahiert das Ergebnis mit der Kapazität des Projekts
     let capacity = this.state.project.capacity
@@ -160,15 +173,20 @@ class ProjectListEntryNew extends Component {
   componentDidMount() {
     // console.log("gerendert")
     this.getParticipationsByProject();
-    
-  
+    console.log("Entry did miunt")
   }
+
+  componentDidUpdate(){
+    console.log("entryupdate")
+  }
+
   /** Renders the component */
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, showProjectForm, showProjectDeleteDialog, participations, participationsCounter, participation } = this.state;
+    const { project, showProjectForm, showProjectDeleteDialog, participations, participationsCounter, participation, loadingInProgress, deletingInProgress} = this.state;
 
+    console.log(this.state)
     // console.log(this.state);
     // console.log(participation)
     return (
@@ -183,26 +201,46 @@ class ProjectListEntryNew extends Component {
           >
             
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
-              <Grid item xs={7}>
-                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
-                </Typography>
-                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
-                </Typography>
-                <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
-                </Typography>
+              <Grid item xs={8}>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Projekt:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" " + project.getName()} 
+              </Box>
+              </Typography>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Beschreibung:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" "+ project.getShortDescription()} 
+              </Box>
+              </Typography>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Verfügbare Plätze:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" "+ participationsCounter + "/" + project.capacity} 
+              </Box>
+              </Typography>
               </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4}>
                 <Button variant="contained"
                           color="secondary"
                           className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
-                          variant='outlined' color='primary' size='small' onClick={this.deleteParticipation}>
+                          size='small' onClick={this.deleteParticipation}>
                   Abmelden
                 </Button>
 
               
               </Grid>
+              <LoadingProgress show={deletingInProgress} />
             </Grid>
+            
           </AccordionSummary>
          {/* <AccordionDetails> 
           </AccordionDetails> */}
@@ -219,18 +257,35 @@ class ProjectListEntryNew extends Component {
           id={`project${project.getID()}accountpanel-header`}
         >
           
-          <Grid container wrap="nowrap" spacing={1} justify='flex-start' alignItems='center'>
-            <Grid item zeroMinWidth xs={7}>
-              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
+          <Grid container spacing={1} justify='flex-start' alignItems='center'>
+            <Grid item xs={8}>
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Projekt:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" " + project.getName()} 
+              </Box>
               </Typography>
-              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Beschreibung:"+ " "+ project.getShortDescription()} 
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Beschreibung:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" "+ project.getShortDescription()} 
+              </Box>
               </Typography>
-              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Verfügbare Plätze:"+ " "+ participationsCounter + "/" + project.capacity} 
+              <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>
+              <Box fontWeight="fontWeightBold">
+              Verfügbare Plätze:
+              </Box>
+              <Box fontWeight="fontWeightLight">
+              {" "+ participationsCounter + "/" + project.capacity} 
+              </Box>
               </Typography>
             </Grid>
-            <Grid item zeroMinWidth xs={5}>
-              <Button                
-                        color="secondary"
+            <Grid item xs={4}>
+              <Button   
                         className={classes.buttonFreigeben}
                         startIcon={<CheckIcon/>}
                         variant="contained" color='primary' size='small'  onClick={this.addParticipation}>
@@ -239,7 +294,9 @@ class ProjectListEntryNew extends Component {
 
             
             </Grid>
+            <LoadingProgress show={loadingInProgress} />
           </Grid>
+          
         </AccordionSummary>
        {/* <AccordionDetails> 
         </AccordionDetails> */}
@@ -254,6 +311,7 @@ class ProjectListEntryNew extends Component {
 const styles = theme => ({
   root: {
     width: '100%',
+    height: 650
   },
   // buttonFreigeben: {
   //   marginRight: theme.spacing(0),

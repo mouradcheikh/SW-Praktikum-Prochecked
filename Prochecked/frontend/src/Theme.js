@@ -11,15 +11,15 @@ const theme = createMuiTheme({
     white,
     primary: {
       contrastText: white,
-      dark: colors.indigo[900],
-      main: colors.indigo[500],
-      light: colors.indigo[100]
+      dark: '#006c78',
+      main: '#00b8ba', 
+      light: '#96f5ff'
     },
     secondary: {
       contrastText: white,
-      dark: colors.blue[900],
-      main: colors.blue['A400'],
-      light: colors.blue['A400']
+      dark: colors.red[900],
+      main: colors.red[800],
+      light: colors.red['A400']
     },
     success: {
       contrastText: white,
@@ -35,9 +35,9 @@ const theme = createMuiTheme({
     },
     warning: {
       contrastText: white,
-      dark: colors.orange[900],
-      main: colors.orange[600],
-      light: colors.orange[400]
+      dark: colors.orange[300],
+      main: colors.orange[300],
+      light: colors.orange[300]
     },
     error: {
       contrastText: white,
@@ -46,13 +46,13 @@ const theme = createMuiTheme({
       light: colors.red[400]
     },
     text: {
-      primary: colors.blueGrey[800],
-      secondary: colors.blueGrey[600],
-      link: colors.blue[600]
+      primary: white,
+      secondary: white,
+      // link: colors.blue[600]
     },
     background: {
       default: '#F4F6F8',
-      paper: white
+      paper: colors.grey[900],
     },
     icon: colors.blueGrey[600],
     divider: colors.grey[200]

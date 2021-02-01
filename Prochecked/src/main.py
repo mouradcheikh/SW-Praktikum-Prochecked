@@ -341,7 +341,7 @@ class ProjectOperations(Resource):
         Project-Objekts.
         """
         adm = ProjectAdministration()
-        #print(api.payload)
+        print("PROJEKTTYP",api.payload)
         p = Project.from_dict(api.payload)
         #print(p)
 
@@ -528,6 +528,7 @@ class ParticipationsByProjectOperation(Resource):
         Dies ist aus Gründen der referentiellen Integrität sinnvoll!
         """
         pro = adm.get_project_by_id(project_id) 
+        
 
         if pro is not None:
             result = adm.create_participation_for_project(pro)
@@ -550,7 +551,6 @@ class ParticipationOperations(Resource):
         """
         adm = ProjectAdministration()
         par = adm.get_participation_by_id(id)
-        print(par, par.get_id())
 
         if par is not None:
             adm.delete_participation(par)
@@ -652,7 +652,7 @@ class StudentByMatrikelNummerOperations(Resource):
     def get(self, person_id):
         """Auslesen eines bestimmten Person-Objekts.
 
-        Das auszulesende Objekt wird durch die ```matr_nr``` in dem URI bestimmt.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
         stud = adm.get_student_by_person_id(person_id)
@@ -889,11 +889,7 @@ class GradingOperations(Resource):
         p = adm.get_participation_by_id(g.get_participation())
         if p is not None:
             p.set_grading(0)
-            adm.save_participation(p)
-            return '', 200
-        else:
-            return '', 500  # Wenn unter id keine Participation existiert.'''
-        
+            adm.save_participation(p)       
         # print(g.get_name(), g.get_id())
         if g is not None:
             adm.delete_grading(g)

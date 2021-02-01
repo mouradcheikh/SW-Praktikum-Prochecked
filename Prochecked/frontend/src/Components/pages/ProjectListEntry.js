@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
+import { Link } from "react-router-dom";
 import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import ProjectForm from '../dialogs/ParticipationForm';
@@ -9,6 +10,7 @@ import ParticipationList from './ParticipationList';
 import CheckIcon from '@material-ui/icons/Check';
 import {ProjectBO} from '../../AppApi';
 import  {AppApi}  from '../../AppApi';
+import Box from '@material-ui/core/Box';
 
 /**
  * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
@@ -33,7 +35,7 @@ class ProjectListEntry extends Component {
 
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
-    console.log(new_state)
+    // console.log(new_state)
     let updatedProject = Object.assign(new ProjectBO(), this.props.project);
     // set the new attributes from our dialog
     updatedProject.setProjectState(new_state);
@@ -60,7 +62,7 @@ class ProjectListEntry extends Component {
       updatingInProgress: true,                 // show loading indicator
       updatingError: null                       // disable error message
     }, 
-    () => this.parentCall()
+    () => this.updateParentComponent()
     );
   }
 
@@ -79,9 +81,7 @@ class ProjectListEntry extends Component {
 
   // aktualisieren des status der elternkomponente, damit diese gerendert wird
   updateParentComponent = () => {
-    this.props.getProjectsByDozentAccepted(this.props.person.id)
-    this.props.getProjectsByDozentInReview(this.props.person.id)
-    this.props.getProjectsByDozentReviewed(this.props.person.id)
+    this.props.updateComponent()
   }
 
   evaluate(){
@@ -123,13 +123,15 @@ class ProjectListEntry extends Component {
     const { classes, expandedState} = this.props;
     // Use the states project
     const { project} = this.state;
-
+    // const editButton = true
     // console.log(this.state);
     return (
  
       project.project_state ===3?
       <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
+        <Accordion defaultExpanded={false} expanded={expandedState} 
+        // onChange={this.expansionPanelStateChanged}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
@@ -139,6 +141,7 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
                 </Grid>
+                
                 <Grid direction="row"
                       alignItems="center"
                       justify="flex-end">
@@ -152,7 +155,31 @@ class ProjectListEntry extends Component {
                           onClick={() => this.updateProject(4)}>
                   Bewerten
                 </Button>
-              </Grid>
+                
+                </Grid>
+                
+                <div>
+                  <Box m={1}>
+                  <Link to={{
+                    pathname: '/updateProject',
+                    state: { project: project, editButton: true }
+                    }} style={{ textDecoration: 'none' }}
+                    >
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                    //     onClick = {this.handleStudentButtonClicked}
+                    >
+                               edit
+                        
+                    </Button>
+                  </Link>
+                  </Box>
+                </div>
+
+               
               <Grid item xs />
               <Grid item>
                 <Typography variant='body2' color={'textSecondary'}>List of Participations</Typography>

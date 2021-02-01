@@ -1,21 +1,14 @@
 import React from 'react';
 import  {AppApi}  from '../../../AppApi';
-import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button, Typography } from '@material-ui/core';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Input from '@material-ui/core/Input';
-import {Link, useHistory, Prompt} from 'react-router-dom';
+import {Link, Prompt} from 'react-router-dom';
 
+/**
+ * Zeigt die Seite um den entsprechenden Studenten via Matrikelnummer in der AdminView auszuwählen.
+ * Nach Auswahl des entsprechenden Studenten wird man auf seine View weitergeleitet.
+ */
 
 class SelectStudent extends React.Component {
     constructor(props) {
@@ -92,14 +85,14 @@ class SelectStudent extends React.Component {
         const { student, matr_nr, matr_nrValidationFailed } = this.state; 
 
         return ( 
-    <div>
+    <div className={classes.root} >
         <div>
             <h1> Wählen Sie den Studenten </h1>
         </div>
       <div>
-        <form className={classes.root} >
-          <Prompt when={matr_nrValidationFailed == true || student === '' }
-         ></Prompt>
+        <form >
+          {/* <Prompt when={matr_nrValidationFailed == true || student === '' }
+         ></Prompt> */}
 
               <TextField 
                 autoFocus type='text'
@@ -114,7 +107,7 @@ class SelectStudent extends React.Component {
               />
               <Link onAbort to={{
                 pathname: "/StudentView",
-                state: { student: student }
+                state: { student: student, adminStudent: true }
                 }}>
                 <Button
                   type="submit"
@@ -132,7 +125,7 @@ class SelectStudent extends React.Component {
       <div>
         <Typography className={classes.participationEntry}>      
       
-        {"Ausgewählter Student:" +" "} {student != null? this.state.student.name:'Student ist nicht bekannt'}
+        {"Ausgewählter Student:" +" "} {student != null? student.name:'Student ist nicht bekannt'}
       
         </Typography>
       </div>
@@ -145,7 +138,8 @@ class SelectStudent extends React.Component {
 
 const styles = theme => ({
     root: {
-      width: '100%'
+      width: '100%',
+      height: 650
     }, 
     formControl: {
         margin: theme.spacing(1),

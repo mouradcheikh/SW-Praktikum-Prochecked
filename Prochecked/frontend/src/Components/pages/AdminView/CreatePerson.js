@@ -12,6 +12,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 
+/**
+ * Zeigt die Seite um Personen und Studenten zu erstellen.
+ * Es können Personen und Studenten erstellt, editiert und gelöscht werden.
+ */
 
 class CreatePerson extends Component {
     constructor(props) {
@@ -58,12 +62,12 @@ class CreatePerson extends Component {
        student.setMatrNr(matrNr)
        student.setStudiengang(studiengang)
        student.setPerson(person)
-       console.log(student)
+      //  console.log(student)
       var api = AppApi.getAPI()
       // console.log(api)
       api.createStudent(student).then((student) =>
           {
-          console.log(student)
+          // console.log(student)
           this.setState({
               student: student
           },
@@ -73,9 +77,9 @@ class CreatePerson extends Component {
         }
 
     getStudentByPersonId(person_id){
-      console.log("getStudent...")
+      // console.log("getStudent...")
       if (this.state.updateP.berechtigung ===1){
-      console.log("if")
+      // console.log("if")
       var api = AppApi.getAPI()
       api.getStudentByPersonId(person_id).then((student) =>
         {
@@ -84,7 +88,8 @@ class CreatePerson extends Component {
               })
             }
       ) 
-    }    console.log("updateS", this.state.updateS)
+    }    
+    // console.log("updateS", this.state.updateS)
     }
 
     PersonList(){
@@ -126,7 +131,7 @@ class CreatePerson extends Component {
       updatedPerson.setGoogleId(this.state.googleid)
       updatedPerson.setEmail(this.state.email)
       updatedPerson.setBerechtigung(this.state.role)
-      console.log(updatedPerson)
+      // console.log(updatedPerson)
       
       AppApi.getAPI().updatePersonAdmin(updatedPerson).then(person => {
         this.setState({
@@ -235,7 +240,7 @@ class CreatePerson extends Component {
                       type = "submit"
                       variant="contained"
                       color="default"
-                      size="large"
+                      size="medium"
                       className={classes.button}
                       startIcon={<SaveIcon />}>                
                           Person anlegen
@@ -301,10 +306,10 @@ class CreatePerson extends Component {
             {persons.map(p => 
                <ListItem>
                 { this.berechtigung(p) + ": "+ p.name}
-                <IconButton aria-label="delete" onClick={() => this.deletePersons(p)}>
+                <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button color='primary' onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
+                <Button  style ={{color: "gray"}} onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
                 
                 // ; person.berechtigung ===1? this.getStudentByPersonId(p.getID()):'' 
                 }}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
