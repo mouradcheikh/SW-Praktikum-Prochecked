@@ -724,7 +724,7 @@ class SemestersOperations(Resource):
     @prochecked.expect(semester)  # Wir erwarten ein Semester-Objekt von Client-Seite.
     @secured
     def post(self):
-        """Anlegen eines neuen Grading-Objekts.
+        """Anlegen eines neuen Semester-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.

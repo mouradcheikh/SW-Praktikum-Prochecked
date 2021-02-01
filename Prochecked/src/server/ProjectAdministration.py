@@ -475,9 +475,6 @@ class ProjectAdministration (object):
             with ParticipationMapper() as mapper:
                 mapper.delete_participation(participation.get_id())
 
-
-
-
 #Semester related
 
     def get_all_semesters(self):
