@@ -268,7 +268,7 @@ class CreateSemester extends React.Component {
                 <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                <Button color="primary" onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
                 

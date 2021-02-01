@@ -410,7 +410,7 @@ parentCall = () => {
               <div>Bewertet: {grade.grade + " - " + this.passed()}
            
 
-            <IconButton aria-label="delete" color={'secondary'} onClick={() => this.deleteGrading()}
+            <IconButton aria-label="delete" style ={{color: "gray"}} onClick={() => this.deleteGrading()}
  >             <DeleteIcon />
             </IconButton>
             </div>

@@ -245,7 +245,7 @@ class CreateModule extends React.Component {
               <DeleteIcon />
               </IconButton>
 
-              <Button style ={{color: "gray"}}color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
                 edit
                 </Button>
              
