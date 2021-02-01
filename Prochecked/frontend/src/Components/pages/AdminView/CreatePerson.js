@@ -309,7 +309,7 @@ class CreatePerson extends Component {
                 <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deletePersons(p)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button  style ={{color: "gray"}} onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
+                <Button  color="primary" onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
                 
                 // ; person.berechtigung ===1? this.getStudentByPersonId(p.getID()):'' 
                 }}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
