@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-import ProjectForm from '../../dialogs/ParticipationForm';
 import ProjectListEntry from './ProjectListEntry';
 
 /**
- * Controlls a list of ProjectListEntrys to create a accordion for each project.
+ * Kontrolliert die ProjektListenEinträge und stellt diesen die benötigten Daten zur Verfügung.
+ * Je nachdem in was für einem Status sich ein Projekt empfindet, werden dessen Einträge in einem eigenen Bereich dargestellt.
  *
  * @see See [ProjectListEntry](#projectlistentry)
  *
@@ -20,9 +19,6 @@ class ProjectList extends Component {
 
   constructor(props) {
     super(props);
-
-    // console.log(props);
-    // this.projectsFromEntry = this.projectsFromEntry.bind(this)
 
     let expandedID = null;
 
@@ -43,12 +39,6 @@ class ProjectList extends Component {
       adminProf = this.props.location.state.adminProf
     }}
     
-
-
-   
-   
-
-    // Init an empty state
     this.state = {
       person: null,
       projects: [],
@@ -60,25 +50,14 @@ class ProjectList extends Component {
       error: null,
       loadingInProgress: false,
       expandedProjectID: expandedID,
-      showProjectForm: false, //evtl.nicht 
-      
-      // adminProf:  this.props.location.state.adminProf, 
-      // person: this.props.location.state.linkState 
+      showProjectForm: false, 
       adminProf:  adminProf, 
       person: person 
     
     };
-    console.log(this.state, this.props)
   }
 
-  
-  // projectsFromEntry(){
-  //   this.setState({
-  //     projectsInReview: this.projectsFromEntry
-  //   })
-  // }
   getProjectsByDozentNew = (person_id) => {
-    // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByDozentNew(person_id) //evtl. Objekt von API vorher anlegen
         .then(projectBOs =>
@@ -104,7 +83,6 @@ class ProjectList extends Component {
 
   /** Fetches all ProjectBOs from the backend */
   getProjectsByDozentAccepted = (person_id) => {
-  // console.log("vor fetch")
     var api = AppApi.getAPI()
     api.getProjectsByDozentAccepted(person_id) //evtl. Objekt von API vorher anlegen
       .then(projectBOs =>
@@ -130,8 +108,6 @@ class ProjectList extends Component {
 
    /** Fetches all ProjectBOs from the backend */
    getProjectsByDozentInReview = (person_id) => {
-    //  console.log(person_id)
-    // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByDozentInReview(person_id) //evtl. Objekt von API vorher anlegen
         .then(projectBOs =>
@@ -147,7 +123,6 @@ class ProjectList extends Component {
               error: e
             })
           );
-  
       // set loading to true
       this.setState({
         loadingInProgress: true,
@@ -158,7 +133,6 @@ class ProjectList extends Component {
     
      /** Fetches all ProjectBOs from the backend */
      getProjectsByDozentReviewed = (person_id) => {
-    // console.log("vor fetch")
       var api = AppApi.getAPI()
       api.getProjectsByDozentReviewed(person_id) //evtl. Objekt von API vorher anlegen
         .then(projectBOs =>
@@ -174,7 +148,6 @@ class ProjectList extends Component {
               error: e
             })
           );
-  
       // set loading to true
       this.setState({
         loadingInProgress: true,
@@ -198,7 +171,6 @@ class ProjectList extends Component {
    * @param {project} ProjectBO of the ProjectListEntry to be toggeled
    */
   onExpandedStateChange = project => {
-    // console.log(projectID);
     // Set expandend project entry to null by default
     let newID = null;
 
@@ -207,7 +179,6 @@ class ProjectList extends Component {
       // Expand the project entry with projectID
       newID = project.getID();
     }
-    // console.log(newID);
     this.setState({
       expandedProjectID: newID,
     });
@@ -236,8 +207,6 @@ class ProjectList extends Component {
   }
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // let adminProf = this.props.location.state.adminProf
-    // let person = this.props.location.state.linkState  
     let adminProf =this.state.adminProf;
     let person = this.state.person
     if (person === undefined){
@@ -307,7 +276,6 @@ class ProjectList extends Component {
               key={project.getID()}
               project={project}
               expandedState={expandedProjectID === project.getID()}
-              // projectsFromEntry={this.projectsFromEntry}
               onProjectDeleted={this.projectDeleted}
               onExpandedStateChange={this.onExpandedStateChange}
               person ={person} adminProf ={adminProf}
@@ -332,7 +300,6 @@ class ProjectList extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentAccepted} />
-        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
         
         <h2>Projekte in Bewertung</h2>
         {
@@ -348,7 +315,6 @@ class ProjectList extends Component {
         }
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByDozentInReview} />
-        {/* <ProjectForm show={showProjectForm} onClose={this.projectFormClosed} /> */}
       
       
       
@@ -361,7 +327,6 @@ class ProjectList extends Component {
                 key={project.getID()}
                 project={project}
                 expandedState={expandedProjectID === project.getID()}
-                // projectsFromEntry={this.projectsFromEntry}
                 onProjectDeleted={this.projectDeleted}
                 onExpandedStateChange={this.onExpandedStateChange}
                 person ={person} adminProf ={adminProf}

@@ -13,13 +13,16 @@ import ParticipationListEntry from '../DozentView/ParticipationListEntry';
  * 
  * @see See [ParticipationListEntry](#participationlistentry)
  * 
+ * Kontrolliert die TeilnahmenListenEinträge und stellt diesen die benötigten Daten zur Verfügung.
+ * Je nachdem in was für einem Status sich eine Teilnahme empfindet, werden zusätzliche oder
+ * verminderte Funkitonalitäten bereitgestellt.
+ * 
  */
 class ParticipationList extends Component {
 
   constructor(props) {
     super(props);
 
-    // Init the state
     this.state = {
       participations: [],
       loadingInProgress: false,
@@ -30,7 +33,6 @@ class ParticipationList extends Component {
 
   /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
-    // console.log("vor fetch")
 
       var api = AppApi.getAPI()
       api.getParticipationsByProject(this.props.project.getID())
@@ -47,7 +49,6 @@ class ParticipationList extends Component {
               error: e
             }) 
           ); 
-          // console.log(this.state.participations)
   
       // set loading to true
       this.setState({
@@ -59,7 +60,6 @@ class ParticipationList extends Component {
   /** Adds an participation for the current customer */
   addParticipation = () => {
     AppApi.getAPI().addParticipationForProject(this.props.project.getID()).then(participationBO => {
-      // console.log(participationBO)
       this.setState({  // Set new state when ParticipationBOs have been fetched
         participations: [...this.state.participations, participationBO],
         loadingInProgress: false, // loading indicator 
@@ -82,7 +82,6 @@ class ParticipationList extends Component {
 
   /** Handles onParticipationDelete events from an ParticipationListEntry  */
   deleteParticipationHandler = (deletedParticipation) => {
-    // console.log(deletedParticipation.getID());
     this.setState({
       participations: this.state.participations.filter(participation => participation.getID() !== deletedParticipation.getID())
     })
@@ -90,13 +89,11 @@ class ParticipationList extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log(this.props.participation.getStudent_id)
-    this.getParticipationsByProject(); //props richtig ??
+    this.getParticipationsByProject();
     }
   
   /** Lifecycle method, which is called when the component was updated */
   componentDidUpdate(prevProps) {
-    // reload participations if shown state changed. Occures if the ProjectListEntrys ExpansionPanel was expanded
     if ((this.props.show !== prevProps.show)) { 
       this.getParticipationsByProject();
       }
@@ -108,7 +105,6 @@ class ParticipationList extends Component {
     // Use the states project
     const { participations, loadingInProgress, loadingParticipationError, addingParticipationError } = this.state;
 
-    // console.log(this.props);
     return (
       project.project_state >= 4?
       <div className={classes.root}>

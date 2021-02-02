@@ -20,6 +20,12 @@ import ModuleBO from '../../../AppApi/ModuleBO'
  * @see See [GradeListEntrys](#gradeList)
  *
  */
+
+ /**
+ * Es wird ein Formular für die Anlage eines Projects bereitgestellt.
+ * Der Nutzer kann die verschiedenen Eigenschaften des Projekts eingeben und teilweise durch Dropdown Menus Daten direkt aus der Datenbank auswählen.
+ */
+
 class GradeList extends Component {
 
   constructor(props) {
@@ -43,7 +49,6 @@ class GradeList extends Component {
 
   /** Fetches ProjectBOsbyState from the backend */
   getProjectsByState = (state) => {
-    // console.log(this.props.location.state.person)
     var api = AppAPI.getAPI()
     api.getProjectsByState(state) 
       .then((projectBOs) => {
@@ -180,7 +185,6 @@ class GradeList extends Component {
               </Select>
         </FormControl>
         {
-          // Show the list of SemesterListEntry components
           this.state.filteredProjects.map((project) =>
             <GradeListEntry project_id={project.id} project={project} person={this.state.person} 
             />)

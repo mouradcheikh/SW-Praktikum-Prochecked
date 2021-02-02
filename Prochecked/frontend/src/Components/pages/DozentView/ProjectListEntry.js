@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@material-ui/core';
 import { Link } from "react-router-dom";
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import ProjectForm from '../dialogs/ParticipationForm';
-// import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
 import ParticipationList from './ParticipationList';
 import CheckIcon from '@material-ui/icons/Check';
 import {ProjectBO} from '../../../AppApi';
@@ -13,12 +11,11 @@ import  {AppApi}  from '../../../AppApi';
 import Box from '@material-ui/core/Box';
 
 /**
- * Renders a ProjectBO object within a expandable/collapsible ProjectListEntry with the project manipulation
- * functions. If expanded, it renders a AccountList.
- * 
- * @see See [ProjectList](#projectlist)
- * 
+ * Ein ProjektListenEintrag enthält den Namen des Projekts und je nachdem in was für einem Bereich der jewilige
+ * Eintrag sich befindet, werden dem Nutzer für den betreffenden Eintrag verschiedene Funktionen bereitgestellt.
+ *
  */
+
 class ProjectListEntry extends Component {
 
   constructor(props) {
@@ -35,9 +32,7 @@ class ProjectListEntry extends Component {
 
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
-    // console.log(new_state)
     let updatedProject = Object.assign(new ProjectBO(), this.props.project);
-    // set the new attributes from our dialog
     updatedProject.setProjectState(new_state);
     
    
@@ -49,14 +44,12 @@ class ProjectListEntry extends Component {
       }, () => this.updateParentComponent());
       // keep the new state as base state
       // this.baseState.project = this.state.project;
-      // this.props.onClose(updatedProject);      // call the parent with the new project
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              // disable loading indicator 
         updatingError: e                        // show error message
       })
     );
-
     // set loading to true
     this.setState({
       updatingInProgress: true,                 // show loading indicator
@@ -73,7 +66,6 @@ class ProjectListEntry extends Component {
 
   /** Handles onAccountDelete events from an AccountListEntry  */
   deleteAccountHandler = (deletedAccount) => {
-    // console.log(deletedAccount.getID());
     this.setState({
       accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
     })
@@ -123,14 +115,11 @@ class ProjectListEntry extends Component {
     const { classes, expandedState} = this.props;
     // Use the states project
     const { project} = this.state;
-    // const editButton = true
-    // console.log(this.state);
     return (
  
       project.project_state ===3?
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} 
-        // onChange={this.expansionPanelStateChanged}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -170,7 +159,6 @@ class ProjectListEntry extends Component {
                         variant="contained"
                         color="primary"
                         className={classes.button}
-                    //     onClick = {this.handleStudentButtonClicked}
                     >
                                edit
                         
@@ -204,10 +192,6 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
-                {/* <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
-              </Grid> */}
-
               <Grid>
                 
               </Grid>
@@ -235,10 +219,6 @@ class ProjectListEntry extends Component {
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
               </Grid>
-                {/* <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
-              </Grid> */}
-
               <Grid>
                 <Button variant="contained"
                           color="secondary"
@@ -270,9 +250,6 @@ class ProjectListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>{project.getName()}
                 </Typography>
-                {/* <Grid item>
-                <Typography variant='body2' color={'textSecondary'}>Status: {this.evaluate()}</Typography>
-                </Grid> */}
               </Grid>
               <Grid item xs />
               <Grid item>

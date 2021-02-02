@@ -5,8 +5,11 @@ import {Link} from 'react-router-dom';
 import { Grid} from '@material-ui/core';
 
 
+/**
+ * Startseite für den eingeloggten Dozenten.
+ * Falls sich ein Admin als Dozent einwählt, werden Buttons zur Dozenten-Funktionen bereitgestellt.
+ */
 
-// function DozentenView(props) {
 class DozentenView extends Component{
   constructor(props){
     super(props);
@@ -109,7 +112,6 @@ class DozentenView extends Component{
           </Grid>
      
       </Grid>
-    {/* </Container> */}
     </div>
           }
     
@@ -122,11 +124,6 @@ const styles = (theme) => ({
   root: {
     height: 650
   },
-  // view:{
-  //   display: 'flex',
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
   
   button: {
     margin: theme.spacing(2),
