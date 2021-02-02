@@ -6,7 +6,7 @@ import UserView from './UserView'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, Grid} from '@material-ui/core';
 // import SidebarAdmin from '../SidebarAdmin';
-import SidebarAdmin from '../layout/SidebarAdmin';
+import SidebarAdmin from '../layout/Sidebar';
 
 class PersonLoggedIn extends Component {
     constructor(props) {
