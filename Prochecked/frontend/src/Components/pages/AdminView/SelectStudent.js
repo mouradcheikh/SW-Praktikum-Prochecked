@@ -77,9 +77,6 @@ class SelectStudent extends React.Component {
       
   }
 
-
-
-  
     render() { 
         const { classes  } = this.props;
         const { student, matr_nr, matr_nrValidationFailed } = this.state; 
@@ -108,7 +105,7 @@ class SelectStudent extends React.Component {
               <Link onAbort to={{
                 pathname: "/StudentView",
                 state: { student: student, adminStudent: true }
-                }}>
+                }}style={{ textDecoration: 'none'}}>
                 <Button
                   type="submit"
                   variant="contained"
@@ -117,9 +114,6 @@ class SelectStudent extends React.Component {
                   Auswählen
                 </Button>
               </Link>
-           
-            
-
         </form>
       </div>
       <div>
