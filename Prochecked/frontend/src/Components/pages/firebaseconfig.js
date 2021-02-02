@@ -1,3 +1,8 @@
+/**
+ * Zeigt die Seite für die FirebaseConfig Datei
+ * Verbindung zur FireBase 
+ */
+
 const firebaseConfig = {
     
     apiKey: "AIzaSyAXRfVbXnTLoSxa_YJxTTaRckt803yV4I4",

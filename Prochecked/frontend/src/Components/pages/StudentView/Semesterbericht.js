@@ -13,12 +13,12 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
+
 /**
- * Controlls a list of SemesterberichtEntrys 
- *
- * @see See [SemesterberichtEntrys](#Semesterbericht)
- *
+ * Die Seite zeigt den Semesterbericht des Studenten an.
+ * Er sieht hier welche Projekte in Bewertung sich befinden und welche schon bewertet wurden.
  */
+
 class Semesterbericht extends Component {
 
   constructor(props) {

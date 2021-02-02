@@ -28,25 +28,22 @@ class SelectStudent extends React.Component {
         this.setState({
           student: student,
           matr_nr: student.matr_nr,
-          loadingInProgress: false, // loading indicator 
+          loadingInProgress: false, 
           loadingError: null
         })).catch(e =>
-          this.setState({ // Reset state with error from catch 
+          this.setState({ 
             student: null,
             loadingInProgress: false,
             loadingError: e,
           })
         );
   
-      // set loading to true
       this.setState({
-        // balance: 'loading',
         loadingInProgress: true,
         loadingError: null
       });
     }
 
-  /** Handles value changes of the forms textfields and validates them */
   textFieldValueChange = (event) => {
     const value = event.target.value;
 
@@ -90,7 +87,6 @@ class SelectStudent extends React.Component {
         <form >
           {/* <Prompt when={matr_nrValidationFailed == true || student === '' }
          ></Prompt> */}
-
               <TextField 
                 autoFocus type='text'
                 required 
@@ -118,17 +114,12 @@ class SelectStudent extends React.Component {
       </div>
       <div>
         <Typography className={classes.participationEntry}>      
-      
         {"Ausgewählter Student:" +" "} {student != null? student.name:'Student ist nicht bekannt'}
-      
         </Typography>
       </div>
     </div>
          );
 }}
-
-
-
 
 const styles = theme => ({
     root: {

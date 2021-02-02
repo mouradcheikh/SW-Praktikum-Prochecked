@@ -8,7 +8,6 @@ import AppAPI from '../../../AppApi/AppApi'
 import Paper from '@material-ui/core/Paper';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
-
 /**
  * Renders a ProjectBO object in the Semesterbericht by selected filter (semester filter)
  * 

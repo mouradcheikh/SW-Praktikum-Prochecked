@@ -1,13 +1,12 @@
 import React from 'react';
-import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid, GridItem } from '@material-ui/core';
+import {TextField, withStyles, Button,ListItem,Grid} from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
 import SemesterBO from '../../../AppApi/SemesterBO';
-import AddIcon from '@material-ui/icons/Add';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert} from '@material-ui/lab';
 
 /**
  * Zeigt die Seite um Semester zu erstellen.

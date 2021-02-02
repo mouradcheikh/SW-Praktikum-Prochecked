@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import  {AppApi, PersonBO}  from '../../../AppApi';
 import StudentBO from '../../../AppApi/StudentBO';
-import {TextField, Button, List, ListItem, Link, Typography, Input, Grid } from '@material-ui/core';
+import {TextField, Button,ListItem,Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -157,7 +157,6 @@ class CreatePerson extends Component {
       });
     }
 
-      
     handleChange(e) { 
     this.setState({ [e.target.name]: e.target.value });
     // console.log({ [e.target.name]: e.target.value })
@@ -281,18 +280,6 @@ class CreatePerson extends Component {
                     startIcon={<SaveIcon />}> 
                     {editButton? <>Student anlegen</>:<>Student anlegen</>}
                   </Button>
-                {/* {editButton? 
-                  <Button
-                    type = "submit"
-                    variant="contained"
-                    color="default"
-                    size="large"
-                    className={classes.button}
-                    startIcon={<SaveIcon />}>                
-                        Student Updaten
-                   
-                  </Button>
-                :<div></div>} */}
               </form>
               : <div></div>
                 }
@@ -310,8 +297,6 @@ class CreatePerson extends Component {
                  <DeleteIcon />
                 </IconButton>
                 <Button  color="primary" onClick= {() => { this.setState({ updateP: p, editButton: true }, () => this.getStudentByPersonId(p.getID()) )
-                
-                // ; person.berechtigung ===1? this.getStudentByPersonId(p.getID()):'' 
                 }}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
