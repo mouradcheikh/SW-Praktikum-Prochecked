@@ -340,8 +340,11 @@ class ProjectAdministration (object):
         pass
 
     def delete_project(self, project):
-        with ProjectMapper() as mapper:
-            mapper.delete(project)
+        adm = ProjectAdministration()
+        participations = adm.get_participations_by_project(project.get_id())
+        if len(participations) == 0:
+            with ProjectMapper() as mapper:
+                mapper.delete(project)
 
     def create_project(self, project):
         with ProjectMapper() as mapper:

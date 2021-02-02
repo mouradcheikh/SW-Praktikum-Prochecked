@@ -257,7 +257,7 @@ class CreateProjectType extends React.Component {
                     >
                       <DeleteIcon  />
                     </IconButton>
-                    <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                    <Button color="primary" onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                     </Button>
                   </ListItem>
