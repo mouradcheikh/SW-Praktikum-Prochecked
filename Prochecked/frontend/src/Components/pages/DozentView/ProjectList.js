@@ -4,10 +4,10 @@ import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typogr
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear'
 import { withRouter } from 'react-router-dom';
-import  {AppApi}  from '../../AppApi';
-import ContextErrorMessage from '../dialogs/ContextErrorMessage';
-import LoadingProgress from '../dialogs/LoadingProgress';
-import ProjectForm from '../dialogs/ParticipationForm';
+import  {AppApi}  from '../../../AppApi';
+import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
+import LoadingProgress from '../../dialogs/LoadingProgress';
+import ProjectForm from '../../dialogs/ParticipationForm';
 import ProjectListEntry from './ProjectListEntry';
 
 /**

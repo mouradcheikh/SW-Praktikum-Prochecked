@@ -8,8 +8,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import ProjectDeleteDialog from '../../Components/dialogs/ProjectDeleteDialog';
 import ParticipationList from './ParticipationList';
 import CheckIcon from '@material-ui/icons/Check';
-import {ProjectBO} from '../../AppApi';
-import  {AppApi}  from '../../AppApi';
+import {ProjectBO} from '../../../AppApi';
+import  {AppApi}  from '../../../AppApi';
 import Box from '@material-ui/core/Box';
 
 /**

@@ -5,11 +5,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
 import { Link as RouterLink } from 'react-router-dom';
-import { AppApi } from '../../AppApi';
-import {GradingBO} from '../../AppApi';
-import ContextErrorMessage from '../dialogs/ContextErrorMessage';
-import LoadingProgress from '../dialogs/LoadingProgress';
-import ParticipationForm from '../dialogs/ParticipationForm';
+import { AppApi } from '../../../AppApi';
+import {GradingBO} from '../../../AppApi';
+import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
+import LoadingProgress from '../../dialogs/LoadingProgress';
+import ParticipationForm from '../../dialogs/ParticipationForm';
 import IconButton from '@material-ui/core/IconButton';
 import { spacing } from '@material-ui/system';
 

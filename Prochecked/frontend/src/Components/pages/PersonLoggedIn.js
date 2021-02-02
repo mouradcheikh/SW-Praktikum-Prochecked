@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import StudentView from './StudentView/StudentLogin'
-import AdminView from './AdminView'
-import DozentView from './DozentView'
+import StudentView from './StudentView/StudentLogin';
+import AdminView from '../pages/AdminView/AdminView';
+import DozentView from '../pages/DozentView/DozentView';
 import UserView from './UserView'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, Grid} from '@material-ui/core';

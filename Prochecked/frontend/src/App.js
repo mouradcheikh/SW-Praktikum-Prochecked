@@ -10,18 +10,17 @@ import ContextErrorMessage from './Components/dialogs/ContextErrorMessage';
 import Theme from './Theme';
 import PersonBO from './AppApi/PersonBO'
 import StudentLogin from "./Components/pages/StudentView/StudentLogin";
-import DozentenView from './Components/pages/DozentView';
-import AdminView from './Components/pages/AdminView';
+import DozentenView from './Components/pages/DozentView/DozentView';
+import AdminView from './Components/pages/AdminView/AdminView';
 import about from './Components/pages/about';
 import PersonLoggedIn from './Components/pages/PersonLoggedIn';
-import ProjektFormular from './Components/pages/ProjektErstellen'
-import ProjektFormularUpdate from './Components/pages/ProjektUpdaten'
-import ProjectList from './Components/pages/ProjectList';
+import ProjektFormular from './Components/pages/DozentView/CreateProject'
+import ProjektFormularUpdate from './Components/pages/DozentView/UpdateProject'
+import ProjectList from './Components/pages/DozentView/ProjectList';
 import ProjectListNew from './Components/pages/AdminView/ProjectListNew';
 import CreatePerson from './Components/pages/AdminView/CreatePerson';
 import CreateSemester from './Components/pages/AdminView/CreateSemester';
 import DropDown_Dozent from './Components/pages/AdminView/DropDownDozent';
-import ReleaseProject from './Components/pages/AdminView/ReleaseProject';
 import SelectStudent from './Components/pages/AdminView/SelectStudent';
 import Semesterbericht from './Components/pages/StudentView/Semesterbericht';
 import StudentView from './Components/pages/StudentView/StudentView';
@@ -239,7 +238,6 @@ render() {
                         <Route exact path = '/admin/CreatePerson' component = {CreatePerson}/>
                         <Route exact path = '/admin/CreateSemester' component = {CreateSemester}/>
                         <Route exact path = '/ProjectList' component = {ProjectList}/>
-                        <Route exact path = '/ReleaseProject' component = {ReleaseProject}/>
                         <Route exact path = '/student/SelectStudent' component = {SelectStudent}/>
                         <Route exact path = '/admin/ProjectListNew' component = {ProjectListNew}/>
                         <Route exact path = '/dozent/DropDown_Dozent' component = {DropDown_Dozent}/>

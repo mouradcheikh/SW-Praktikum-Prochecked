@@ -13,8 +13,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Input from '@material-ui/core/Input';
-import { AppApi } from '../../AppApi';
-import ProjectBO from '../../AppApi/ProjectBO';
+import { AppApi } from '../../../AppApi';
+import ProjectBO from '../../../AppApi/ProjectBO';
 import {Link, useHistory} from 'react-router-dom';
 
 
