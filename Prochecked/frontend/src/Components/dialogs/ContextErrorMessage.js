@@ -7,7 +7,6 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 //Sobald im System ein Error entsteht, wird der ContextErrorMessage ausgegeben.
 //Hierdurch weiß der Benutzer, welcher Fehler entstanden ist.
-//Test
 
 class ContextErrorMessage extends Component {
   #standardText = 'This should not have happend. Soooo sorry...';
