@@ -31,3 +31,12 @@ Daher werden folgende Packages vorrab benötigt:
 
 Um die nötigen Packages zu installieren, kann der Befehl ```pip```verwendet werden. 
 Eine andere Möglichkeit ist, wenn man über PyCharm ein Virtual Enviornment anlegt und darin dann die Packages installiert. 
+
+## Wie wird der Server gestartet?
+Derzeit ist Datei ```main.py``` auszuführen, mehr nicht. Natürlich setzt dies ein
+ordentlich installiertes Environment voraus (s.o.). Unter PyCharm genügt der Rechtsklick
+auf die Datei ```main.py``` und die Auswahl von ```Run main```. Der Start des 
+Development Server kann in der PyCharm Console beobachtet werden. Anschließend kann man
+auf die Dienste zugreifen.
+
+
