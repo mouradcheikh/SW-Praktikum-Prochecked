@@ -4,6 +4,8 @@
 from server.bo import BusinessObjects as bo
 from datetime import datetime
 
+"""Teilnahmen der Stundenten an Projekten"""
+
 class Participation(bo.BusinessObjects):
     def __init__(self):
         super().__init__()
@@ -13,30 +15,39 @@ class Participation(bo.BusinessObjects):
         self._student = 0
     
     def set_grading(self, grading_id):
+        """Setzen der Noten"""
         self._grading = grading_id
 
     def get_grading(self):
+        """Auslesen der Noten"""
         return self._grading
 
     def set_project(self, project_id):
+        """Setzen des Projekts"""
         self._project = project_id
 
     def get_project(self):
+        """Auslesen des Projekts"""
         return self._project
 
     def set_module(self, module_id):
+        """Setzen des Moduls"""
         self._module = module_id
 
     def get_module(self):
+        """Auslesen des Moduls"""
         return self._module
 
     def set_student(self, student_id):
+        """Setzen des Studenten"""
         self._student = student_id
 
     def get_student(self):
+        """Auslesen des Studenten"""
         return self._student
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Participation: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_creation_date(), self.get_grading(), self.get_module(), self.get_project(), self.get_student())
     
 
@@ -68,7 +79,7 @@ class Participation(bo.BusinessObjects):
     
     @staticmethod
     def from_tuples(tuples=list()):
-        """Umwandeln eines DB tuples in eine P() (Python Objekt)"""
+        """Umwandeln eines DB tuples in eine Participation (Python Objekt)"""
         result = []
         for (id, creation_date, grading_id, module_id, project_id , student_id) in tuples:#participation_id richtig???
             part = Participation()
