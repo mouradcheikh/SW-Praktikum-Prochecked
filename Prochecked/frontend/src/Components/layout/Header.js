@@ -7,15 +7,17 @@
 // import Button from '@material-ui/core/Button';
 // import IconButton from '@material-ui/core/IconButton';
 // import HomeIcon from '@material-ui/icons/Home';
-
 // import { Link } from 'react-router-dom';
 // import ProfileDropDown from '../dialogs/ProfileDropDown.js';
-
 // // import blueGrey from '@material-ui/core/colors/blueGrey'
-
 // import grey from '@material-ui/core/colors/grey'
 // import blueGrey from '@material-ui/core/colors/blueGrey'
 
+/**
+ * Zeigt den Header.
+ * Zur Zeit ist der Header in die Sidebar importiert. 
+ * Diese Datei wird daher zur Zeit nicht genutzt.
+ */
 
 // class Header extends React.Component {
 //   constructor(props) {

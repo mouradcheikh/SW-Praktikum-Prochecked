@@ -14,6 +14,11 @@ import ProfileDropDown from '../dialogs/ProfileDropDown.js'
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
 
+/**
+ * 
+ * Zeigt die eigentliche Sidebar.
+ */
+
 const Nav = styled.div`
   background: #15171c;
   height: 80px;

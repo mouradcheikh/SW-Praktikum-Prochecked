@@ -37,7 +37,6 @@ export default class AppAPI {
     #updateSemesterURL = () => `${this.#AppServerBaseURL}/semesters`;
     #deleteSemesterURL = (id) => `${this.#AppServerBaseURL}/semester/${id}`;
     
-     
     // Student related
     #getStudentURL = (id) => `${this.#AppServerBaseURL}/students/${id}`;
     #getStudentByPersonURL = (id) => `${this.#AppServerBaseURL}/student-by-person-id/${id}`
@@ -78,21 +77,16 @@ export default class AppAPI {
     #getFreeModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/free-modules/${semester}`;
     #getBoundModulesBySemesterURL = (semester) => `${this.#AppServerBaseURL}/bound-modules/${semester}`;
     #getModulesURL = () => `${this.#AppServerBaseURL}/modules`;
-   
-
     #getModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #addModuleURL = () => `${this.#AppServerBaseURL}/module`;
     #deleteModuleURL = (id) => `${this.#AppServerBaseURL}/module/${id}`;  
     #updateModuleURL = () => `${this.#AppServerBaseURL}/module`; 
 
-    
     //ProjectType related
     #getProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #addProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`;
     #deleteProjectTypeURL = (id) => `${this.#AppServerBaseURL}/projectType/${id}`
     #updateProjectTypeURL = () => `${this.#AppServerBaseURL}/projectTypes`; 
-
-
 
       /** 
    * Get the Singelton instance 
@@ -252,7 +246,6 @@ getPersonByRole(role_id){
       })
   }
 
-
 //Student related
 getStudent(id) {
   return this.#fetchAdvanced(this.#getStudentURL(id))
@@ -300,8 +293,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
   
-  
-
  /**
    * Returns a Promise, which resolves to an Array of ParticipationBOs
    * 
@@ -376,7 +367,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
-
 
 //Project related
 
@@ -456,8 +446,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-  
-
   getProjectsByState(project_state) {
     return this.#fetchAdvanced(this.#getProjectsByStateURL(project_state))
       .then((responseJSON) => {
@@ -495,7 +483,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
   
-
   deleteProject(id) {
     return this.#fetchAdvanced(this.#deleteProjectURL(id), {
       method: 'DELETE'
@@ -520,7 +507,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
-
 
   getStudentByPerson(id){
     return this.#fetchAdvanced(this.#getStudentByPersonIdURL(id))
@@ -561,7 +547,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-
   getStudentByPersonId(person_id){
     return this.#fetchAdvanced(this.#getStudentByPersonIdURL(person_id)).then((responseJSON) => { //URL LEER LASSEN????
       // We always get an array of StudentBOs.fromJSON, but only need one object
@@ -599,7 +584,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   }
 
-
   createProject(project){
     return this.#fetchAdvanced(this.#addProjectURL(), {
       method: 'POST',
@@ -616,6 +600,7 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
+
 //Grading Related 
   gradingStudent(grade, participation_id) {
 
@@ -713,7 +698,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
   }
 
-
   getGradingByProjectandMatr(project_id, matr_nr){
     return this.#fetchAdvanced(this.#getGradingbyProjectAndMatrURL(project_id, matr_nr))
     .then((responseJSON) => {
@@ -724,7 +708,6 @@ getStudentByMatrikelNummer(matr_nr) {
       })
     })
   }
-
 
   //Semester Related 
 
@@ -829,6 +812,7 @@ getStudentByMatrikelNummer(matr_nr) {
                 })
               })
             }
+
       deleteProjectType(id) { console.log(id)
               return this.#fetchAdvanced(this.#deleteProjectTypeURL(id), {
                 method: 'DELETE'
@@ -860,7 +844,6 @@ getStudentByMatrikelNummer(matr_nr) {
      })
     }
 
-
   getFreeModulesBySemester(semester){
     return this.#fetchAdvanced(this.#getFreeModulesBySemesterURL(semester))
     .then((responseJSON) => {
@@ -882,7 +865,6 @@ getStudentByMatrikelNummer(matr_nr) {
     })
   })
 }
-
 
  createModule(name, edv_nr) {
 
@@ -940,7 +922,6 @@ deleteModule(id) {
     })
 }
 
-
   getBoundModulesBySemester(semester){
     return this.#fetchAdvanced(this.#getBoundModulesBySemesterURL(semester))
     .then((responseJSON) => {
@@ -951,7 +932,6 @@ deleteModule(id) {
     })
   }
 
-
   getAllModules(){
     return this.#fetchAdvanced(this.#getModulesURL()).then((responseJSON) => {
       let moduleBOs = ModuleBO.fromJSON(responseJSON);
@@ -961,7 +941,6 @@ deleteModule(id) {
     })
   }
 
-
   getAllProjectTypes(){
     return this.#fetchAdvanced(this.#getProjectTypeURL()).then((responseJSON) => {
       let projectTypeBOs = ProjectTypeBO.fromJSON(responseJSON);
@@ -970,7 +949,6 @@ deleteModule(id) {
       })
     })
   }
-  
 
 }
 

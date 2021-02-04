@@ -23,7 +23,6 @@ from server.db.ModuleMapper import ModuleMapper
 from server.db.ProjectStateMapper import ProjectStateMapper
 from server.db.AutomatMapper import AutomatMapper
 
-
 class ProjectAdministration (object):
     def __init__(self):
         pass 
@@ -105,7 +104,7 @@ class ProjectAdministration (object):
         with PersonMapper() as mapper:
             return mapper.find_by_id(id) 
  
-#Student-spezifische Methoden
+#Student related
       
     def get_student_by_matr_nr(self, matr_nr): 
         """Den Studenten mit der Matrikelnummer auslesen."""
@@ -140,7 +139,6 @@ class ProjectAdministration (object):
         """Den Studenten mit der ID auslesen."""
         with StudentMapper() as mapper:
             stud = mapper.find_by_id(id)
-            print("Student_by_id", stud) 
 
         with PersonMapper() as mapper:
 
@@ -167,8 +165,7 @@ class ProjectAdministration (object):
         """Einen Student updaten."""
         with StudentMapper() as mapper:
             mapper.update(student)
-    
-    
+        
 #Projekt related
 
     def get_projects_by_dozent_new(self, person_id): 
@@ -398,7 +395,6 @@ class ProjectAdministration (object):
             with ParticipationMapper() as mapper:
                 mapper.delete_participation(participation.get_id())
         else:
-            print(participation.get_id())
             with ParticipationMapper() as mapper:
                 mapper.delete_participation(participation.get_id())
 
@@ -440,6 +436,7 @@ class ProjectAdministration (object):
             mapper.update(semester)
     
 #Module Related
+
     def get_free_modules_by_semester(self, semester_id):
         """Alle Module auslesen, welche in einem bestimmten gegebenen Semester noch 
         nicht mit einem projekt belegt wurden, also noch frei sind"""
@@ -552,9 +549,9 @@ class ProjectAdministration (object):
             return mapper.find_by_id(id)
 
     def save_projecttype_by_id(self, projecttype):
-            """Einen Projekttyp updaten."""
-            with ProjectTypeMapper() as mapper:
-                mapper.update_by_id(projecttype)
+        """Einen Projekttyp updaten."""
+        with ProjectTypeMapper() as mapper:
+            mapper.update_by_id(projecttype)
     
     def delete_projecttype(self, projecttype):
         """Einen Projekttyp löschen."""
