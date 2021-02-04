@@ -4,8 +4,7 @@
 from server.bo import BusinessObjects as bo
 from datetime import datetime
 
- """Basisklasse, die in allen den Klassen: Module, Persoon, Projekt, Projekttyp, Semester und Student
-    übernommen werden."""
+"""Basisklasse, die in allen den Klassen: Module, Persoon, Projekt, Projekttyp, Semester und Student übernommen werden."""
 
 class NamedBusinessObjects(bo.BusinessObjects):
     def __init__(self):

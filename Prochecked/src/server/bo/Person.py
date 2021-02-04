@@ -2,6 +2,8 @@ from server.bo.Role import Role
 from server.bo.NamedBusinessObjects import NamedBusinessObjects 
 from datetime import datetime
 
+"""Personen können die Rolle: Student, Dozent oder Admin annehmen"""
+
 class Person(NamedBusinessObjects):
 
     student = Role("Student")
@@ -10,23 +12,27 @@ class Person(NamedBusinessObjects):
 
 
     def __init__(self):
-        super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
+        super().__init__() 
         self._email = ""
         self._google_id = ""
         self._berechtigung = 0
         self._student = 0
 
     
-    def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
+    def set_berechtigung(self, rolle):
+        """Setzen der Rolle"""
         self._berechtigung = rolle
 
     def get_berechtigung(self):
+        """Auslesen der Rolle"""
         return self._berechtigung
 
     def set_google_id(self, google_id):
+        """Setzen der Google ID"""
         self._google_id = google_id
 
     def get_google_id (self):
+        """Auslesen der Google ID"""
         return self._google_id
     
     def set_email(self, email):
@@ -38,15 +44,16 @@ class Person(NamedBusinessObjects):
         return self._email
     
     def set_student(self, student_id):
-        """Setzen der Email"""
+        """Setzen der Studenten ID"""
         self._student = student_id
     
     def get_student(self):
-        """Auslesen der Email"""
+        """Auslesen der Studenten ID"""
         return self._student
 
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Person: {}, {},{}".format(self.get_id(),self.get_creation_date(),self.get_name())
 
     def to_dict(self):
