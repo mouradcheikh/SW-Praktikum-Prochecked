@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, IconButton, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from '@material-ui/core';
+import { withStyles, Button, IconButton, Dialog, DialogTitle, DialogContent,DialogActions} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { AppApi, ProjectBO } from '../../AppApi';
-import ParticipationBO from '../../AppApi/ParticipationBO';
-// import AppAPI  from '../../AppApi/AppApi';
-import StudentBO from '../../AppApi/StudentBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -13,24 +10,16 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 
-
 /**
- * Shows a modal form dialog for a ParticipationBO in prop participation. If the participation is set, the dialog is configured 
- * as an edit dialog and the text fields of the form are filled from the given ParticipationBO object. 
- * If the participation is null, the dialog is configured as a new participation dialog and the textfields are empty.
- * In dependency of the edit/new state, the respective backend calls are made to update or create a participation. 
- * After that, the function of the onClose prop is called with the created/update ParticipationBO object as parameter.  
- * When the dialog is canceled, onClose is called with null.
+ * Zeigt ein DropDown Menü für die Module.
  * 
- * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
- * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
  */
+
 class ModuleForm extends Component {
 
     constructor(props) {
         super(props);
 
-        // Init the state
         this.state = {
             project: null,
             module: null,
@@ -40,42 +29,17 @@ class ModuleForm extends Component {
             addingError: null,
             updatingError: null,
         };
-        // save this state for canceling
         this.baseState = this.state;
     }
 
-    //   getAllModules = () => {
-    //     var api = AppApi.getAPI()
-    //     api.getAllModules().then(modules =>
-    //       this.setState({
-    //         modules: modules,
-    //         loadingInProgress: false, // loading indicator 
-    //         loadingError: null
-    //       })).catch(e =>
-    //         this.setState({ // Reset state with error from catch 
-    //           modules: null,
-    //           loadingInProgress: false,
-    //           loadingError: e,
-    //         })
-    //       );
-
-    //     // set loading to true
-    //     this.setState({
-    //       balance: 'loading',
-    //       loadingInProgress: true,
-    //       loadingError: null
-    //     });
-    //   }
 
     /** Updates the project */
     updateProject = () => {
         let updatedProject = Object.assign(new ProjectBO(), this.props.project);
         
         // set the new attributes from our dialog
-        // console.log(this.state.module)
         updatedProject.setModule(this.state.module.id);
         this.updateModuleOfProject(updatedProject)
-        // console.log(updatedProject)
 
         AppApi.getAPI().updateProject(updatedProject).then(project => {
             this.setState({
@@ -138,21 +102,6 @@ class ModuleForm extends Component {
         });
     }
 
-    // getModulesByProjectType = (modules) => {
-    //     let allprojecttypes = []
-    //     var api = AppApi.getAPI()
-    //     api.getAllProjectTypes().then((projecttypes) =>
-    //     {projecttypes.forEach((p) => {allprojecttypes.push(p)})})
-
-    //     let updated_modules = []
-    //     modules.forEach(m => {
-    //         if (this.state.project.getProjectType() === m.getProjectType()){
-    //             updated_modules.push(m)
-    //         }
-    //     });
-    //     return updated_modules
-    // }
-
     updateProjects = () => {
         this.handleClose()
         this.props.updateProject(3)
@@ -172,8 +121,8 @@ class ModuleForm extends Component {
 
     /** Renders the component */
     render() {
-        const { classes, participation, show } = this.props;
-        const { addingInProgress, addingError, updatingInProgress, updatingError, modules, module, project } = this.state;
+        const { classes, show } = this.props;
+        const { addingInProgress, updatingInProgress, updatingError, modules, module} = this.state;
 
         let title = '';
         let header = '';
@@ -201,11 +150,7 @@ class ModuleForm extends Component {
                         </FormControl>
                         <LoadingProgress show={addingInProgress || updatingInProgress} />
                         {
-                            // Show error message in dependency of participation prop
-                            // project ?
                             <ContextErrorMessage error={updatingError} contextErrorMsg={`The project could not be updated.`} onReload={this.updateProject} />
-                            // :
-                            // <ContextErrorMessage error={addingError} contextErrorMsg={`The project could not be added.`} onReload={this.addParticipation} />
                         }
                     </DialogContent>
                     <DialogActions>
