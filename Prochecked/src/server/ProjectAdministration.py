@@ -29,14 +29,13 @@ class ProjectAdministration (object):
         pass 
 
 #Person related
+        """Eine neue Person erstellen mit den entsprechenden Attributen."""
     def create_person(self, name, google_id, email, berechtigung):
-        #berechtigung?
         person = Person()
         person.set_name(name)
         person.set_google_id(google_id)
         person.set_email(email)
         person.set_berechtigung(berechtigung)
-        #person.set_berechtigung(berechtigung)
         person.set_id(1)
         
         adm = ProjectAdministration()
@@ -48,7 +47,6 @@ class ProjectAdministration (object):
             with PersonMapper() as mapper:
                 return mapper.insert(person)
 
-
     def get_person_by_name(self, name):
         """Alle Personen mit Namen 'name' auslesen."""
         with PersonMapper() as mapper:
@@ -58,7 +56,6 @@ class ProjectAdministration (object):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id)
-
 
     def get_person_by_email(self, email):
         """Alle Personen mit gegebener E-Mail-Adresse auslesen."""
@@ -81,15 +78,7 @@ class ProjectAdministration (object):
 
     def save_person(self, person):
         """Die gegebene Person speichern."""
-        """Methode mir Rollentabelle"""
-        # adm = ProjectAdministration()
-        # saved_person = adm.get_person_by_google_id(person.get_google_id)
-        # saved_role = saved_person.get_berechtigung()
-        # if saved_role is None:
-        #     role = person.get_berechtigung()
-        #     updated_role = adm.create_role(role)
-        #     person.set_berechtigung(updated_role)   
-        
+        """Methode mir Rollentabelle""" 
         with PersonMapper() as mapper:
             return mapper.update(person)
 
@@ -99,7 +88,6 @@ class ProjectAdministration (object):
         with PersonMapper() as mapper:
             mapper.update_by_id(person)
         
-    
     def delete_person(self, person):
         """Die gegebene Person aus unserem System löschen."""
         adm = ProjectAdministration()
@@ -111,34 +99,13 @@ class ProjectAdministration (object):
         with PersonMapper() as mapper:
             mapper.delete_by_id(person)
 
-        
-    def get_dozent_by_id(self, id): #Person_by_id???
+    def get_dozent_by_id(self, id): 
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_id(id) 
-
-
-        
-    
-    
+ 
 #Student-spezifische Methoden
-
-    '''#DOZENTENVIEW
-    # def create_student(self, name, vorname, google_id, email, matr_nr, studiengang, datetime, last_updated):
-        # student = Student()
-        # student.set_name(name)
-        # student.set_vorname(vorname)
-        # student.set_google_id(google_id)
-        # student.set_email(email)
-        # student.set_matr_nr(matr_nr)
-        # student.set_studiengang(studiengang)
-        # student.set_id(1)
-        # student.set_creation_date(datetime) #-- Erstellungsdatum hinzufügen. Villeicht mit Modul datetime       
-        # student.set_last_updated(last_updated)
-        # with StudentMapper() as mapper:  Fehler weil StundetMapper noch nicht geschrieben
-        #     return mapper.insert(student)'''
-
-        
+      
     def get_student_by_matr_nr(self, matr_nr): 
         """Die Person mit der gegebenen ID auslesen."""
         with StudentMapper() as mapper:
@@ -159,7 +126,6 @@ class ProjectAdministration (object):
 
         with PersonMapper() as mapper:
             pers = mapper.find_by_id(person_id)
-
 
         if stud is not None: 
             stud.set_name(pers.get_name())
@@ -199,35 +165,11 @@ class ProjectAdministration (object):
         with StudentMapper() as mapper:
             mapper.update(student)
     
-
-    '''# def get_student_by_name(self, name):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_name(name)
-
-    # def get_students_by_project(self, project):
-    #     with StudentMapper() as mapper:
-    #         return mapper.find_by_student_id(project.get_id())
-
-  
-
-    # def delete_student(self, student):
-    #     with StudentMapper() as mapper:
-    #         project = self.get_projects_of_student(student)
-
-    #         if not(project is None):
-    #             for a in project:
-    #                 self.delete_project(a)
-
-    #         mapper.delete(student)
-
-'''
     
 #Projekt related
 
-    def get_projects_by_dozent_new(self, person_id): #dozent eig. !!
+    def get_projects_by_dozent_new(self, person_id): 
         """Alle Projects des gegebenen Dozenten auslesen."""
-        # with ProjectMapper() as mapper:
-        #     return mapper.find_by_dozent_id(person_id) 
 
         with ProjectMapper() as mapper:
             pro = mapper.find_by_dozent_id(person_id)
@@ -239,10 +181,8 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
     
-    def get_projects_by_dozent_accepted(self, person_id): #dozent eig. !!
+    def get_projects_by_dozent_accepted(self, person_id): 
         """Alle Projects des gegebenen Dozenten auslesen."""
-        # with ProjectMapper() as mapper:
-        #     return mapper.find_by_dozent_id(person_id) 
 
         with ProjectMapper() as mapper:
             pro = mapper.find_by_dozent_id(person_id)
@@ -254,10 +194,8 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
 
-    def get_projects_by_dozent_in_review(self, person_id): #dozent eig. !!
+    def get_projects_by_dozent_in_review(self, person_id):
         """Alle Projects des gegebenen Dozenten auslesen."""
-        # with ProjectMapper() as mapper:
-        #     return mapper.find_by_dozent_id(person_id) 
 
         with ProjectMapper() as mapper:
             pro = mapper.find_by_dozent_id(person_id)
@@ -269,10 +207,8 @@ class ProjectAdministration (object):
                     p_list.append(p)
             return p_list
         
-    def get_projects_by_dozent_reviewed(self, person_id): #dozent eig. !!
+    def get_projects_by_dozent_reviewed(self, person_id): 
         """Alle Projects des gegebenen Dozenten auslesen."""
-        # with ProjectMapper() as mapper:
-        #     return mapper.find_by_dozent_id(person_id) 
 
         with ProjectMapper() as mapper:
             pro = mapper.find_by_dozent_id(person_id)
@@ -283,7 +219,6 @@ class ProjectAdministration (object):
                 if p.get_project_state() == 5:
                     p_list.append(p)
             return p_list
-
 
     def get_projects_by_student(self, matr_nr):
         adm = ProjectAdministration()
@@ -300,7 +235,6 @@ class ProjectAdministration (object):
          
         return project_list
             
-
     def get_projects_by_state_new(self):
         """Alle Projects mit dem Status Neu auslesen."""
 
@@ -330,8 +264,6 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_by_id(id)
 
-  
-
     def get_all_projects(self):
         with ProjectMapper() as mapper:
             return mapper.find_all()
@@ -353,7 +285,6 @@ class ProjectAdministration (object):
     def save_project(self, project):
         with ProjectMapper() as mapper:
             mapper.update(project)
-
 
 #Grading Related
 
@@ -385,7 +316,6 @@ class ProjectAdministration (object):
             pass
         return updated_grading
         
-
     def get_grading_by_participation_id(self, participation_id):
         """Die Grading mit der gegebenen participation ID auslesen."""
         with GradingMapper() as mapper:
@@ -414,8 +344,6 @@ class ProjectAdministration (object):
         with GradingMapper() as mapper:
             mapper.update(grading)
 
-
-
 #Participation Related
 
     def get_participations_by_project(self, project_id):
@@ -423,17 +351,9 @@ class ProjectAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.find_by_project_id(project_id) 
 
-
     def save_participation(self, participation):
         with ParticipationMapper() as mapper:
             mapper.update(participation)
-
-
-    def add_student_to_participation(self, ):
-        pass
-
-    def add_grading_to_participation(self, ):
-        pass
 
     def create_participation_for_project(self, project):
         """Für einen gegebenen Projekt ein neues Teilnahme anlegen."""
@@ -485,7 +405,6 @@ class ProjectAdministration (object):
             return mapper.find_all()
 
     def create_semester(self, name):
-        #berechtigung?
         semester = Semester()
         semester.set_name(name)
    
@@ -509,42 +428,15 @@ class ProjectAdministration (object):
             with SemesterMapper() as mapper:
                 mapper.delete(semester)
       
-
     def save_semester(self, semester):
         """Ein Semester updaten"""
         with SemesterMapper() as mapper:
             mapper.update(semester)
-
-         
-
     
-  
-    def get_semester_by_name(self, ):
-        pass
-
-    def add_project_to_semester(self, ):
-        pass
-
-    def add_semeter_to_project(self, ):
-        pass
-
-   
-    
-#Role Related
-
-    def create_role(self, role):
-        pass
-
-    def save_role(self, ):
-        pass
-
-    def delete_role(self, ):
-        pass
-
-
 #Module Related
     def get_free_modules_by_semester(self, semester_id):
-        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester noch nicht mit einem projekt belegt wurden, also noch frei sind"""
+        """Alle Module auslesen, welche in einem bestimmten gegebenen Semester noch 
+        nicht mit einem projekt belegt wurden, also noch frei sind"""
         with ModuleMapper() as mapper:
             all_modules = mapper.find_all()
 
@@ -559,7 +451,6 @@ class ProjectAdministration (object):
         for m in all_modules:
             module_id = m.get_id()
             for p in all_projects:
-                # print(p.get_name(), p.get_module(), "modul:", module_id)
                 if p.get_module() == module_id and p.get_semester() == semester_id:
                     found = True
             if found == False:
@@ -567,7 +458,6 @@ class ProjectAdministration (object):
             found = False
 
         return free_modules
-
 
     def get_all_modules(self):
         with ModuleMapper() as mapper:
@@ -590,7 +480,6 @@ class ProjectAdministration (object):
         for m in all_modules:
             module_id = m.get_id()
             for p in all_projects:
-                # print(p.get_name(), p.get_module(), "modul:", module_id)
                 if p.get_module() == module_id and p.get_semester() == semester_id:
                     found = True
             if found == True:
@@ -599,7 +488,6 @@ class ProjectAdministration (object):
 
         return bound_modules
                 
-
 #Module related
 
     def get_all_module(self):
@@ -607,10 +495,6 @@ class ProjectAdministration (object):
             return mapper.find_all()
 
     def create_module(self, module):
-        # module = Module()
-        # module.set_name(module.get_name())
-        # module.set_edv_nr(module.get_name())
-   
         with ModuleMapper() as mapper:
             mapper.insert(module)
 
@@ -652,7 +536,6 @@ class ProjectAdministration (object):
         with ProjectTypeMapper() as mapper:
             mapper.insert(projecttype)
 
-
     def get_projecttype_by_id(self, id):
         with ProjectTypeMapper() as mapper:
             return mapper.find_by_id(id)
@@ -672,8 +555,6 @@ class ProjectAdministration (object):
         with ProjectTypeMapper() as mapper:
             return mapper.find_all()
 
-
-
 if __name__ == '__main__':
 
     '''dictionary = {"email": "kai.kuster@gmx.de", "google_id": "i6YrxATieAexaC86OWQuf57VjpN2", "berechtigung": "student", "name": "Kai", "id": 3, "creation_date": None, "last_updated": None}
@@ -683,14 +564,3 @@ if __name__ == '__main__':
 
 
 
-    adm = ProjectAdministration()
-    modules = adm.get_free_modules_by_semester(1)
-    print(modules, modules[0], modules[0].get_edv_nr())
-
-    # p = adm.create_grading(2, 1)
-    # print(p)
-
-
-    '''par = adm.get_participation_by_id(3)
-    print(par)
-    adm.delete_participation(par)'''

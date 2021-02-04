@@ -123,7 +123,7 @@ class ProjectListEntryNew extends Component {
     let projecttypes = this.state.projecttypes
     projecttypes.forEach(p => {
       console.log(p.id)
-      if(p.id == this.state.project.getProjectType()){
+      if(p.id === this.state.project.getProjectType()){
         projecttype = p.getName()
         console.log(p)
       }
@@ -166,9 +166,9 @@ componentDidMount(){
 
   /** Renders the component */
   render() {
-    const { classes, expandedState } = this.props;
+    const { classes } = this.props;
     // Use the states project
-    const { project, showProjectForm, showProjectDeleteDialog } = this.state;
+    const { project, showProjectForm} = this.state;
 
     // console.log(this.state);
     return (

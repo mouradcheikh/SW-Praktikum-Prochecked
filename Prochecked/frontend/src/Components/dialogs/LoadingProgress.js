@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, LinearProgress } from '@material-ui/core';
 
-// Beim Anmelden eines Benutzers wird ein Ladebalken angezeigt, der hier definiert wird.
-
+/**
+ * Zeigt den LadeBalken im Programm .
+ * 
+ */
 class LoadingProgress extends Component {
 
   /** Renders the component */

@@ -154,11 +154,8 @@ class ProjectListEntryNew extends Component {
   render() {
     const { classes, expandedState } = this.props;
     // Use the states project
-    const { project, showProjectForm, showProjectDeleteDialog, participations, participationsCounter, participation, loadingInProgress, deletingInProgress} = this.state;
+    const { project, participationsCounter, participation, loadingInProgress, deletingInProgress} = this.state;
 
-    console.log(this.state)
-    // console.log(this.state);
-    // console.log(participation)
     return (
       
       participation !==null?
@@ -166,7 +163,6 @@ class ProjectListEntryNew extends Component {
       <div>
         <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
           <AccordionSummary
-            // expandIcon={<ExpandMoreIcon />}
             id={`project${project.getID()}accountpanel-header`}
           >
             

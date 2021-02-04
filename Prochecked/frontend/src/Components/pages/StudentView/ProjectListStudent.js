@@ -110,7 +110,7 @@ class ProjectListStudent extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error, student} = this.state;
+    const { projectsAvailable, projectsSignedIn, expandedProjectID, error, student} = this.state;
 
     return (
         <div >

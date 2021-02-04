@@ -10,9 +10,6 @@ import SidebarAdmin from '../layout/SidebarAdmin';
  */
 
 class PersonLoggedIn extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() 
     { 
         let page

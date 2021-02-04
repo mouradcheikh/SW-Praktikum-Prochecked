@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography, Grid } from '@material-ui/core';
-import { Button, ButtonGroup } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Semesterbericht from './Semesterbericht'
 import AppAPI from '../../../AppApi/AppApi'
-import Paper from '@material-ui/core/Paper';
-import LoadingProgress from '../../dialogs/LoadingProgress';
 
 /**
  * Renders a ProjectBO object in the Semesterbericht by selected filter (semester filter)
@@ -38,15 +33,13 @@ class SemesterberichtEntry extends Component {
   }
 
   getGradeofGrading = () => {
-    if(this.props.project.getProjectState() != 5){
-      console.log(this.props.project)
+    if(this.props.project.getProjectState() !== 5){
       return "In Bewertung"
     }
     else if (this.state.grading === null){
       return "loading..."
     }
     else {
-      console.log(this.props.project)
       return this.state.grading.grade
     }
   }

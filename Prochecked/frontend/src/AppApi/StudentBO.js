@@ -2,12 +2,12 @@ import BusinessObject from './BusinessObject';
 import PersonBO from './PersonBO';
 
 /**
- * Represents a Role of the system
+ * Represents a Student of the system
  */
 export default class StudentBO extends PersonBO {
 
   /**
-   * Constructs a RoleBO object with a given name
+   * Constructs a StudentBO object with a given name
    * 
    * @param {String} aname - the name of this RoleBO.
    */
