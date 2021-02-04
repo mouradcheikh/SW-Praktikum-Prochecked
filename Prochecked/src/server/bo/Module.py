@@ -1,12 +1,8 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 from datetime import datetime
-
 from server.bo.NamedBusinessObjects import NamedBusinessObjects
 
-"""Module die in den jeweiligen Semestern vorhanden sind"""
-
 class Module(NamedBusinessObjects):
+    """Module die in den jeweiligen Semestern vorhanden sind"""
     def __init__(self):
         super().__init__()
         self._edv_nr = None
@@ -31,8 +27,6 @@ class Module(NamedBusinessObjects):
         obj.set_name(dictionary["name"])
         obj.set_edv_nr(dictionary["edv_nr"]) #muss "edv_nr" hier private sein?
         return obj
-
-
 
 if __name__ == "__main__":
 

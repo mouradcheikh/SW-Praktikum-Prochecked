@@ -1,6 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Semester import Semester
 
@@ -9,6 +6,11 @@ class SemesterMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """Auslesen aller Semester.
+
+        :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
+                        repräsentieren.
+        """
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * from prochecked.semester"
@@ -37,7 +39,7 @@ class SemesterMapper(Mapper):
         for (maxid) in tuples:
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
-                um 1 hoch und weisen diesen Wert als ID dem Person-Objekt zu."""
+                um 1 hoch und weisen diesen Wert als ID dem Semster-Objekt zu."""
                 semester.set_id(maxid[0] + 1)
             else:
                 """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
@@ -96,7 +98,6 @@ class SemesterMapper(Mapper):
 
         return result
 
-
     def update(self, semester):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 
@@ -115,7 +116,6 @@ class SemesterMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-
 
 if __name__ == "__main__":
     with SemesterMapper() as mapper:

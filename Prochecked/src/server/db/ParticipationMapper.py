@@ -1,13 +1,9 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Participation import Participation
 
 class ParticipationMapper(Mapper):
     def __init__(self):
         super().__init__()
-
 
     def find_all(self, ):
         """Auslesen aller Teilnahmen.
@@ -35,7 +31,6 @@ class ParticipationMapper(Mapper):
         cursor.close()
         return result
 
-
     def find_by_id(self, id):
 
         result = None
@@ -61,10 +56,8 @@ class ParticipationMapper(Mapper):
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
             result = None
 
-
         self._cnx.commit()
         cursor.close()
-
         return result
     
     def delete_participation(self, participation_id):
@@ -104,9 +97,7 @@ class ParticipationMapper(Mapper):
         
         self._cnx.commit()
         cursor.close()
-
         return result
-
 
     def find_by_student_id(self, student_id):
         """Auslesen aller Teilnahmen eines durch Fremdschlüssel (student_id) gegebenen Projekts.
@@ -132,7 +123,6 @@ class ParticipationMapper(Mapper):
         
         self._cnx.commit()
         cursor.close()
-
         return result
 
     def find_by_student_id_and_project_id(self, student_id, project_id):
@@ -158,9 +148,7 @@ class ParticipationMapper(Mapper):
         
         self._cnx.commit()
         cursor.close()
-
         return result[0]
-    
 
     def update(self, participation):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -182,8 +170,6 @@ class ParticipationMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
     def insert(self, participation):
         """Einfügen eines Participation-Objekts in die Datenbank.
         
@@ -200,7 +186,7 @@ class ParticipationMapper(Mapper):
         for (maxid) in tuples:
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
-                um 1 hoch und weisen diesen Wert als ID dem Person-Objekt zu."""
+                um 1 hoch und weisen diesen Wert als ID dem Participation-Objekt zu."""
                 participation.set_id(maxid[0] + 1)
             else:
                 """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
@@ -221,50 +207,12 @@ class ParticipationMapper(Mapper):
         cursor.close()
         return participation
 
-
-
 if (__name__ == "__main__"):
-
-    #   with ParticipationMapper() as mapper:
-    #     result = mapper.find_by_project_id(1)
-    #     for p in result:
-    #         print(p.get_id(), p.get_project(), p.get_student())
-
-    #p = Participation()
-    #p.set_id(1)
-    #p.set_grading(2)
-    #p.set_module(5)
-    #p.set_project(1)
-    #p.set_student(5)
-
-    # with ParticipationMapper() as mapper:
-    #     result = mapper.insert(p)
-    #     # result = mapper.find_by_id(4)
-    #     # print(result)
-    #     mapper.delete_participation(4)
 
     with ParticipationMapper() as mapper:
         result = mapper.find_by_student_id(1)
         for p in result:
             print(p)
-
-    # with ParticipationMapper() as mapper:
-    #     result = mapper.find_all()
-    #     for p in result:
-    #         print(p)
-    #     p = Participation()
-    #     p.set_id(1)
-    #     p.set_creation_date("12.12.2020")
-    #     p.set_grading(2)
-    #     p.set_module(5)
-    #     p.set_project(1)
-    #     p.set_student(5)
-
-    #     with ParticipationMapper() as mapper:
-    #         result = mapper.insert(p)
-    #         #result = mapper.find_by_id(4)
-    #         print(result)
-
 
 
 

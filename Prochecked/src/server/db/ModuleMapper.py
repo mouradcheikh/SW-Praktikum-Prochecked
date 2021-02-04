@@ -1,6 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Module import Module
 
@@ -64,14 +61,18 @@ class ModuleMapper(Mapper):
                )
 
         cursor.execute(command, data)
-
         self._cnx.commit()
         cursor.close()
-
         return module
     
-
     def find_by_id(self, id ):
+        """Suchen eines Moduls mit vorgegebener ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param key Primärschlüsselattribut (->DB)
+        :return Modul-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+            nicht vorhandenem DB-Tupel.
+        """
 
         result = None
 

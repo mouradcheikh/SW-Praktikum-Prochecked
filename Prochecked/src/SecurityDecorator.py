@@ -1,9 +1,7 @@
 from flask import request
 from google.auth.transport import requests
 import google.oauth2.id_token
-
 from server.ProjectAdministration import ProjectAdministration
-
 
 def secured(function):
     """Decorator zur Google Firebase-basierten Authentifizierung von Benutzern
@@ -74,7 +72,7 @@ def secured(function):
                 # verification checks fail.
                 error_message = str(exc)
                 return exc, 401  # UNAUTHORIZED !!!
-
+                
         return '', 401  # UNAUTHORIZED !!!
 
     return wrapper

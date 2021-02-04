@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Student import Student
 
@@ -10,6 +7,11 @@ class StudentMapper(Mapper):
         super().__init__()
 
     def find_all(self, ):
+        """Auslesen aller Projekte.
+
+        :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
+                        repräsentieren.
+        """
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * from prochecked.student"
@@ -27,7 +29,7 @@ class StudentMapper(Mapper):
         wird genau ein Objekt zurückgegeben.
 
         :param key Primärschlüsselattribut (->DB)
-        :return Customer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+        :return Studenten-Objekt, das dem übergebenen Schlüssel entspricht, None bei
             nicht vorhandenem DB-Tupel.
         """
         result = None
@@ -58,10 +60,10 @@ class StudentMapper(Mapper):
         return result
 
     def find_by_person_id(self, person_id):
-        """Suchen eines Studentens mit vorgegebener matr_nr. Da diese eindeutig ist,
+        """Suchen eines Studentens mit vorgegebener ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
 
-        :param matr_nr Primärschlüsselattribut (->DB)
+        :param person_id Primärschlüsselattribut 
         :return Student-Objekt, das dem übergebenen Schlüssel entspricht, None bei
             nicht vorhandenem DB-Tupel.
         """
@@ -133,7 +135,7 @@ class StudentMapper(Mapper):
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
 
-        :param project das zu speichernde Objekt
+        :param student das zu speichernde Objekt
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
         """
 
@@ -145,7 +147,7 @@ class StudentMapper(Mapper):
 
             if maxid[0] is not None:
                     """Wenn wir eine maximale ID festellen konnten, zählen wir diese
-                    um 1 hoch und weisen diesen Wert als ID dem Project-Objekt zu."""
+                    um 1 hoch und weisen diesen Wert als ID dem Studentt-Objekt zu."""
                     student.set_id(maxid[0] + 1)
             else:
                     """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
@@ -170,7 +172,7 @@ class StudentMapper(Mapper):
     def delete(self, student):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
 
-        :param user das aus der DB zu löschende "Objekt"
+        :param student das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 

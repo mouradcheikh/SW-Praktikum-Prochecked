@@ -1,16 +1,12 @@
-
 from server.bo.NamedBusinessObjects import NamedBusinessObjects 
 from server.bo.Automat import Automat 
 from server.bo.ProjectType import ProjectType
 from datetime import datetime
 
 class Project(NamedBusinessObjects, Automat):
-
-
-""" Projekte können von Dozenten angelegt werden und Studenten können diese mit einer Teilnahme belegen""" 
-
-"""Statische Variablen der ProjektTypen, die nach dem Anlegen eines Projekts diesem zugeordnet werden können.
-    Jedes dieser Varablen initiiert ein Objekt der Klasse ProjectType"""
+    """ Projekte können von Dozenten angelegt werden und Studenten können diese mit einer Teilnahme belegen
+        Statische Variablen der ProjektTypen, die nach dem Anlegen eines Projekts diesem zugeordnet werden können.
+        Jedes dieser Varablen initiiert ein Objekt der Klasse ProjectType"""
 
     transdisziplinaer = ProjectType("Transdiziplinäres Projekt",10, 20)  
     interdisziplinaer = ProjectType("Interdisziplinäres Projekt",5, 10)
@@ -86,6 +82,7 @@ class Project(NamedBusinessObjects, Automat):
         return self._short_description
 
     def set_weekly_flag(self, weekly_flag):
+        """Setzen der wöchentlichen Termine"""
         if weekly_flag == True:
             self._weekly_flag = 1
         elif weekly_flag == False:
@@ -94,62 +91,83 @@ class Project(NamedBusinessObjects, Automat):
             self._weekly_flag = None
 
     def get_weekly_flag(self):
+        """Auslesen der wöchentlichen Termine"""
         return self._weekly_flag
 
     def set_number_bd_b_lecturetime(self, number_bd_b_lecturetime):
+        """Setzen der Blocktage vor Beginn der Vorlesungszeit"""
         self._number_bd_b_lecturetime = number_bd_b_lecturetime
    
     def get_number_bd_b_lecturetime(self):
+        """Auslesen der Blocktage vor Beginn der Vorlesungszeit"""
         return self._number_bd_b_lecturetime
 
     def set_number_bd_examtime(self, number_bd_examtime):
+        """Setzen der Blocktage in der Prüfungszeit"""
         self._number_bd_examtime = number_bd_examtime
 
     def get_number_bd_examtime(self):
         return self._number_bd_examtime
+        """Auslesen der Blocktage in der Prüfungszeit"""
+
     def set_number_bd_lecturetime(self,number_bd_lecturetime):
+        """Setzen der Blocktage in der Vorlesungszeit (Samstag)"""
         self._number_bd_lecturetime = number_bd_lecturetime
 
     def get_number_bd_lecturetime(self):
+        """Auslesen der Blocktage in der Vorlesungszeit (Samstag)"""
         return self._number_bd_lecturetime
 
     def set_preffered_bd(self, preffered_bd):
+        """Setzen der präferierten Blocktage"""
         self._preffered_bd = preffered_bd
 
     def get_preffered_bd(self):
+        """Auslesen der präferierten Blocktage"""
         return self._preffered_bd
 
     def set_special_room(self, special_room):
+        """Setzen der besonderen Raumnummer"""
         self._special_room = special_room
 
     def get_special_room(self):
+        """Auslesen der besonderen Raumnummer"""
         return self._special_room
  
     def set_dozent(self, dozent):
+        """Setzen des Dozenten"""
         self._dozent = dozent
 
     def get_dozent(self):
+        """Auslesen des Dozenten"""
         return self._dozent
 
     def set_dozent2(self, dozent):
+        """Setzen des Zweit-Dozenten"""
         self._dozent2 = dozent
 
     def get_dozent2(self):
+        """Auslesen des Zweit-Dozenten"""
         return self._dozent2
 
     def set_semester(self, semester):
+        """Setzen des Semesters"""
         self._semester = semester
 
     def get_semester(self):
+        """Auslesen des Semesters"""
         return self._semester
 
     def get_module(self):
+        """Setzen des Mouduls"""
         return self._module
 
     def set_module(self, module_id):
+        """Auslesen des Moduls"""
         self._module = module_id
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Projekt: {}, {}, {}".format(self.get_name(), self.get_project_type(), self.get_dozent())
 
     @staticmethod

@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 from server.db.Mapper import Mapper
 from server.bo.Project import Project
 
@@ -7,13 +5,12 @@ class ProjectMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-
     def find_all(self, ):
         """Auslesen aller Projekte.
 
-                :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
+        :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
                         repräsentieren.
-                """
+        """
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * from prochecked.project"
@@ -47,10 +44,10 @@ class ProjectMapper(Mapper):
         return result
 
     def find_by_id(self, id):
-        """Auslesen aller Teilnahmen eines durch Fremdschlüssel gegebenen Projekts.
+        """Auslesen aller Projekte.
         :param project_id Schlüssel des zugehörigen Projekts.
         :return Eine Sammlung mit Project-Objekten, die sämtliche Teilnahmen der
-                betreffenden Projects repräsentieren. --> STIMMT NICHT
+                betreffenden Projects repräsentieren.
         """
 
         result = None
@@ -91,7 +88,6 @@ class ProjectMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-
         return result
 
          
@@ -120,7 +116,6 @@ class ProjectMapper(Mapper):
                     davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                     project.set_id(1)
 
-
         command = "INSERT INTO project (id, name, creation_date, capacity, ext_partner_list, short_description, weekly_flag, number_bd_b_lecturetime, number_bd_examtime,number_bd_lecturetime, preffered_bd, special_room, person_id, project_state_id, project_type_id, semester_id, person2_id, module_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         data = (
                 project.get_id(),
@@ -146,19 +141,17 @@ class ProjectMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-
         return project
 
     def update(self, project):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
 
-        :param user das Objekt, das in die DB geschrieben werden soll
+        :param projekt das Objekt, das in die DB geschrieben werden soll
         """
         cursor = self._cnx.cursor()
 
         command = "UPDATE project SET name=%s, capacity=%s, ext_partner_list=%s, short_description=%s, weekly_flag=%s, number_bd_b_lecturetime=%s, number_bd_examtime=%s, number_bd_lecturetime=%s, preffered_bd=%s, special_room=%s, person_id=%s, project_state_id=%s, project_type_id=%s, semester_id=%s, person2_id=%s,  module_id=%s WHERE id=%s"
 
-        
         data = (
             project.get_name(),
             project.get_capacity(),
@@ -171,7 +164,6 @@ class ProjectMapper(Mapper):
             project.get_preffered_bd(),
             project.get_special_room(),
             project.get_dozent(),
-            
             project.get_project_state(),
             project.get_project_type(),
             project.get_semester(),
@@ -185,7 +177,7 @@ class ProjectMapper(Mapper):
         cursor.close()
            
     def find_by_dozent_id(self, person_id):
-        """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
+        """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID).
 
         :param person_id Schlüssel des zugehörigen Dozenten.
         :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
@@ -209,7 +201,7 @@ class ProjectMapper(Mapper):
 
         cursor = self._cnx.cursor()
         command = "SELECT id, name, person_id, project_state_id, person2_id from project WHERE person2_id={}".format(
-            person_id)  # zweiter befehl für filtern der Projekte deren projektstateID 2(genehmigt) entspricht
+            person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -221,10 +213,9 @@ class ProjectMapper(Mapper):
             p.set_project_state(project_state)
             p.set_dozent2(person2_id)
             result.append(p)
-        #hier fehlen warscheinlich noch die anderen attribute
+
         self._cnx.commit()
         cursor.close()
-
         return result
 
     def find_project_by_project_state_id(self, project_state_id):
@@ -258,17 +249,15 @@ class ProjectMapper(Mapper):
             project.set_module(module_id)
 
             result.append(project)
-
                
         self._cnx.commit()
         cursor.close()
-
         return result
 
     def delete(self, project):
-        """Löschen der Daten eines User-Objekts aus der Datenbank.
+        """Löschen der Daten eines Projekt-Objekts aus der Datenbank.
 
-        :param user das aus der DB zu löschende "Objekt"
+        :param projekt das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
@@ -277,7 +266,6 @@ class ProjectMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-
 
 if __name__ == "__main__":
 

@@ -1,12 +1,9 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.bo import BusinessObjects as bo
 from datetime import datetime
 
-"""Basisklasse, die in allen den Klassen: Module, Persoon, Projekt, Projekttyp, Semester und Student übernommen werden."""
-
 class NamedBusinessObjects(bo.BusinessObjects):
+    """Basisklasse, die in allen den Klassen: Module, Persoon, Projekt, Projekttyp, Semester und Student übernommen werden."""
+
     def __init__(self):
         super().__init__()
         self._name = ""

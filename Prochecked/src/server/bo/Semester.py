@@ -1,6 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.bo.NamedBusinessObjects import NamedBusinessObjects
 from datetime import datetime
 
@@ -10,13 +7,13 @@ class Semester(NamedBusinessObjects):
         self.teilleistung = []
 
     def __str__(self, ):
-        pass
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
 
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Semster()-Objekt."""
         obj = Semester()
-        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])    
         return obj
 

@@ -2,14 +2,12 @@ from server.bo.Role import Role
 from server.bo.NamedBusinessObjects import NamedBusinessObjects 
 from datetime import datetime
 
-"""Personen können die Rolle: Student, Dozent oder Admin annehmen"""
-
 class Person(NamedBusinessObjects):
+    """Personen können die Rolle: Student, Dozent oder Admin annehmen"""
 
     student = Role("Student")
     dozent = Role("Dozent")
     admin = Role("Admin")
-
 
     def __init__(self):
         super().__init__() 
@@ -18,7 +16,6 @@ class Person(NamedBusinessObjects):
         self._berechtigung = 0
         self._student = 0
 
-    
     def set_berechtigung(self, rolle):
         """Setzen der Rolle"""
         self._berechtigung = rolle
@@ -51,7 +48,6 @@ class Person(NamedBusinessObjects):
         """Auslesen der Studenten ID"""
         return self._student
 
-
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Person: {}, {},{}".format(self.get_id(),self.get_creation_date(),self.get_name())
@@ -67,7 +63,6 @@ class Person(NamedBusinessObjects):
             "last_updated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
             "student": self.get_student(),
-
         }
         return result
 
@@ -102,8 +97,6 @@ class Person(NamedBusinessObjects):
             result.append(person)
         return result
        
-    
-
 if __name__ == "__main__":
 
     Mensch1 = Person()

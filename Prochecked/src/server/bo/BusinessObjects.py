@@ -2,9 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 class BusinessObjects():
-
-
- """Basisklasse, die in allen anderen Klassen übernommen wird."""
+    """Basisklasse, die in allen anderen Klassen übernommen wird."""
 
     def __init__(self):
         self._id = 0
@@ -27,7 +25,6 @@ class BusinessObjects():
     #     """Auslesen der des Erstellungsdatum"""
     #     return self._creation_date
 
-
     def set_creation_date(self, creation_date):
         """Setzen der des Erstellungsdatum"""
         self._creation_date = creation_date
@@ -36,7 +33,6 @@ class BusinessObjects():
         """Auslesen der des Erstellungsdatum"""
         return self._creation_date
 
-    
     def set_last_updated(self, last_updated):
         """Erstellungsdatum wird aktualisiert"""
         self._last_updated = last_updated
@@ -44,11 +40,9 @@ class BusinessObjects():
     def get_last_updated(self):
         return self._last_updated
         
-    
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return str(self._id)
-    
     
     @staticmethod
     def date_format(date_string):

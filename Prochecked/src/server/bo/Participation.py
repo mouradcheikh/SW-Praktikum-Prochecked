@@ -1,12 +1,9 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.bo import BusinessObjects as bo
 from datetime import datetime
 
-"""Teilnahmen der Stundenten an Projekten"""
-
 class Participation(bo.BusinessObjects):
+    """Teilnahmen der Stundenten an Projekten"""
+
     def __init__(self):
         super().__init__()
         self._grading = 0
@@ -63,7 +60,6 @@ class Participation(bo.BusinessObjects):
         }
         return result
        
-
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in einen Participation()."""
@@ -91,8 +87,6 @@ class Participation(bo.BusinessObjects):
             part.set_student(student_id)
             result.append(part)
         return result
-
-
 
 if __name__ == "__main__":
     pass

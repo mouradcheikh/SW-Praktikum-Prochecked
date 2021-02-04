@@ -1,12 +1,8 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 from datetime import datetime
-
 from server.bo import BusinessObjects as bo
 
-"""Note die ein Student bei seiner Teilnahme an einem Projekt erreicht hat"""
-
 class Grading(bo.BusinessObjects):
+    """Note die ein Student bei seiner Teilnahme an einem Projekt erreicht hat"""
     def __init__(self):
         super().__init__()
         self._passed = False 
@@ -16,7 +12,6 @@ class Grading(bo.BusinessObjects):
     def set_grade(self, grade):
         """Setzen der Noten"""
         self._grade = float(grade)
-        # self.set_passed(grade)
 
     def get_grade(self):
         """Auslesen der Noten"""
@@ -39,14 +34,14 @@ class Grading(bo.BusinessObjects):
         return self._participation
 
     def __str__(self):
-         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Grading: {}, {}, {}, {}".format(self.get_id(), self.get_grade(), self.get_passed(), self.get_participation())
 
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Grading()-Objekt."""
         obj = Grading()
-        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_id(dictionary["id"])
         obj.set_grade(dictionary["grade"])
         obj.set_passed(dictionary["passed"]) 
         obj.set_participation(dictionary["participation"])
