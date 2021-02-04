@@ -3,6 +3,13 @@ from server.bo.Grading import Grading
 from server.bo.Participation import Participation
 
 class GradingMapper(Mapper):
+    """Mapper-Klasse, die Grading-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
+    
     def __init__(self):
         super().__init__()
 

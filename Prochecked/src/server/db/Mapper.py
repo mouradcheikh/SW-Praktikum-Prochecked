@@ -4,6 +4,7 @@ from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 
 class Mapper():
+        """Abstrakte Basisklasse aller Mapper-Klassen"""
     def __init__(self):
         self._cnx = None
 
