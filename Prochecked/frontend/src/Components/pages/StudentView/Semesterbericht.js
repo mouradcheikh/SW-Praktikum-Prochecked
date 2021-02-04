@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import ClearIcon from '@material-ui/icons/Clear'
+import { withStyles} from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
 import LoadingProgress from '../../dialogs/LoadingProgress';
@@ -11,7 +9,6 @@ import AppAPI from '../../../AppApi/AppApi';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 
 /**
@@ -118,7 +115,7 @@ class Semesterbericht extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projectFilter, expandedProjectID, loadingInProgress, error, showProjectForm } = this.state;
+    const { loadingInProgress, error } = this.state;
 
     return (
       <div className={classes.root}>

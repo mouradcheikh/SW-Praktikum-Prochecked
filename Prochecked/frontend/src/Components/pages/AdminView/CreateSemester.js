@@ -175,22 +175,6 @@ class CreateSemester extends React.Component {
       }
     }
 
-    // handleSubmitTextfield = (event, s) => {
-    //   console.log(s)
-    //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    //   if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-    //     this.updateSemester(s)
-    //     this.setState({
-    //       success : true,
-    //     })
-    //   }
-    // }
-
-    // handleStateTextField(){
-    //   this.setState({
-    //     textField: true
-    //   })
-    // }
       
   componentDidMount() {
     this.SemesterList();
@@ -199,7 +183,7 @@ class CreateSemester extends React.Component {
          
   render() { 
         const { classes  } = this.props;
-        const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField, alert} = this.state; 
+        const {semesters, editButton, semesterValidationFailed, success, alert} = this.state; 
   return( 
     <div>
       <Grid className={classes.root} container spacing={3}>

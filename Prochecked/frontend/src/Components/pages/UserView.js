@@ -12,10 +12,6 @@ import grey from "@material-ui/core/colors/grey";
  */
 
 class UserView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
 
     handleAdminButtonClicked = () => {
       this.props.setRole(3);
