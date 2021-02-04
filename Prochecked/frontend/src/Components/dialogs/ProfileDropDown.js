@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid, Divider } from '@material-ui/core';
+import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid } from '@material-ui/core';
 import firebase from 'firebase/app';
 
 /**
@@ -13,8 +13,8 @@ import firebase from 'firebase/app';
  * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
  * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
  * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
+
 class ProfileDropDown extends Component {
 
   // a refernce to the avatar button

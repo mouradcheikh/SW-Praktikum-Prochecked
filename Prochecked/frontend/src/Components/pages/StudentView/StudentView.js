@@ -2,8 +2,13 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import React, { Component } from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import AppAPI from '../../../AppApi/AppApi'
+
+/**
+ * Zeigt die Startseite in der Studenten View,
+ * wenn man sich als Student im System anmeldet.
+ */
 
 class StudentView extends Component{
   constructor(props){
@@ -13,10 +18,10 @@ class StudentView extends Component{
     let person = '';
     let adminStudent = false;
 
-    if (this.props.location.state.person){ //ohne .state. evtl?
+    if (this.props.location.state.person){ 
       person = this.props.location.state.person
     }
-    if (this.props.location.state.student){ //evtl state wieder rain ???
+    if (this.props.location.state.student){ 
       student = this.props.location.state.student
     }
     if (this.props.location.state.adminStudent){
@@ -32,11 +37,7 @@ class StudentView extends Component{
       })
     }
     
-    
-
     this.state = {
-      // person: this.props.location.state.person,
-      // student: this.props.location.state.student
       person: person,
       student:student,
       adminStudent: adminStudent
@@ -44,50 +45,16 @@ class StudentView extends Component{
     
   }
 
-  // componentDidMount(){
-  //   console.log("didmount")
-  //   let student = null;
-  //   let person = null;
-
-  //   if (this.props.location.state.person){ //ohne .state. evtl?
-  //     person = this.props.location.state.person
-  //   }
-  //   if (this.props.location.state.student){ //evtl state wieder rain ???
-  //     student = this.props.location.state.student
-  //   }
-  //   if (student.getID() === 0){
-  //     var api = AppAPI.getAPI()
-  //     api.getStudentByPerson(person.getID()).then((studentresponse) => {
-  //       student = studentresponse
-  //       this.setState({
-  //         student: studentresponse
-  //       })
-  //     })
-  //   }
-  //   this.setState({
-  //     person: person,
-  //     student: student
-  //   })
-  // }
-
   render() {
     const { classes } = this.props;
-
     const{ person, student, adminStudent} = this.state;
-    console.log("StudentView",this.props, this.state)
 
     return(
-
-    
-
     <div className = { classes.root}>
-
       {adminStudent?
-
       <center>
         <div>
             <h1>Wählen Sie einen der folgenden Optionen aus:</h1>
-            
             <Link to={{
             pathname: '/ProjectListStudent',
             state: { linkState: person, student: student}
@@ -100,7 +67,6 @@ class StudentView extends Component{
             >
                         Für Projekte registrieren
                         /abmelden
-                
             </Button>
             </Link>
           </div>
@@ -123,26 +89,16 @@ class StudentView extends Component{
     </center>
     :
     <div className={classes.view}>
-      {/* <Container maxWidth = 'lg'> */}
       <Grid container spacing={1} justify = 'center'>
-        
         <Grid alignContent = 'center' alignItems = 'center'>
           <Grid>
           <h1 align = 'center' style ={{color: "white"}} >Herzlich Willkommen</h1>
           <h2>Sie haben sich als Student eingeloggt</h2>
-            
             </Grid>
-         
           </Grid>
-     
       </Grid>
-   
     </div>
           }
-    
-  {/* </div> */}
-  
-
   </div>
   
 ); 

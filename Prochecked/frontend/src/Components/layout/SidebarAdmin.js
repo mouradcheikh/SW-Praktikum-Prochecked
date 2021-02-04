@@ -11,11 +11,8 @@ import {AppApi} from '../../AppApi'
 import { Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography'
 import ProfileDropDown from '../dialogs/ProfileDropDown.js'
-
-
 import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
-
 
 const Nav = styled.div`
   background: #15171c;
@@ -57,13 +54,7 @@ const Sidebar = (props) => {
 
   const showSidebar = () => {setSidebar(!sidebar); getStudentByPerson()};
   const classes = props
-  // const person = props.person;
 
-  // console.log(props)
-
-  
-
-    
     let berechtigung = props.person.berechtigung
     let result
 
@@ -83,14 +74,12 @@ const Sidebar = (props) => {
       result = SidebarDataUserView
     }
 
-
     let getStudentByPerson = () =>{
       if(props.person.berechtigung != null){
       var api = AppApi.getAPI()
-      api.getStudentByPersonId(props.person.id) //evtl. Objekt von API vorher anlegen
+      api.getStudentByPersonId(props.person.id) 
         .then(studentBO =>
-          setStudent(studentBO))}             // Set new state when ProjectBOs have been fetched
-
+          setStudent(studentBO))}             
     }
 
     let getBerechtigung = () => {
@@ -105,7 +94,6 @@ const Sidebar = (props) => {
       } 
   }
     
-  
   return (
     
     <>
@@ -116,22 +104,14 @@ const Sidebar = (props) => {
               <FaIcons.FaBars onClick={showSidebar} />
             </NavIcon>
           </Grid>
-
           <Grid  item xs={6} justify="center">
-                
                 <Typography variant="h5" align = 'center'>
                           <div>ProChecked - Hochschule der Medien </div>     
-                </Typography>
-                      
+                </Typography>  
           </Grid>
-
-        
           <Grid justify="flex-end">
-
           {props.person.name + ' - '+ getBerechtigung()}
-
           </Grid>
-      
           <Grid item xs={3} justify="flex-end">                 
                       
                 <ProfileDropDown 
@@ -139,23 +119,17 @@ const Sidebar = (props) => {
                 person={props.person}/>
                
           </Grid>
-
-
-
         </Nav>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
             <NavIcon to='#'>
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
-
             {
-
               result.map((item, index) => {
                     return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
                   })
             }
-
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>

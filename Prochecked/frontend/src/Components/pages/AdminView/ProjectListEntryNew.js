@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Grid, hexToRgb, colors } from '@material-ui/core';
-import { Button,ButtonGroup } from '@material-ui/core';
-import  {AppApi}  from '../../../AppApi';
+import { withStyles, Typography,Grid} from '@material-ui/core';
+import { Button} from '@material-ui/core';
+import {AppApi}  from '../../../AppApi';
 import {ProjectBO} from '../../../AppApi';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import AddIcon from '@material-ui/icons/Add';
 import ReplyRoundedIcon from '@material-ui/icons/ReplyRounded';
 import CheckIcon from '@material-ui/icons/Check';
 import ModuleForm from'../../dialogs/DropdownModule'
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-
-
-
-
 /**
- * Renders a ProjectBO object within a expandable/collapsible ProjectListEntryNew with the project manipulation
- * functions. If expanded, it renders a AccountList.
- * 
- * @see See [ProjectListNew](#projectlist)
+ * Zeigt die Entry Komponente der ProjectListNew
  * 
  */
+
 class ProjectListEntryNew extends Component {
 
   constructor(props) {
@@ -172,18 +161,6 @@ ProjectFormClosed = (project) => {
 componentDidMount(){
   this.getAllProjectTypes()
 }
-//   /** Handles onChange events of the underlying ExpansionPanel */
-//   expansionPanelStateChanged = () => {
-//     this.props.onExpandedStateChange(this.props.project);
-//   }
-
-//   /** Handles onAccountDelete events from an AccountListEntry  */
-//   deleteAccountHandler = (deletedAccount) => {
-//     // console.log(deletedAccount.getID());
-//     this.setState({
-//       accounts: this.state.accounts.filter(account => account.getID() !== deletedAccount.getID())
-//     })
-//   }
 
 /** Handles click events from the transfer money button */
 
@@ -197,11 +174,6 @@ componentDidMount(){
     return (
       project.project_state ===1?
       <div>
-        {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-          <AccordionSummary
-            // expandIcon={<ExpandMoreIcon />}
-            id={`project${project.getID()}accountpanel-header`}
-          > */}
           <Box m="0,5rem" p={2}>
           <Paper>
           <Box p={2}>
@@ -210,7 +182,6 @@ componentDidMount(){
                 <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projekt:" + " " + project.getName()} 
                 </Typography>
                 <Typography style={{'overflowWrap': 'break-word'}} variant='body1' 
-                // className={classes.heading}
                 >{"Beschreibung:"+ " "+ project.getShortDescription()} 
                 </Typography>
                 <Typography style={{'overflowWrap': 'break-word'}} variant='body1' className={classes.heading}>{"Projektart:"+ " "+ this.state.projecttype} 
@@ -218,7 +189,6 @@ componentDidMount(){
                 </Grid>
                 <Grid zeroMinWidth item xs={3}>
                   <Button fullWidth
-                          // className={classes.buttonFreigeben}
                           color='primary'
                           startIcon={<CheckIcon/>}
                           variant='contained'  size='small'  onClick={() => this.updateProject(3),() => this.FreigabeButtonClicked()}>
@@ -228,7 +198,6 @@ componentDidMount(){
                   <Button variant="contained"
                           color="secondary"
                           fullWidth
-                          // className={classes.buttonAblehnen}
                           startIcon={<HighlightOffIcon/>}
                           size='small' onClick={() => this.updateProject(2)}>
                   Ablehnen  
@@ -239,19 +208,9 @@ componentDidMount(){
             </Box>
             </Paper>
             </Box>
-          {/* </AccordionSummary>
-         <AccordionDetails> 
-          </AccordionDetails>
-        </Accordion>  */}
       </div>
       : project.project_state ===2?
       <div>
-      {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-        <AccordionSummary
-          // expandIcon={<ExpandMoreIcon />}
-          id={`project${project.getID()}accountpanel-header`}
-        >
-           */}
           <Box m="0,5rem" p={2}>
           <Paper>
           <Box p={2}>
@@ -263,9 +222,8 @@ componentDidMount(){
               </Typography>
             </Grid>
             <Grid item zeroMinWidth xs={5}>
-                <Button // className={classes.button}
+                <Button 
                         startIcon={<CheckIcon/>}
-                        // className={classes.button} 
                         variant='contained' 
                         color='primary' 
                         size='small' 
@@ -275,9 +233,7 @@ componentDidMount(){
                 </Button>
                 <Button 
                         color="default"
-                        // className={classes.button}
                         startIcon={<ReplyRoundedIcon/>}
-                        // className={classes.button} 
                         variant='text' 
                         color='default' 
                         size='small' 
@@ -293,18 +249,9 @@ componentDidMount(){
           </Box>
           </Paper>
           </Box>
-        {/* </AccordionSummary>
-       <AccordionDetails> 
-        </AccordionDetails>
-      </Accordion>  */}
     </div>
     : 
     <div>
-    {/* <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}>
-      <AccordionSummary
-        // expandIcon={<ExpandMoreIcon />}
-        id={`project${project.getID()}accountpanel-header`}
-      > */}
       <Box m="0,5rem" p={2}>
         <Paper>
         <Box p={2}>
@@ -318,9 +265,7 @@ componentDidMount(){
           <Grid item zeroMinWidth xs={5}>
               <Button 
                       fullWidth
-                      // className={classes.button}
                       startIcon={<HighlightOffIcon/>}
-                      // className={classes.button} 
                       variant='contained' 
                       color='secondary' 
                       size='small' 
@@ -330,11 +275,8 @@ componentDidMount(){
               <Button 
                       color="default"
                       fullWidth
-                      // className={classes.button}
                       startIcon={<ReplyRoundedIcon/>}
-                      // className={classes.button} 
                       variant='text' 
-                      
                       size='small'  
                       onClick={() => this.updateModule(0, 1)}>
               Rückgängig
@@ -347,10 +289,6 @@ componentDidMount(){
         </Box>
         </Paper>
         </Box>
-      {/* </AccordionSummary>
-     <AccordionDetails> 
-      </AccordionDetails>
-    </Accordion>  */}
   </div>
     );
   }
@@ -371,8 +309,6 @@ const styles = theme => ({
 
 });
  
-
-
 /** PropTypes */
 ProjectListEntryNew.propTypes = {
   /** @ignore */

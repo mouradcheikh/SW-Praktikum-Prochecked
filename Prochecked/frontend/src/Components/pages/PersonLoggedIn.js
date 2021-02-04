@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import StudentView from './StudentView/StudentLogin'
-import AdminView from './AdminView'
-import DozentView from './DozentView'
 import UserView from './UserView'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { Container, Grid} from '@material-ui/core';
-// import SidebarAdmin from '../SidebarAdmin';
+import { BrowserRouter as Route, Redirect } from 'react-router-dom';
+import {Grid} from '@material-ui/core';
 import SidebarAdmin from '../layout/SidebarAdmin';
+
+/**
+ * Zeigt die Seite welche die Person anhand ihrer gespeicherten Rolle an die entsprechende Seite weiter leitet
+ * Entweder Student View, DozentView oder AdminView 
+ */
 
 class PersonLoggedIn extends Component {
     constructor(props) {
@@ -14,32 +15,10 @@ class PersonLoggedIn extends Component {
     }
     render() 
     { 
-
         let page
         let berechtigung = this.props.berechtigung
         let student = this.props.student
-        let person = this.props.person
-        // if (berechtigung === 1 && student.getID() != null){
-        //     page = <> 
-        //             <Redirect to={{
-        //             pathname: '/StudentView',
-        //             state: {person: this.props.person,
-        //                     student: this.props.student}
-        //             }}
-        //             />
-        //             </>
-        // }
-        // else if (berechtigung === 1 && student.getID() === null){
-        //     page = <> 
-        //             <Redirect to={{
-        //             pathname: '/StudentLogin',
-        //             state: {person : this.props.person}
-        //             }}
-        //             />
-        //             </>
-        // }
-
-
+    
         if (berechtigung === 1){
             if (student.getID() === null){
                 page = <> 
@@ -110,5 +89,5 @@ class PersonLoggedIn extends Component {
          ;
     }
 }
- 
+
 export default PersonLoggedIn; 

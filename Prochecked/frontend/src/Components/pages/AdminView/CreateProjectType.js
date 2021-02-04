@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  TextField,
-  withStyles,
-  Button,
-  List,
-  ListItem,
-  Link,
-  Typography,
-  Input,
-  Grid,
-} from "@material-ui/core";
+import {TextField,withStyles,Button,ListItem,Grid,} from "@material-ui/core";
 import { AppApi } from "../../../AppApi";
 import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -257,7 +247,7 @@ class CreateProjectType extends React.Component {
                     >
                       <DeleteIcon  />
                     </IconButton>
-                    <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                    <Button color="primary" onClick= {() => { this.setState({ updateT: t, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                     </Button>
                   </ListItem>

@@ -1,13 +1,12 @@
 import React from 'react';
-import {makeStyles, withStyles, IconButton, Button, List, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid } from '@material-ui/core';
+import {withStyles, IconButton, Button,ListItem,Grid } from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
-import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import ModuleBO from '../../../AppApi/ModuleBO';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert} from '@material-ui/lab';
 
 /**
  * Zeigt die Seite um Module zu erstellen.
@@ -104,8 +103,6 @@ class CreateModule extends React.Component {
     });
   }
 
-
-  
     ModuleList(){
       var api = AppApi.getAPI()
       api.getModule().then((modules) =>
@@ -116,8 +113,6 @@ class CreateModule extends React.Component {
           )
         }
         
-
-  
   ProjectList(){
       var api = AppApi.getAPI()
         api.getProjects().then((projects) =>
@@ -128,7 +123,6 @@ class CreateModule extends React.Component {
         )
     }
       
-          
         handleSubmit = (event) => {
           event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
           if (this.state.editButton === false){
@@ -145,18 +139,9 @@ class CreateModule extends React.Component {
               })
             }
           }
-    
-          
-        // handleSubmit = (event) => {
-        //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-        //   this.createModule(
-        //     this.state.module, 
-        //     this.state.edv_nr, 
-        //   )}
-
+  
         handleChange(e) { 
             this.setState({ [e.target.name]: e.target.value });
-            // console.log({ [e.target.name]: e.target.value })
             }
       /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
@@ -166,7 +151,7 @@ class CreateModule extends React.Component {
          
     render() { 
         const { classes  } = this.props;
-        const { module, moduleList, updatetM, edv_nr, editButton, moduleValidationFailed, success, alert } = this.state; 
+        const {moduleList, editButton, alert } = this.state; 
         return (
 
         <div>
@@ -209,21 +194,7 @@ class CreateModule extends React.Component {
                   </Button>
                 :<div></div> }
                     </Grid>
-                
-                {/* { editButton? 
-                  <Button 
-                    type = "submit"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    className={classes.buttonMargin}
-                    startIcon={<SaveIcon />}>                
-                    überschreiben
-                  </Button>
-                :<div></div> } */}
-                
                 </Grid>
-                    
                   </form>
               </div>
             </Paper>
@@ -234,7 +205,6 @@ class CreateModule extends React.Component {
                 <div></div>
                 }
           </Grid>
-
             <Grid item xs={12}>
             <h1>Bestehende Module</h1>
            <Paper className={classes.paper}>
@@ -244,11 +214,9 @@ class CreateModule extends React.Component {
              <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteModule(m)}>
               <DeleteIcon />
               </IconButton>
-
-              <Button style ={{color: "gray"}}color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
+              <Button color='primary' onClick= {() => { this.setState({ updateM: m, editButton: true })}}>                  
                 edit
                 </Button>
-             
               </ListItem >)}
           </div>
            </Paper>
@@ -258,7 +226,6 @@ class CreateModule extends React.Component {
          );
         }
 }
-
 
 /** Component specific styles */
 const styles = theme => ({

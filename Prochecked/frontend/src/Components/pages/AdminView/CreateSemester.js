@@ -1,13 +1,12 @@
 import React from 'react';
-import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid, GridItem } from '@material-ui/core';
+import {TextField, withStyles, Button,ListItem,Grid} from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
 import SemesterBO from '../../../AppApi/SemesterBO';
-import AddIcon from '@material-ui/icons/Add';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert} from '@material-ui/lab';
 
 /**
  * Zeigt die Seite um Semester zu erstellen.
@@ -268,7 +267,7 @@ class CreateSemester extends React.Component {
                 <IconButton  style ={{color: "gray"}} aria-label="delete" onClick={() => this.deleteSemester(s)}>
                  <DeleteIcon />
                 </IconButton>
-                <Button style ={{color: "gray"}} onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
+                <Button color="primary" onClick= {() => { this.setState({ updateS: s, editButton: true })}}> {/* neuer State wird gesetzt, PersonBO ist in p und wird in updateP als State gesetzt, update Putton wird auf True gesetzt und angezeigt*/  }
                    edit
                 </Button>
                 

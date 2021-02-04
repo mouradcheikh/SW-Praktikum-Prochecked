@@ -1,6 +1,11 @@
 import React from 'react'
 import { makeStyles, Paper, Typography, Link , ListItem, List} from '@material-ui/core';
 
+/**
+ * Zeigt die "About" Seite der Anwendung und wer sie entwickelt hat mit 
+ * den entsprechenden Links zu den GitHub-Profilen der Entwickler.
+ */
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -13,11 +18,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   }
 }));
-
-/**
- * Zeigt die "About" Seite der Anwendung und wer sie entwickelt hat mit 
- * den entsprechenden Links zu den GitHub-Profilen der Entwickler.
- */
 
 function About() {
 
