@@ -1,7 +1,7 @@
 import BusinessObject from './BusinessObject';
 
 /**
- * Represents a participation of the system
+ * Represents a Participation of the system
  */
 export default class ParticipationBO extends BusinessObject {
 
@@ -10,7 +10,7 @@ export default class ParticipationBO extends BusinessObject {
    * 
    * @param {String} astudentID - the name of this ParticipationBO. 
    */
-  constructor() { //astudentID, agradingID, aprojectID, amoduleID (rausgenommen da sonst undefined)
+  constructor() { 
     super();
     this.student_id = null
     this.grading_id = null
