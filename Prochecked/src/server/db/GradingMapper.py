@@ -1,12 +1,15 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Grading import Grading
 from server.bo.Participation import Participation
 
-
 class GradingMapper(Mapper):
+    """Mapper-Klasse, die Grading-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
+    
     def __init__(self):
         super().__init__()
 
@@ -53,7 +56,7 @@ class GradingMapper(Mapper):
     def find_all(self):
         """Auslesen aller Noten.
 
-        :return Eine Sammlung mit GRading-Objekten, die sämtliche Noten der Studierenden
+        :return Eine Sammlung mit Grading-Objekten, die sämtliche Noten der Studierenden
                 repräsentieren.
         """
         result = []
@@ -75,11 +78,11 @@ class GradingMapper(Mapper):
         return result
 
     def find_by_id(self, id):
-        """Suchen eines Person mit vorgegebener ID. Da diese eindeutig ist,
+        """Suchen einer Note mit vorgegebener ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
 
         :param key Primärschlüsselattribut (->DB)
-        :return Customer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+        :return Grading-Objekt, das dem übergebenen Schlüssel entspricht, None bei
             nicht vorhandenem DB-Tupel.
         """
         result = None
@@ -110,7 +113,7 @@ class GradingMapper(Mapper):
         return result
 
     def find_by_participation_id(self, participation_id):
-        """Auslesen aller Projekte eines durch Fremdschlüssel (DozentID bzw. PersonID?.) gegebenen Kunden.
+        """Auslesen aller Noten  durch Fremdschlüssel (Participation).
 
         :param participation_id Schlüssel des zugehörigen Dozenten.
         :return Eine Sammlung mit Projekte-Objekten, die sämtliche Projekte des
@@ -165,7 +168,7 @@ class GradingMapper(Mapper):
         cursor.close()
 
     def delete(self, grading):
-        """Löschen der Daten eines grading-Objekts aus der Datenbank.
+        """Löschen der Daten eines Grading-Objekts aus der Datenbank.
 
         :param grading das aus der DB zu löschende "Objekt"
         """

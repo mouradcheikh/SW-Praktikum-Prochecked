@@ -1,21 +1,22 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 from datetime import datetime
-
 from server.bo.NamedBusinessObjects import NamedBusinessObjects
 
 class Module(NamedBusinessObjects):
+    """Module die in den jeweiligen Semestern vorhanden sind"""
     def __init__(self):
         super().__init__()
         self._edv_nr = None
 
     def get_edv_nr(self, ):
+        """Auslesen der EDV-Nummer"""
         return self._edv_nr
 
     def set_edv_nr (self, edv_nr):
+        """Setzen der EDV-Nummer"""
         self._edv_nr = edv_nr
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Module: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_edv_nr())
 
     @staticmethod
@@ -26,8 +27,6 @@ class Module(NamedBusinessObjects):
         obj.set_name(dictionary["name"])
         obj.set_edv_nr(dictionary["edv_nr"]) #muss "edv_nr" hier private sein?
         return obj
-
-
 
 if __name__ == "__main__":
 

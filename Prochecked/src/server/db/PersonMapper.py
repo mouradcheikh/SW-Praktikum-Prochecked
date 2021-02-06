@@ -1,12 +1,14 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Person import Person
 
-
-
 class PersonMapper(Mapper):
+    """Mapper-Klasse, die Person-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
+    
     def __init__(self):
         super().__init__()
 
@@ -14,8 +16,8 @@ class PersonMapper(Mapper):
         """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
 
-        :param google_user_id die Google ID des gesuchten Users.
-        :return User-Objekt, das die übergebene Google ID besitzt,
+        :param google_id die Google ID des gesuchten Users.
+        :return Person-Objekt, das die übergebene Google ID besitzt,
             None bei nicht vorhandenem DB-Tupel.
         """
         result = None
@@ -83,7 +85,7 @@ class PersonMapper(Mapper):
         return person
 
     def find_all(self):
-        """Auslesen aller Kunde.
+        """Auslesen aller Personen.
 
         :return Eine Sammlung mit Person-Objekten, die sämtliche Kunden
                 repräsentieren.
@@ -100,14 +102,12 @@ class PersonMapper(Mapper):
         cursor.close()
         return result
 
-
-
     def find_by_id(self, id):
-        """Suchen eines Person mit vorgegebener ID. Da diese eindeutig ist,
+        """Suchen einer Person mit vorgegebener ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
 
         :param key Primärschlüsselattribut (->DB)
-        :return Customer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+        :return Person-Objekt, das dem übergebenen Schlüssel entspricht, None bei
             nicht vorhandenem DB-Tupel.
         """
         result = None
@@ -176,7 +176,7 @@ class PersonMapper(Mapper):
     def delete(self, person):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
 
-        :param user das aus der DB zu löschende "Objekt"
+        :param person das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
@@ -189,7 +189,7 @@ class PersonMapper(Mapper):
     def delete_by_id(self, person):
         """Löschen der Daten eines Person-Objekts aus der Datenbank.
 
-        :param user das aus der DB zu löschende "Objekt"
+        :param person das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
@@ -199,14 +199,12 @@ class PersonMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
     def find_by_role(self, role_id):
         """Suchen eines Benutzers mit vorgegebener Google ID. Da diese eindeutig ist,
         wird genau ein Objekt zurückgegeben.
 
         :param google_user_id die Google ID des gesuchten Users.
-        :return User-Objekt, das die übergebene Google ID besitzt,
+        :return Person-Objekt, das die übergebene Google ID besitzt,
             None bei nicht vorhandenem DB-Tupel.
         """
         result = None

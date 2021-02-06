@@ -1,6 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.bo.Person import Person
 from datetime import datetime
 
@@ -12,37 +9,43 @@ class Student(Person):
         self._person = 0
 
     def set_matr_nr(self, matr_nr):
+        """Setzen des Matrikelnummer"""
         self._matr_nr = matr_nr
 
     def get_matr_nr(self):
+        """Auslesen des Namen"""
         return self._matr_nr
 
     def set_studiengang(self, studiengang):
+        """Setzen des Studiengang"""
         self._studiengang = studiengang
 
     def get_studiengang(self):
+        """Auslesen des Studiengang"""
         return self._studiengang
 
     def set_person(self, person_id):
+        """Setzen der Person"""
         self._person = person_id
 
     def get_person(self):
+        """Auslesen der Person"""
         return self._person
 
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Student: {}, {}, {} ".format(self.get_name(),self.get_matr_nr(),self.get_studiengang())
         
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Person()-Objekt."""
         obj = Student()
-        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_id(dictionary["id"])
         obj.set_studiengang(dictionary["studiengang"])
         obj.set_matr_nr(dictionary["matr_nr"])
         obj.set_creation_date(Person.date_format(dictionary["creation_date"]))
         obj.set_person(dictionary["person_id"])
 
-        
         return obj
     
     @staticmethod

@@ -1,14 +1,23 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.ProjectType import ProjectType
 
 class ProjectTypeMapper(Mapper):
+    """Mapper-Klasse, die Projekttyp-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
+    
     def __init__(self):
         super().__init__()
 
     def find_all(self):
+        """Auslesen aller Projekttypen.
+
+        :return Eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
+                        repräsentieren.
+        """
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT * from prochecked.projecttype"
@@ -51,7 +60,6 @@ class ProjectTypeMapper(Mapper):
             projecttype.set_name(name)
             projecttype.set_number_ects(number_ects)
             projecttype.set_number_sws(number_sws)
- 
 
             result = projecttype
         except IndexError:
@@ -64,7 +72,6 @@ class ProjectTypeMapper(Mapper):
 
         return result
         
-
     def insert(self, projecttype):
         """Einfügen eines ProjectType-Objekts in die Datenbank.
 
@@ -98,9 +105,11 @@ class ProjectTypeMapper(Mapper):
 
         return projecttype
           
-
     def update_by_id(self, projecttype):
-            
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param projecttype das Objekt, das in die DB geschrieben werden soll
+        """
         cursor = self._cnx.cursor()
 
         command = "UPDATE projecttype SET name=%s,number_ects=%s, number_sws=%s WHERE id=%s"
@@ -113,11 +122,10 @@ class ProjectTypeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         
-
     def delete(self, projecttype):
         """Löschen der Daten eines projecttype-Objekts aus der Datenbank.
 
-        :param user das aus der DB zu löschende "Objekt"
+        :param projecttype das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
@@ -127,13 +135,9 @@ class ProjectTypeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
     
-
 if __name__ == "__main__":
     p = ProjectType()
     p.set_id(4)
 
     with ProjectTypeMapper() as mapper:
-        # result = mapper.find_all()
-        # for p in result:
-        #     print(p)
         mapper.delete(p)

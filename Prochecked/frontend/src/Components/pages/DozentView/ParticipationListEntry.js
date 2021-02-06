@@ -2,35 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles, withStyles, Button, ListItem, ListItemSecondaryAction, Link, Typography, Input, Grid, Box} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Icon from '@material-ui/core/Icon';
 import SendIcon from '@material-ui/icons/Send';
-import { Link as RouterLink } from 'react-router-dom';
 import { AppApi } from '../../../AppApi';
 import {GradingBO} from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 import ParticipationForm from '../../dialogs/ParticipationForm';
 import IconButton from '@material-ui/core/IconButton';
-import { spacing } from '@material-ui/system';
 
 
 
 /**
- * Renders a ParticipationBO object within a ListEntry and provides a delete button to delete it. Links participations 
- * to a list of transactions. This is done by routing the link to /transactions and passing the ProjectBO and
- * the ParticipationBO as props to the ParticipationList component. It also shows a MoneyTransferDialog to transfer money.
- * 
- * @see See Material-UIs [Lists](https://material-ui.com/components/lists/)
- * @see See Material-UIs [ListItem](https://material-ui.com/api/list-item/)
- * @see See Material-UIs [Link](https://material-ui.com/components/links/)
- * @see See Material-UIs React Router integration [Composition](https://material-ui.com/guides/composition/#link)
- * @see See React Router [ReactRouter](https://reacttraining.com/react-router/web/guides/quick-start)
- * @see See React Router [Link](https://reacttraining.com/react-router/web/api/Link)
- * 
- * @see See [MoneyTransferDialog](#moneytransferdialog)
- * @see See [TransactionList](#transactionlist)
- * 
- * 
+ * Ein TeilnahmeListenEintrag enthält den zugeordneten Studenten. Je nachdem in was für einem Bereich der ProjektListe
+ * sich der jewilige Eintrag befindet, werden dem Nutzer für den betreffenden Eintrag verschiedene Funktionen bereitgestellt.
  */
 
 class ParticipationListEntry extends Component {
@@ -39,7 +23,6 @@ class ParticipationListEntry extends Component {
     super(props);
     this.textInput = React.createRef();
 
-    // Init an empty state
     this.state = {
       student: '',
       loadingInProgress: false,
@@ -53,14 +36,11 @@ class ParticipationListEntry extends Component {
   }
 
   /** gets the students for this participation */
-
   getStudent = () => {
-    // console.log("Participationlist", this.state, this.props)
     let stud = this.props.participation.student_id
     if (stud !== 0){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
       var api = AppApi.getAPI()
-      // console.log(this.props.participation)
-      api.getStudent(this.props.participation.student_id).then(student => //.student_id funktioniert (.getStudent_id()nicht?!?!?!?)
+      api.getStudent(this.props.participation.student_id).then(student => 
       this.setState({
         student: student,
         loadingInProgress: false, // loading indicator 
@@ -75,7 +55,7 @@ class ParticipationListEntry extends Component {
 
     // set loading to true
     this.setState({
-      sut: 'loading',//????????
+      sut: 'loading',
       loadingInProgress: true,
       loadingError: null
     });
@@ -91,7 +71,6 @@ class ParticipationListEntry extends Component {
         deletingInProgress: false, // loading indicator 
         deletingError: null
       })
-      // console.log(participation);
       this.props.onParticipationDeleted(participation);
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
@@ -112,10 +91,8 @@ class ParticipationListEntry extends Component {
 
   createGrading(grade, participation_id){
     var api = AppApi.getAPI()
-    // console.log(api)
     api.gradingStudent(grade, participation_id).then((grade) =>
         {
-          // console.log("createGrading",grade)
         this.setState({
             grade: grade
         }, () => {this.getGrading()})}
@@ -124,12 +101,8 @@ class ParticipationListEntry extends Component {
 
   /** Updates the grading */
   updateGrading = (newGrade, participation_id) => {
-    // console.log()
     // clone the original grading, in case the backend call fails
     let updatedGrading = Object.assign(new GradingBO(), this.state.grade);
-    // console.log(this.state.grade)
-    // set the new attributes from our dialog
-    // console.log(this.state.student.id)
     updatedGrading.setGrade(newGrade);
     updatedGrading.setParticipation(participation_id)
     console.log(updatedGrading)
@@ -164,7 +137,6 @@ getGrading = () => {
   console.log(grade)
   if (grade!==null){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
     var api = AppApi.getAPI()
-    // console.log(this.props.participation)
     api.getGrading(this.props.participation.grading_id).then(grade => 
     this.setState({
       grade: grade,
@@ -179,13 +151,12 @@ getGrading = () => {
     );  
   // set loading to true
   this.setState({
-    sut: 'loading',//????????
+    sut: 'loading',
     loadingInProgress: true,
     loadingError: null
   });
   }
 }
-
 
 
   /** Deletes this participation */
@@ -196,8 +167,6 @@ getGrading = () => {
         deletingInProgress: false, // loading indicator 
         deletingError: null
       })
-      // console.log(participation);
-      // this.props.onParticipationDeleted(participation); //Elternkomponentenaufruf
     }).catch(e =>
       this.setState({ // Reset state with error from catch 
         deletingInProgress: false,
@@ -221,47 +190,15 @@ parentCall = () => {
   this.props.getParticipationsByProject()
 }
 
-// updateProject = (new_state) => {
-//   // clone the original cutomer, in case the backend call fails
-//   console.log(new_state)
-//   let updatedProject = Object.assign(new ProjectBO(), this.props.project);
-//   // set the new attributes from our dialog
-//   updatedProject.setProjectState(new_state);
- 
-//   AppApi.getAPI().updateProject(updatedProject).then(project => {
-//     this.setState({
-//       // project: project,
-//       updatingInProgress: false,              // disable loading indicator  
-//       updatingError: null                     // no error message
-//     });
-//     // keep the new state as base state
-//     this.baseState.project = this.state.project;
-//     this.props.onClose(updatedProject);      // call the parent with the new project
-//   }).catch(e =>
-//     this.setState({
-//       updatingInProgress: false,              // disable loading indicator 
-//       updatingError: e                        // show error message
-//     })
-//   );
 
-//   // set loading to true
-//   this.setState({
-//     updatingInProgress: true,                 // show loading indicator
-//     updatingError: null                       // disable error message
-//   });
-// }
-  
     passed(){
       let passed = this.state.grade.passed
-      // console.log(passed)
-      // if (passed !== undefined){
         if (passed == true){
           return "Bestanden"
         }      
         else {
           return "Nicht Bestanden"
         }
-      // }
     }
 
    /** Handles the onClick event of the edit participation button */
@@ -300,13 +237,11 @@ parentCall = () => {
       else {
         this.updateGrading(this.textInput.current.value, this.props.participation.getID())
       }
-      // this.updateProject(5)
     }
      
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
     // load initial balance
-    // debugger;
     this.getGrading();
     this.getStudent();
       
@@ -365,15 +300,6 @@ parentCall = () => {
           <Grid container>
           <Grid item xs={4}>
           <Typography className={classes.participationEntry}>
-            {/* <Link component={RouterLink} to={{
-              pathname: '/StudentZuordnung',
-              owner: {
-                project: project,
-                participation: participation
-              }
-            }} >
-              Teilnehmer {participation.id + " - " + student.matr_nr + " - " + student.name}
-            </Link> */}
        
             <div>
             {this.state.student.matr_nr + " - " + this.state.student.name}
@@ -387,10 +313,8 @@ parentCall = () => {
           </Grid>
           
             <div>
-            {/* <form className={classes.root} noValidate autoComplete="off"> */}
             <Grid item xs={4}>
             <form >
-              {/* <Input type="text" placeholder="Note" ref ={this.textInput} inputProps={{ 'aria-label': 'description' }} className= "form-control" /> */}
               <Grid item xs={2}>
               <input placeholder= "Note" type="text" ref={this.textInput} className= "form-control"/>
               </Grid>
@@ -400,11 +324,8 @@ parentCall = () => {
               Bewerten
               </Button>
               </Grid>
-
-              {/* <input type="checkbox" checked={participation.graded} onChange={handleGraded}/> */}
             </form>
             </Grid>
-            {/* {project.project_state ===4? */}
             <Typography variant='body2' color={'textSecondary'}>
               {grade != null?  
               <div>Bewertet: {grade.grade + " - " + this.passed()}
@@ -436,26 +357,7 @@ parentCall = () => {
       </div>
 
       :
-      <div>
-        {/* <ListItem>
-          <Typography className={classes.participationEntry}>      
-            <div>
-              {student.matr_nr + " - " + student.name}
-            </div>
-          </Typography>
-          <Typography variant='body2' color={'textSecondary'}>
-              Bewertet: {grade.grade + " - " + this.passed()}
-          </Typography>
-
-        </ListItem>
-        <ListItem>
-          <LoadingProgress show={loadingInProgress || deletingInProgress} />
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getStudent}/>
-          <ContextErrorMessage error={loadingError} contextErrorMsg={`The student of participation ${participation.getID()} could not be loaded.`} onReload={this.getGrading}/>
-          <ContextErrorMessage error={deletingError} contextErrorMsg={`The participation ${participation.getID()} could not be deleted.`} onReload={this.deleteParticipation}/>
-        </ListItem>
-        <ParticipationForm show={showParticipationForm} participation={participation} student={student} onClose={this.participationFormClosed} setStud ={this.setStudent}/> */}
-      </div>
+      <div></div>
     );
   }
 }
@@ -475,7 +377,6 @@ const styles = theme => ({
   }
 });
 
-//TEXTFIELD PLACEHOLDER STYLES --> noch bearbeiten
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -501,8 +402,5 @@ ParticipationListEntry.propTypes = {
   /** If true, balance is (re)loaded */
   show: PropTypes.bool.isRequired
 }
-
-
-//TEXTFIELD
 
 export default withStyles(styles, useStyles)(ParticipationListEntry);

@@ -3,30 +3,33 @@ from server.bo.NamedBusinessObjects import NamedBusinessObjects
 from datetime import datetime
 
 class Person(NamedBusinessObjects):
+    """Personen können die Rolle: Student, Dozent oder Admin annehmen"""
 
     student = Role("Student")
     dozent = Role("Dozent")
     admin = Role("Admin")
 
-
     def __init__(self):
-        super().__init__() #Erbt Attribut Name und dessen Getter und Setter von NamedBusinessObject
+        super().__init__() 
         self._email = ""
         self._google_id = ""
         self._berechtigung = 0
         self._student = 0
 
-    
-    def set_berechtigung(self, rolle): #string als input mit den Rollennamen, welche dann umgewandelt werden
+    def set_berechtigung(self, rolle):
+        """Setzen der Rolle"""
         self._berechtigung = rolle
 
     def get_berechtigung(self):
+        """Auslesen der Rolle"""
         return self._berechtigung
 
     def set_google_id(self, google_id):
+        """Setzen der Google ID"""
         self._google_id = google_id
 
     def get_google_id (self):
+        """Auslesen der Google ID"""
         return self._google_id
     
     def set_email(self, email):
@@ -38,15 +41,15 @@ class Person(NamedBusinessObjects):
         return self._email
     
     def set_student(self, student_id):
-        """Setzen der Email"""
+        """Setzen der Studenten ID"""
         self._student = student_id
     
     def get_student(self):
-        """Auslesen der Email"""
+        """Auslesen der Studenten ID"""
         return self._student
 
-
     def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz"""
         return "Person: {}, {},{}".format(self.get_id(),self.get_creation_date(),self.get_name())
 
     def to_dict(self):
@@ -60,7 +63,6 @@ class Person(NamedBusinessObjects):
             "last_updated": self.get_last_updated(),
             "berechtigung": self.get_berechtigung(),
             "student": self.get_student(),
-
         }
         return result
 
@@ -95,8 +97,6 @@ class Person(NamedBusinessObjects):
             result.append(person)
         return result
        
-    
-
 if __name__ == "__main__":
 
     Mensch1 = Person()

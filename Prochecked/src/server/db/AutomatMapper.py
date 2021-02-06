@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
 from server.bo.Automat import Automat
 from server.db.Mapper import Mapper
 

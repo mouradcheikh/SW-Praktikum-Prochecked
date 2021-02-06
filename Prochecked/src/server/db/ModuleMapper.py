@@ -1,10 +1,14 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
-
 from server.db.Mapper import Mapper
 from server.bo.Module import Module
 
 class ModuleMapper(Mapper):
+    """Mapper-Klasse, die Module-Objekte auf eine relationale
+    Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+    gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+    gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+    in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+    """
+    
     def __init__(self):
         super().__init__()
 
@@ -64,14 +68,18 @@ class ModuleMapper(Mapper):
                )
 
         cursor.execute(command, data)
-
         self._cnx.commit()
         cursor.close()
-
         return module
     
-
     def find_by_id(self, id ):
+        """Suchen eines Moduls mit vorgegebener ID. Da diese eindeutig ist,
+        wird genau ein Objekt zurückgegeben.
+
+        :param key Primärschlüsselattribut (->DB)
+        :return Modul-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+            nicht vorhandenem DB-Tupel.
+        """
 
         result = None
 
@@ -131,6 +139,24 @@ class ModuleMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+    def update(self, student):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param student das Objekt, das in die DB geschrieben werden soll
+        """
+        print("StudentMapper:", student.get_id(), student.get_matr_nr(), student.get_studiengang(), student.get_person())
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE student SET matr_nr=%s, studiengang=%s, person_id=%s WHERE id=%s"
+        data = (student.get_matr_nr(),
+                student.get_studiengang(), 
+                student.get_person(),
+                student.get_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()   
 
 if (__name__ == "__main__"):
 
