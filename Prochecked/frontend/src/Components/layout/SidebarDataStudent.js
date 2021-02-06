@@ -5,6 +5,11 @@ import * as RiIcons from 'react-icons/ri';
 import * as FaIcons from 'react-icons/fa';
 import * as MdIcons from 'react-icons/md';
 
+/**
+ * 
+ * Zeigt die Sidebar des Studenten.
+ */
+
 export const SidebarDataStudent = [
   {
     title: 'Home',

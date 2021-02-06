@@ -174,7 +174,7 @@ class App extends React.Component {
 
   getBerechtigung = () => {
     const person = this.state.person;
-    const { name, berechtigung } = person;
+    const {berechtigung} = person;
     return berechtigung;
   };
 

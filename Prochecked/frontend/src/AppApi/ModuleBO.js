@@ -10,7 +10,7 @@ export default class ModuleBO extends BusinessObject {
   /**
    * Constructs a moduleBO object with a given creation_date, grade, passed
    * 
-   * @param {String} aname - the name of this moduleBO.
+   * @param {String} aname - the name of this ModuleBO.
    */
   constructor() {
     super();
@@ -22,7 +22,7 @@ export default class ModuleBO extends BusinessObject {
   /**
    * Sets a new name
    * 
-   * @param {String} aname - the new name of this PersonBO.
+   * @param {String} aname - the new name of this ModuleBO.
    */
   setCreationDate(acreation_date) {
     this.creation_date = acreation_date

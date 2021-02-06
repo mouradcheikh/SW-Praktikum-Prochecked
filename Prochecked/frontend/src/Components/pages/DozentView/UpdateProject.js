@@ -6,16 +6,20 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
-import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Input from '@material-ui/core/Input';
 import { AppApi } from '../../../AppApi';
-import ProjectBO from '../../../AppApi/ProjectBO';
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+
+/**
+ * Es wird ein Formular für die Aktualisierung eines Projects bereitgestellt.
+ * Der Nutzer kann die verschiedenen Eigenschaften des Projekts eingeben und 
+ * teilweise durch Dropdown Menus Daten direkt aus der Datenbank auswählen.
+ */
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,11 +60,6 @@ function ProjektFormularUpdate(props) {
   console.log(props)
   console.log(ProjectTypes.default)
 
-  // if(props.location.state.editButton !==undefined){
-  //   // setEdit(props.location.state.editButton)
-  //   setEdit(true)
-  // }
-
   const history = useHistory()
 
   const handleProjektArt = (event) => {
@@ -69,7 +68,6 @@ function ProjektFormularUpdate(props) {
 
   const handleProfessor = (event) => {
     setProfessor(event.target.value);
-    // console.log(Professor)
   }
 
   const handleSemester = (event) => {
@@ -85,7 +83,6 @@ function ProjektFormularUpdate(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // const project = new ProjectBO(Titel)
     const project = props.location.state.project
 
 
@@ -144,11 +141,9 @@ function ProjektFormularUpdate(props) {
     console.log(project)
 
     var api = AppApi.getAPI()
-        // console.log(api)
 
         api.updateProject(project).then((project) =>
             {
-              // console.log(project)
             }
             )
 
@@ -178,7 +173,6 @@ function SemesterList(){
 function ProjectTypeList(){
   var api = AppApi.getAPI()
   api.getAllProjectTypes().then((projecttypes) =>{
-    // console.log(projecttypes)
     setProjectTypes(projecttypes)
   })
 }
@@ -188,25 +182,6 @@ useEffect(() => {
   SemesterList();
   ProjectTypeList()
 }, []);
-
-
-// useEffect(() => {
-//   console.log("useEffect")
-//   function ProfList(){
-//     var api = AppApi.getAPI()
-//     api.getPersonByRole(2).then((persons) =>
-//     {console.log(persons)
-//     setProfessors(persons)})
-//   }
-//   ProfList()
-//   // var Profs = props.location.state.linkState
-//   // setProfessors(Profs)
-//   console.log(Professors)
-//   }, []
-//   )
-
-
-
 
   return (
     <React.Fragment>
@@ -242,20 +217,6 @@ useEffect(() => {
               }
               </Select>
               </FormControl>
-        {/* <FormControl className={classes.formControl}>
-            <InputLabel id="semester">Semester</InputLabel>
-              <Select
-                labelId="semester"
-                id="semester"
-                value={Semester}
-                onChange={handleSemester} 
-                onOpen={SemesterList}
-              >
-              {
-              Semester.map((Semester) => <MenuItem value = {Semester.id}> {Semester.name} </MenuItem>)
-              }
-              </Select>
-              </FormControl> */}
       </div>
           <div><TextField className={classes.formControl}
             id="titelProjekt" 
@@ -366,10 +327,6 @@ useEffect(() => {
                     />
                </div>
             <div>
-              {/* <Link to={{
-              pathname: "/DozentView",
-              state: { person : props.location.state.linkState }
-              }}> */}
                 <Button
                  type="submit"
                  variant="contained"
@@ -378,7 +335,6 @@ useEffect(() => {
                 >
                   Speichern
                 </Button>
-              {/* </Link> */}
             </div>
           </form>
           </center>

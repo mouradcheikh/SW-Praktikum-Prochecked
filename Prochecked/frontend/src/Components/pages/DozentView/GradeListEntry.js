@@ -19,7 +19,6 @@ class GradeListEntry extends Component {
   constructor(props) {
     super(props);
 
-    // Init the state
     this.state = {
       participations: [],
       sumOfGrades: 0,
@@ -31,7 +30,6 @@ class GradeListEntry extends Component {
 
   /** Fetches ParticipationBOs for the current customer */
   getParticipationsByProject = () => {
-    // console.log("vor fetch")
 
       var api = AppAPI.getAPI()
       console.log("getParticipations", this.props.project)
@@ -49,7 +47,6 @@ class GradeListEntry extends Component {
               error: e
             }) 
           ); 
-          // console.log(this.state.participations)
   
       // set loading to true
       this.setState({
@@ -89,7 +86,6 @@ class GradeListEntry extends Component {
 
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log(this.props.participation.getStudent_id)
     this.getParticipationsByProject(); 
     console.log("Component GradeListEntryDidMount")
     }
@@ -99,14 +95,7 @@ class GradeListEntry extends Component {
     this.getParticipationsByProject(); 
     console.log("Component GradeListEntryDidUpdate")
   }
-  
-  /** Lifecycle method, which is called when the component was updated */
-  // componentDidUpdate(prevProps) {
-  //   // reload participations if shown state changed. 
-  //   if ((this.props.show !== prevProps.show)) { 
-  //     this.getParticipationsByProject();
-  //     }
-  //   }
+
 
   /** Renders the component */
   render() {

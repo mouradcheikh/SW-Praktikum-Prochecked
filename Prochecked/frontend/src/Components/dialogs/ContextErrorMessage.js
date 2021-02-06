@@ -5,9 +5,11 @@ import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
-//Sobald im System ein Error entsteht, wird der ContextErrorMessage ausgegeben.
-//Hierdurch weiß der Benutzer, welcher Fehler entstanden ist.
-//Test
+/**
+ * Sobald im System ein Error entsteht, wird der ContextErrorMessage ausgegeben.
+ * Hierdurch weiß der Benutzer, welcher Fehler entstanden ist.
+ */
+
 
 class ContextErrorMessage extends Component {
   #standardText = 'This should not have happend. Soooo sorry...';

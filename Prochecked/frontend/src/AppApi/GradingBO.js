@@ -2,7 +2,7 @@ import BusinessObject from './BusinessObject';
 
 
 /**
- * Represents a person of the system
+ * Represents a Grading of the system
  */
 export default class GradingBO extends BusinessObject {
 
@@ -22,7 +22,7 @@ export default class GradingBO extends BusinessObject {
   /**
    * Sets a new name
    * 
-   * @param {String} aname - the new name of this PersonBO.
+   * @param {String} aname - the new name of this GradingBO.
    */
   setCreationDate(acreation_date) {
     this.creation_date = acreation_date
@@ -45,7 +45,6 @@ export default class GradingBO extends BusinessObject {
     this.grade = agrade
   }
   
-
   getGrade(){
     return this.grade
   }
@@ -53,11 +52,7 @@ export default class GradingBO extends BusinessObject {
   setPassed(apassed){
     this.passed = apassed
   }
-  // setPassed(){
-  //   if (this.grade <= 4.0) {
-  //     this.passed = true
-  //   }
-  // }
+
   getPassed(){
     if (this.passed == 1){
       return "Bestanden"
@@ -74,8 +69,6 @@ export default class GradingBO extends BusinessObject {
   getParticipation(){
     return this.participation
   }
-
-
 
   /** 
    * Returns an Array of GradingBO from a given JSON structure.
