@@ -180,7 +180,7 @@ class PersonListOperations(Resource):
             p = adm.create_person(proposal.get_name(), proposal.get_google_id(), proposal.get_email(), proposal.get_berechtigung())
             return p, 200
         else:
-           ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
     
     @prochecked.marshal_with(person, code=200)
@@ -449,7 +449,7 @@ class ParticipationsByProjectOperation(Resource):
         Das Project-Objekt dessen Participations wir lesen möchten, wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-       ''' Zunächst benötigen wir das durch id gegebene Project.'''
+        ''' Zunächst benötigen wir das durch id gegebene Project.'''
         par = adm.get_participations_by_project(project_id)
         return par
 
@@ -485,7 +485,8 @@ class ParticipationOperations(Resource):
             adm.delete_participation(par)
             return '', 200
         else:
-            return '', 500  '''Wenn unter id keine Participation existiert.'''
+            return '', 500  
+        '''Wenn unter id keine Participation existiert.'''
 
 @prochecked.route('/participation')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -585,8 +586,10 @@ class StudentLogInOperations(Resource):
         liegt es an der ProjektAdministration (Businesslogik), eine korrekte ID
         zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
         """
-        adm = ProjectAdministration())
+
+        adm = ProjectAdministration()
         proposal = Student.from_dict(api.payload)
+
         """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
         if proposal is not None:
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
@@ -645,7 +648,7 @@ class SemestersOperations(Resource):
             s = adm.create_semester(proposal.get_name())
             return s, 200
         else:
-           ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
     
     @prochecked.marshal_with(semester, code=200)
@@ -764,7 +767,8 @@ class GradingOperations(Resource):
             adm.delete_grading(g)
             return '', 200
         else:
-            return '', 500  '''Wenn unter id kein Grading existiert.'''
+            '''Wenn unter id kein Grading existiert.'''
+            return '', 500
     
 @prochecked.route('/gradings-by-project-and-matr/<int:project_id>/<int:matr_nr>')
 @prochecked.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -845,7 +849,8 @@ class ProjectTypesOperations(Resource):
             adm.delete_projecttype(p)
             return '', 200
         else:
-            return '', 500  '''Wenn unter id kein Semester existiert.'''
+            '''Wenn unter id kein Semester existiert.'''
+            return '', 500
 
 #Module related
 @prochecked.route('/module')
@@ -913,7 +918,8 @@ class ModuleDeleteOperations(Resource):
             adm.delete_module(m)
             return '', 200
         else:
-            return '', 500  '''Wenn unter id kein Module existiert.'''
+            '''Wenn unter id kein Module existiert.'''
+            return '', 500
     
 #Module related 
 @prochecked.route('/modules')
