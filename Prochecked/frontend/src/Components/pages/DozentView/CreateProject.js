@@ -110,21 +110,12 @@ function ProjektFormular(props) {
 
     console.log(project)
 
-    // var api = AppApi.getAPI()
-    //     // console.log(api)
+    var api = AppApi.getAPI()
+       api.createProject(project).then((project) =>
+            {console.log(project)
+            }
+            )
 
-    //     !edit?
-    //     api.createProject(project).then((project) =>
-    //         {console.log(project)
-    //         }
-    //         )
-    //     :
-    //     project.setID(props.location.state.project.id)
-
-    //     api.updateProject(project).then((project) =>
-    //         {console.log(project)
-    //         }
-    //         )
 
     history.push({
       pathname: '/DozentView',
