@@ -33,6 +33,8 @@ class ProjectListEntry extends Component {
   updateProject = (new_state) => {
     // clone the original cutomer, in case the backend call fails
     let updatedProject = Object.assign(new ProjectBO(), this.props.project);
+    console.log(this.props.project)
+    console.log(updatedProject)
     updatedProject.setProjectState(new_state);
     
    

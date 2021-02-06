@@ -108,15 +108,17 @@ project = api.inherit('Project', nbo, {
     'number_bd_examtime': fields.String(attribute='_number_bd_examtime',
                                          description='Wie viele Blocktage gibt es während der Vorlesungszeit'),
     'preffered_bd': fields.String(attribute='_preffered_bd', 
-                                  description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
+                                    description='Gibt es Vorlesungen an einem Samstag, wenn ja welche Tage präferiert (Datum)'),
     'special_room': fields.String(attribute='_special_room',
-                                  description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
+                                    description='Gibt es einen spezial Raum für das Projekt, wenn ja welche RaumNr'),
     'project_state': fields.Integer(attribute='_project_state',
                                     description='Jetziger Status des Projekts'),
     'project_type': fields.Integer(attribute='_project_type',
-                                  description='Art des Projekts'),
-    'semester': fields.Integer(attribute='_semester', description='semester des Projekts'),
-    'module': fields.Integer(attribute='_module', description='semester des Projekts')
+                                    description='Art des Projekts'),
+    'semester': fields.Integer(attribute='_semester', 
+                                    description='semester des Projekts'),
+    'module': fields.Integer(attribute='_module', 
+                                    description='semester des Projekts')
 })
 
 participation = api.inherit('Participation', bo, {
