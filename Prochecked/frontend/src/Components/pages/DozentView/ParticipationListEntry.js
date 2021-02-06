@@ -118,7 +118,7 @@ class ParticipationListEntry extends Component {
           // console.log("createGrading",grade)
         this.setState({
             grade: grade
-        })}
+        }, () => {this.getGrading()})}
         )
       }
 
@@ -161,8 +161,8 @@ class ParticipationListEntry extends Component {
   
 getGrading = () => {
   let grade = this.props.participation.grading_id
-  // console.log(grade)
-  if (grade !== 0 || grade!==null){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
+  console.log(grade)
+  if (grade!==null){ //soll nurnach student im backend suchen, wenn participation auch eine student_id hat
     var api = AppApi.getAPI()
     // console.log(this.props.participation)
     api.getGrading(this.props.participation.grading_id).then(grade => 
