@@ -1,20 +1,13 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid, Divider } from '@material-ui/core';
+import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid } from '@material-ui/core';
 import firebase from 'firebase/app';
 
 /**
- * Shows a drop down list for the account infos and a possibility to log out. For closing the pop up menu if 
- * the mouse is clicked outside the menu, the ClickAwayListener component is used.For logging out,
- * firebase.auth().signOut() method is used.
+ * Zeigt das Profil DropDown im Header in der Sidebar. 
  * 
- * @see See Material-UIs [Popover](https://material-ui.com/components/popover/)
- * @see See Material-UIs [ClickAwayListener](https://material-ui.com/components/click-away-listener/)
- * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
- * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
- * 
- * @author [Christoph Kunz](https://github.com/christophkunz)
  */
+
 class ProfileDropDown extends Component {
 
   // a refernce to the avatar button
@@ -84,7 +77,7 @@ class ProfileDropDown extends Component {
                 
                 <Grid container justify='center'>
                   <Grid item>
-                    <Button color='primary' onClick={this.handleSignOutButtonClicked}>Logout</Button>
+                    <Button color='primary' onClick={this.handleSignOutButtonClicked}>Abmelden</Button>
                   </Grid>
                 </Grid>
               </Paper>

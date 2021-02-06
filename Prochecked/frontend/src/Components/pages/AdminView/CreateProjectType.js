@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  TextField,
-  withStyles,
-  Button,
-  List,
-  ListItem,
-  Link,
-  Typography,
-  Input,
-  Grid,
-} from "@material-ui/core";
+import {TextField,withStyles,Button,ListItem,Grid,} from "@material-ui/core";
 import { AppApi } from "../../../AppApi";
 import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -119,7 +109,7 @@ class CreateProjectType extends React.Component {
   
 
   handleSubmit = (event) => {
-    event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
+    event.preventDefault(); //verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     if (this.state.editButton === false){
       this.createProjectType(
         this.state.name, 
@@ -131,7 +121,6 @@ class CreateProjectType extends React.Component {
   
   handleChange(e) { 
     this.setState({ [e.target.name]: e.target.value });
-        // console.log({ [e.target.name]: e.target.value })
       }
 
 
@@ -145,8 +134,8 @@ class CreateProjectType extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { name, type, sws, ects, allTypes,updateT,editButton,  typeValidationFailed, success } = this.state;
-    console.log(this.state)
+    const { allTypes,editButton, typeValidationFailed, success } = this.state;
+
     return (
       <div>
         <Grid className={classes.root} container spacing={3}>

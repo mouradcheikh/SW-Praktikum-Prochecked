@@ -4,24 +4,14 @@ import { withStyles, Button, IconButton,Typography, Dialog, DialogTitle, DialogC
 import CloseIcon from '@material-ui/icons/Close';
 import { AppApi} from '../../AppApi';
 import ParticipationBO from '../../AppApi/ParticipationBO';
-// import AppAPI  from '../../AppApi/AppApi';
-import StudentBO from '../../AppApi/StudentBO';
 import ContextErrorMessage from './ContextErrorMessage';
 import LoadingProgress from './LoadingProgress';
 
-
-
 /**
- * Shows a modal form dialog for a ParticipationBO in prop participation. If the participation is set, the dialog is configured 
- * as an edit dialog and the text fields of the form are filled from the given ParticipationBO object. 
- * If the participation is null, the dialog is configured as a new participation dialog and the textfields are empty.
- * In dependency of the edit/new state, the respective backend calls are made to update or create a participation. 
- * After that, the function of the onClose prop is called with the created/update ParticipationBO object as parameter.  
- * When the dialog is canceled, onClose is called with null.
+ * Zeigt die ParticipationForm von der Dozenten View
  * 
- * @see See Material-UIs [Dialog](https://material-ui.com/components/dialogs)
- * @see See Material-UIs [TextField](https://material-ui.com/components/text-fields//)
  */
+
 class ParticipationForm extends Component {
 
   constructor(props) {
@@ -79,7 +69,6 @@ class ParticipationForm extends Component {
   /** Updates the participation */
   updateParticipation = () => {
     this.setStudent(this.state.student)
-    // console.log(this.props.participation)
     // clone the original participation, in case the backend call fails
     let updatedParticipation = Object.assign(new ParticipationBO(), this.props.participation);
     
@@ -143,8 +132,7 @@ class ParticipationForm extends Component {
   /** Renders the component */
   render() {
     const { classes, participation, show } = this.props;
-    const { matr_nr, matr_nrValidationFailed, matr_nrEdited, addingInProgress,
-      addingError, updatingInProgress, updatingError } = this.state;
+    const { matr_nr, matr_nrValidationFailed, matr_nrEdited, addingInProgress,updatingInProgress, updatingError } = this.state;
 
     let title = '';
     let header = '';
@@ -168,18 +156,12 @@ class ParticipationForm extends Component {
             </form>
             <div>
           <Typography className={classes.participationEntry}>      
-      
              {"Ausgewählter Student:" +" "} {this.state.student.name}
-      
           </Typography>
              </div>
             <LoadingProgress show={addingInProgress || updatingInProgress} />
             {
-              // Show error message in dependency of participation prop
-              // project ?
             <ContextErrorMessage error={updatingError} contextErrorMsg={`The participation ${participation.getID()} could not be updated.`} onReload={this.updateParticipation} />
-                // :
-                // <ContextErrorMessage error={addingError} contextErrorMsg={`The project could not be added.`} onReload={this.addParticipation} />
             }
           </DialogContent>
           <DialogActions>

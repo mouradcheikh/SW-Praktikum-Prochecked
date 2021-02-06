@@ -6,9 +6,9 @@ import BusinessObject from './BusinessObject';
 export default class ProjectTypeBO extends BusinessObject {
 
   /**
-   * Constructs a RoleBO object with a given name
+   * Constructs a ProjectTypeBO object with a given name
    * 
-   * @param {String} aname - the name of this RoleBO.
+   * @param {String} aname - the name of this ProjectTypeBO.
    */
   constructor(aname) {
     super();

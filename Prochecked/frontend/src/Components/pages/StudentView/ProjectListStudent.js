@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, ListItem, Button, TextField, InputAdornment, IconButton, Grid, Typography } from '@material-ui/core';
+import { withStyles, ListItem,Grid} from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import  {AppApi}  from '../../../AppApi';
 import ContextErrorMessage from '../../dialogs/ContextErrorMessage';
-import LoadingProgress from '../../dialogs/LoadingProgress';
 import ProjectListEntryStudent from './ProjectListEntryStudent';
 import Paper from '@material-ui/core/Paper';
 
 /**
- * Controlls a list of ProjectListEntrys to create a accordion for each project.
- *
- * @see See [ProjectListEntry](#projectlistentry)
- *
+ * Zeigt die Projekt anmelden Seite in der Studenten View.
+ * Der Student kann sich hier für die angebotenen Projekte anmelden und abmelden.
  */
+
 class ProjectListStudent extends Component {
 
   constructor(props) {
@@ -25,32 +23,28 @@ class ProjectListStudent extends Component {
       student = this.props.location.state.student
     }
 
-    // Init an empty state
     this.state = {
-      // projectNew: [],
       projectsAvailable: [],
       projectsSignedIn: [],
       error: null,
       loadingInProgress: false,
       student: student,
-      // expandedProjectID: expandedID,
     };
   }
 
 
   getProjectsByStateAccepted = () => {
-    // console.log("vor fetch")
       var api = AppApi.getAPI()
-      api.getProjectsByState(3) //evtl. Objekt von API vorher anlegen
+      api.getProjectsByState(3) 
         .then(projectBOs =>
           this.setState({
           projectsAvailable: projectBOs,
-          loadingInProgress: false,   // disable loading indicator
+          loadingInProgress: false,   
           error: null
         })).catch(e =>
-          this.setState({             // Reset state with error from catch
+          this.setState({           
             projectsAvailable: [],
-            loadingInProgress: false, // disable loading indicator
+            loadingInProgress: false, 
             error: e
           })
         );
@@ -66,17 +60,17 @@ class ProjectListStudent extends Component {
    /** Fetches ProjectBOsbyMatrNr from the backend */
    getProjectsByStudent = (matr_nr) => {
       var api = AppApi.getAPI()
-      api.getProjectsByStudent(matr_nr) //evtl. Objekt von API vorher anlegen
+      api.getProjectsByStudent(matr_nr) 
         .then(projectBOs =>
-          this.setState({               // Set new state when ProjectBOs have been fetched
+          this.setState({             
             projectsSignedIn: projectBOs,
-            filteredProjects: [...projectBOs], // store a copy
-            loadingInProgress: false,   // disable loading indicator
+            filteredProjects: [...projectBOs], 
+            loadingInProgress: false,   
             error: null
           })).catch(e =>
-            this.setState({             // Reset state with error from catch
+            this.setState({            
               projectsSignedIn: [],
-              loadingInProgress: false, // disable loading indicator
+              loadingInProgress: false, 
               error: e
             })
           );
@@ -100,26 +94,9 @@ class ProjectListStudent extends Component {
       }
     }
     
-
-  // parentCall(){
-  //   this.getProjectsByStudent(this.state.student.matr_nr);
-  // }
-
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount() {
-    // console.log("gerendert")
     this.getProjectsByStateAccepted();
-    // this.getProjectsByStudent(this.props.location.state.student.matr_nr);
-    // console.log(this.state.student)
-    // this.setState({
-    //   student: this.props.location.state.student
-    // }, () =>{this.getProjectsByStudent(this.state.student.matr_nr);
-
-    // }
-    // )
-    
-    // this.getProjectsByStudent(this.props.location.state.student.matr_nr)
-   
   }
 
    /** Lifecycle method, which is called when the component was updated */
@@ -133,11 +110,8 @@ class ProjectListStudent extends Component {
   /** Renders the component */
   render() {
     const { classes } = this.props;
-    const { projectsAvailable, projectsSignedIn, expandedProjectID, loadingInProgress, error, student} = this.state;
-    // const student = this.props.location.state.student
-    console.log(this.state)
-  
-    
+    const { projectsAvailable, projectsSignedIn, expandedProjectID, error, student} = this.state;
+
     return (
         <div >
           <Grid className={classes.root} container spacing={3}>
@@ -157,13 +131,9 @@ class ProjectListStudent extends Component {
                     getProjectsByStateAccepted = {this.getProjectsByStateAccepted}
                   />)
                 }
-                
                 <ContextErrorMessage error={error} contextErrorMsg={`The list of projects could not be loaded.`} onReload={this.getProjectsByStateAccepted} />
-              
             </Grid>
-
             <Grid item xs={6}>
-
               <h1>Angemeldete Projekte</h1>
               <Paper className={classes.paper}>
                 <div>

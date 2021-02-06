@@ -6,6 +6,10 @@ import * as RiIcons from 'react-icons/ri';
 import * as BsIcons from 'react-icons/bs';
 import * as MdIcons from 'react-icons/md';
 
+/**
+ * 
+ * Zeigt die Sidebar des Admins.
+ */
 
 export const SidebarDataAdmin = [
   {
@@ -13,7 +17,6 @@ export const SidebarDataAdmin = [
     path: '/AdminView',
     icon: <AiIcons.AiFillHome />,
   },
-
 
   {
     title: 'Admin',

@@ -1,23 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
-import Checkbox from '@material-ui/core/Checkbox';
-// import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Button } from '@material-ui/core';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Input from '@material-ui/core/Input';
 import { AppApi } from '../../../AppApi';
 import StudentBO from '../../../AppApi/StudentBO';
-import PersonBO from '../../../AppApi/PersonBO';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
+/**
+ * Zeigt die Seite wenn man sich als Student das erste mal anmeldet,
+ * Der Student kann hier seine Matrikelnummer sowie Studiengang eingeben. 
+ */
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -31,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
 function StudentLogin(props) {
     const classes = useStyles();
     const [Matrikelnummer, setMatrNr] = React.useState(null);
@@ -40,10 +32,6 @@ function StudentLogin(props) {
     const [student, setStudent] = React.useState(null);
     const history = useHistory()
 
-    console.log("StudentLogin",props)
-
-
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const student = new StudentBO()
@@ -51,10 +39,7 @@ function StudentLogin(props) {
         student.setStudiengang(Studiengang)
         student.setPerson(person.getID())
 
-        console.log(student)
-
         var api = AppApi.getAPI()
-        // console.log(api)
         api.createStudent(student).then((student) => {
             setStudent(student)
             console.log(student)
@@ -68,9 +53,6 @@ function StudentLogin(props) {
                 person: props.location.state.person
             },
         });  
-
-
-
     }
 
     return (
@@ -87,7 +69,6 @@ function StudentLogin(props) {
                         value={Matrikelnummer}
                         onInput={e => setMatrNr(e.target.value)}
                     />
-
                     </div>
                     <div><TextField required className={classes.formControl}
                         id="studiengang"
@@ -96,8 +77,6 @@ function StudentLogin(props) {
                         value={Studiengang}
                         onInput={e => setStudiengang(e.target.value)}
                     />
-
-                        
                         <Button
                             type="submit"
                             variant="contained"

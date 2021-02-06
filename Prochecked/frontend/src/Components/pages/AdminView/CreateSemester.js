@@ -1,13 +1,12 @@
 import React from 'react';
-import {TextField, withStyles, Button, List, ListItem, Link, Typography, Input, Grid, GridItem } from '@material-ui/core';
+import {TextField, withStyles, Button,ListItem,Grid} from '@material-ui/core';
 import  {AppApi}  from '../../../AppApi';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import IconButton from '@material-ui/core/IconButton';
 import SemesterBO from '../../../AppApi/SemesterBO';
-import AddIcon from '@material-ui/icons/Add';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert} from '@material-ui/lab';
 
 /**
  * Zeigt die Seite um Semester zu erstellen.
@@ -176,22 +175,6 @@ class CreateSemester extends React.Component {
       }
     }
 
-    // handleSubmitTextfield = (event, s) => {
-    //   console.log(s)
-    //   event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    //   if (this.state.semesterValidationFailed === false){ //r: wird bei click nur ausgeführt wenn validation auf false gesetzt wurde
-    //     this.updateSemester(s)
-    //     this.setState({
-    //       success : true,
-    //     })
-    //   }
-    // }
-
-    // handleStateTextField(){
-    //   this.setState({
-    //     textField: true
-    //   })
-    // }
       
   componentDidMount() {
     this.SemesterList();
@@ -200,7 +183,7 @@ class CreateSemester extends React.Component {
          
   render() { 
         const { classes  } = this.props;
-        const { semester, semesters, updateS, editButton, semesterValidationFailed, success, textField, alert} = this.state; 
+        const {semesters, editButton, semesterValidationFailed, success, alert} = this.state; 
   return( 
     <div>
       <Grid className={classes.root} container spacing={3}>

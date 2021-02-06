@@ -2,16 +2,15 @@ import BusinessObject from './BusinessObject';
 
 
 /**
- * Represents a person of the system
+ * Represents a Semester of the system
 /**
- * Represents a Role of the system
  */
 export default class SemesterBO extends BusinessObject {
 
   /**
-   * Constructs a PersonBO object with a given name, email, google id and role
+   * Constructs a SemesterBO object with a given name, email, google id and role
    * 
-//    * @param {String} aname - the name of this PersonBO.
+//    * @param {String} aname - the name of this SemesterBO.
    */
   constructor(aname) {
     super();
@@ -22,7 +21,7 @@ export default class SemesterBO extends BusinessObject {
   /**
    * Sets a new name
    * 
-   * @param {String} aname - the new name of this PersonBO.
+   * @param {String} aname - the new name of this SemesterBO.
    */
   setName(aname) {
     this.name = aname

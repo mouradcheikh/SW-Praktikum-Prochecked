@@ -106,6 +106,14 @@ function ProjektFormular(props) {
     }
 
     console.log(project)
+
+    var api = AppApi.getAPI()
+       api.createProject(project).then((project) =>
+            {console.log(project)
+            }
+            )
+
+
     history.push({
       pathname: '/DozentView',
       state: {  

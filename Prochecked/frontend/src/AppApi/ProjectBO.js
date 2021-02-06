@@ -3,9 +3,9 @@ import BusinessObject from './BusinessObject';
 export default class ProjectBO extends BusinessObject {
 
     /**
-     * Constructs a RoleBO object with a given name
+     * Constructs a ProjectBO object with a given name
      * 
-     * @param {String} aname - the name of this RoleBO.
+     * @param {String} aname - the name of this ProjectBO.
      */
     constructor(aname) {
       super();
@@ -15,16 +15,14 @@ export default class ProjectBO extends BusinessObject {
        this.ext_partner_list = null
        this.short_description = null
        this.weekly_flag = null
-    //    this.number_bd_per_week = null
-       this.number_bd_b_lecturetime = null //blocktage vor beginn der vorlesungszeit
+       this.number_bd_b_lecturetime = null 
        this.number_bd_examtime = null
-       this.number_bd_lecturetime = null //blocktage vorlesungszeit
-       this.preffered_bd = null //Gibt es Vorlesungen am Wochenende? wenn ja welches datum?
+       this.number_bd_lecturetime = null 
+       this.preffered_bd = null 
        this.special_room = null
        this.dozent = null
        this.dozent2 = null
        this.semester = null 
-    //    this.current_state = null
        this.project_state = null
        this.project_type = null
        this.semester = null
@@ -144,7 +142,7 @@ export default class ProjectBO extends BusinessObject {
     }
 
 /** 
-   * Returns an Array of PersonBOs from a given JSON structure.
+   * Returns an Array of ProjectBO from a given JSON structure.
    */
     static fromJSON(projects) {
     let result = [];
@@ -153,7 +151,6 @@ export default class ProjectBO extends BusinessObject {
       projects.forEach((p) => {
         Object.setPrototypeOf(p, ProjectBO.prototype);
         result.push(p);
-        // console.log(p)
       })
       
     } else {

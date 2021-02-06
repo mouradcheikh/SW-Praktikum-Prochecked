@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Grid, Typography, withStyles, Paper } from "@material-ui/core";
+import { Button, Grid, Typography, withStyles} from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
-//SignIn Seite der ProChecked - App, man kann sich mit einem Google Account anmelden
+/**
+ * Zeigt die SignIn Seite der ProChecked - App.
+ * Der Nutzer kann sich mit einem Google Account anmelden.
+ */
 
 class SignIn extends Component {
   /**

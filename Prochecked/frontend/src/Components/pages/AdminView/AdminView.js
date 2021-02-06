@@ -1,11 +1,11 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import { makeStyles, createStyles, createMuiTheme, Theme } from '@material-ui/core/styles';
-import {withStyles, Button, List, ListItem, ListItemSecondaryAction, Typography, Input, Grid, Container } from '@material-ui/core';
-import {Link} from 'react-router-dom';
-import grey from '@material-ui/core/colors/grey'
+import { makeStyles, createStyles} from '@material-ui/core/styles';
+import {Grid} from '@material-ui/core';
+
+/**
+ * Zeigt die Startseite in der AdminView,
+ * wenn man sich als Admin im System anmeldet.
+ */
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       alignItems: "center",
       justifyContent: "center",
-      // backgroundColor: 'gray'
     },
     paper: {
       padding: theme.spacing(2),
@@ -28,23 +27,17 @@ const useStyles = makeStyles((theme) =>
 export default function AdminView(props) {
   const classes = useStyles();
   
-
   return (
     <div className={classes.root}>
-      {/* <Container maxWidth = 'lg'> */}
       <Grid container spacing={1} justify = 'center'>
         
         <Grid alignContent = 'center' alignItems = 'center'>
           <Grid>
           <h1 align = 'center' style ={{color: "white"}} >Herzlich Willkommen</h1>
           <h2>Sie haben sich als Admin eingeloggt</h2>
-            
             </Grid>
-         
           </Grid>
-     
       </Grid>
-    {/* </Container> */}
     </div>
   );
 }

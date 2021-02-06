@@ -2,7 +2,7 @@ import BusinessObject from './BusinessObject';
 import RoleBO from './RoleBO'
 
 /**
- * Represents a person of the system
+ * Represents a Person of the system
  */
 export default class PersonBO extends BusinessObject {
 

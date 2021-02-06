@@ -1,0 +1,147 @@
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai';
+import { SidebarDataAdmin } from './SidebarDataAdmin';
+import { SidebarDataDozent } from './SidebarDataDozent';
+import { SidebarDataStudent } from './SidebarDataStudent';
+import { SidebarDataUserView } from './SidebarDataUserView';
+import {AppApi} from '../../AppApi'
+import { Grid} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography'
+import ProfileDropDown from '../dialogs/ProfileDropDown.js'
+import SubMenu from './SubMenu';
+import { IconContext } from 'react-icons/lib';
+
+/**
+ * 
+ * Zeigt die eigentliche Sidebar.
+ */
+
+const Nav = styled.div`
+  background: #15171c;
+  height: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const NavIcon = styled(Link)`
+  margin-left: 2rem;
+  font-size: 2rem;
+  height: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const SidebarNav = styled.nav`
+  background: #15171c;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
+  transition: 350ms;
+  z-index: 10;
+`;
+
+const SidebarWrap = styled.div`
+  width: 100%;
+`;
+
+const Sidebar = (props) => {
+  const [sidebar, setSidebar] = useState(false);
+  const [student, setStudent] = useState(null);
+
+  const showSidebar = () => {setSidebar(!sidebar); getStudentByPerson()};
+  const classes = props
+
+    let berechtigung = props.person.berechtigung
+    let result
+
+    if (berechtigung === 3){
+      result = SidebarDataAdmin
+    }
+    else if (berechtigung ===2){
+      result = SidebarDataDozent
+    }
+    else if (berechtigung ===1){
+      result = SidebarDataStudent
+    }
+    else if(berechtigung === null){
+      result = SidebarDataAdmin
+    }
+    else{
+      result = SidebarDataUserView
+    }
+
+    let getStudentByPerson = () =>{
+      if(props.person.berechtigung != null){
+      var api = AppApi.getAPI()
+      api.getStudentByPersonId(props.person.id) 
+        .then(studentBO =>
+          setStudent(studentBO))}             
+    }
+
+    let getBerechtigung = () => {
+      if(props.person.berechtigung ===1){
+        return "Student"
+      }
+      else if(props.person.berechtigung ===2){
+        return "Dozent"
+      }
+      else{
+      return "Admin"
+      } 
+  }
+    
+  return (
+    
+    <>
+      <IconContext.Provider value={{ color: '#fff' }}>
+        <Nav>
+          <Grid item xs={3} justify="flex-start">
+            <NavIcon to='#'>
+              <FaIcons.FaBars onClick={showSidebar} />
+            </NavIcon>
+          </Grid>
+          <Grid  item xs={6} justify="center">
+                <Typography variant="h5" align = 'center'>
+                          <div>ProChecked - Hochschule der Medien </div>     
+                </Typography>  
+          </Grid>
+          <Grid justify="flex-end">
+          {props.person.name + ' - '+ getBerechtigung()}
+          </Grid>
+          <Grid item xs={3} justify="flex-end">                 
+                      
+                <ProfileDropDown 
+                className = {classes.profil} 
+                person={props.person}/>
+               
+          </Grid>
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+          <SidebarWrap>
+            <NavIcon to='#'>
+              <AiIcons.AiOutlineClose onClick={showSidebar} />
+            </NavIcon>
+            {
+              result.map((item, index) => {
+                    return <SubMenu item={item} key={index} person = {props.person} student = {student} />;
+                  })
+            }
+          </SidebarWrap>
+        </SidebarNav>
+      </IconContext.Provider>
+
+      
+    </>
+  );
+};
+
+export default Sidebar;
