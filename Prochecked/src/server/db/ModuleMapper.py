@@ -140,6 +140,24 @@ class ModuleMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def update(self, student):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param student das Objekt, das in die DB geschrieben werden soll
+        """
+        print("StudentMapper:", student.get_id(), student.get_matr_nr(), student.get_studiengang(), student.get_person())
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE student SET matr_nr=%s, studiengang=%s, person_id=%s WHERE id=%s"
+        data = (student.get_matr_nr(),
+                student.get_studiengang(), 
+                student.get_person(),
+                student.get_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()   
+
 if (__name__ == "__main__"):
 
 

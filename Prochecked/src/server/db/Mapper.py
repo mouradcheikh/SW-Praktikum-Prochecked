@@ -4,7 +4,6 @@ from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 
 class Mapper():
-        """Abstrakte Basisklasse aller Mapper-Klassen"""
     def __init__(self):
         self._cnx = None
 
@@ -34,32 +33,33 @@ class Mapper():
         self._cnx.close()
 
     @abstractmethod
-    """Lies alle Tupel aus und gib sie als Objekte zurück."""
     def find_all(self, ):
-            pass
+        """Lies alle Tupel aus und gib sie als Objekte zurück."""
+        pass
 
     @abstractmethod
-    """Lies den einen Tupel mit der gegebenen ID (vgl. Primärschlüssel) aus."""
     def find_by_id(self,id ):
-            pass
+        """Lies den einen Tupel mit der gegebenen ID (vgl. Primärschlüssel) aus."""
+        pass
 
     @abstractmethod
-    """Füge das folgende Objekt als Datensatz in die DB ein."""
     def find_by_name(self, ):
-            pass
+        """Füge das folgende Objekt als Datensatz in die DB ein."""
+        pass
 
     @abstractmethod
-    """Ein Objekt auf einen bereits in der DB enthaltenen Datensatz abbilden."""
     def insert(self,object ):
-            pass
+        """Ein Objekt auf einen bereits in der DB enthaltenen Datensatz abbilden."""
+        pass
 
     @abstractmethod
     def update(self,object ):
-            pass
+        """Ein Objekt auf einen bereits in der DB enthaltenen Datensatz abbilden."""
+        pass
 
     @abstractmethod
-    """Den Datensatz, der das gegebene Objekt in der DB repräsentiert löschen."""
     def delete(self,object ):
-            pass
+        """Den Datensatz, der das gegebene Objekt in der DB repräsentiert löschen."""
+        pass
 
 

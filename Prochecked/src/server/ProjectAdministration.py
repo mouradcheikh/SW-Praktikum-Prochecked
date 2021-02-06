@@ -17,10 +17,8 @@ from server.db.ParticipationMapper import ParticipationMapper
 from server.db.SemesterMapper import SemesterMapper
 from server.db.ProjectTypeMapper import ProjectTypeMapper
 
-from server.db.RoleMapper import RoleMapper
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
-from server.db.ProjectStateMapper import ProjectStateMapper
 from server.db.AutomatMapper import AutomatMapper
 
 
