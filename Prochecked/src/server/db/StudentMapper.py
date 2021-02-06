@@ -183,7 +183,7 @@ class StudentMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM student WHERE id={}".format(student.get_google_id())
+        command = "DELETE FROM student WHERE id={}".format(student.get_id())
         cursor.execute(command)
 
         self._cnx.commit()

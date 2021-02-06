@@ -211,16 +211,6 @@ class PersonOperations(Resource):
         pers = adm.get_person_by_google_id(google_id)
         return pers
 
-    @secured
-    def delete(self, id):
-        """Löschen eines bestimmten Person-Objekts.
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ProjectAdministration()
-        pers = adm.get_person_by_id(id)
-        adm.delete_person(pers)
-        return '', 200
-
     @prochecked.marshal_with(person)
     @prochecked.expect(person)
     @secured
