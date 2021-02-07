@@ -121,7 +121,7 @@ class ProjectListEntry extends Component {
  
       project.project_state ===3?
       <div>
-        <Accordion defaultExpanded={false} expanded={expandedState} 
+        <Accordion defaultExpanded={false} expanded={expandedState} onChange={this.expansionPanelStateChanged}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
