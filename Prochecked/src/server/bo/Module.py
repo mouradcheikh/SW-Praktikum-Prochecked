@@ -23,9 +23,9 @@ class Module(NamedBusinessObjects):
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in einen Module()."""
         obj = Module()
-        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
-        obj.set_edv_nr(dictionary["edv_nr"]) #muss "edv_nr" hier private sein?
+        obj.set_edv_nr(dictionary["edv_nr"]) 
         return obj
 
 if __name__ == "__main__":
